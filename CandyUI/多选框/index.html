@@ -1,0 +1,2226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50种炫酷多选框效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e6e6e6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .checkbox-item {
+            background: rgba(30, 30, 46, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3d ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+            .checkbox-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+
+        .checkbox-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #ff9e6d;
+            font-weight: 600;
+        }
+
+        /* 基础样式 */
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                opacity: 0;
+                position: absolute;
+                z-index: -1;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #2d3748;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 2px solid #4a5568;
+        }
+
+        /* 1. 经典效果 */
+        .classic .checkmark {
+            border-radius: 4px;
+        }
+
+        .classic input:checked + .checkmark {
+            background-color: #48bb78;
+            border-color: #48bb78;
+        }
+
+        .classic .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .classic input:checked + .checkmark:after {
+            display: block;
+        }
+
+        /* 2. 圆形效果 */
+        .circle .checkmark {
+            border-radius: 50%;
+        }
+
+        .circle input:checked + .checkmark {
+            background-color: #63b3ed;
+            border-color: #63b3ed;
+        }
+
+        .circle .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 50%;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .circle input:checked + .checkmark:after {
+            display: block;
+        }
+
+        /* 3. 3D 立方体 */
+        .cube .checkmark {
+            transform-style: preserve-3d;
+            perspective: 600px;
+            transition: transform 0.5s;
+        }
+
+        .cube input:checked + .checkmark {
+            transform: rotateY(180deg);
+            background-color: #d6bcfa;
+            border-color: #d6bcfa;
+        }
+
+        .cube .checkmark:before {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(180deg);
+            color: white;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cube input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        /* 4. 脉冲效果 */
+        .pulse input:checked + .checkmark {
+            animation: pulse 1.5s infinite;
+            background-color: #f56565;
+            border-color: #f56565;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 101, 101, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 12px rgba(245, 101, 101, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(245, 101, 101, 0);
+            }
+        }
+
+        /* 5. 霓虹灯效果 */
+        .neon input:checked + .checkmark {
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            background-color: #0cf;
+            border-color: #0cf;
+        }
+
+        .neon .checkmark {
+            border: 2px solid #0cf;
+            background: transparent;
+        }
+
+        /* 6. 液态填充 */
+        .liquid .checkmark {
+            overflow: hidden;
+        }
+
+        .liquid input:checked + .checkmark {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-color: transparent;
+        }
+
+        .liquid .checkmark:before {
+            content: "";
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: bottom 0.5s ease;
+        }
+
+        .liquid input:checked + .checkmark:before {
+            bottom: 0;
+        }
+
+        /* 7. 星空效果 */
+        .starry .checkmark {
+            background: radial-gradient(circle, #1a202c 20%, #2d3748 100%);
+            border: 2px solid #4a5568;
+        }
+
+            .starry .checkmark:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 2px;
+                height: 2px;
+                background: white;
+                border-radius: 50%;
+                box-shadow: -10px -5px 0 0 white, 10px 5px 0 0 white, -5px 10px 0 0 white, 5px -10px 0 0 white;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+        .starry input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        /* 8. 磁铁吸附 */
+        .magnet .checkmark {
+            transition: transform 0.3s;
+        }
+
+        .magnet:hover .checkmark {
+            transform: scale(1.1);
+        }
+
+        .magnet input:checked + .checkmark {
+            background-color: #9f7aea;
+            border-color: #9f7aea;
+        }
+
+        /* 9. 全息效果 */
+        .hologram .checkmark {
+            background: linear-gradient(45deg, #ff00cc, #333399);
+            border: none;
+            position: relative;
+        }
+
+            .hologram .checkmark:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+                animation: hologram-shine 3s infinite;
+            }
+
+        @keyframes hologram-shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* 10. 赛博朋克 */
+        .cyberpunk .checkmark {
+            background: #0f0c29;
+            border: 2px solid #302b63;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .cyberpunk .checkmark:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(106, 27, 154, 0.4), transparent);
+                transition: left 0.5s;
+            }
+
+        .cyberpunk:hover .checkmark:before {
+            left: 100%;
+        }
+
+        .cyberpunk input:checked + .checkmark {
+            background: #2c003e;
+            border-color: #8a2be2;
+        }
+
+            .cyberpunk input:checked + .checkmark:after {
+                content: "✓";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #00f3ff;
+                font-size: 18px;
+                text-shadow: 0 0 10px #00f3ff;
+            }
+
+        /* 11-50 的简化实现（实际项目中可扩展） */
+        .minimalist input:checked + .checkmark {
+            background-color: #cbd5e0;
+            border-color: #a0aec0;
+        }
+
+        .glow input:checked + .checkmark {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
+            background-color: #805ad5;
+            border-color: #805ad5;
+        }
+
+        .ripple .checkmark {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple input:checked + .checkmark {
+            background-color: #38a169;
+            border-color: #38a169;
+        }
+
+            .ripple input:checked + .checkmark:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.5);
+                animation: ripple-effect 0.6s ease-out;
+            }
+
+        @keyframes ripple-effect {
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .toggle input:checked + .checkmark {
+            background-color: #e53e3e;
+            border-color: #e53e3e;
+            border-radius: 12px;
+        }
+
+        .toggle .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle input:checked + .checkmark:after {
+            transform: translateX(16px);
+        }
+
+        .film-noir .checkmark {
+            background: #1a1a1a;
+            border: 2px solid #444;
+        }
+
+        .film-noir input:checked + .checkmark {
+            background: #333;
+            border-color: #666;
+        }
+
+        .film-noir .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ddd;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .glass input:checked + .checkmark {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 5px;
+            border: 2px solid white;
+            border-top: none;
+            border-right: none;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .glass input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .fire input:checked + .checkmark {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            border: none;
+            animation: fire-pulse 2s infinite alternate;
+        }
+
+        @keyframes fire-pulse {
+            0% {
+                box-shadow: 0 0 10px #ff416c;
+            }
+
+            100% {
+                box-shadow: 0 0 20px #ff4b2b, 0 0 30px #ff416c;
+            }
+        }
+
+        .ice input:checked + .checkmark {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            border: none;
+            box-shadow: 0 0 15px rgba(161, 196, 253, 0.7);
+        }
+
+        .ice .checkmark:after {
+            content: "❄";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+        }
+
+        .metal input:checked + .checkmark {
+            background: linear-gradient(135deg, #e0e0e0, #9e9e9e);
+            border: 2px solid #757575;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .metal .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .wood input:checked + .checkmark {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%238B4513"/><path d="M0,0 Q25,20 50,0 T100,0 L100,100 Q75,80 50,100 T0,100 Z" fill="%23A0522D" opacity="0.3"/></svg>');
+            border: 2px solid #8B4513;
+        }
+
+        .wood .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FFF8DC;
+            font-size: 18px;
+            text-shadow: 1px 1px 2px #5D2906;
+        }
+
+        .water input:checked + .checkmark {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .water .checkmark:before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: water-wave 3s infinite linear;
+        }
+
+        @keyframes water-wave {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            50% {
+                transform: translateX(10px) translateY(-5px);
+            }
+
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        .paper input:checked + .checkmark {
+            background: #f8f9fa;
+            border: 2px dashed #adb5bd;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .paper .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #495057;
+            font-size: 18px;
+        }
+
+        .digital input:checked + .checkmark {
+            background: #0d0d0d;
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+        .digital .checkmark:after {
+            content: "1";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ff41;
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .digital input:not(:checked) + .checkmark:after {
+            content: "0";
+        }
+
+        .retro input:checked + .checkmark {
+            background: #ffd700;
+            border: 3px solid #daa520;
+            box-shadow: 3px 3px 0 #b8860b;
+        }
+
+        .retro .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #8b4513;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .vintage input:checked + .checkmark {
+            background: #f4e7d3;
+            border: 2px solid #c1b28e;
+            position: relative;
+        }
+
+        .vintage .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( 45deg, transparent, transparent 10px, rgba(193, 178, 142, 0.2) 10px, rgba(193, 178, 142, 0.2) 20px );
+        }
+
+        .vintage .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #8b7355;
+            font-size: 18px;
+        }
+
+        .future input:checked + .checkmark {
+            background: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .future .checkmark:before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.2), transparent 30deg);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .future .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 1;
+        }
+
+        .pixel input:checked + .checkmark {
+            background: #ff416c;
+            border: none;
+            image-rendering: pixelated;
+            position: relative;
+        }
+
+        .pixel .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 7px;
+            width: 3px;
+            height: 7px;
+            background: white;
+            box-shadow: 3px 3px 0 white, 0 3px 0 white, 3px 0 0 white;
+        }
+
+        .sketch input:checked + .checkmark {
+            background: white;
+            border: 3px dashed #4a5568;
+            position: relative;
+        }
+
+        .sketch .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #4a5568;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 0 #e2e8f0;
+        }
+
+        .gradient-border input:checked + .checkmark {
+            background: #1a202c;
+            border: none;
+            position: relative;
+        }
+
+        .gradient-border .checkmark:before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0080, #ff8c00, #ff0080);
+            z-index: -1;
+            border-radius: 6px;
+            animation: gradient-border 3s linear infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradient-border {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .gradient-border input:checked + .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+        }
+
+        .inset input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .inset .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #cbd5e0;
+            font-size: 18px;
+            text-shadow: 0 0 5px rgba(203, 213, 224, 0.5);
+        }
+
+        .outline input:checked + .checkmark {
+            background: transparent;
+            border: 2px solid #48bb78;
+        }
+
+            .outline input:checked + .checkmark:after {
+                content: "✓";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #48bb78;
+                font-size: 18px;
+            }
+
+        .dot input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .dot .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #63b3ed;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .dot input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .cross input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .cross .checkmark:after {
+            content: "✕";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #f56565;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cross input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .star input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .star .checkmark:after {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #f6e05e;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .star input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .heart input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .heart .checkmark:after {
+            content: "❤";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #f56565;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .heart input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .music input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .music .checkmark:after {
+            content: "♪";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9f7aea;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .music input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .infinity input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+        }
+
+        .infinity .checkmark:after {
+            content: "∞";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #63b3ed;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .infinity input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .dna input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dna .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #48bb78;
+            transform-origin: top center;
+            animation: dna-spin 3s linear infinite;
+        }
+
+        @keyframes dna-spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .dna input:checked + .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: #48bb78;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .matrix input:checked + .checkmark {
+            background: #000;
+            border: 2px solid #0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( to bottom, transparent 0%, transparent 2%, rgba(0, 255, 0, 0.1) 2%, rgba(0, 255, 0, 0.1) 4% );
+            animation: matrix-fall 5s linear infinite;
+        }
+
+        @keyframes matrix-fall {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100px;
+            }
+        }
+
+        .matrix .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0f0;
+            font-size: 18px;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .terminal input:checked + .checkmark {
+            background: #000;
+            border: 2px solid #0f0;
+            position: relative;
+        }
+
+        .terminal .checkmark:after {
+            content: ">_";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0f0;
+            font-family: monospace;
+            font-size: 16px;
+            animation: terminal-blink 1s infinite;
+        }
+
+        @keyframes terminal-blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .terminal input:checked + .checkmark:after {
+            content: "✓";
+        }
+
+        .barcode input:checked + .checkmark {
+            background: #fff;
+            border: 2px solid #000;
+            position: relative;
+        }
+
+        .barcode .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( to right, #000 0%, #000 10%, transparent 10%, transparent 20% );
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .barcode input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .barcode input:checked + .checkmark:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: #000;
+        }
+
+        .qr input:checked + .checkmark {
+            background: #fff;
+            border: 2px solid #000;
+            position: relative;
+        }
+
+        .qr .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #000 0%, #000 20%, transparent 20%, transparent 40%, #000 40%, #000 60%, transparent 60%, transparent 80%, #000 80%, #000 100%), linear-gradient(0deg, #000 0%, #000 20%, transparent 20%, transparent 40%, #000 40%, #000 60%, transparent 60%, transparent 80%, #000 80%, #000 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .qr input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .qr .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 20%;
+            height: 20%;
+            background: #000;
+            box-shadow: 60% 0 0 0 #000, 0 60% 0 0 #000, 60% 60% 0 0 #000;
+        }
+
+        .fingerprint input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fingerprint .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, transparent 60%, #63b3ed 61%, #63b3ed 62%, transparent 63%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .fingerprint input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .fingerprint .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, #63b3ed 40%, transparent 41%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .geometric input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+        }
+
+        .geometric .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #48bb78;
+            transform: translate(-50%, -50%) rotate(45deg);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .geometric input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .abstract input:checked + .checkmark {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border: none;
+            position: relative;
+        }
+
+        .abstract .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .abstract input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .abstract .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .motion input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .motion .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 179, 237, 0.3), transparent);
+            animation: motion-slide 1.5s infinite;
+        }
+
+        @keyframes motion-slide {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .motion input:checked + .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #63b3ed;
+            font-size: 18px;
+        }
+
+        .reflection input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+        }
+
+        .reflection .checkmark:before {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(72, 187, 120, 0.3), transparent);
+            transform: scaleY(-1);
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .reflection input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .reflection .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #48bb78;
+            font-size: 18px;
+        }
+
+        .prism input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prism .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,0,0,0.5) 0%, rgba(255,165,0,0.5) 16.66%, rgba(255,255,0,0.5) 33.33%, rgba(0,128,0,0.5) 50%, rgba(0,0,255,0.5) 66.66%, rgba(75,0,130,0.5) 83.33%, rgba(238,130,238,0.5) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .prism input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .prism .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .origami input:checked + .checkmark {
+            background: #fde68a;
+            border: 2px solid #ca8a04;
+            position: relative;
+            transform: rotate(5deg);
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+        }
+
+        .origami .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            color: #ca8a04;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .origami input:checked + .checkmark {
+            transform: rotate(0);
+        }
+
+            .origami input:checked + .checkmark:after {
+                transform: translate(-50%, -50%);
+            }
+
+        .wireframe input:checked + .checkmark {
+            background: transparent;
+            border: 2px solid #63b3ed;
+            position: relative;
+        }
+
+        .wireframe .checkmark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #63b3ed;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .wireframe input:checked + .checkmark:after {
+            opacity: 1;
+        }
+
+        .wireframe .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #63b3ed;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .wireframe input:checked + .checkmark:before {
+            border: none;
+        }
+
+        .crystal input:checked + .checkmark {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            border: none;
+            position: relative;
+            box-shadow: 0 0 20px rgba(161, 140, 209, 0.5);
+        }
+
+        .crystal .checkmark:before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.5) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .crystal input:checked + .checkmark:before {
+            opacity: 1;
+        }
+
+        .crystal .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .notebook input:checked + .checkmark {
+            background: #f8f9fa;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .notebook .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( to bottom, transparent 0%, transparent 24px, #e2e8f0 24px, #e2e8f0 25px );
+        }
+
+        .notebook .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #4a5568;
+            font-size: 18px;
+        }
+
+        .chalkboard input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px dashed #4a5568;
+            position: relative;
+        }
+
+        .chalkboard .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #cbd5e0;
+            font-size: 18px;
+            text-shadow: 1px 1px 0 #4a5568, -1px -1px 0 #4a5568;
+        }
+
+        .chalkboard input:checked + .checkmark:after {
+            animation: chalk-draw 0.5s forwards;
+        }
+
+        @keyframes chalk-draw {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .carbon input:checked + .checkmark {
+            background: #2d3748;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carbon .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%), linear-gradient(-45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%);
+            background-size: 20px 20px;
+        }
+
+        .carbon .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #cbd5e0;
+            font-size: 18px;
+        }
+
+        .leather input:checked + .checkmark {
+            background: #8B4513;
+            border: 2px solid #5D2906;
+            position: relative;
+        }
+
+        .leather .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0,0,0,0.1) 0%, transparent 50%);
+        }
+
+        .leather .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FFDAB9;
+            font-size: 18px;
+            text-shadow: 1px 1px 2px #5D2906;
+        }
+
+        .marble input:checked + .checkmark {
+            background: linear-gradient(90deg, #f4f4f4 0%, #e0e0e0 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M0,0 Q25,20 50,0 T100,0 L100,100 Q75,80 50,100 T0,100 Z' fill='%23d0d0d0' opacity='0.3'/%3E%3C/svg%3E");
+            border: 2px solid #bdbdbd;
+            position: relative;
+        }
+
+        .marble .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #424242;
+            font-size: 18px;
+        }
+
+        .fabric input:checked + .checkmark {
+            background: linear-gradient(90deg, #e0e0e0 0%, #f5f5f5 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M0,0 Q5,5 10,0 T20,0 L20,20 Q15,15 10,20 T0,20 Z' fill='%23cccccc'/%3E%3C/svg%3E");
+            border: 2px solid #bdbdbd;
+            position: relative;
+        }
+
+        .fabric .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #424242;
+            font-size: 18px;
+        }
+
+        .denim input:checked + .checkmark {
+            background: #1e3a8a;
+            border: 2px solid #1e40af;
+            position: relative;
+        }
+
+        .denim .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient( 45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px );
+        }
+
+        .denim .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #dbeafe;
+            font-size: 18px;
+        }
+
+        .velvet input:checked + .checkmark {
+            background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%);
+            border: 2px solid #581c87;
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .velvet .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2) 0%, transparent 50%);
+        }
+
+        .velvet .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #e9d5ff;
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .silk input:checked + .checkmark {
+            background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
+            border: 2px solid #ca8a04;
+            position: relative;
+            box-shadow: 0 0 15px rgba(253, 224, 71, 0.5);
+        }
+
+        .silk .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.3) 50%, transparent 51%), linear-gradient(-45deg, transparent 49%, rgba(255,255,255,0.3) 50%, transparent 51%);
+            background-size: 20px 20px;
+        }
+
+        .silk .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #713f12;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .gold input:checked + .checkmark {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border: 2px solid #d4af37;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+
+        .gold .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2) 0%, transparent 50%);
+        }
+
+        .gold .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #7d5a00;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .silver input:checked + .checkmark {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e0e0e0 100%);
+            border: 2px solid #a9a9a9;
+            position: relative;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.7);
+        }
+
+        .silver .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.1) 0%, transparent 50%);
+        }
+
+        .silver .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #4d4d4d;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .bronze input:checked + .checkmark {
+            background: linear-gradient(135deg, #cd7f32 0%, #e6ac73 100%);
+            border: 2px solid #a67c52;
+            position: relative;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.7);
+        }
+
+        .bronze .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.2) 0%, transparent 50%);
+        }
+
+        .bronze .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #5d3a18;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .platinum input:checked + .checkmark {
+            background: linear-gradient(135deg, #e5e4e2 0%, #ffffff 100%);
+            border: 2px solid #bdc3c7;
+            position: relative;
+            box-shadow: 0 0 15px rgba(229, 228, 226, 0.7);
+        }
+
+        .platinum .checkmark:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9) 0%, transparent 40%), radial-gradient(circle at 70% 70%, rgba(0,0,0,0.1) 0%, transparent 50%);
+        }
+
+        .platinum .checkmark:after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #7f8c8d;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .checkbox-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>50种炫酷多选框效果</h1>
+            <p class="subtitle">双击打开本页面，探索各种高级视觉效果：3D、动态、艺术感、电影感等</p>
+        </header>
+
+        <div class="checkbox-grid">
+            <!-- 1. 经典 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">1. 经典效果</div>
+                <label class="custom-checkbox classic">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 2. 圆形 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">2. 圆形效果</div>
+                <label class="custom-checkbox circle">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 3. 3D立方体 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">3. 3D立方体</div>
+                <label class="custom-checkbox cube">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 4. 脉冲 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">4. 脉冲效果</div>
+                <label class="custom-checkbox pulse">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 5. 霓虹灯 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">5. 霓虹灯</div>
+                <label class="custom-checkbox neon">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 6. 液态填充 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">6. 液态填充</div>
+                <label class="custom-checkbox liquid">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 7. 星空 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">7. 星空效果</div>
+                <label class="custom-checkbox starry">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 8. 磁铁吸附 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">8. 磁铁吸附</div>
+                <label class="custom-checkbox magnet">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 9. 全息 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">9. 全息效果</div>
+                <label class="custom-checkbox hologram">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 10. 赛博朋克 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">10. 赛博朋克</div>
+                <label class="custom-checkbox cyberpunk">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 11. 极简主义 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">11. 极简主义</div>
+                <label class="custom-checkbox minimalist">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 12. 发光 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">12. 发光效果</div>
+                <label class="custom-checkbox glow">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 13. 涟漪 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">13. 涟漪效果</div>
+                <label class="custom-checkbox ripple">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 14. 切换开关 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">14. 切换开关</div>
+                <label class="custom-checkbox toggle">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 15. 黑白电影 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">15. 黑白电影</div>
+                <label class="custom-checkbox film-noir">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 16. 毛玻璃 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">16. 毛玻璃</div>
+                <label class="custom-checkbox glass">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 17. 火焰 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">17. 火焰效果</div>
+                <label class="custom-checkbox fire">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 18. 冰霜 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">18. 冰霜效果</div>
+                <label class="custom-checkbox ice">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 19. 金属 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">19. 金属质感</div>
+                <label class="custom-checkbox metal">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 20. 木质 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">20. 木质纹理</div>
+                <label class="custom-checkbox wood">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 21. 水波 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">21. 水波效果</div>
+                <label class="custom-checkbox water">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 22. 纸张 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">22. 纸张效果</div>
+                <label class="custom-checkbox paper">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 23. 数字 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">23. 数字显示</div>
+                <label class="custom-checkbox digital">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 24. 复古 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">24. 复古风格</div>
+                <label class="custom-checkbox retro">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 25. 怀旧 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">25. 怀旧纹理</div>
+                <label class="custom-checkbox vintage">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 26. 未来科技 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">26. 未来科技</div>
+                <label class="custom-checkbox future">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 27. 像素 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">27. 像素风格</div>
+                <label class="custom-checkbox pixel">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 28. 草图 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">28. 草图效果</div>
+                <label class="custom-checkbox sketch">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 29. 渐变边框 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">29. 渐变边框</div>
+                <label class="custom-checkbox gradient-border">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 30. 内凹 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">30. 内凹效果</div>
+                <label class="custom-checkbox inset">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 31. 轮廓 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">31. 轮廓效果</div>
+                <label class="custom-checkbox outline">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 32. 圆点 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">32. 圆点指示</div>
+                <label class="custom-checkbox dot">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 33. 叉号 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">33. 叉号指示</div>
+                <label class="custom-checkbox cross">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 34. 星星 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">34. 星星指示</div>
+                <label class="custom-checkbox star">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 35. 心形 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">35. 心形指示</div>
+                <label class="custom-checkbox heart">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 36. 音符 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">36. 音符指示</div>
+                <label class="custom-checkbox music">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 37. 无限符号 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">37. 无限符号</div>
+                <label class="custom-checkbox infinity">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 38. DNA -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">38. DNA螺旋</div>
+                <label class="custom-checkbox dna">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 39. 矩阵 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">39. 矩阵代码</div>
+                <label class="custom-checkbox matrix">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 40. 终端 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">40. 终端风格</div>
+                <label class="custom-checkbox terminal">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 41. 条形码 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">41. 条形码</div>
+                <label class="custom-checkbox barcode">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 42. 二维码 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">42. 二维码</div>
+                <label class="custom-checkbox qr">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 43. 指纹 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">43. 指纹识别</div>
+                <label class="custom-checkbox fingerprint">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 44. 几何 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">44. 几何形状</div>
+                <label class="custom-checkbox geometric">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 45. 抽象 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">45. 抽象艺术</div>
+                <label class="custom-checkbox abstract">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 46. 动态 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">46. 动态效果</div>
+                <label class="custom-checkbox motion">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 47. 反射 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">47. 反射效果</div>
+                <label class="custom-checkbox reflection">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 48. 棱镜 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">48. 棱镜效果</div>
+                <label class="custom-checkbox prism">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 49. 折纸 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">49. 折纸艺术</div>
+                <label class="custom-checkbox origami">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <!-- 50. 线框 -->
+            <div class="checkbox-item">
+                <div class="checkbox-title">50. 线框风格</div>
+                <label class="custom-checkbox wireframe">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+
+        <footer>
+            <p>50种独特多选框效果 | 双击任意复选框体验交互效果</p>
+            <p>所有效果均使用纯CSS实现，无需JavaScript</p>
+        </footer>
+    </div>
+</body>
+</html>  

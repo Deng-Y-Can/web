@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20种炫酷面包屑导航</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(to right, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
+            }
+
+            100% {
+                text-shadow: 0 0 20px rgba(134, 168, 231, 0.9), 0 0 30px rgba(145, 234, 228, 0.8);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb-section {
+            margin-bottom: 50px;
+            padding: 25px;
+            background: rgba(25, 25, 35, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .breadcrumb-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+            }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            display: flex;
+            align-items: center;
+        }
+
+            .section-title::before {
+                content: "#";
+                margin-right: 10px;
+                color: #ff6b6b;
+            }
+
+        /* 面包屑通用样式 */
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 10px 0;
+        }
+
+            .breadcrumb li {
+                position: relative;
+                padding: 0 15px;
+                display: flex;
+                align-items: center;
+            }
+
+            .breadcrumb a {
+                text-decoration: none;
+                color: #ddd;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 5px 10px;
+                border-radius: 5px;
+            }
+
+                .breadcrumb a:hover {
+                    color: #fff;
+                }
+
+        /* 1. 经典箭头 */
+        .classic li:not(:last-child)::after {
+            content: ">";
+            margin-left: 10px;
+            color: #888;
+        }
+
+        /* 2. 斜线分隔 */
+        .slash li:not(:last-child)::after {
+            content: "/";
+            margin-left: 10px;
+            color: #aaa;
+        }
+
+        /* 3. 胶囊形状 */
+        .capsule a {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+            .capsule a:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+        .capsule li:not(:last-child)::after {
+            content: "›";
+            margin-left: 10px;
+            color: #ccc;
+        }
+
+        /* 4. 3D立体效果 */
+        .three-d {
+            perspective: 1000px;
+        }
+
+            .three-d a {
+                transform-style: preserve-3d;
+                transition: transform 0.3s ease;
+            }
+
+                .three-d a:hover {
+                    transform: translateZ(15px);
+                    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                }
+
+            .three-d li:not(:last-child)::after {
+                content: "»";
+                margin-left: 10px;
+                color: #ff9a00;
+            }
+
+        /* 5. 发光效果 */
+        .glow a {
+            text-shadow: 0 0 5px rgba(100, 200, 255, 0.7);
+        }
+
+            .glow a:hover {
+                text-shadow: 0 0 15px rgba(100, 200, 255, 1), 0 0 25px rgba(100, 200, 255, 0.8);
+            }
+
+        .glow li:not(:last-child)::after {
+            content: "→";
+            margin-left: 10px;
+            color: #4dabf7;
+        }
+
+        /* 6. 渐变背景 */
+        .gradient a {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: #333;
+            font-weight: bold;
+        }
+
+            .gradient a:hover {
+                background: linear-gradient(45deg, #fad0c4, #ff9a9e);
+            }
+
+        .gradient li:not(:last-child)::after {
+            content: "•";
+            margin-left: 15px;
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* 7. 动态下划线 */
+        .underline a {
+            position: relative;
+        }
+
+            .underline a::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #ff6b6b;
+                transition: width 0.3s ease;
+            }
+
+            .underline a:hover::after {
+                width: 100%;
+            }
+
+        .underline li:not(:last-child)::after {
+            content: "›";
+            margin-left: 10px;
+            color: #aaa;
+        }
+
+        /* 8. 悬浮卡片 */
+        .card a {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+            .card a:hover {
+                background: rgba(255, 255, 255, 0.15);
+                transform: translateY(-3px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+
+        .card li:not(:last-child)::after {
+            content: "›";
+            margin-left: 15px;
+            color: #8ec5fc;
+        }
+
+        /* 9. 艺术手写 */
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+        }
+
+            .handwriting a {
+                color: #f8a5c2;
+            }
+
+                .handwriting a:hover {
+                    color: #e84393;
+                }
+
+            .handwriting li:not(:last-child)::after {
+                content: "→";
+                margin-left: 10px;
+                color: #fd79a8;
+            }
+
+        /* 10. 电影胶片 */
+        .filmstrip {
+            background: linear-gradient(to right, #000, #333, #000);
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+            .filmstrip::before, .filmstrip::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 20px;
+                background: repeating-linear-gradient( to bottom, #000, #000 10px, #fff 10px, #fff 20px );
+            }
+
+            .filmstrip::before {
+                left: -20px;
+            }
+
+            .filmstrip::after {
+                right: -20px;
+            }
+
+            .filmstrip a {
+                color: #ffcc00;
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+            }
+
+                .filmstrip a:hover {
+                    color: #ffd700;
+                    text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+                }
+
+            .filmstrip li:not(:last-child)::after {
+                content: "▶";
+                margin-left: 15px;
+                color: #ff9a00;
+            }
+
+        /* 11. 粒子效果 */
+        .particles a {
+            position: relative;
+            overflow: hidden;
+        }
+
+            .particles a::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .particles a:hover::before {
+                left: 100%;
+            }
+
+        .particles li:not(:last-child)::after {
+            content: "•";
+            margin-left: 15px;
+            color: #6c5ce7;
+        }
+
+        /* 12. 液态填充 */
+        .liquid a {
+            position: relative;
+            z-index: 1;
+        }
+
+            .liquid a::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 100%;
+                background: linear-gradient(45deg, #00c9ff, #92fe9d);
+                z-index: -1;
+                transition: width 0.4s ease;
+                border-radius: 5px;
+            }
+
+            .liquid a:hover::before {
+                width: 100%;
+            }
+
+            .liquid a:hover {
+                color: #000;
+            }
+
+        .liquid li:not(:last-child)::after {
+            content: "›";
+            margin-left: 10px;
+            color: #00c9ff;
+        }
+
+        /* 13. 霓虹灯效果 */
+        .neon a {
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff, 0 0 25px #0ff;
+            transition: all 0.3s ease;
+        }
+
+            .neon a:hover {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 50px #0ff, 0 0 60px #0ff;
+            }
+
+        .neon li:not(:last-child)::after {
+            content: "→";
+            margin-left: 10px;
+            color: #0ff;
+            text-shadow: 0 0 5px #0ff;
+        }
+
+        /* 14. 极简线条 */
+        .minimalist {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+            .minimalist a {
+                position: relative;
+            }
+
+                .minimalist a::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -10px;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background: #ff6b6b;
+                    transition: width 0.3s ease;
+                }
+
+                .minimalist a:hover::after {
+                    width: 100%;
+                }
+
+            .minimalist li:not(:last-child)::after {
+                content: "";
+            }
+
+            .minimalist li:not(:last-child) a {
+                margin-right: 20px;
+            }
+
+        /* 15. 彩虹渐变 */
+        .rainbow a {
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .rainbow li:not(:last-child)::after {
+            content: "›";
+            margin-left: 10px;
+            color: #ff6b6b;
+        }
+
+        /* 16. 科技感 */
+        .tech a {
+            color: #00f7ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            position: relative;
+        }
+
+            .tech a::before {
+                content: "[";
+                position: absolute;
+                left: -8px;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .tech a::after {
+                content: "]";
+                position: absolute;
+                right: -8px;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .tech a:hover::before,
+            .tech a:hover::after {
+                opacity: 1;
+            }
+
+        .tech li:not(:last-child)::after {
+            content: "→";
+            margin-left: 10px;
+            color: #00f7ff;
+        }
+
+        /* 17. 复古磁带 */
+        .cassette {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+            .cassette::before {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                height: 5px;
+                background: repeating-linear-gradient( to right, #3498db, #3498db 10px, #2c3e50 10px, #2c3e50 20px );
+            }
+
+            .cassette a {
+                color: #ecf0f1;
+            }
+
+                .cassette a:hover {
+                    color: #3498db;
+                }
+
+            .cassette li:not(:last-child)::after {
+                content: "►";
+                margin-left: 15px;
+                color: #3498db;
+            }
+
+        /* 18. 全息效果 */
+        .holographic a {
+            position: relative;
+            background: linear-gradient(90deg, #ff00cc, #333399, #00ccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% 300%;
+            animation: holographic 4s ease infinite;
+        }
+
+        @keyframes holographic {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .holographic li:not(:last-child)::after {
+            content: "›";
+            margin-left: 10px;
+            color: #00ccff;
+        }
+
+        /* 19. 赛博朋克 */
+        .cyberpunk {
+            background: linear-gradient(45deg, #ff006e, #8920d1, #20c997);
+            padding: 15px;
+            border-radius: 10px;
+            text-shadow: 0 0 10px rgba(255, 0, 110, 0.7);
+        }
+
+            .cyberpunk a {
+                color: #fff;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+                .cyberpunk a:hover {
+                    text-shadow: 0 0 15px rgba(137, 32, 209, 0.9);
+                }
+
+            .cyberpunk li:not(:last-child)::after {
+                content: "→";
+                margin-left: 15px;
+                color: #fff;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            }
+
+        /* 20. 宇宙星空 */
+        .cosmic {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .cosmic::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 2px), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 2px), radial-gradient(circle at 50% 50%, rgba(100, 150, 255, 0.1) 1px, transparent 2px);
+                animation: stars 15s linear infinite;
+            }
+
+        @keyframes stars {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .cosmic a {
+            color: #8af3ff;
+            position: relative;
+        }
+
+            .cosmic a::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 1px;
+                background: linear-gradient(to right, transparent, #8af3ff, transparent);
+                transition: width 0.4s ease;
+            }
+
+            .cosmic a:hover::after {
+                width: 100%;
+            }
+
+        .cosmic li:not(:last-child)::after {
+            content: "→";
+            margin-left: 15px;
+            color: #8af3ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .breadcrumb {
+                flex-direction: column;
+            }
+
+                .breadcrumb li {
+                    padding: 5px 0;
+                }
+
+                    .breadcrumb li:not(:last-child)::after {
+                        display: none;
+                    }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>20种炫酷面包屑导航</h1>
+            <p class="subtitle">双击打开此网页，体验各种高级面包屑导航效果：3D立体、动态动画、艺术感、电影感等</p>
+        </header>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">1. 经典箭头</h2>
+            <ul class="breadcrumb classic">
+                <li><a href="#">首页</a></li>
+                <li>
+                    <a href="#">电子产品</a>
+                    <!-- 添加子级 -->
+                    <ul class="breadcrumb classic" style="margin-top:5px;">
+                        <li>
+                            <a href="#">手机</a>
+                            <!-- 再添加一层子级 -->
+                            <ul class="breadcrumb classic" style="margin-top:5px;">
+                                <li><a href="#">智能手机</a></li>
+                                <li>功能手机</li>
+                            </ul>
+                        </li>
+                        <li><a href="#">电脑</a></li>
+                        <li>平板电脑</li>
+                    </ul>
+                </li>
+                <!-- 如果需要，可以在这里继续添加更多顶级项目 -->
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">2. 斜线分隔</h2>
+            <ul class="breadcrumb slash">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">服务</a></li>
+                <li><a href="#">技术支持</a></li>
+                <li>常见问题</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">3. 胶囊形状</h2>
+            <ul class="breadcrumb capsule">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">博客</a></li>
+                <li><a href="#">技术</a></li>
+                <li>Web开发</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">4. 3D立体效果</h2>
+            <ul class="breadcrumb three-d">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">商店</a></li>
+                <li><a href="#">服装</a></li>
+                <li>男装</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">5. 发光效果</h2>
+            <ul class="breadcrumb glow">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">资源</a></li>
+                <li><a href="#">文档</a></li>
+                <li>API指南</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">6. 渐变背景</h2>
+            <ul class="breadcrumb gradient">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">项目</a></li>
+                <li><a href="#">设计</a></li>
+                <li>UI组件</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">7. 动态下划线</h2>
+            <ul class="breadcrumb underline">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">学习</a></li>
+                <li><a href="#">课程</a></li>
+                <li>前端开发</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">8. 悬浮卡片</h2>
+            <ul class="breadcrumb card">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">社区</a></li>
+                <li><a href="#">论坛</a></li>
+                <li>技术讨论</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">9. 艺术手写</h2>
+            <ul class="breadcrumb handwriting">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">灵感</a></li>
+                <li><a href="#">创意</a></li>
+                <li>艺术设计</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">10. 电影胶片</h2>
+            <ul class="breadcrumb filmstrip">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">媒体</a></li>
+                <li><a href="#">电影</a></li>
+                <li>科幻大片</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">11. 粒子效果</h2>
+            <ul class="breadcrumb particles">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">科学</a></li>
+                <li><a href="#">物理</a></li>
+                <li>量子力学</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">12. 液态填充</h2>
+            <ul class="breadcrumb liquid">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">健康</a></li>
+                <li><a href="#">营养</a></li>
+                <li>维生素</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">13. 霓虹灯效果</h2>
+            <ul class="breadcrumb neon">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">夜生活</a></li>
+                <li><a href="#">俱乐部</a></li>
+                <li>电子音乐</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">14. 极简线条</h2>
+            <ul class="breadcrumb minimalist">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">极简主义</a></li>
+                <li><a href="#">设计</a></li>
+                <li>简约美学</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">15. 彩虹渐变</h2>
+            <ul class="breadcrumb rainbow">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">色彩</a></li>
+                <li><a href="#">设计</a></li>
+                <li>调色板</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">16. 科技感</h2>
+            <ul class="breadcrumb tech">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">未来科技</a></li>
+                <li><a href="#">AI</a></li>
+                <li>机器学习</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">17. 复古磁带</h2>
+            <ul class="breadcrumb cassette">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">怀旧</a></li>
+                <li><a href="#">音乐</a></li>
+                <li>经典专辑</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">18. 全息效果</h2>
+            <ul class="breadcrumb holographic">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">未来</a></li>
+                <li><a href="#">全息投影</a></li>
+                <li>AR技术</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">19. 赛博朋克</h2>
+            <ul class="breadcrumb cyberpunk">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">赛博都市</a></li>
+                <li><a href="#">霓虹街道</a></li>
+                <li>夜之城</li>
+            </ul>
+        </div>
+
+        <div class="breadcrumb-section">
+            <h2 class="section-title">20. 宇宙星空</h2>
+            <ul class="breadcrumb cosmic">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">宇宙</a></li>
+                <li><a href="#">星系</a></li>
+                <li>银河系</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>双击打开此网页 | 20种高级面包屑导航效果 | 设计于 2025年</p>
+        </footer>
+    </div>
+</body>
+</html>  

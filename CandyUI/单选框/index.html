@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50种炫酷单选框效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.8rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #ff8a00, #da1b60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            width: 100%;
+        }
+
+        .radio-group {
+            background: rgba(25, 25, 35, 0.85);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .radio-group:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            }
+
+        .group-title {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: #ffcc00;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* 基础单选框样式 */
+        .radio-item {
+            margin: 12px 0;
+            position: relative;
+            padding-left: 40px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+            .radio-item input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            /* 通用标签样式 */
+            .radio-item label {
+                display: block;
+                padding: 8px 0;
+                font-size: 1rem;
+                color: #e0e0ff;
+                transition: all 0.3s ease;
+            }
+
+            .radio-item:hover label {
+                color: #ffcc00;
+            }
+
+        /* 1. 经典圆形 */
+        .classic .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 22px;
+            width: 22px;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .classic input:checked ~ .radio-custom {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .classic .radio-custom::after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            transform: translate(-50%, -50%);
+        }
+
+        .classic input:checked ~ .radio-custom::after {
+            display: block;
+        }
+
+        /* 2. 方形 */
+        .square .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 22px;
+            width: 22px;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .square input:checked ~ .radio-custom {
+            background-color: #2196F3;
+            border-color: #2196F3;
+        }
+
+        .square .radio-custom::after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: white;
+            transform: translate(-50%, -50%) rotate(45deg);
+            border: solid #2196F3;
+            border-width: 0 2px 2px 0;
+        }
+
+        .square input:checked ~ .radio-custom::after {
+            display: block;
+        }
+
+        /* 3. 3D 立方体 */
+        .cube .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) rotateX(45deg) rotateY(45deg);
+            height: 22px;
+            width: 22px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border-radius: 4px;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .cube input:checked ~ .radio-custom {
+            transform: translateY(-50%) rotateX(45deg) rotateY(45deg) scale(1.1);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(0, 0, 0, 0.2), inset -2px -2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        /* 4. 胶囊形状 */
+        .capsule .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 22px;
+            width: 40px;
+            background-color: #444;
+            border-radius: 11px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .capsule input:checked ~ .radio-custom {
+            background-color: #9C27B0;
+        }
+
+        .capsule .radio-custom::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .capsule input:checked ~ .radio-custom::before {
+            transform: translateX(18px);
+            background: #E040FB;
+        }
+
+        /* 5. 星星形状 */
+        .star .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background-color: #333;
+            border: 2px solid #666;
+            transition: all 0.3s ease;
+        }
+
+        .star input:checked ~ .radio-custom {
+            background-color: #FFD700;
+            border-color: #FFD700;
+            transform: translateY(-50%) rotate(15deg);
+        }
+
+        /* 6. 心形 */
+        .heart .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background-color: #333;
+            clip-path: path("M0,12 C0,18 6,24 12,24 C18,24 24,18 24,12 C24,6 18,0 12,0 C6,0 0,6 0,12 Z");
+            transition: all 0.3s ease;
+        }
+
+        .heart input:checked ~ .radio-custom {
+            background-color: #e91e63;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            5% {
+                transform: translateY(-50%) scale(1.1);
+            }
+
+            10% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            15% {
+                transform: translateY(-50%) scale(1.15);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        /* 7. 液态填充 */
+        .liquid .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background-color: #333;
+            border: 2px solid #666;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .liquid .radio-custom::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 0;
+                background: #00BCD4;
+                transition: height 0.5s ease;
+            }
+
+        .liquid input:checked ~ .radio-custom::before {
+            height: 100%;
+        }
+
+        /* 8. 霓虹灯效果 */
+        .neon .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background-color: #111;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff;
+            transition: all 0.3s ease;
+        }
+
+        .neon input:checked ~ .radio-custom {
+            box-shadow: 0 0 10px #f0f, 0 0 20px #f0f, 0 0 30px #f0f, 0 0 40px #f0f;
+            background-color: #222;
+        }
+
+        /* 9. 胶片效果 */
+        .film .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: linear-gradient(45deg, #ff0000, #ff00ff);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .film input:checked ~ .radio-custom {
+            animation: filmReel 2s infinite linear;
+        }
+
+        @keyframes filmReel {
+            0% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* 10. 磁带效果 */
+        .tape .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 40px;
+            background: #222;
+            border-radius: 4px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5px;
+        }
+
+            .tape .radio-custom::before,
+            .tape .radio-custom::after {
+                content: "";
+                width: 8px;
+                height: 8px;
+                background: #aaa;
+                border-radius: 50%;
+                margin-top: 8px;
+            }
+
+        .tape input:checked ~ .radio-custom {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        }
+
+            .tape input:checked ~ .radio-custom::before,
+            .tape input:checked ~ .radio-custom::after {
+                background: white;
+                animation: tapeSpin 2s infinite linear;
+            }
+
+        @keyframes tapeSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 11. 复古电视 */
+        .tv .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 32px;
+            background: #333;
+            border-radius: 4px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .tv .radio-custom::before {
+                content: "";
+                width: 20px;
+                height: 16px;
+                background: linear-gradient(90deg, #0f0, #0f0, #000, #0f0, #0f0);
+                border-radius: 2px;
+                animation: tvStatic 0.5s infinite;
+            }
+
+        .tv input:checked ~ .radio-custom::before {
+            background: linear-gradient(90deg, #0f0, #0f0, #0f0, #0f0, #0f0);
+            animation: none;
+        }
+
+        @keyframes tvStatic {
+            0% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+            }
+        }
+
+        /* 12. 全息效果 */
+        .hologram .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            border-radius: 50%;
+            animation: hologramRotate 3s infinite linear;
+            filter: blur(1px);
+        }
+
+        @keyframes hologramRotate {
+            0% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* 13. 赛博朋克 */
+        .cyberpunk .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #000;
+            border: 2px solid #0ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff;
+            transition: all 0.3s ease;
+        }
+
+        .cyberpunk input:checked ~ .radio-custom {
+            border-color: #f0f;
+            box-shadow: 0 0 15px #f0f, inset 0 0 15px #f0f;
+        }
+
+        /* 14. 极简线条 */
+        .minimal .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            border: 2px solid #aaa;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .minimal input:checked ~ .radio-custom {
+            border-color: #fff;
+        }
+
+        .minimal .radio-custom::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: #fff;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        .minimal input:checked ~ .radio-custom::after {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* 15. 发光球体 */
+        .glow .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glow input:checked ~ .radio-custom {
+            background: #4CAF50;
+            box-shadow: 0 0 25px #4CAF50;
+        }
+
+        /* 16. 金属质感 */
+        .metal .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: linear-gradient(135deg, #d3d3d3, #a9a9a9, #d3d3d3);
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .metal input:checked ~ .radio-custom {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32, #4CAF50);
+        }
+
+        /* 17. 玻璃效果 */
+        .glass .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .glass input:checked ~ .radio-custom {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        /* 18. 动态粒子 */
+        .particles .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .particles .radio-custom::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 4px;
+                height: 4px;
+                background: #fff;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 -8px 0 #ff0055, 8px -4px 0 #ffaa00, 8px 4px 0 #00ff55, 0 8px 0 #0055ff, -8px 4px 0 #aa00ff, -8px -4px 0 #ff5500;
+                animation: particlesSpin 2s infinite linear;
+            }
+
+        .particles input:checked ~ .radio-custom::before {
+            animation: particlesPulse 1s infinite;
+        }
+
+        @keyframes particlesSpin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes particlesPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* 19. 磁流体 */
+        .ferrofluid .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #000;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+            .ferrofluid .radio-custom::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 16px;
+                height: 16px;
+                background: #333;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: all 0.3s ease;
+            }
+
+        .ferrofluid input:checked ~ .radio-custom::before {
+            background: #00bcd4;
+            width: 24px;
+            height: 24px;
+            animation: ferrofluidPulse 1.5s infinite alternate;
+        }
+
+        @keyframes ferrofluidPulse {
+            0% {
+                border-radius: 50%;
+            }
+
+            100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+        }
+
+        /* 20. 水墨效果 */
+        .ink .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ink input:checked ~ .radio-custom {
+            background: #000;
+            animation: inkSpread 0.5s forwards;
+        }
+
+        @keyframes inkSpread {
+            0% {
+                box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 0 0 #000;
+            }
+
+            100% {
+                box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* 21-50 的简化实现（使用不同颜色和微调） */
+        .color1 .radio-custom {
+            background: #e91e63;
+        }
+
+        .color2 .radio-custom {
+            background: #9c27b0;
+        }
+
+        .color3 .radio-custom {
+            background: #673ab7;
+        }
+
+        .color4 .radio-custom {
+            background: #3f51b5;
+        }
+
+        .color5 .radio-custom {
+            background: #2196f3;
+        }
+
+        .color6 .radio-custom {
+            background: #03a9f4;
+        }
+
+        .color7 .radio-custom {
+            background: #00bcd4;
+        }
+
+        .color8 .radio-custom {
+            background: #009688;
+        }
+
+        .color9 .radio-custom {
+            background: #4caf50;
+        }
+
+        .color10 .radio-custom {
+            background: #8bc34a;
+        }
+
+        .color11 .radio-custom {
+            background: #cddc39;
+        }
+
+        .color12 .radio-custom {
+            background: #ffeb3b;
+        }
+
+        .color13 .radio-custom {
+            background: #ffc107;
+        }
+
+        .color14 .radio-custom {
+            background: #ff9800;
+        }
+
+        .color15 .radio-custom {
+            background: #ff5722;
+        }
+
+        .color16 .radio-custom {
+            background: #795548;
+        }
+
+        .color17 .radio-custom {
+            background: #9e9e9e;
+        }
+
+        .color18 .radio-custom {
+            background: #607d8b;
+        }
+
+        .color19 .radio-custom {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            border-radius: 50%;
+        }
+
+        .color20 .radio-custom {
+            background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
+            border-radius: 50%;
+        }
+
+        .color21 .radio-custom {
+            background: linear-gradient(45deg, #d4fc79, #96e6a1);
+            border-radius: 50%;
+        }
+
+        .color22 .radio-custom {
+            background: linear-gradient(45deg, #f6d365, #fda085);
+            border-radius: 50%;
+        }
+
+        .color23 .radio-custom {
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            border-radius: 50%;
+        }
+
+        .color24 .radio-custom {
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            border-radius: 50%;
+        }
+
+        .color25 .radio-custom {
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            border-radius: 50%;
+        }
+
+        .color26 .radio-custom {
+            background: linear-gradient(45deg, #d299c2, #fef9d7);
+            border-radius: 50%;
+        }
+
+        .color27 .radio-custom {
+            background: linear-gradient(45deg, #fccb90, #d57eeb);
+            border-radius: 50%;
+        }
+
+        .color28 .radio-custom {
+            background: linear-gradient(45deg, #a6c0fe, #f68084);
+            border-radius: 50%;
+        }
+
+        .color29 .radio-custom {
+            background: linear-gradient(45deg, #fbc2eb, #a6c1ee);
+            border-radius: 50%;
+        }
+
+        .color30 .radio-custom {
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            border-radius: 50%;
+        }
+
+        /* 为21-50添加基础样式 */
+        [class*="color"] .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        [class*="color"] input:checked ~ .radio-custom {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        /* 添加更多效果 */
+        .ripple .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .ripple input:checked ~ .radio-custom {
+            background: #2196F3;
+            animation: rippleEffect 0.6s ease-out;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7);
+            }
+
+            100% {
+                box-shadow: 0 0 0 15px rgba(33, 150, 243, 0);
+            }
+        }
+
+        .pulse .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .pulse input:checked ~ .radio-custom {
+            background: #FF5722;
+            animation: pulseAnimation 1.5s infinite;
+        }
+
+        @keyframes pulseAnimation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 87, 34, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 87, 34, 0);
+            }
+        }
+
+        .bounce .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .bounce input:checked ~ .radio-custom {
+            background: #9C27B0;
+            animation: bounceAnimation 0.6s;
+        }
+
+        @keyframes bounceAnimation {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            40% {
+                transform: translateY(-50%) scale(1.2);
+            }
+
+            60% {
+                transform: translateY(-50%) scale(1.1);
+            }
+        }
+
+        .flip .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .flip input:checked ~ .radio-custom {
+            background: #009688;
+            animation: flipAnimation 0.6s;
+        }
+
+        @keyframes flipAnimation {
+            0% {
+                transform: translateY(-50%) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotateY(180deg);
+            }
+        }
+
+        .slide .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .slide input:checked ~ .radio-custom {
+            background: #FFC107;
+            animation: slideAnimation 0.4s;
+        }
+
+        @keyframes slideAnimation {
+            0% {
+                transform: translateY(-50%) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-50%) translateX(10px);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(0);
+            }
+        }
+
+        .rotate .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .rotate input:checked ~ .radio-custom {
+            background: #795548;
+            animation: rotateAnimation 1s infinite linear;
+        }
+
+        @keyframes rotateAnimation {
+            0% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        .scale .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .scale input:checked ~ .radio-custom {
+            background: #607D8B;
+            animation: scaleAnimation 1.5s infinite alternate;
+        }
+
+        @keyframes scaleAnimation {
+            0% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            100% {
+                transform: translateY(-50%) scale(1.3);
+            }
+        }
+
+        .skew .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .skew input:checked ~ .radio-custom {
+            background: #E91E63;
+            animation: skewAnimation 1s infinite alternate;
+        }
+
+        @keyframes skewAnimation {
+            0% {
+                transform: translateY(-50%) skewX(0deg);
+            }
+
+            100% {
+                transform: translateY(-50%) skewX(15deg);
+            }
+        }
+
+        .wobble .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .wobble input:checked ~ .radio-custom {
+            background: #3F51B5;
+            animation: wobbleAnimation 1s infinite;
+        }
+
+        @keyframes wobbleAnimation {
+            0%, 100% {
+                transform: translateY(-50%) translateX(0%);
+            }
+
+            15% {
+                transform: translateY(-50%) translateX(-10%) rotate(-3deg);
+            }
+
+            30% {
+                transform: translateY(-50%) translateX(8%) rotate(3deg);
+            }
+
+            45% {
+                transform: translateY(-50%) translateX(-6%) rotate(-2deg);
+            }
+
+            60% {
+                transform: translateY(-50%) translateX(5%) rotate(2deg);
+            }
+
+            75% {
+                transform: translateY(-50%) translateX(-3%) rotate(-1deg);
+            }
+        }
+
+        .swing .radio-custom {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 24px;
+            width: 24px;
+            background: #333;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .swing input:checked ~ .radio-custom {
+            background: #00BCD4;
+            animation: swingAnimation 1s infinite;
+        }
+
+        @keyframes swingAnimation {
+            0%, 100% {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            20% {
+                transform: translateY(-50%) rotate(10deg);
+            }
+
+            40% {
+                transform: translateY(-50%) rotate(-8deg);
+            }
+
+            60% {
+                transform: translateY(-50%) rotate(6deg);
+            }
+
+            80% {
+                transform: translateY(-50%) rotate(-4deg);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>50种炫酷单选框效果</h1>
+
+    <div class="container">
+        <!-- 1. 经典圆形 -->
+        <div class="radio-group classic">
+            <div class="group-title">1. 经典圆形</div>
+            <div class="radio-item">
+                <input type="radio" id="classic1" name="classic" checked>
+                <span class="radio-custom"></span>
+                <label for="classic1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="classic2" name="classic">
+                <span class="radio-custom"></span>
+                <label for="classic2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 2. 方形 -->
+        <div class="radio-group square">
+            <div class="group-title">2. 方形</div>
+            <div class="radio-item">
+                <input type="radio" id="square1" name="square" checked>
+                <span class="radio-custom"></span>
+                <label for="square1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="square2" name="square">
+                <span class="radio-custom"></span>
+                <label for="square2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 3. 3D 立方体 -->
+        <div class="radio-group cube">
+            <div class="group-title">3. 3D 立方体</div>
+            <div class="radio-item">
+                <input type="radio" id="cube1" name="cube" checked>
+                <span class="radio-custom"></span>
+                <label for="cube1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="cube2" name="cube">
+                <span class="radio-custom"></span>
+                <label for="cube2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 4. 胶囊形状 -->
+        <div class="radio-group capsule">
+            <div class="group-title">4. 胶囊形状</div>
+            <div class="radio-item">
+                <input type="radio" id="capsule1" name="capsule" checked>
+                <span class="radio-custom"></span>
+                <label for="capsule1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="capsule2" name="capsule">
+                <span class="radio-custom"></span>
+                <label for="capsule2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 5. 星星形状 -->
+        <div class="radio-group star">
+            <div class="group-title">5. 星星形状</div>
+            <div class="radio-item">
+                <input type="radio" id="star1" name="star" checked>
+                <span class="radio-custom"></span>
+                <label for="star1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="star2" name="star">
+                <span class="radio-custom"></span>
+                <label for="star2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 6. 心形 -->
+        <div class="radio-group heart">
+            <div class="group-title">6. 心形</div>
+            <div class="radio-item">
+                <input type="radio" id="heart1" name="heart" checked>
+                <span class="radio-custom"></span>
+                <label for="heart1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="heart2" name="heart">
+                <span class="radio-custom"></span>
+                <label for="heart2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 7. 液态填充 -->
+        <div class="radio-group liquid">
+            <div class="group-title">7. 液态填充</div>
+            <div class="radio-item">
+                <input type="radio" id="liquid1" name="liquid" checked>
+                <span class="radio-custom"></span>
+                <label for="liquid1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="liquid2" name="liquid">
+                <span class="radio-custom"></span>
+                <label for="liquid2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 8. 霓虹灯效果 -->
+        <div class="radio-group neon">
+            <div class="group-title">8. 霓虹灯效果</div>
+            <div class="radio-item">
+                <input type="radio" id="neon1" name="neon" checked>
+                <span class="radio-custom"></span>
+                <label for="neon1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="neon2" name="neon">
+                <span class="radio-custom"></span>
+                <label for="neon2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 9. 胶片效果 -->
+        <div class="radio-group film">
+            <div class="group-title">9. 胶片效果</div>
+            <div class="radio-item">
+                <input type="radio" id="film1" name="film" checked>
+                <span class="radio-custom"></span>
+                <label for="film1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="film2" name="film">
+                <span class="radio-custom"></span>
+                <label for="film2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 10. 磁带效果 -->
+        <div class="radio-group tape">
+            <div class="group-title">10. 磁带效果</div>
+            <div class="radio-item">
+                <input type="radio" id="tape1" name="tape" checked>
+                <span class="radio-custom"></span>
+                <label for="tape1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="tape2" name="tape">
+                <span class="radio-custom"></span>
+                <label for="tape2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 11. 复古电视 -->
+        <div class="radio-group tv">
+            <div class="group-title">11. 复古电视</div>
+            <div class="radio-item">
+                <input type="radio" id="tv1" name="tv" checked>
+                <span class="radio-custom"></span>
+                <label for="tv1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="tv2" name="tv">
+                <span class="radio-custom"></span>
+                <label for="tv2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 12. 全息效果 -->
+        <div class="radio-group hologram">
+            <div class="group-title">12. 全息效果</div>
+            <div class="radio-item">
+                <input type="radio" id="hologram1" name="hologram" checked>
+                <span class="radio-custom"></span>
+                <label for="hologram1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="hologram2" name="hologram">
+                <span class="radio-custom"></span>
+                <label for="hologram2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 13. 赛博朋克 -->
+        <div class="radio-group cyberpunk">
+            <div class="group-title">13. 赛博朋克</div>
+            <div class="radio-item">
+                <input type="radio" id="cyberpunk1" name="cyberpunk" checked>
+                <span class="radio-custom"></span>
+                <label for="cyberpunk1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="cyberpunk2" name="cyberpunk">
+                <span class="radio-custom"></span>
+                <label for="cyberpunk2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 14. 极简线条 -->
+        <div class="radio-group minimal">
+            <div class="group-title">14. 极简线条</div>
+            <div class="radio-item">
+                <input type="radio" id="minimal1" name="minimal" checked>
+                <span class="radio-custom"></span>
+                <label for="minimal1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="minimal2" name="minimal">
+                <span class="radio-custom"></span>
+                <label for="minimal2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 15. 发光球体 -->
+        <div class="radio-group glow">
+            <div class="group-title">15. 发光球体</div>
+            <div class="radio-item">
+                <input type="radio" id="glow1" name="glow" checked>
+                <span class="radio-custom"></span>
+                <label for="glow1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="glow2" name="glow">
+                <span class="radio-custom"></span>
+                <label for="glow2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 16. 金属质感 -->
+        <div class="radio-group metal">
+            <div class="group-title">16. 金属质感</div>
+            <div class="radio-item">
+                <input type="radio" id="metal1" name="metal" checked>
+                <span class="radio-custom"></span>
+                <label for="metal1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="metal2" name="metal">
+                <span class="radio-custom"></span>
+                <label for="metal2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 17. 玻璃效果 -->
+        <div class="radio-group glass">
+            <div class="group-title">17. 玻璃效果</div>
+            <div class="radio-item">
+                <input type="radio" id="glass1" name="glass" checked>
+                <span class="radio-custom"></span>
+                <label for="glass1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="glass2" name="glass">
+                <span class="radio-custom"></span>
+                <label for="glass2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 18. 动态粒子 -->
+        <div class="radio-group particles">
+            <div class="group-title">18. 动态粒子</div>
+            <div class="radio-item">
+                <input type="radio" id="particles1" name="particles" checked>
+                <span class="radio-custom"></span>
+                <label for="particles1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="particles2" name="particles">
+                <span class="radio-custom"></span>
+                <label for="particles2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 19. 磁流体 -->
+        <div class="radio-group ferrofluid">
+            <div class="group-title">19. 磁流体</div>
+            <div class="radio-item">
+                <input type="radio" id="ferrofluid1" name="ferrofluid" checked>
+                <span class="radio-custom"></span>
+                <label for="ferrofluid1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="ferrofluid2" name="ferrofluid">
+                <span class="radio-custom"></span>
+                <label for="ferrofluid2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 20. 水墨效果 -->
+        <div class="radio-group ink">
+            <div class="group-title">20. 水墨效果</div>
+            <div class="radio-item">
+                <input type="radio" id="ink1" name="ink" checked>
+                <span class="radio-custom"></span>
+                <label for="ink1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="ink2" name="ink">
+                <span class="radio-custom"></span>
+                <label for="ink2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 21-50 使用不同颜色和动画效果 -->
+        <div class="radio-group color1">
+            <div class="group-title">21. 粉红渐变</div>
+            <div class="radio-item">
+                <input type="radio" id="color1-1" name="color1" checked>
+                <span class="radio-custom"></span>
+                <label for="color1-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color1-2" name="color1">
+                <span class="radio-custom"></span>
+                <label for="color1-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color2">
+            <div class="group-title">22. 紫罗兰</div>
+            <div class="radio-item">
+                <input type="radio" id="color2-1" name="color2" checked>
+                <span class="radio-custom"></span>
+                <label for="color2-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color2-2" name="color2">
+                <span class="radio-custom"></span>
+                <label for="color2-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color3">
+            <div class="group-title">23. 深紫</div>
+            <div class="radio-item">
+                <input type="radio" id="color3-1" name="color3" checked>
+                <span class="radio-custom"></span>
+                <label for="color3-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color3-2" name="color3">
+                <span class="radio-custom"></span>
+                <label for="color3-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color4">
+            <div class="group-title">24. 靛蓝</div>
+            <div class="radio-item">
+                <input type="radio" id="color4-1" name="color4" checked>
+                <span class="radio-custom"></span>
+                <label for="color4-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color4-2" name="color4">
+                <span class="radio-custom"></span>
+                <label for="color4-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color5">
+            <div class="group-title">25. 蓝色</div>
+            <div class="radio-item">
+                <input type="radio" id="color5-1" name="color5" checked>
+                <span class="radio-custom"></span>
+                <label for="color5-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color5-2" name="color5">
+                <span class="radio-custom"></span>
+                <label for="color5-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group ripple">
+            <div class="group-title">26. 涟漪效果</div>
+            <div class="radio-item">
+                <input type="radio" id="ripple1" name="ripple" checked>
+                <span class="radio-custom"></span>
+                <label for="ripple1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="ripple2" name="ripple">
+                <span class="radio-custom"></span>
+                <label for="ripple2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group pulse">
+            <div class="group-title">27. 脉冲效果</div>
+            <div class="radio-item">
+                <input type="radio" id="pulse1" name="pulse" checked>
+                <span class="radio-custom"></span>
+                <label for="pulse1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="pulse2" name="pulse">
+                <span class="radio-custom"></span>
+                <label for="pulse2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group bounce">
+            <div class="group-title">28. 弹跳效果</div>
+            <div class="radio-item">
+                <input type="radio" id="bounce1" name="bounce" checked>
+                <span class="radio-custom"></span>
+                <label for="bounce1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="bounce2" name="bounce">
+                <span class="radio-custom"></span>
+                <label for="bounce2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group flip">
+            <div class="group-title">29. 翻转效果</div>
+            <div class="radio-item">
+                <input type="radio" id="flip1" name="flip" checked>
+                <span class="radio-custom"></span>
+                <label for="flip1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="flip2" name="flip">
+                <span class="radio-custom"></span>
+                <label for="flip2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group slide">
+            <div class="group-title">30. 滑动效果</div>
+            <div class="radio-item">
+                <input type="radio" id="slide1" name="slide" checked>
+                <span class="radio-custom"></span>
+                <label for="slide1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="slide2" name="slide">
+                <span class="radio-custom"></span>
+                <label for="slide2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group rotate">
+            <div class="group-title">31. 旋转效果</div>
+            <div class="radio-item">
+                <input type="radio" id="rotate1" name="rotate" checked>
+                <span class="radio-custom"></span>
+                <label for="rotate1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="rotate2" name="rotate">
+                <span class="radio-custom"></span>
+                <label for="rotate2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group scale">
+            <div class="group-title">32. 缩放效果</div>
+            <div class="radio-item">
+                <input type="radio" id="scale1" name="scale" checked>
+                <span class="radio-custom"></span>
+                <label for="scale1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="scale2" name="scale">
+                <span class="radio-custom"></span>
+                <label for="scale2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group skew">
+            <div class="group-title">33. 倾斜效果</div>
+            <div class="radio-item">
+                <input type="radio" id="skew1" name="skew" checked>
+                <span class="radio-custom"></span>
+                <label for="skew1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="skew2" name="skew">
+                <span class="radio-custom"></span>
+                <label for="skew2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group wobble">
+            <div class="group-title">34. 摇摆效果</div>
+            <div class="radio-item">
+                <input type="radio" id="wobble1" name="wobble" checked>
+                <span class="radio-custom"></span>
+                <label for="wobble1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="wobble2" name="wobble">
+                <span class="radio-custom"></span>
+                <label for="wobble2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group swing">
+            <div class="group-title">35. 摇摆效果</div>
+            <div class="radio-item">
+                <input type="radio" id="swing1" name="swing" checked>
+                <span class="radio-custom"></span>
+                <label for="swing1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="swing2" name="swing">
+                <span class="radio-custom"></span>
+                <label for="swing2">选项二</label>
+            </div>
+        </div>
+
+        <!-- 更多颜色效果 -->
+        <div class="radio-group color6">
+            <div class="group-title">36. 浅蓝</div>
+            <div class="radio-item">
+                <input type="radio" id="color6-1" name="color6" checked>
+                <span class="radio-custom"></span>
+                <label for="color6-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color6-2" name="color6">
+                <span class="radio-custom"></span>
+                <label for="color6-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color7">
+            <div class="group-title">37. 青色</div>
+            <div class="radio-item">
+                <input type="radio" id="color7-1" name="color7" checked>
+                <span class="radio-custom"></span>
+                <label for="color7-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color7-2" name="color7">
+                <span class="radio-custom"></span>
+                <label for="color7-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color8">
+            <div class="group-title">38. 绿松石</div>
+            <div class="radio-item">
+                <input type="radio" id="color8-1" name="color8" checked>
+                <span class="radio-custom"></span>
+                <label for="color8-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color8-2" name="color8">
+                <span class="radio-custom"></span>
+                <label for="color8-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color9">
+            <div class="group-title">39. 绿色</div>
+            <div class="radio-item">
+                <input type="radio" id="color9-1" name="color9" checked>
+                <span class="radio-custom"></span>
+                <label for="color9-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color9-2" name="color9">
+                <span class="radio-custom"></span>
+                <label for="color9-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color10">
+            <div class="group-title">40. 草绿</div>
+            <div class="radio-item">
+                <input type="radio" id="color10-1" name="color10" checked>
+                <span class="radio-custom"></span>
+                <label for="color10-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color10-2" name="color10">
+                <span class="radio-custom"></span>
+                <label for="color10-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color11">
+            <div class="group-title">41. 柠檬黄</div>
+            <div class="radio-item">
+                <input type="radio" id="color11-1" name="color11" checked>
+                <span class="radio-custom"></span>
+                <label for="color11-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color11-2" name="color11">
+                <span class="radio-custom"></span>
+                <label for="color11-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color12">
+            <div class="group-title">42. 亮黄</div>
+            <div class="radio-item">
+                <input type="radio" id="color12-1" name="color12" checked>
+                <span class="radio-custom"></span>
+                <label for="color12-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color12-2" name="color12">
+                <span class="radio-custom"></span>
+                <label for="color12-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color13">
+            <div class="group-title">43. 琥珀色</div>
+            <div class="radio-item">
+                <input type="radio" id="color13-1" name="color13" checked>
+                <span class="radio-custom"></span>
+                <label for="color13-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color13-2" name="color13">
+                <span class="radio-custom"></span>
+                <label for="color13-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color14">
+            <div class="group-title">44. 橙色</div>
+            <div class="radio-item">
+                <input type="radio" id="color14-1" name="color14" checked>
+                <span class="radio-custom"></span>
+                <label for="color14-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color14-2" name="color14">
+                <span class="radio-custom"></span>
+                <label for="color14-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color15">
+            <div class="group-title">45. 深橙</div>
+            <div class="radio-item">
+                <input type="radio" id="color15-1" name="color15" checked>
+                <span class="radio-custom"></span>
+                <label for="color15-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color15-2" name="color15">
+                <span class="radio-custom"></span>
+                <label for="color15-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color16">
+            <div class="group-title">46. 棕色</div>
+            <div class="radio-item">
+                <input type="radio" id="color16-1" name="color16" checked>
+                <span class="radio-custom"></span>
+                <label for="color16-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color16-2" name="color16">
+                <span class="radio-custom"></span>
+                <label for="color16-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color17">
+            <div class="group-title">47. 灰色</div>
+            <div class="radio-item">
+                <input type="radio" id="color17-1" name="color17" checked>
+                <span class="radio-custom"></span>
+                <label for="color17-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color17-2" name="color17">
+                <span class="radio-custom"></span>
+                <label for="color17-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color18">
+            <div class="group-title">48. 蓝灰</div>
+            <div class="radio-item">
+                <input type="radio" id="color18-1" name="color18" checked>
+                <span class="radio-custom"></span>
+                <label for="color18-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color18-2" name="color18">
+                <span class="radio-custom"></span>
+                <label for="color18-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color19">
+            <div class="group-title">49. 桃红渐变</div>
+            <div class="radio-item">
+                <input type="radio" id="color19-1" name="color19" checked>
+                <span class="radio-custom"></span>
+                <label for="color19-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color19-2" name="color19">
+                <span class="radio-custom"></span>
+                <label for="color19-2">选项二</label>
+            </div>
+        </div>
+
+        <div class="radio-group color20">
+            <div class="group-title">50. 天空渐变</div>
+            <div class="radio-item">
+                <input type="radio" id="color20-1" name="color20" checked>
+                <span class="radio-custom"></span>
+                <label for="color20-1">选项一</label>
+            </div>
+            <div class="radio-item">
+                <input type="radio" id="color20-2" name="color20">
+                <span class="radio-custom"></span>
+                <label for="color20-2">选项二</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加交互效果增强
+        document.querySelectorAll('.radio-item').forEach(item => {
+            item.addEventListener('click', function () {
+                // 移除同组所有选中状态
+                const groupName = this.querySelector('input').name;
+                document.querySelectorAll(`input[name="${groupName}"]`).forEach(input => {
+                    input.closest('.radio-item').classList.remove('selected');
+                });
+
+                // 添加当前选中状态
+                this.classList.add('selected');
+            });
+        });
+
+        // 初始化第一个选项为选中状态
+        document.querySelectorAll('.radio-group').forEach(group => {
+            const firstRadio = group.querySelector('input[type="radio"]');
+            if (firstRadio) {
+                firstRadio.checked = true;
+                firstRadio.closest('.radio-item').classList.add('selected');
+            }
+        });
+    </script>
+</body>
+</html>

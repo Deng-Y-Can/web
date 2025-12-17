@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20种高级感滑块效果</title>
+    <style>
+        :root {
+            --primary-color: #8A2BE2;
+            --secondary-color: #00BFFF;
+            --accent-color: #FF1493;
+            --dark-bg: #121212;
+            --light-text: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .sliders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .slider-container {
+            background: rgba(30, 30, 46, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .slider-container:hover {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+                border-color: rgba(255, 255, 255, 0.3);
+            }
+
+        .slider-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #e0e0ff;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+            .slider-title::before {
+                content: "■";
+                margin-right: 10px;
+                color: var(--accent-color);
+                font-size: 0.8em;
+            }
+
+        /* --- 滑块通用基础样式 --- */
+        .slider-effect {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 10px;
+            border-radius: 5px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+            .slider-effect::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                cursor: pointer;
+                box-shadow: 0 0 10px var(--primary-color);
+                transition: all 0.3s ease;
+            }
+
+            .slider-effect::-moz-range-thumb {
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 0 10px var(--primary-color);
+            }
+
+        /* --- 1. 全息投影 --- */
+        .hologram-slider::-webkit-slider-thumb {
+            background: transparent;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, inset 0 0 10px #00ffff;
+            width: 30px;
+            height: 30px;
+        }
+
+        .hologram-slider::-moz-range-thumb {
+            background: transparent;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, inset 0 0 10px #00ffff;
+            width: 30px;
+            height: 30px;
+        }
+
+        /* --- 2. 粒子爆炸 --- */
+        .explosion-slider-container {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .explosion-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- 3. 霓虹灯闪烁 --- */
+        .neon-blink-slider::-webkit-slider-thumb {
+            background: #ff00ff;
+            box-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+
+        .neon-blink-slider::-moz-range-thumb {
+            background: #ff00ff;
+            box-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from {
+                box-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff, 0 0 30px #ff00ff;
+            }
+
+            to {
+                box-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff, 0 0 40px #ff00ff;
+            }
+        }
+
+        /* --- 4. 金属质感滚动 --- */
+        .metal-slider::-webkit-slider-thumb {
+            background: linear-gradient(145deg, #c0c0c0, #a9a9a9);
+            border: 1px solid #888;
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.5), inset -2px -2px 5px rgba(0,0,0,0.3), 0 0 10px rgba(192, 192, 192, 0.7);
+        }
+
+        .metal-slider::-moz-range-thumb {
+            background: linear-gradient(145deg, #c0c0c0, #a9a9a9);
+            border: 1px solid #888;
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.5), inset -2px -2px 5px rgba(0,0,0,0.3), 0 0 10px rgba(192, 192, 192, 0.7);
+        }
+
+        /* --- 5. 水墨扩散 --- */
+        .ink-diffusion-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #000000, #333333, #000000);
+            height: 10px;
+        }
+
+        .ink-diffusion-slider::-moz-range-track {
+            background: linear-gradient(to right, #000000, #333333, #000000);
+            height: 10px;
+        }
+
+        /* --- 6. 星空漫游 --- */
+        .starfield-slider-container {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100"><circle cx="20" cy="30" r="1" fill="white" opacity="0.8"/><circle cx="50" cy="70" r="1.5" fill="white" opacity="0.6"/><circle cx="100" cy="20" r="1" fill="white" opacity="0.9"/><circle cx="150" cy="80" r="1.2" fill="white" opacity="0.7"/><circle cx="180" cy="40" r="1" fill="white" opacity="0.8"/></svg>');
+            background-size: cover;
+        }
+
+        .starfield-slider::-webkit-slider-thumb {
+            background: #ffffff;
+            box-shadow: 0 0 5px #ffffff, 0 0 15px #87ceeb;
+        }
+
+        .starfield-slider::-moz-range-thumb {
+            background: #ffffff;
+            box-shadow: 0 0 5px #ffffff, 0 0 15px #87ceeb;
+        }
+
+        /* --- 7. 镜面反射 --- */
+        .mirror-slider::-webkit-slider-thumb {
+            background: #ffffff;
+            border: 2px solid #cccccc;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        .mirror-slider::-moz-range-thumb {
+            background: #ffffff;
+            border: 2px solid #cccccc;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        /* --- 8. 彩虹桥连接 --- */
+        .rainbow-bridge-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            height: 6px;
+        }
+
+        .rainbow-bridge-slider::-moz-range-track {
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            height: 6px;
+        }
+
+        .rainbow-bridge-slider::-webkit-slider-thumb {
+            background: white;
+            border: 2px solid black;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .rainbow-bridge-slider::-moz-range-thumb {
+            background: white;
+            border: 2px solid black;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* --- 9. 玻璃破碎 --- */
+        .glass-break-slider-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 L30,40 M40,30 L50,50 M60,40 L70,60 M80,50 L90,70" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>');
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .glass-break-slider-container.glass-broken::after {
+            opacity: 1;
+        }
+
+        /* --- 10. 水银流动 --- */
+        .mercury-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #a9a9a9, #696969);
+            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+            width: 30px;
+            height: 20px;
+            box-shadow: 0 0 10px rgba(169, 169, 169, 0.8);
+        }
+
+        .mercury-slider::-moz-range-thumb {
+            background: linear-gradient(135deg, #a9a9a9, #696969);
+            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+            width: 30px;
+            height: 20px;
+            box-shadow: 0 0 10px rgba(169, 169, 169, 0.8);
+        }
+
+        /* --- 11. 火焰龙卷风 --- */
+        .fire-tornado-slider-container::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            width: 40px;
+            height: 60px;
+            background: conic-gradient(from 0deg, transparent, #ff4500, #ff0000, transparent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .fire-tornado-slider-container.fire-active::before {
+            opacity: 0.7;
+        }
+
+        /* --- 12. 极光幕布 --- */
+        .aurora-slider-container {
+            background: linear-gradient(0deg, #0f0c29, #302b63, #24243e);
+        }
+
+        .aurora-slider::-webkit-slider-thumb {
+            background: #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #7b68ee;
+        }
+
+        .aurora-slider::-moz-range-thumb {
+            background: #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #7b68ee;
+        }
+
+        /* --- 13. 电流环绕 --- */
+        .electric-slider-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: repeating-linear-gradient( to right, #00bfff, #00bfff 10px, transparent 10px, transparent 20px );
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .electric-slider-container.electric-active::before {
+            opacity: 0.8;
+        }
+
+        .electric-slider::-webkit-slider-thumb {
+            background: #000;
+            border: 2px solid #00bfff;
+            box-shadow: 0 0 10px #00bfff;
+        }
+
+        .electric-slider::-moz-range-thumb {
+            background: #000;
+            border: 2px solid #00bfff;
+            box-shadow: 0 0 10px #00bfff;
+        }
+
+        /* --- 14. 花瓣绽放 --- */
+        .bloom-slider-container::after {
+            content: "🌸";
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        .bloom-slider-container.bloomed::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- 15. 气泡上升 --- */
+        .bubble-slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -20px;
+            width: 10px;
+            height: 10px;
+            background: rgba(173, 216, 230, 0.5);
+            border-radius: 50%;
+            animation: bubbleRise 3s infinite ease-in;
+        }
+
+        @keyframes bubbleRise {
+            to {
+                transform: translateY(-120px);
+                opacity: 0;
+            }
+        }
+
+        /* --- 16. 雨滴涟漪 --- */
+        .ripple-slider-container {
+            position: relative;
+        }
+
+        .ripple-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #1e90ff;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .ripple {
+            position: absolute;
+            border: 2px solid #1e90ff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+        }
+
+        .ripple-animate {
+            animation: rippleEffect 1s forwards;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* --- 17. 熔岩流淌 --- */
+        .lava-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #8b0000, #ff4500, #ffa500);
+            height: 8px;
+        }
+
+        .lava-slider::-moz-range-track {
+            background: linear-gradient(to right, #8b0000, #ff4500, #ffa500);
+            height: 8px;
+        }
+
+        /* --- 18. 羽毛轻飘 --- */
+        .feather-slider-container::after {
+            content: "🪶";
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .feather-slider-container.feathered::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 19. 冰晶生长 --- */
+        .ice-crystal-slider-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid rgba(175, 238, 238, 0.7);
+            transform: translate(-50%, -50%) rotate(0deg);
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .ice-crystal-slider-container.crystallized::before {
+            opacity: 1;
+            transform: translate(-50%, -50%) rotate(180deg);
+        }
+
+        /* --- 20. 幻影分身 --- */
+        .phantom-slider-container {
+            position: relative;
+        }
+
+        .phantom-slider::-webkit-slider-thumb {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phantom {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(138, 43, 226, 0.3);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .sliders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>20种高级感滑块效果</h1>
+            <p class="subtitle">双击打开此网页，体验融合了3D感、动态美、艺术感和电影感的炫酷滑块设计</p>
+        </header>
+
+        <div class="sliders-grid">
+            <!-- 1. 全息投影 -->
+            <div class="slider-container">
+                <div class="slider-title">全息投影</div>
+                <input type="range" class="slider-effect hologram-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 2. 粒子爆炸 -->
+            <div class="slider-container explosion-slider-container">
+                <div class="slider-title">粒子爆炸</div>
+                <input type="range" class="slider-effect explosion-slider" min="0" max="100" value="50">
+                <div class="explosion-particles"></div>
+            </div>
+
+            <!-- 3. 霓虹灯闪烁 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹灯闪烁</div>
+                <input type="range" class="slider-effect neon-blink-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 4. 金属质感滚动 -->
+            <div class="slider-container">
+                <div class="slider-title">金属质感滚动</div>
+                <input type="range" class="slider-effect metal-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 5. 水墨扩散 -->
+            <div class="slider-container">
+                <div class="slider-title">水墨扩散</div>
+                <input type="range" class="slider-effect ink-diffusion-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 6. 星空漫游 -->
+            <div class="slider-container starfield-slider-container">
+                <div class="slider-title">星空漫游</div>
+                <input type="range" class="slider-effect starfield-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 7. 镜面反射 -->
+            <div class="slider-container">
+                <div class="slider-title">镜面反射</div>
+                <input type="range" class="slider-effect mirror-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 8. 彩虹桥连接 -->
+            <div class="slider-container">
+                <div class="slider-title">彩虹桥连接</div>
+                <input type="range" class="slider-effect rainbow-bridge-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 9. 玻璃破碎 -->
+            <div class="slider-container glass-break-slider-container">
+                <div class="slider-title">玻璃破碎</div>
+                <input type="range" class="slider-effect glass-break-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 10. 水银流动 -->
+            <div class="slider-container">
+                <div class="slider-title">水银流动</div>
+                <input type="range" class="slider-effect mercury-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 11. 火焰龙卷风 -->
+            <div class="slider-container fire-tornado-slider-container">
+                <div class="slider-title">火焰龙卷风</div>
+                <input type="range" class="slider-effect fire-tornado-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 12. 极光幕布 -->
+            <div class="slider-container aurora-slider-container">
+                <div class="slider-title">极光幕布</div>
+                <input type="range" class="slider-effect aurora-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 13. 电流环绕 -->
+            <div class="slider-container electric-slider-container">
+                <div class="slider-title">电流环绕</div>
+                <input type="range" class="slider-effect electric-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 14. 花瓣绽放 -->
+            <div class="slider-container bloom-slider-container">
+                <div class="slider-title">花瓣绽放</div>
+                <input type="range" class="slider-effect bloom-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 15. 气泡上升 -->
+            <div class="slider-container bubble-slider-container">
+                <div class="slider-title">气泡上升</div>
+                <input type="range" class="slider-effect bubble-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 16. 雨滴涟漪 -->
+            <div class="slider-container ripple-slider-container">
+                <div class="slider-title">雨滴涟漪</div>
+                <input type="range" class="slider-effect ripple-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 17. 熔岩流淌 -->
+            <div class="slider-container">
+                <div class="slider-title">熔岩流淌</div>
+                <input type="range" class="slider-effect lava-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 18. 羽毛轻飘 -->
+            <div class="slider-container feather-slider-container">
+                <div class="slider-title">羽毛轻飘</div>
+                <input type="range" class="slider-effect feather-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 19. 冰晶生长 -->
+            <div class="slider-container ice-crystal-slider-container">
+                <div class="slider-title">冰晶生长</div>
+                <input type="range" class="slider-effect ice-crystal-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 20. 幻影分身 -->
+            <div class="slider-container phantom-slider-container">
+                <div class="slider-title">幻影分身</div>
+                <input type="range" class="slider-effect phantom-slider" min="0" max="100" value="50">
+            </div>
+        </div>
+
+        <footer>
+            <p>20种独特高级滑块效果 | 双击打开此网页体验所有效果</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 2. 粒子爆炸
+            const explosionSlider = document.querySelector('.explosion-slider');
+            const particlesContainer = document.querySelector('.explosion-particles');
+
+            explosionSlider.addEventListener('mousedown', () => {
+                createExplosion(particlesContainer, explosionSlider.value);
+            });
+
+            // 9. 玻璃破碎
+            const glassBreakSlider = document.querySelector('.glass-break-slider');
+            const glassContainer = glassBreakSlider.closest('.glass-break-slider-container');
+
+            glassBreakSlider.addEventListener('mouseup', () => {
+                glassContainer.classList.add('glass-broken');
+                setTimeout(() => {
+                    glassContainer.classList.remove('glass-broken');
+                }, 1000);
+            });
+
+            // 11. 火焰龙卷风
+            const fireTornadoSlider = document.querySelector('.fire-tornado-slider');
+            const fireContainer = fireTornadoSlider.closest('.fire-tornado-slider-container');
+
+            fireTornadoSlider.addEventListener('input', () => {
+                const rect = fireTornadoSlider.getBoundingClientRect();
+                const thumbPos = (fireTornadoSlider.value / 100) * rect.width;
+                fireContainer.style.setProperty('--thumb-pos', `${thumbPos}px`);
+                fireContainer.classList.add('fire-active');
+            });
+
+            fireTornadoSlider.addEventListener('mouseup', () => {
+                setTimeout(() => {
+                    fireContainer.classList.remove('fire-active');
+                }, 300);
+            });
+
+            // 13. 电流环绕
+            const electricSlider = document.querySelector('.electric-slider');
+            const electricContainer = electricSlider.closest('.electric-slider-container');
+
+            electricSlider.addEventListener('input', () => {
+                electricContainer.classList.add('electric-active');
+            });
+
+            electricSlider.addEventListener('mouseup', () => {
+                setTimeout(() => {
+                    electricContainer.classList.remove('electric-active');
+                }, 300);
+            });
+
+            // 14. 花瓣绽放
+            const bloomSlider = document.querySelector('.bloom-slider');
+            const bloomContainer = bloomSlider.closest('.bloom-slider-container');
+
+            bloomSlider.addEventListener('mouseup', () => {
+                const rect = bloomSlider.getBoundingClientRect();
+                const thumbPos = (bloomSlider.value / 100) * rect.width;
+                bloomContainer.style.left = `${rect.left + thumbPos}px`;
+                bloomContainer.style.top = `${rect.top}px`;
+
+                bloomContainer.classList.add('bloomed');
+                setTimeout(() => {
+                    bloomContainer.classList.remove('bloomed');
+                }, 1500);
+            });
+
+            // 15. 气泡上升
+            const bubbleSlider = document.querySelector('.bubble-slider');
+            const bubbleContainer = bubbleSlider.closest('.bubble-slider-container');
+
+            let bubbleInterval;
+            bubbleSlider.addEventListener('input', () => {
+                if (!bubbleInterval) {
+                    bubbleInterval = setInterval(() => {
+                        createBubble(bubbleContainer);
+                    }, 300);
+                }
+            });
+
+            bubbleSlider.addEventListener('mouseup', () => {
+                clearInterval(bubbleInterval);
+                bubbleInterval = null;
+            });
+
+            // 16. 雨滴涟漪
+            const rippleSlider = document.querySelector('.ripple-slider');
+            const rippleContainer = rippleSlider.closest('.ripple-slider-container');
+
+            rippleSlider.addEventListener('input', (e) => {
+                const rect = rippleSlider.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                const xPos = percent * rect.width;
+
+                createRipple(rippleContainer, xPos, rect.height / 2);
+            });
+
+            // 18. 羽毛轻飘
+            const featherSlider = document.querySelector('.feather-slider');
+            const featherContainer = featherSlider.closest('.feather-slider-container');
+
+            featherSlider.addEventListener('mouseup', () => {
+                const rect = featherSlider.getBoundingClientRect();
+                const thumbPos = (featherSlider.value / 100) * rect.width;
+                featherContainer.style.left = `${rect.left + thumbPos}px`;
+                featherContainer.style.top = `${rect.top}px`;
+
+                featherContainer.classList.add('feathered');
+                setTimeout(() => {
+                    featherContainer.classList.remove('feathered');
+                }, 2000);
+            });
+
+            // 19. 冰晶生长
+            const iceCrystalSlider = document.querySelector('.ice-crystal-slider');
+            const iceContainer = iceCrystalSlider.closest('.ice-crystal-slider-container');
+
+            iceCrystalSlider.addEventListener('mouseup', () => {
+                iceContainer.classList.add('crystallized');
+                setTimeout(() => {
+                    iceContainer.classList.remove('crystallized');
+                }, 2000);
+            });
+
+            // 20. 幻影分身
+            const phantomSlider = document.querySelector('.phantom-slider');
+            const phantomContainer = phantomSlider.closest('.phantom-slider-container');
+
+            phantomSlider.addEventListener('input', () => {
+                updatePhantoms(phantomContainer, phantomSlider);
+            });
+
+        });
+
+        // 工具函数
+        function createExplosion(container, value) {
+            container.innerHTML = ''; // Clear previous particles
+            const particleCount = 30 + Math.floor(value / 2);
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                const size = Math.random() * 10 + 2;
+                const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 2 + Math.random() * 3;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+
+                container.appendChild(particle);
+
+                // Animate particle
+                let posX = 50;
+                let posY = 50;
+                const animate = () => {
+                    posX += vx;
+                    posY += vy;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+
+                    // Fade out
+                    const currentOpacity = parseFloat(getComputedStyle(particle).opacity);
+                    if (currentOpacity > 0) {
+                        particle.style.opacity = currentOpacity - 0.02;
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function createBubble(container) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+
+            const startX = Math.random() * 100;
+            bubble.style.left = `${startX}%`;
+
+            const duration = 2 + Math.random() * 3;
+            bubble.style.animationDuration = `${duration}s`;
+
+            container.appendChild(bubble);
+
+            // Remove bubble after animation
+            setTimeout(() => {
+                bubble.remove();
+            }, duration * 1000);
+        }
+
+        function createRipple(container, x, y) {
+            const point = document.createElement('div');
+            point.classList.add('ripple-point');
+            point.style.left = `${x}px`;
+            point.style.top = `${y}px`;
+            container.appendChild(point);
+
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            container.appendChild(ripple);
+
+            // Trigger reflow to restart animation
+            ripple.offsetHeight;
+            ripple.classList.add('ripple-animate');
+
+            // Clean up elements
+            setTimeout(() => {
+                point.remove();
+                ripple.remove();
+            }, 1000);
+        }
+
+        function updatePhantoms(container, slider) {
+            // Clear existing phantoms
+            const existingPhantoms = container.querySelectorAll('.phantom');
+            existingPhantoms.forEach(p => p.remove());
+
+            const rect = slider.getBoundingClientRect();
+            const thumbPos = (slider.value / 100) * rect.width;
+
+            // Create phantoms with delays
+            for (let i = 1; i <= 3; i++) {
+                setTimeout(() => {
+                    const phantom = document.createElement('div');
+                    phantom.classList.add('phantom');
+
+                    // Position slightly behind the main thumb
+                    const offset = i * 5;
+                    phantom.style.left = `${thumbPos - offset}px`;
+                    phantom.style.top = '0px';
+
+                    container.appendChild(phantom);
+
+                    // Fade out and remove
+                    setTimeout(() => {
+                        phantom.style.transition = 'opacity 0.5s ease';
+                        phantom.style.opacity = '0';
+                        setTimeout(() => phantom.remove(), 500);
+                    }, 100);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>  

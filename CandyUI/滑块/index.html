@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50种炫酷滑块效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sliders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .slider-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3t ease;
+        }
+
+            .slider-container:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            }
+
+        .slider-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e0e0ff;
+            display: flex;
+            align-items: center;
+        }
+
+            .slider-title::before {
+                content: "#";
+                margin-right: 8px;
+                color: #ff7e5f;
+            }
+
+        /* 基础滑块样式 */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            outline: none;
+        }
+
+            /* 滑块轨道样式 */
+            input[type="range"]::-webkit-slider-runnable-track {
+                height: 8px;
+                border-radius: 10px;
+            }
+
+            input[type="range"]::-moz-range-track {
+                height: 8px;
+                border-radius: 10px;
+            }
+
+            /* 滑块拇指样式 */
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                height: 22px;
+                width: 22px;
+                border-radius: 50%;
+                background: #ff7e5f;
+                cursor: pointer;
+                box-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
+                margin-top: -7px;
+                transition: all 0.2s ease;
+            }
+
+            input[type="range"]::-moz-range-thumb {
+                height: 22px;
+                width: 22px;
+                border-radius: 50%;
+                background: #ff7e5f;
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
+            }
+
+        /* 特效滑块样式 */
+        /* 1. 发光滑块 */
+        .glow-slider::-webkit-slider-thumb {
+            background: #00c9ff;
+            box-shadow: 0 0 15px #00c9ff, 0 0 30px #00c9ff;
+        }
+
+        /* 2. 渐变滑块 */
+        .gradient-slider {
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+        }
+
+        /* 3. 3D立体滑块 */
+        .slider-3d {
+            perspective: 100px;
+        }
+
+            .slider-3d input[type="range"] {
+                transform: rotateX(45deg);
+                transform-origin: center;
+            }
+
+            .slider-3d::-webkit-slider-thumb {
+                background: #86a8e7;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+            }
+
+        /* 4. 荧光笔效果 */
+        .neon-slider::-webkit-slider-thumb {
+            background: #91eae4;
+            box-shadow: 0 0 0 2px #1a1a2e, 0 0 10px #91eae4, 0 0 20px #91eae4;
+        }
+
+        /* 5. 粒子效果 */
+        .particle-slider {
+            position: relative;
+        }
+
+            .particle-slider::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 0%;
+                height: 2px;
+                background: linear-gradient(90deg, #ff7e5f, #feb47b);
+                transition: width 0.3s ease;
+                pointer-events: none;
+            }
+
+            .particle-slider input[type="range"]:focus ~ ::after {
+                width: 100%;
+            }
+
+        /* 6. 赛博朋克 */
+        .cyberpunk-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff0058, #00f2ea);
+        }
+
+        .cyberpunk-slider::-webkit-slider-thumb {
+            background: #000;
+            border: 2px solid #00f2ea;
+            box-shadow: 0 0 10px #00f2ea;
+        }
+
+        /* 7. 极简主义 */
+        .minimal-slider::-webkit-slider-runnable-track {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .minimal-slider::-webkit-slider-thumb {
+            background: white;
+            box-shadow: none;
+            border: 2px solid #1a1a2e;
+        }
+
+        /* 8. 复古胶片 */
+        .film-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #d4af37, #c5b358);
+        }
+
+        .film-slider::-webkit-slider-thumb {
+            background: #1a1a2e;
+            border: 2px solid #d4af37;
+        }
+
+        /* 9. 液态金属 */
+        .liquid-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #c0c0c0, #a9a9a9);
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(192, 192, 192, 0.8);
+        }
+
+        /* 10. 霓虹灯 */
+        .neon-light-slider::-webkit-slider-runnable-track {
+            background: #1a1a2e;
+        }
+
+        .neon-light-slider::-webkit-slider-thumb {
+            background: #ff00ff;
+            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+        }
+
+        /* 11. 玻璃拟态 */
+        .glass-slider {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+            .glass-slider::-webkit-slider-thumb {
+                background: rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            }
+
+        /* 12. 未来科技 */
+        .tech-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #00dbde, #fc00ff);
+        }
+
+        .tech-slider::-webkit-slider-thumb {
+            background: #000;
+            border: 2px solid #00dbde;
+            box-shadow: 0 0 15px #00dbde;
+        }
+
+        /* 13. 水墨画 */
+        .ink-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #0a0a0a, #3a3a3a);
+        }
+
+        .ink-slider::-webkit-slider-thumb {
+            background: radial-gradient(circle, #ffffff, #0a0a0a);
+            border: 1px solid #ffffff;
+        }
+
+        /* 14. 星空 */
+        .starry-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+        }
+
+        .starry-slider::-webkit-slider-thumb {
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #8a2be2;
+        }
+
+        /* 15. 火焰 */
+        .fire-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        }
+
+        .fire-slider::-webkit-slider-thumb {
+            background: #ff0000;
+            box-shadow: 0 0 15px #ff416c;
+        }
+
+        /* 16. 冰霜 */
+        .frost-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #a8edea, #fed6e3);
+        }
+
+        .frost-slider::-webkit-slider-thumb {
+            background: #e0f7fa;
+            box-shadow: 0 0 10px #a8edea;
+        }
+
+        /* 17. 金属质感 */
+        .metal-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #d4d4d4, #a0a0a0);
+            border-radius: 50%;
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* 18. 荧光绿 */
+        .toxic-slider::-webkit-slider-runnable-track {
+            background: #0a1929;
+        }
+
+        .toxic-slider::-webkit-slider-thumb {
+            background: #39ff14;
+            box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+        }
+
+        /* 19. 日落 */
+        .sunset-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff5e62, #ff9966);
+        }
+
+        .sunset-slider::-webkit-slider-thumb {
+            background: #ff5e62;
+            box-shadow: 0 0 10px #ff5e62;
+        }
+
+        /* 20. 深海 */
+        .ocean-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #00c9ff, #92fe9d);
+        }
+
+        .ocean-slider::-webkit-slider-thumb {
+            background: #00c9ff;
+            box-shadow: 0 0 10px #00c9ff;
+        }
+
+        /* 21. 黑金 */
+        .black-gold-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #2c2c2c);
+        }
+
+        .black-gold-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #d4af37, #f9f1c7);
+            border: 2px solid #d4af37;
+        }
+
+        /* 22. 彩虹 */
+        .rainbow-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+        }
+
+        .rainbow-slider::-webkit-slider-thumb {
+            background: white;
+            border: 2px solid black;
+        }
+
+        /* 23. 虚拟现实 */
+        .vr-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+        }
+
+        .vr-slider::-webkit-slider-thumb {
+            background: #000;
+            border: 2px solid #8e2de2;
+            box-shadow: 0 0 15px #8e2de2;
+        }
+
+        /* 24. 赛道 */
+        .racing-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #333333);
+        }
+
+        .racing-slider::-webkit-slider-thumb {
+            background: #ff0000;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        /* 25. 霓虹紫 */
+        .purple-neon-slider::-webkit-slider-runnable-track {
+            background: #1a1a2e;
+        }
+
+        .purple-neon-slider::-webkit-slider-thumb {
+            background: #da2fe8;
+            box-shadow: 0 0 10px #da2fe8, 0 0 20px #da2fe8;
+        }
+
+        /* 26. 青柠 */
+        .lime-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #32cd32, #7fff00);
+        }
+
+        .lime-slider::-webkit-slider-thumb {
+            background: #32cd32;
+            box-shadow: 0 0 10px #32cd32;
+        }
+
+        /* 27. 血色 */
+        .blood-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #8b0000, #dc143c);
+        }
+
+        .blood-slider::-webkit-slider-thumb {
+            background: #8b0000;
+            box-shadow: 0 0 10px #8b0000;
+        }
+
+        /* 28. 薄荷 */
+        .mint-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #98ff98, #b0f2b4);
+        }
+
+        .mint-slider::-webkit-slider-thumb {
+            background: #98ff98;
+            box-shadow: 0 0 10px #98ff98;
+        }
+
+        /* 29. 太空黑 */
+        .space-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+        }
+
+        .space-slider::-webkit-slider-thumb {
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        /* 30. 霓虹蓝 */
+        .blue-neon-slider::-webkit-slider-runnable-track {
+            background: #0a0a2a;
+        }
+
+        .blue-neon-slider::-webkit-slider-thumb {
+            background: #00b4ff;
+            box-shadow: 0 0 10px #00b4ff, 0 0 20px #00b4ff;
+        }
+
+        /* 31. 珊瑚 */
+        .coral-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff7f50, #ff6b6b);
+        }
+
+        .coral-slider::-webkit-slider-thumb {
+            background: #ff7f50;
+            box-shadow: 0 0 10px #ff7f50;
+        }
+
+        /* 32. 翡翠 */
+        .emerald-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #50c878, #2e8b57);
+        }
+
+        .emerald-slider::-webkit-slider-thumb {
+            background: #50c878;
+            box-shadow: 0 0 10px #50c878;
+        }
+
+        /* 33. 紫罗兰 */
+        .violet-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #8a2be2, #9400d3);
+        }
+
+        .violet-slider::-webkit-slider-thumb {
+            background: #8a2be2;
+            box-shadow: 0 0 10px #8a2be2;
+        }
+
+        /* 34. 银河 */
+        .galaxy-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #141e30, #243b55);
+        }
+
+        .galaxy-slider::-webkit-slider-thumb {
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #4facfe;
+        }
+
+        /* 35. 烈焰橙 */
+        .flame-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+        }
+
+        .flame-slider::-webkit-slider-thumb {
+            background: #ff416c;
+            box-shadow: 0 0 10px #ff416c;
+        }
+
+        /* 36. 电光蓝 */
+        .electric-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #00c9ff, #92fe9d);
+        }
+
+        .electric-slider::-webkit-slider-thumb {
+            background: #00c9ff;
+            box-shadow: 0 0 10px #00c9ff, 0 0 20px #00c9ff;
+        }
+
+        /* 37. 玫瑰金 */
+        .rose-gold-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #e0b0ff, #f9a8d4);
+        }
+
+        .rose-gold-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #e0b0ff, #f9a8d4);
+            border: 2px solid #e0b0ff;
+        }
+
+        /* 38. 深红 */
+        .crimson-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #8b0000, #dc143c);
+        }
+
+        .crimson-slider::-webkit-slider-thumb {
+            background: #8b0000;
+            box-shadow: 0 0 10px #8b0000;
+        }
+
+        /* 39. 海军蓝 */
+        .navy-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000080, #0000ff);
+        }
+
+        .navy-slider::-webkit-slider-thumb {
+            background: #000080;
+            box-shadow: 0 0 10px #000080;
+        }
+
+        /* 40. 青铜 */
+        .bronze-slider::-webkit-slider-thumb {
+            background: linear-gradient(135deg, #cd7f32, #b87333);
+            border: 2px solid #cd7f32;
+        }
+
+        /* 41. 霓虹粉 */
+        .pink-neon-slider::-webkit-slider-runnable-track {
+            background: #1a1a2e;
+        }
+
+        .pink-neon-slider::-webkit-slider-thumb {
+            background: #ff00ff;
+            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+        }
+
+        /* 42. 橄榄绿 */
+        .olive-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #808000, #9acd32);
+        }
+
+        .olive-slider::-webkit-slider-thumb {
+            background: #808000;
+            box-shadow: 0 0 10px #808000;
+        }
+
+        /* 43. 钴蓝 */
+        .cobalt-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #0047ab, #0096d6);
+        }
+
+        .cobalt-slider::-webkit-slider-thumb {
+            background: #0047ab;
+            box-shadow: 0 0 10px #0047ab;
+        }
+
+        /* 44. 珊瑚红 */
+        .coral-red-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff6b6b, #ff416c);
+        }
+
+        .coral-red-slider::-webkit-slider-thumb {
+            background: #ff6b6b;
+            box-shadow: 0 0 10px #ff6b6b;
+        }
+
+        /* 45. 薰衣草 */
+        .lavender-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #e6e6fa, #dda0dd);
+        }
+
+        .lavender-slider::-webkit-slider-thumb {
+            background: #e6e6fa;
+            box-shadow: 0 0 10px #e6e6fa;
+        }
+
+        /* 46. 深紫 */
+        .deep-purple-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #4b0082, #800080);
+        }
+
+        .deep-purple-slider::-webkit-slider-thumb {
+            background: #4b0082;
+            box-shadow: 0 0 10px #4b0082;
+        }
+
+        /* 47. 青瓷 */
+        .celadon-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #afeeee, #7fffd4);
+        }
+
+        .celadon-slider::-webkit-slider-thumb {
+            background: #afeeee;
+            box-shadow: 0 0 10px #afeeee;
+        }
+
+        /* 48. 琥珀 */
+        .amber-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ffbf00, #ff7e5f);
+        }
+
+        .amber-slider::-webkit-slider-thumb {
+            background: #ffbf00;
+            box-shadow: 0 0 10px #ffbf00;
+        }
+
+        /* 49. 深绿 */
+        .forest-slider::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #228b22, #32cd32);
+        }
+
+        .forest-slider::-webkit-slider-thumb {
+            background: #228b22;
+            box-shadow: 0 0 10px #228b22;
+        }
+
+        /* 50. 霓虹青 */
+        .cyan-neon-slider::-webkit-slider-runnable-track {
+            background: #0a1a1a;
+        }
+
+        .cyan-neon-slider::-webkit-slider-thumb {
+            background: #00ffff;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sliders-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>50种炫酷滑块效果</h1>
+            <p class="subtitle">双击打开此网页，体验各种高级滑块设计：3D效果、动态美学、艺术感、电影感等</p>
+        </header>
+
+        <div class="sliders-grid">
+            <!-- 1. 发光滑块 -->
+            <div class="slider-container">
+                <div class="slider-title">发光滑块</div>
+                <input type="range" class="glow-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 2. 渐变滑块 -->
+            <div class="slider-container">
+                <div class="slider-title">渐变滑块</div>
+                <input type="range" class="gradient-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 3. 3D立体滑块 -->
+            <div class="slider-container slider-3d">
+                <div class="slider-title">3D立体滑块</div>
+                <input type="range" min="0" max="100" value="50">
+            </div>
+
+            <!-- 4. 荧光笔效果 -->
+            <div class="slider-container">
+                <div class="slider-title">荧光笔效果</div>
+                <input type="range" class="neon-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 5. 粒子效果 -->
+            <div class="slider-container particle-slider">
+                <div class="slider-title">粒子效果</div>
+                <input type="range" min="0" max="100" value="50">
+            </div>
+
+            <!-- 6. 赛博朋克 -->
+            <div class="slider-container">
+                <div class="slider-title">赛博朋克</div>
+                <input type="range" class="cyberpunk-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 7. 极简主义 -->
+            <div class="slider-container">
+                <div class="slider-title">极简主义</div>
+                <input type="range" class="minimal-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 8. 复古胶片 -->
+            <div class="slider-container">
+                <div class="slider-title">复古胶片</div>
+                <input type="range" class="film-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 9. 液态金属 -->
+            <div class="slider-container">
+                <div class="slider-title">液态金属</div>
+                <input type="range" class="liquid-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 10. 霓虹灯 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹灯</div>
+                <input type="range" class="neon-light-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 11. 玻璃拟态 -->
+            <div class="slider-container glass-slider">
+                <div class="slider-title">玻璃拟态</div>
+                <input type="range" min="0" max="100" value="50">
+            </div>
+
+            <!-- 12. 未来科技 -->
+            <div class="slider-container">
+                <div class="slider-title">未来科技</div>
+                <input type="range" class="tech-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 13. 水墨画 -->
+            <div class="slider-container">
+                <div class="slider-title">水墨画</div>
+                <input type="range" class="ink-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 14. 星空 -->
+            <div class="slider-container">
+                <div class="slider-title">星空</div>
+                <input type="range" class="starry-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 15. 火焰 -->
+            <div class="slider-container">
+                <div class="slider-title">火焰</div>
+                <input type="range" class="fire-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 16. 冰霜 -->
+            <div class="slider-container">
+                <div class="slider-title">冰霜</div>
+                <input type="range" class="frost-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 17. 金属质感 -->
+            <div class="slider-container">
+                <div class="slider-title">金属质感</div>
+                <input type="range" class="metal-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 18. 荧光绿 -->
+            <div class="slider-container">
+                <div class="slider-title">荧光绿</div>
+                <input type="range" class="toxic-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 19. 日落 -->
+            <div class="slider-container">
+                <div class="slider-title">日落</div>
+                <input type="range" class="sunset-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 20. 深海 -->
+            <div class="slider-container">
+                <div class="slider-title">深海</div>
+                <input type="range" class="ocean-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 21. 黑金 -->
+            <div class="slider-container">
+                <div class="slider-title">黑金</div>
+                <input type="range" class="black-gold-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 22. 彩虹 -->
+            <div class="slider-container">
+                <div class="slider-title">彩虹</div>
+                <input type="range" class="rainbow-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 23. 虚拟现实 -->
+            <div class="slider-container">
+                <div class="slider-title">虚拟现实</div>
+                <input type="range" class="vr-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 24. 赛道 -->
+            <div class="slider-container">
+                <div class="slider-title">赛道</div>
+                <input type="range" class="racing-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 25. 霓虹紫 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹紫</div>
+                <input type="range" class="purple-neon-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 26. 青柠 -->
+            <div class="slider-container">
+                <div class="slider-title">青柠</div>
+                <input type="range" class="lime-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 27. 血色 -->
+            <div class="slider-container">
+                <div class="slider-title">血色</div>
+                <input type="range" class="blood-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 28. 薄荷 -->
+            <div class="slider-container">
+                <div class="slider-title">薄荷</div>
+                <input type="range" class="mint-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 29. 太空黑 -->
+            <div class="slider-container">
+                <div class="slider-title">太空黑</div>
+                <input type="range" class="space-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 30. 霓虹蓝 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹蓝</div>
+                <input type="range" class="blue-neon-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 31. 珊瑚 -->
+            <div class="slider-container">
+                <div class="slider-title">珊瑚</div>
+                <input type="range" class="coral-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 32. 翡翠 -->
+            <div class="slider-container">
+                <div class="slider-title">翡翠</div>
+                <input type="range" class="emerald-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 33. 紫罗兰 -->
+            <div class="slider-container">
+                <div class="slider-title">紫罗兰</div>
+                <input type="range" class="violet-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 34. 银河 -->
+            <div class="slider-container">
+                <div class="slider-title">银河</div>
+                <input type="range" class="galaxy-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 35. 烈焰橙 -->
+            <div class="slider-container">
+                <div class="slider-title">烈焰橙</div>
+                <input type="range" class="flame-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 36. 电光蓝 -->
+            <div class="slider-container">
+                <div class="slider-title">电光蓝</div>
+                <input type="range" class="electric-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 37. 玫瑰金 -->
+            <div class="slider-container">
+                <div class="slider-title">玫瑰金</div>
+                <input type="range" class="rose-gold-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 38. 深红 -->
+            <div class="slider-container">
+                <div class="slider-title">深红</div>
+                <input type="range" class="crimson-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 39. 海军蓝 -->
+            <div class="slider-container">
+                <div class="slider-title">海军蓝</div>
+                <input type="range" class="navy-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 40. 青铜 -->
+            <div class="slider-container">
+                <div class="slider-title">青铜</div>
+                <input type="range" class="bronze-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 41. 霓虹粉 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹粉</div>
+                <input type="range" class="pink-neon-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 42. 橄榄绿 -->
+            <div class="slider-container">
+                <div class="slider-title">橄榄绿</div>
+                <input type="range" class="olive-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 43. 钴蓝 -->
+            <div class="slider-container">
+                <div class="slider-title">钴蓝</div>
+                <input type="range" class="cobalt-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 44. 珊瑚红 -->
+            <div class="slider-container">
+                <div class="slider-title">珊瑚红</div>
+                <input type="range" class="coral-red-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 45. 薰衣草 -->
+            <div class="slider-container">
+                <div class="slider-title">薰衣草</div>
+                <input type="range" class="lavender-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 46. 深紫 -->
+            <div class="slider-container">
+                <div class="slider-title">深紫</div>
+                <input type="range" class="deep-purple-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 47. 青瓷 -->
+            <div class="slider-container">
+                <div class="slider-title">青瓷</div>
+                <input type="range" class="celadon-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 48. 琥珀 -->
+            <div class="slider-container">
+                <div class="slider-title">琥珀</div>
+                <input type="range" class="amber-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 49. 深绿 -->
+            <div class="slider-container">
+                <div class="slider-title">深绿</div>
+                <input type="range" class="forest-slider" min="0" max="100" value="50">
+            </div>
+
+            <!-- 50. 霓虹青 -->
+            <div class="slider-container">
+                <div class="slider-title">霓虹青</div>
+                <input type="range" class="cyan-neon-slider" min="0" max="100" value="50">
+            </div>
+        </div>
+
+        <footer>
+            <p>50种独特滑块效果 | 双击打开此网页体验所有效果</p>
+        </footer>
+    </div>
+
+    <script>
+        // 添加交互效果
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+            slider.addEventListener('input', function () {
+                // 添加一些动态反馈（可选）
+                this.parentElement.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    this.parentElement.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>  
