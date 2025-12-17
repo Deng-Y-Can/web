@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', monospace;
+            color: white;
+        }
+
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .login-panel {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 440px;
+            padding: 50px 30px;
+            background: rgba(8, 6, 22, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+            .login-panel:hover {
+                transform: translateY(-10px);
+            }
+
+        .title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 300% 300%;
+            animation: titleGlow 4s ease infinite;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+            .input-group input {
+                width: 100%;
+                padding: 16px 20px 16px 56px;
+                background: rgba(15, 10, 35, 0.8);
+                border: 2px solid transparent;
+                border-radius: 16px;
+                color: #fff;
+                font-size: 17px;
+                outline: none;
+                transition: all 0.4s ease;
+            }
+
+                .input-group input:focus {
+                    border-color: #00ffff;
+                    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+                }
+
+            .input-group::before {
+                content: attr(data-icon);
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 20px;
+                color: #8a2be2;
+            }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: 2px solid #ff00ff;
+            border-radius: 16px;
+            color: #ff00ff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+        }
+
+            .btn-login::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 0, 255, 0.1);
+                opacity: 0;
+                transition: opacity 0.4s;
+            }
+
+            .btn-login:hover {
+                background: rgba(255, 0, 255, 0.15);
+                box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+                color: white;
+            }
+
+            .btn-login:active::after {
+                opacity: 1;
+                animation: ripple 0.6s linear;
+            }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            margin-top: 28px;
+            min-height: 24px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #00ffaa;
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.6);
+        }
+
+        .error {
+            color: #ff44aa;
+            text-shadow: 0 0 10px rgba(255, 68, 170, 0.6);
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            .title {
+                font-size: 28px;
+            }
+
+            .login-panel {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scene-container"></div>
+
+    <div class="login-panel">
+        <h1 class="title">NEON CORE</h1>
+        <div class="input-group" data-icon="👤">
+            <input type="text" id="username" placeholder="用户名" autocomplete="off" />
+        </div>
+        <div class="input-group" data-icon="🔒">
+            <input type="password" id="password" placeholder="密码" />
+        </div>
+        <button class="btn-login" onclick="handleLogin()">ACCESS GRANTED</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- 内联 Three.js R128（精简版，仅用于粒子网格） -->
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script>
+  // ========== Three.js 动态背景 ==========
+  const container = document.getElementById('scene-container');
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  const geometry = new THREE.PlaneGeometry(200, 200, 100, 100);
+  geometry.rotateX(-Math.PI / 2);
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x8a2be2,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.15
+  });
+  const plane = new THREE.Mesh(geometry, material);
+  scene.add(plane);
+
+  camera.position.y = 20;
+  camera.position.z = 50;
+
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.01;
+
+    // 波浪变形
+    const vertices = plane.geometry.attributes.position.array;
+    for (let i = 0; i < vertices.length; i += 3) {
+      const x = vertices[i];
+      const z = vertices[i + 2];
+      vertices[i + 1] = Math.sin(x * 0.2 + time) * 3 + Math.cos(z * 0.2 + time * 0.7) * 2;
+    }
+    plane.geometry.attributes.position.needsUpdate = true;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // ========== 登录逻辑 ==========
+  function handleLogin() {
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value.trim();
+    const msg = document.getElementById('message');
+
+    if (!u || !p) {
+      msg.className = 'message error';
+      msg.textContent = 'FIELDS REQUIRED';
+      return;
+    }
+
+    if (u === 'admin' && p === 'cyberpunk') {
+      msg.className = 'message success';
+      msg.textContent = 'ACCESS GRANTED ✓';
+    } else {
+      msg.className = 'message error';
+      msg.textContent = 'ACCESS DENIED ✗';
+    }
+  }
+
+  document.addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleLogin();
+  });
+    </script>
+
+</body>
+</html>  

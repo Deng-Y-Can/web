@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON RAIN :: ACCESS GRANTED?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+            color: #0af; /* Neon Blue Base */
+            user-select: none;
+        }
+
+        #glCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .terminal-frame {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            /* Transparent background to let rain show through */
+            background: rgba(10, 5, 20, 0.65);
+            border: 1px solid #ff00ff; /* Magenta Neon */
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.7), /* Magenta Glow */
+            inset 0 0 15px rgba(0, 170, 255, 0.3); /* Inner Blue Glow */
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            /* --- NEW: Pulsating Glows Animation --- */
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), inset 0 0 10px rgba(0, 170, 255, 0.2);
+            }
+
+            100% {
+                box-shadow: 0 0 25px rgba(255, 0, 255, 0.9), inset 0 0 25px rgba(0, 170, 255, 0.5);
+            }
+        }
+
+        /* --- NEW: Animated Scanline --- */
+        .terminal-frame::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(0, 170, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+            animation: scanlineMove 6s linear infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        @keyframes scanlineMove {
+            0% {
+                top: 0;
+                opacity: 0.1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0.1;
+            }
+        }
+
+
+        .terminal-header {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ff00ff; /* Magenta */
+            /* --- UPDATED: More Complex Flicker Animation --- */
+            animation: complexFlicker 0.1s infinite;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 22px;
+        }
+
+        @keyframes complexFlicker {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            }
+
+            25% {
+                opacity: 0.9;
+                text-shadow: 0 0 2px #fff, 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+            }
+
+            50% {
+                opacity: 1.1;
+                text-shadow: 0 0 8px #fff, 0 0 15px #ff00ff, 0 0 25px #ff00ff, 0 0 35px #ff00ff;
+            }
+
+            75% {
+                opacity: 0.85;
+                text-shadow: 0 0 1px #fff, 0 0 3px #ff00ff;
+            }
+        }
+
+
+        .terminal-content {
+            margin-bottom: 25px;
+            white-space: pre-wrap;
+            min-height: 120px;
+            color: #0af; /* Neon Blue */
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
+        }
+
+        .typed-text {
+            border-right: 2px solid #0af;
+            animation: blinkCursor 1s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            from, to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #0af;
+            }
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .prompt {
+            margin-right: 12px;
+            color: #ffcc00; /* Cyber Yellow */
+            text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #0af; /* Neon Blue */
+            color: #0af;
+            font-family: inherit;
+            font-size: 16px;
+            padding: 8px 0;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, text-shadow 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
+        }
+
+            input[type="text"]:focus, input[type="password"]:focus {
+                border-bottom: 1px solid #ff00ff; /* Magenta on focus */
+                box-shadow: 0 1px 8px rgba(255, 0, 255, 0.6);
+                text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+            }
+
+            input[type="text"]::placeholder, input[type="password"]::placeholder {
+                color: #005a80; /* Darker blue for placeholder */
+            }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background: rgba(20, 10, 30, 0.7);
+            color: #ff00ff; /* Magenta */
+            border: 1px solid #0af; /* Neon Blue Border */
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease; /* Faster base transition */
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+            /* --- NEW: Enhanced Button Hover State --- */
+            .btn-submit::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.4), transparent);
+                transition: none;
+                z-index: -1;
+            }
+
+            .btn-submit:hover {
+                background: rgba(40, 20, 60, 0.8);
+                border-color: #ff00ff;
+                box-shadow: 0 0 15px rgba(255, 0, 255, 0.9), 0 0 5px rgba(0, 170, 255, 0.5) inset;
+                text-shadow: 0 0 10px rgba(255, 0, 255, 0.9);
+                transform: translateY(-2px);
+                /* --- Trigger Shine Animation --- */
+                animation: buttonShineHover 0.6s ease-out forwards;
+            }
+
+        @keyframes buttonShineHover {
+            to {
+                transform: translateY(-2px) scale(1.02);
+            }
+        }
+
+        .btn-submit:hover::after {
+            animation: shine 0.6s ease-out;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+
+        /* --- NEW: Enhanced Button Active State --- */
+        .btn-submit:active {
+            animation: buttonPress 0.1s ease-in forwards;
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.7), 0 0 3px rgba(0, 170, 255, 0.3) inset;
+        }
+
+        @keyframes buttonPress {
+            0% {
+                transform: translateY(-2px) scale(1.02);
+            }
+
+            100% {
+                transform: translateY(0) scale(0.98);
+            }
+        }
+
+
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            margin: 20px auto;
+            border: 3px solid rgba(0, 170, 255, 0.3);
+            border-top: 3px solid #ff00ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .message {
+            margin-top: 20px;
+            min-height: 24px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            text-align: center;
+            text-shadow: 0 0 8px currentColor;
+        }
+
+            .message.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        .success {
+            color: #00ffaa; /* Neon Green */
+        }
+
+        .error {
+            color: #ff3300; /* Neon Red/Orange */
+        }
+    </style>
+    <!-- Import Google Font for Cyber Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <canvas id="glCanvas"></canvas>
+
+    <div class="terminal-frame">
+        <div class="terminal-header">&gt;&gt; NEON RAIN ACCESS NODE &lt;&lt;</div>
+        <div class="terminal-content" id="terminalOutput"></div>
+        <div class="input-line">
+            <span class="prompt">USER_ID:</span>
+            <input type="text" id="username" placeholder="[ENTER_HANDLE]" autocomplete="off" />
+        </div>
+        <div class="input-line">
+            <span class="prompt">KEY:</span>
+            <input type="password" id="password" placeholder="[INPUT_CREDENTIALS]" />
+        </div>
+        <div class="btn-submit-container">
+            <button class="btn-submit" id="loginButton" onclick="handleLogin()">INITIATE_LINK</button>
+            <div class="loader" id="loader"></div>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const canvas = document.getElementById('glCanvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+            if (!gl) {
+                document.body.innerHTML = '<div style="color:#ff3300; font-size:24px; text-align:center; margin-top:20%; text-shadow: 0 0 10px rgba(255,51,0,0.7);">WEBGL FAILURE. CONNECTION LOST.</div>';
+                return;
+            }
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+
+            // --- Shader Sources ---
+
+            // --- Rain Vertex Shader ---
+            const rainVSSource = `
+        attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }
+      `;
+
+            // --- Rain Fragment Shader ---
+            const rainFSSource = `
+        precision highp float;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+
+        // Pseudo-random number generator
+        float hash(float n) { return fract(sin(n) * 43758.5453); }
+        float noise(vec2 x) {
+            vec2 p = floor(x);
+            vec2 f = fract(x);
+            f = f * f * (3.0 - 2.0 * f);
+            float n = p.x + p.y * 157.0;
+            return mix(mix(hash(n + 0.0), hash(n + 1.0), f.x),
+                       mix(hash(n + 157.0), hash(n + 158.0), f.x), f.y);
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / uResolution.xy;
+
+            vec3 finalColor = vec3(0.0);
+
+            // --- Background Gradient ---
+            vec3 bgColorTop = vec3(0.02, 0.01, 0.05); // Very dark purple/blue
+            vec3 bgColorBottom = vec3(0.0, 0.0, 0.0); // Pure black
+            finalColor = mix(bgColorBottom, bgColorTop, uv.y);
+
+            // --- Distant City Lights ---
+            // Simulate blurred lights using low-frequency noise
+            float cityLights = noise(uv * vec2(5.0, 2.0) + uTime * 0.05) * 0.1;
+            finalColor += vec3(0.1, 0.05, 0.2) * cityLights;
+
+            // --- Raindrops ---
+            vec2 rainUV = uv;
+            rainUV.x += sin(uv.y * 10.0 + uTime * 2.0) * 0.01; // Slight horizontal sway
+            rainUV *= vec2(200.0, 100.0); // Scale UV for density
+
+            vec2 rainCell = floor(rainUV);
+            vec2 rainFrac = fract(rainUV);
+
+            // Randomize drop properties per cell
+            float rainSeed = rainCell.x * 13.0 + rainCell.y * 7.0;
+            float dropIntensity = hash(rainSeed);
+            float dropSpeed = 0.5 + hash(rainSeed + 1.0) * 2.0;
+            float dropLength = 0.1 + hash(rainSeed + 2.0) * 0.4;
+
+            // Animate vertical position
+            float dropOffset = fract(uTime * dropSpeed + hash(rainSeed + 3.0));
+
+            // Shape the drop: vertical line that fades
+            float isInDrop = step(dropOffset - dropLength, rainFrac.y) * step(rainFrac.y, dropOffset);
+            float dropShape = isInDrop * (1.0 - smoothstep(0.0, dropLength, rainFrac.y - (dropOffset - dropLength)));
+            dropShape *= 1.0 - rainFrac.x; // Fade towards tail
+            dropShape *= step(0.9, dropIntensity); // Only draw some drops for variation
+
+            vec3 rainColor = vec3(0.4, 0.7, 1.0); // Bluish white
+            finalColor += rainColor * dropShape * 0.8; // Add rain contribution
+
+            // --- Neon Signs Flicker ---
+            // Simple flickering ambient light
+            float flicker = 0.95 + 0.05 * sin(uTime * 10.0 + uv.x * 100.0);
+            finalColor *= flicker;
+
+            // --- Vignette ---
+            vec2 vignetteUV = uv - 0.5;
+            float vignette = 1.0 - dot(vignetteUV, vignetteUV) * 0.8;
+            finalColor *= vignette;
+
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `;
+
+
+            // --- Shader Helpers ---
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error('Shader Compile Error (' + (type === gl.VERTEX_SHADER ? 'Vertex' : 'Fragment') + '):', gl.getShaderInfoLog(shader));
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                return shader;
+            }
+            function createProgram(gl, vShader, fShader) {
+                const program = gl.createProgram();
+                gl.attachShader(program, vShader);
+                gl.attachShader(program, fShader);
+                gl.linkProgram(program);
+                if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                    console.error('Program Link Error:', gl.getProgramInfoLog(program));
+                    return null;
+                }
+                return program;
+            }
+
+            // --- Compile and link shader program ---
+            const rainProgram = createProgram(gl,
+                createShader(gl, gl.VERTEX_SHADER, rainVSSource),
+                createShader(gl, gl.FRAGMENT_SHADER, rainFSSource)
+            );
+            if (!rainProgram) {
+                alert('Failed to initialize rain shader program.');
+                return;
+            }
+
+            // --- Create buffer for full-screen quad ---
+            const quadVertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+            const quadBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, quadVertices, gl.STATIC_DRAW);
+
+            // --- Get shader uniform/attribute locations ---
+            const rainPosLoc = gl.getAttribLocation(rainProgram, "aPosition");
+            const rainTimeLoc = gl.getUniformLocation(rainProgram, "uTime");
+            const rainResLoc = gl.getUniformLocation(rainProgram, "uResolution");
+
+
+            // --- Clear settings ---
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+            // --- Effect Controls ---
+            let globalTime = 0;
+
+            // --- Render Loop ---
+            function render(currentTimeMs) {
+                globalTime = currentTimeMs / 1000.0;
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                gl.useProgram(rainProgram);
+                // Set uniforms
+                gl.uniform1f(rainTimeLoc, globalTime);
+                gl.uniform2f(rainResLoc, canvas.width, canvas.height);
+
+                // Set vertex attributes
+                gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+                gl.enableVertexAttribArray(rainPosLoc);
+                gl.vertexAttribPointer(rainPosLoc, 2, gl.FLOAT, false, 0, 0);
+
+                // Draw the full-screen quad
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+
+
+            // ========== UI Logic ==========
+            const terminalOutput = document.getElementById('terminalOutput');
+            const initMessages = [
+                "[SYS] Initializing Neural Link Interface v2.3...",
+                "[NET] Connecting to Arclight City Data Spire...",
+                "[SEC] Running Biometric Scan...",
+                "[MSG] Awaiting User Authentication."
+            ];
+            let currentMessageIndex = 0;
+
+            function typeWriter(text, element, callback, speed = 30) {
+                let i = 0;
+                element.innerHTML += '<span class="typed-text"></span>';
+                const typedSpan = element.querySelector('.typed-text');
+                function type() {
+                    if (i < text.length) {
+                        typedSpan.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        typedSpan.classList.remove('typed-text');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function appendToTerminal(text, speed = 30) {
+                const p = document.createElement('div');
+                terminalOutput.appendChild(p);
+                typeWriter(text, p, () => { }, speed);
+                setTimeout(() => {
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }, 100);
+            }
+
+            function bootSequence() {
+                if (currentMessageIndex < initMessages.length) {
+                    appendToTerminal(initMessages[currentMessageIndex], 40);
+                    currentMessageIndex++;
+                    setTimeout(bootSequence, 900);
+                }
+            }
+            bootSequence();
+
+            function showLoader(show) {
+                const loader = document.getElementById('loader');
+                const button = document.getElementById('loginButton');
+                if (show) {
+                    loader.style.display = 'block';
+                    button.disabled = true;
+                    button.textContent = 'LINKING...';
+                } else {
+                    loader.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = 'INITIATE_LINK';
+                }
+            }
+
+            function showMessage(text, isSuccess) {
+                const msg = document.getElementById('message');
+                msg.classList.remove('show');
+                msg.className = 'message';
+                setTimeout(() => {
+                    msg.className = 'message ' + (isSuccess ? 'success' : 'error') + ' show';
+                    msg.textContent = text;
+                    const logText = '[SYS] ' + (isSuccess ? '>> SUCCESS: ' : '!! ERROR: ') + text;
+                    appendToTerminal(logText, 20);
+                }, 10);
+            }
+
+            async function handleLogin() {
+                const u = document.getElementById('username').value.trim();
+                const p = document.getElementById('password').value.trim();
+
+                if (!u || !p) {
+                    showMessage('INPUT REQUIRED FOR BOTH FIELDS', false);
+                    return;
+                }
+
+                appendToTerminal(`[AUTH] Attempting access for ID: ${u.toUpperCase()}...`, 20);
+                showLoader(true);
+                showMessage('', false);
+
+                await new Promise(resolve => setTimeout(resolve, 2500));
+
+                if (u === 'neoncat' && p === 'raincode') { // Example credentials
+                    showMessage('IDENTITY CONFIRMED. ACCESS GRANTED.', true);
+                    setTimeout(() => appendToTerminal("[SYS] Loading user profile: NEONCAT...", 20), 1000);
+                    setTimeout(() => appendToTerminal("[NET] Establishing secure tunnel to NetWatch AI...", 20), 2000);
+                } else {
+                    showMessage('INVALID CREDENTIALS OR ACCESS DENIED.', false);
+                    appendToTerminal("[ALERT] Intrusion attempt logged. Authorities notified.", 20);
+                }
+
+                showLoader(false);
+            }
+
+            document.getElementById('password').addEventListener('keypress', e => {
+                if (e.key === 'Enter') handleLogin();
+            });
+
+            window.addEventListener('load', () => {
+                document.getElementById('username').focus();
+            });
+
+        })();
+    </script>
+
+</body>
+</html>  

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETROGRID // LOGIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            /* --- Vaporwave Gradient Background --- */
+            background: linear-gradient(135deg, #2c003e, #6a0dad, #00ffff, #ff7bac, #ff007f);
+            background-size: 400% 400%;
+            animation: gradientBG 30s ease infinite;
+            font-family: 'Press Start 2P', cursive, 'Courier New', Courier, monospace;
+            color: #ffffff;
+            user-select: none;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- Grid Overlay --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        #glCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0.3; /* Make it subtle */
+        }
+
+
+        .login-frame {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            /* --- Retro CRT Look --- */
+            background-color: rgba(0, 0, 30, 0.7); /* Deep blue-ish black */
+            border: 4px double #ff00ff; /* Magenta Double Line */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), /* Cyan Glow */
+            inset 0 0 15px rgba(255, 122, 172, 0.3); /* Pink Inner Glow */
+            text-align: left;
+            font-size: 12px; /* Smaller, retro pixel font size */
+            line-height: 1.8;
+            /* --- CRT Curvature Simulation --- */
+            border-radius: 30px / 200px;
+            overflow: hidden;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00ffff; /* Cyan */
+            text-shadow: 2px 2px 0 #ff00ff, /* Magenta Offset */
+            -1px -1px 0 #ff00ff;
+            font-weight: normal; /* Often not bold in retro fonts */
+            letter-spacing: 2px;
+            font-size: 14px; /* Slightly larger than body */
+            word-break: break-all; /* Mimic old text wrapping */
+        }
+
+        .login-content {
+            margin-bottom: 25px;
+            white-space: pre-wrap;
+            min-height: 120px;
+            color: #ff7bac; /* Pink */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+        }
+
+        .typed-text {
+            /* Simple blinking cursor */
+            border-right: 1px solid #ff7bac;
+            animation: blinkCursor 1s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            from, to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #ff7bac;
+            }
+        }
+
+        .input-line {
+            display: flex;
+            flex-direction: column; /* Stack label and input vertically */
+            margin-top: 15px;
+            gap: 5px; /* Space between label and input */
+        }
+
+        .prompt {
+            color: #00ffff; /* Cyan Label */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            font-size: 11px; /* Smaller label */
+        }
+
+        input[type="text"], input[type="password"] {
+            flex-grow: 1;
+            background: rgba(0, 0, 20, 0.8); /* Darker input bg */
+            border: 2px inset #ff7bac; /* Inset pink border */
+            color: #00ffff; /* Cyan Text */
+            font-family: inherit;
+            font-size: 12px; /* Match body font size */
+            padding: 8px;
+            outline: none;
+            box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5); /* Inner shadow for depth */
+        }
+
+            input[type="text"]:focus, input[type="password"]:focus {
+                border: 2px inset #00ffff; /* Cyan border on focus */
+                background: rgba(10, 0, 30, 0.9);
+            }
+
+            input[type="text"]::placeholder, input[type="password"]::placeholder {
+                color: #6a0dad; /* Purple placeholder */
+            }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background: linear-gradient(to bottom, #6a0dad, #2c003e); /* Purple gradient */
+            color: #ffffff;
+            border: 3px outset #ff00ff; /* Outset magenta border */
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: normal;
+            cursor: pointer;
+            transition: all 0.1s ease; /* Quick transition for retro feel */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 0 #4b0082; /* Simulate 3D button press */
+        }
+
+            .btn-submit:hover {
+                background: linear-gradient(to bottom, #7b1fa2, #4b0082);
+                border: 3px outset #ff7bac; /* Pink border on hover */
+            }
+
+            .btn-submit:active {
+                /* Simulate button press */
+                transform: translateY(4px);
+                box-shadow: 0 0px 0 #4b0082;
+            }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            margin: 20px auto;
+            border: 3px solid rgba(255, 122, 172, 0.3);
+            border-top: 3px solid #00ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .message {
+            margin-top: 20px;
+            min-height: 24px;
+            font-weight: normal;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            text-align: center;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+            font-size: 11px; /* Smaller message font */
+        }
+
+            .message.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        .success {
+            color: #00ffaa; /* Neon Green */
+        }
+
+        .error {
+            color: #ff3300; /* Neon Red/Orange */
+        }
+    </style>
+    <!-- Import Google Font for Retro Pixel Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <canvas id="glCanvas"></canvas>
+
+    <div class="login-frame">
+        <div class="login-header">// RETROGRID ACCESS TERMINAL //</div>
+        <div class="login-content" id="loginOutput"></div>
+        <div class="input-line">
+            <span class="prompt">USER:</span>
+            <input type="text" id="username" placeholder="GUEST" autocomplete="off" />
+        </div>
+        <div class="input-line">
+            <span class="prompt">PASS:</span>
+            <input type="password" id="password" placeholder="****" />
+        </div>
+        <div class="btn-submit-container">
+            <button class="btn-submit" id="loginButton" onclick="handleLogin()">LOGIN.EXE</button>
+            <div class="loader" id="loader"></div>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const canvas = document.getElementById('glCanvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+            if (!gl) {
+                document.body.innerHTML = '<div style="color:#ff3300; font-size:20px; text-align:center; margin-top:20%; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); font-family: \'Press Start 2P\', cursive;">ERROR: NO WEBGL. SYSTEM HALTED.</div>';
+                return;
+            }
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+
+            // --- Shader Sources ---
+
+            // --- Grid Vertex Shader ---
+            const gridVSSource = `
+        attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }
+      `;
+
+            // --- Grid Fragment Shader ---
+            const gridFSSource = `
+        precision highp float;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+
+        // Pseudo-random number generator
+        float random (in vec2 st) {
+            return fract(sin(dot(st.xy,
+                             vec2(12.9898,78.233)))
+                         * 43758.5453123);
+        }
+
+        // Value Noise by Inigo Quilez - iq/2013
+        // https://www.shadertoy.com/view/lsf3WH
+        float noise(vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+
+            // Four corners in 2D of a tile
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+
+            // Smooth Interpolation
+            vec2 u = f*f*(3.0-2.0*f);
+
+            // Mix 4 coorners percentages
+            return mix(a, b, u.x) +
+                    (c - a)* u.y * (1.0 - u.x) +
+                    (d - b) * u.x * u.y;
+        }
+
+        mat2 rotate2d(float angle){
+            return mat2(cos(angle),-sin(angle),
+                        sin(angle),cos(angle));
+        }
+
+        void main() {
+            vec2 st = gl_FragCoord.xy/uResolution.xy;
+            st.x *= uResolution.x/uResolution.y;
+
+            vec3 color = vec3(0.0);
+
+            // Animate the grid
+            st *= 10.0; // Scale
+            st = rotate2d( sin(uTime*0.1) ) * st; // Rotate
+            st += uTime * 0.5; // Move
+
+            vec2 i_st = floor(st);
+            vec2 f_st = fract(st);
+
+            float pattern = noise(i_st + uTime * 0.1); // Use noise for slight variation
+
+            // Draw grid lines
+            float grid = step(.95, f_st.x) + step(.95, f_st.y);
+            grid = clamp(grid, 0.0, 1.0);
+
+            // Color the grid
+            vec3 gridColor = vec3(0.0, 1.0, 1.0); // Cyan
+            gridColor *= 0.5 + 0.5 * sin(uTime + i_st.x * 0.5); // Subtle color shift over time
+            color = vec3(grid * pattern * 0.7) * gridColor;
+
+            // Add scanlines
+            float scanline = mod(gl_FragCoord.y, 3.0);
+            scanline = step(0.5, scanline);
+            color *= scanline * 0.9 + 0.1;
+
+            // Vignette
+            vec2 vignetteUV = st - vec2(5.0);
+            float vignette = 1.0 - smoothstep(3.0, 6.0, length(vignetteUV));
+            color *= vignette;
+
+            gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+
+            // --- Shader Helpers ---
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error('Shader Compile Error (' + (type === gl.VERTEX_SHADER ? 'Vertex' : 'Fragment') + '):', gl.getShaderInfoLog(shader));
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                return shader;
+            }
+            function createProgram(gl, vShader, fShader) {
+                const program = gl.createProgram();
+                gl.attachShader(program, vShader);
+                gl.attachShader(program, fShader);
+                gl.linkProgram(program);
+                if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                    console.error('Program Link Error:', gl.getProgramInfoLog(program));
+                    return null;
+                }
+                return program;
+            }
+
+            // --- Compile and link shader program ---
+            const gridProgram = createProgram(gl,
+                createShader(gl, gl.VERTEX_SHADER, gridVSSource),
+                createShader(gl, gl.FRAGMENT_SHADER, gridFSSource)
+            );
+            if (!gridProgram) {
+                alert('Failed to initialize grid shader program.');
+                return;
+            }
+
+            // --- Create buffer for full-screen quad ---
+            const quadVertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+            const quadBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, quadVertices, gl.STATIC_DRAW);
+
+            // --- Get shader uniform/attribute locations ---
+            const gridPosLoc = gl.getAttribLocation(gridProgram, "aPosition");
+            const gridTimeLoc = gl.getUniformLocation(gridProgram, "uTime");
+            const gridResLoc = gl.getUniformLocation(gridProgram, "uResolution");
+
+
+            // --- Clear settings ---
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+            // --- Effect Controls ---
+            let globalTime = 0;
+
+            // --- Render Loop ---
+            function render(currentTimeMs) {
+                globalTime = currentTimeMs / 1000.0;
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                gl.useProgram(gridProgram);
+                // Set uniforms
+                gl.uniform1f(gridTimeLoc, globalTime);
+                gl.uniform2f(gridResLoc, canvas.width, canvas.height);
+
+                // Set vertex attributes
+                gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+                gl.enableVertexAttribArray(gridPosLoc);
+                gl.vertexAttribPointer(gridPosLoc, 2, gl.FLOAT, false, 0, 0);
+
+                // Draw the full-screen quad
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+
+
+            // ========== UI Logic ==========
+            const loginOutput = document.getElementById('loginOutput');
+            const initMessages = [
+                "BOOT SEQUENCE INITIATED...",
+                "LOADING RETROGRID OS v3.14",
+                "MEMORY CHECK: 640K OK",
+                "ACCESSING MAINFRAME...",
+                "READY FOR AUTHENTICATION"
+            ];
+            let currentMessageIndex = 0;
+
+            function typeWriter(text, element, callback, speed = 50) {
+                let i = 0;
+                element.innerHTML += '<span class="typed-text"></span>';
+                const typedSpan = element.querySelector('.typed-text');
+                function type() {
+                    if (i < text.length) {
+                        typedSpan.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        typedSpan.classList.remove('typed-text');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function appendToTerminal(text, speed = 50) {
+                const p = document.createElement('div');
+                loginOutput.appendChild(p);
+                typeWriter(text, p, () => { }, speed);
+                setTimeout(() => {
+                    loginOutput.scrollTop = loginOutput.scrollHeight;
+                }, 100);
+            }
+
+            function bootSequence() {
+                if (currentMessageIndex < initMessages.length) {
+                    appendToTerminal(initMessages[currentMessageIndex], 40);
+                    currentMessageIndex++;
+                    setTimeout(bootSequence, 1000); // Slower typing for retro feel
+                }
+            }
+            bootSequence();
+
+            function showLoader(show) {
+                const loader = document.getElementById('loader');
+                const button = document.getElementById('loginButton');
+                if (show) {
+                    loader.style.display = 'block';
+                    button.disabled = true;
+                    button.textContent = 'WORKING...';
+                } else {
+                    loader.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = 'LOGIN.EXE';
+                }
+            }
+
+            function showMessage(text, isSuccess) {
+                const msg = document.getElementById('message');
+                msg.classList.remove('show');
+                msg.className = 'message';
+                setTimeout(() => {
+                    msg.className = 'message ' + (isSuccess ? 'success' : 'error') + ' show';
+                    msg.textContent = text;
+                    const logText = '>> ' + (isSuccess ? 'OK: ' : 'ERR: ') + text;
+                    appendToTerminal(logText, 20);
+                }, 10);
+            }
+
+            async function handleLogin() {
+                const u = document.getElementById('username').value.trim();
+                const p = document.getElementById('password').value.trim();
+
+                if (!u || !p) {
+                    showMessage('INPUT REQUIRED', false);
+                    return;
+                }
+
+                appendToTerminal(`ATTEMPTING LOGIN FOR: ${u.toUpperCase()}...`, 20);
+                showLoader(true);
+                showMessage('', false);
+
+                await new Promise(resolve => setTimeout(resolve, 2500));
+
+                if (u === 'guest' && p === 'vapor') { // Example credentials
+                    showMessage('ACCESS GRANTED. WELCOME.', true);
+                    setTimeout(() => appendToTerminal("LOADING USER PROFILE: GUEST", 20), 1000);
+                    setTimeout(() => appendToTerminal("PLAYING: MACINTOSH_PLUS - リサフランク420 / 現代のコンピュー", 20), 2000);
+                } else {
+                    showMessage('ACCESS DENIED. TRY AGAIN.', false);
+                    appendToTerminal("SECURITY ALERT: UNAUTHORIZED ACCESS ATTEMPT", 20);
+                }
+
+                showLoader(false);
+            }
+
+            document.getElementById('password').addEventListener('keypress', e => {
+                if (e.key === 'Enter') handleLogin();
+            });
+
+            window.addEventListener('load', () => {
+                document.getElementById('username').focus();
+            });
+
+        })();
+    </script>
+
+</body>
+</html>  

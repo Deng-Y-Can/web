@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECURE TERMINAL :: ACCESS GRANTED?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ff41; /* Matrix Green */
+            user-select: none;
+        }
+
+        #glCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .terminal-frame {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 90%;
+            max-width: 500px;
+            padding: 25px;
+            background: rgba(0, 10, 0, 0.7); /* Dark greenish black */
+            border: 1px solid #00ff41;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2);
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            animation: terminalPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes terminalPulse {
+            0% {
+                box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2);
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(0, 255, 65, 0.8), inset 0 0 15px rgba(0, 255, 65, 0.3);
+                transform: translate(-50%, -50%) scale(1.005);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2);
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .terminal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ff41;
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .terminal-header::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 10%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.4), transparent);
+                animation: scanlineHeader 4s linear infinite;
+            }
+
+        @keyframes scanlineHeader {
+            0% {
+                left: -10%;
+            }
+
+            100% {
+                left: 110%;
+            }
+        }
+
+        .terminal-content {
+            margin-bottom: 20px;
+            white-space: pre-wrap; /* Preserves line breaks and spaces */
+            min-height: 100px; /* Ensure space for messages */
+            position: relative;
+            overflow: hidden;
+        }
+
+            .terminal-content::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 10%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.1), transparent);
+                animation: scanlineContent 6s linear infinite;
+            }
+
+        @keyframes scanlineContent {
+            0% {
+                left: -10%;
+            }
+
+            100% {
+                left: 110%;
+            }
+        }
+
+        .typed-text {
+            border-right: 2px solid #00ff41;
+            animation: blinkCursor 1s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            from, to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #00ff41;
+            }
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+        }
+
+            .input-line::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 5%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.2), transparent);
+                animation: scanlineInput 5s linear infinite;
+            }
+
+        @keyframes scanlineInput {
+            0% {
+                left: -5%;
+            }
+
+            100% {
+                left: 105%;
+            }
+        }
+
+        .prompt {
+            margin-right: 10px;
+            color: #00ff41;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #00802b;
+            color: #00ff41;
+            font-family: inherit;
+            font-size: 16px;
+            padding: 5px 0;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            input[type="text"]:focus, input[type="password"]:focus {
+                border-bottom: 1px solid #00ff41;
+                box-shadow: 0 1px 5px rgba(0, 255, 65, 0.5);
+            }
+
+            input[type="text"]::placeholder, input[type="password"]::placeholder {
+                color: #00802b;
+            }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #00ff41;
+            margin-left: 2px;
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background: rgba(0, 20, 0, 0.5);
+            color: #00ff41;
+            border: 1px solid #00802b;
+            border-radius: 2px;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-submit::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+                animation: pulseButton 3s infinite;
+            }
+
+        @keyframes pulseButton {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .btn-submit:hover {
+            background: rgba(0, 40, 0, 0.7);
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            margin: 15px auto;
+            border: 2px solid rgba(0, 255, 65, 0.3);
+            border-top: 2px solid #00ff41;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .message {
+            margin-top: 15px;
+            min-height: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            text-align: center;
+        }
+
+            .message.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        .success {
+            color: #00ffaa;
+            text-shadow: 0 0 8px rgba(0, 255, 170, 0.6);
+        }
+
+        .error {
+            color: #ff5555;
+            text-shadow: 0 0 8px rgba(255, 85, 85, 0.6);
+        }
+
+        /* Glitch Overlay */
+        #glitchOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 10; /* On top of everything except maybe critical UI */
+            mix-blend-mode: screen; /* Blend mode for glitch effect */
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="glCanvas"></canvas>
+    <img id="glitchOverlay" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwMDAiLz48L3N2Zz4=" alt=""> <!-- Placeholder SVG -->
+
+    <div class="terminal-frame">
+        <div class="terminal-header">&gt;&gt; SECURE_ACCESS_TERMINAL &lt;&lt;</div>
+        <div class="terminal-content" id="terminalOutput"></div>
+        <div class="input-line">
+            <span class="prompt">USER:&gt;</span>
+            <input type="text" id="username" placeholder="[TYPE_USER]" autocomplete="off" />
+            <span class="cursor"></span>
+        </div>
+        <div class="input-line">
+            <span class="prompt">PASS:&gt;</span>
+            <input type="password" id="password" placeholder="[TYPE_PASS]" />
+            <span class="cursor"></span>
+        </div>
+        <div class="btn-submit-container">
+            <button class="btn-submit" id="loginButton" onclick="handleLogin()">AUTHENTICATE</button>
+            <div class="loader" id="loader"></div>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const canvas = document.getElementById('glCanvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            const glitchOverlay = document.getElementById('glitchOverlay');
+
+            if (!gl) {
+                document.body.innerHTML = '<div style="color:red; font-size:24px; text-align:center; margin-top:20%;">WebGL NOT SUPPORTED. ACCESS DENIED.</div>';
+                return;
+            }
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas(); // Initial call
+
+
+            // --- Shader Sources ---
+
+            // --- Background Vertex Shader ---
+            const bgVSSource = `
+        attribute vec2 aPosition;
+        void main() {
+            gl_Position = vec4(aPosition, 0.0, 1.0);
+        }
+      `;
+
+            // --- Background Fragment Shader ---
+            const bgFSSource = `
+        precision highp float;
+
+        // Define PI constant since it's not available by default
+        const float PI = 3.14159265359;
+
+        uniform float uTime;
+        uniform vec2 uResolution;
+        uniform float uGlitchIntensity; // New uniform for glitch effect
+
+        // Pseudo-random number generator
+        float random (in vec2 st) {
+            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+        }
+
+        // 2D Noise function
+        float noise (in vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+
+            // Four corners in 2D of a tile
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+
+            // Smooth interpolation
+            vec2 u = f*f*(3.0-2.0*f);
+            return mix(a, b, u.x) +
+                    (c - a)* u.y * (1.0 - u.x) +
+                    (d - b) * u.x * u.y;
+        }
+
+        // Function to create grid lines
+        float grid(vec2 st, float res) {
+            vec2 grid = fract(st * res);
+            return (grid.x < 0.01 || grid.y < 0.01) ? 1.0 : 0.0;
+        }
+
+        // Function to create a pulsing circle
+        float circle(vec2 st, vec2 center, float radius) {
+            vec2 dist = st - center;
+            // Use dot product to get squared distance, then multiply for scaling
+            return 1.0 - smoothstep(radius-0.005, radius+0.005, dot(dist, dist) * 4.0);
+        }
+
+        // Function to create a rotating beam/ray
+        float beam(vec2 st, vec2 center, float angle, float width, float ray_length) {
+            vec2 rel_pos = st - center;
+            // Calculate distance from center
+            float dist_from_center = sqrt(dot(rel_pos, rel_pos));
+            // Calculate angle from positive x-axis
+            float current_angle = atan(rel_pos.y, rel_pos.x);
+
+            // Calculate angular difference, wrapping correctly
+            float angle_diff = abs(mod(current_angle - angle + PI, 2.0 * PI) - PI);
+
+            // Check if within angle width AND within ray length
+            float is_on_beam = (angle_diff < width) && (dist_from_center < ray_length) ? 1.0 : 0.0;
+
+            // Fade out as we move away from the center along the ray
+            return is_on_beam * (1.0 - smoothstep(0.0, ray_length, dist_from_center));
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / uResolution.xy;
+            // Correct aspect ratio for consistent shapes
+            vec2 uv_corrected = uv;
+            uv_corrected.x *= uResolution.x / uResolution.y;
+
+            vec3 color = vec3(0.0); // Start with black
+
+            // --- Base Grid Background ---
+            float gridSize = 50.0;
+            float gridPattern = grid(uv_corrected, gridSize);
+            color += vec3(0.0, 0.2, 0.05) * gridPattern; // Dim green
+
+            // --- Animated Scanlines ---
+            float scanline = sin(uv.y * uResolution.y * 0.5 + uTime * 3.0) * 0.05;
+            color += vec3(0.0, 0.1, 0.0) * scanline;
+
+            // --- Flowing Energy Lines ---
+            float flowSpeed = 0.2;
+            float flowOffset = uTime * flowSpeed;
+            // Horizontal flowing line
+            float flowLineY = mod(flowOffset, 1.0);
+            float flowLine = smoothstep(0.005, 0.0, abs(uv.y - flowLineY));
+            color += vec3(0.0, 0.8, 0.2) * flowLine * 0.3;
+
+            // Vertical flowing line
+            float flowLineX = mod(flowOffset * 1.5, 1.0);
+            float flowLineV = smoothstep(0.005, 0.0, abs(uv.x - flowLineX));
+            color += vec3(0.0, 0.6, 0.1) * flowLineV * 0.2;
+
+            // --- Central Energy Core ---
+            vec2 coreCenter = vec2((uResolution.x / uResolution.y) / 2.0, 0.5); // Center in corrected UV
+            float coreBaseRadius = 0.05;
+            float corePulse = sin(uTime * 1.5) * 0.01;
+            float coreRadius = coreBaseRadius + corePulse;
+
+            // Main bright pulsing circle
+            float coreGlow = circle(uv_corrected, coreCenter, coreRadius);
+            float coreBrightness = 0.8 + sin(uTime * 3.0) * 0.2;
+            color += vec3(0.0, 1.0, 0.3) * coreGlow * coreBrightness; // Bright green/cyan
+
+            // Outer fading rings
+            float ring1 = circle(uv_corrected, coreCenter, coreRadius * 2.5) * 0.4;
+            float ring2 = circle(uv_corrected, coreCenter, coreRadius * 5.0) * 0.2;
+            color += vec3(0.0, 0.8, 0.2) * (ring1 + ring2);
+
+            // --- Rotating Beams ---
+            float numBeams = 5.0;
+            for(float i = 0.0; i < 5.0; i++) {
+                float beamAngle = (i / numBeams) * 2.0 * PI + uTime * 0.5;
+                float beamWidth = 0.1;
+                float beamLength = 0.4;
+                float beamEffect = beam(uv_corrected, coreCenter, beamAngle, beamWidth, beamLength);
+                color += vec3(0.0, 0.9, 0.4) * beamEffect * 0.5;
+            }
+
+            // --- Subtle Noise for texture ---
+            float noiseVal = noise(uv_corrected * 100.0);
+            color += vec3(0.0, 0.02, 0.0) * noiseVal;
+
+            // --- Glitch Effect ---
+            if (uGlitchIntensity > 0.0) {
+                // Simple displacement glitch
+                float glitchAmount = uGlitchIntensity * 0.02;
+                float glitchSeed = floor(uTime * 60.0); // Change glitch pattern over time
+                float glitchOffset = (random(vec2(glitchSeed, uv.y)) - 0.5) * glitchAmount;
+
+                // Apply glitch only to a portion of the screen
+                float glitchMask = step(0.95, random(vec2(glitchSeed, 0.0))); // 5% chance per frame
+
+                vec2 glitchUV = uv;
+                glitchUV.x += glitchOffset * glitchMask;
+
+                // Sample color with glitched UV (simplified, just adds static color)
+                // A more complex version would re-sample the entire scene at glitchUV
+                float staticNoise = random(glitchUV + vec2(uTime));
+                vec3 glitchColor = vec3(staticNoise * 0.5, staticNoise, staticNoise * 0.3);
+                color = mix(color, glitchColor, uGlitchIntensity * glitchMask * 0.8);
+
+                // Add horizontal lines during glitch
+                float hLineNoise = random(vec2(glitchSeed, floor(uv.y * 100.0)));
+                float hLine = step(0.98, hLineNoise) * glitchMask;
+                color = mix(color, vec3(0.0, 1.0, 0.5), hLine * uGlitchIntensity * 0.5);
+            }
+
+            gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+
+            // --- Shader Helpers ---
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                    console.error('Shader Compile Error (' + (type === gl.VERTEX_SHADER ? 'Vertex' : 'Fragment') + '):', gl.getShaderInfoLog(shader));
+                    gl.deleteShader(shader);
+                    return null;
+                }
+                return shader;
+            }
+            function createProgram(gl, vShader, fShader) {
+                const program = gl.createProgram();
+                gl.attachShader(program, vShader);
+                gl.attachShader(program, fShader);
+                gl.linkProgram(program);
+                if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                    console.error('Program Link Error:', gl.getProgramInfoLog(program));
+                    return null;
+                }
+                return program;
+            }
+
+            // --- Compile and link shader program ---
+            const bgProgram = createProgram(gl,
+                createShader(gl, gl.VERTEX_SHADER, bgVSSource),
+                createShader(gl, gl.FRAGMENT_SHADER, bgFSSource)
+            );
+            if (!bgProgram) {
+                alert('Failed to initialize background shader program.');
+                return;
+            }
+
+            // --- Create buffer for full-screen quad ---
+            const quadVertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
+            const quadBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, quadVertices, gl.STATIC_DRAW);
+
+            // --- Get shader uniform/attribute locations ---
+            const bgPosLoc = gl.getAttribLocation(bgProgram, "aPosition");
+            const bgTimeLoc = gl.getUniformLocation(bgProgram, "uTime");
+            const bgResLoc = gl.getUniformLocation(bgProgram, "uResolution");
+            const bgGlitchLoc = gl.getUniformLocation(bgProgram, "uGlitchIntensity"); // Get glitch location
+
+
+            // --- Clear settings ---
+            gl.clearColor(0.0, 0.0, 0.0, 1.0); // Black
+
+            // --- Effect Controls ---
+            let globalTime = 0;
+            let glitchIntensity = 0.0;
+
+            function triggerGlitch(intensity = 0.8, duration = 300) {
+                glitchIntensity = intensity;
+                glitchOverlay.style.opacity = intensity * 0.5; // Sync overlay opacity
+                setTimeout(() => {
+                    glitchIntensity = 0.0;
+                    glitchOverlay.style.opacity = 0;
+                }, duration);
+            }
+
+            // --- Render Loop ---
+            function render(currentTimeMs) {
+                globalTime = currentTimeMs / 1000.0;
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                gl.useProgram(bgProgram);
+                // Set uniforms
+                gl.uniform1f(bgTimeLoc, globalTime);
+                gl.uniform2f(bgResLoc, canvas.width, canvas.height);
+                gl.uniform1f(bgGlitchLoc, glitchIntensity); // Pass glitch intensity
+
+                // Set vertex attributes
+                gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+                gl.enableVertexAttribArray(bgPosLoc);
+                gl.vertexAttribPointer(bgPosLoc, 2, gl.FLOAT, false, 0, 0);
+
+                // Draw the full-screen quad
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render); // Start the loop
+
+
+            // ========== UI Logic ==========
+            const terminalOutput = document.getElementById('terminalOutput');
+            const initMessages = [
+                "> SYSTEM INITIALIZED...",
+                "> SECURITY PROTOCOLS ACTIVE",
+                "> AWAITING CREDENTIALS...",
+                "> WARNING: UNAUTHORIZED ACCESS WILL BE REPORTED"
+            ];
+            let currentMessageIndex = 0;
+
+            function typeWriter(text, element, callback, speed = 30) {
+                let i = 0;
+                element.innerHTML += '<span class="typed-text"></span>';
+                const typedSpan = element.querySelector('.typed-text');
+                function type() {
+                    if (i < text.length) {
+                        typedSpan.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        typedSpan.classList.remove('typed-text');
+                        if (callback) callback();
+                    }
+                }
+                type();
+            }
+
+            function appendToTerminal(text, speed = 30) {
+                const p = document.createElement('div');
+                terminalOutput.appendChild(p);
+                typeWriter(text, p, () => { }, speed);
+                // Auto-scroll to bottom (delayed slightly for smoother scroll)
+                setTimeout(() => {
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }, 100);
+            }
+
+            // Initial boot sequence
+            function bootSequence() {
+                if (currentMessageIndex < initMessages.length) {
+                    appendToTerminal(initMessages[currentMessageIndex], 50);
+                    currentMessageIndex++;
+                    setTimeout(bootSequence, 800); // Delay between messages
+                }
+            }
+            bootSequence(); // Start the sequence
+
+            function showLoader(show) {
+                const loader = document.getElementById('loader');
+                const button = document.getElementById('loginButton');
+                if (show) {
+                    loader.style.display = 'block';
+                    button.disabled = true;
+                    button.textContent = 'PROCESSING...';
+                } else {
+                    loader.style.display = 'none';
+                    button.disabled = false;
+                    button.textContent = 'AUTHENTICATE';
+                }
+            }
+
+            function showMessage(text, isSuccess) {
+                const msg = document.getElementById('message');
+                msg.classList.remove('show');
+                msg.className = 'message';
+                setTimeout(() => {
+                    msg.className = 'message ' + (isSuccess ? 'success' : 'error') + ' show';
+                    msg.textContent = text;
+
+                    // Add message to terminal log
+                    const logText = '> ' + (isSuccess ? '[OK] ' : '[ERR] ') + text;
+                    appendToTerminal(logText, 20); // Faster typing for system messages
+
+                    // Trigger glitch on any message
+                    triggerGlitch(isSuccess ? 0.3 : 0.7, 200);
+
+                }, 10);
+            }
+
+            async function handleLogin() {
+                const u = document.getElementById('username').value.trim();
+                const p = document.getElementById('password').value.trim();
+
+                if (!u || !p) {
+                    showMessage('EMPTY FIELD(S) DETECTED', false);
+                    return;
+                }
+
+                // Log attempt to terminal
+                appendToTerminal(`> AUTH ATTEMPT FOR: ${u.toUpperCase()}`, 20);
+                showLoader(true);
+                showMessage('', false); // Clear previous message
+
+                await new Promise(resolve => setTimeout(resolve, 2500)); // Slightly longer delay
+
+                if (u === 'admin' && p === 'securepass') {
+                    showMessage('ACCESS GRANTED. WELCOME.', true);
+                    // Simulate successful actions
+                    setTimeout(() => appendToTerminal("> INITIATING PROTOCOL OMEGA...", 20), 1000);
+                    setTimeout(() => appendToTerminal("> CONNECTION TO MAINFRAME ESTABLISHED.", 20), 2000);
+                    setTimeout(() => {
+                        appendToTerminal("> ...", 20);
+                        triggerGlitch(1.0, 1000); // Big glitch on success
+                    }, 3000);
+
+                } else {
+                    showMessage('ACCESS DENIED. INVALID CREDENTIALS.', false);
+                    appendToTerminal("> SECURITY ALERT: FAILED LOGIN ATTEMPT.", 20);
+                    // Stronger glitch on failure
+                    triggerGlitch(1.0, 500);
+                }
+
+                showLoader(false);
+            }
+
+            // Allow submitting with Enter key on password field
+            document.getElementById('password').addEventListener('keypress', e => {
+                if (e.key === 'Enter') handleLogin();
+            });
+
+            // Focus username field on load
+            window.addEventListener('load', () => {
+                document.getElementById('username').focus();
+            });
+
+        })();
+    </script>
+
+</body>
+</html>  
