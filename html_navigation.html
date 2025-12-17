@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+        <html lang="zh-CN">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>HTML文件导航 - 29 个文件</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                body {
+                    font-family: 'Microsoft YaHei', 'Segoe UI', Arial, sans-serif;
+                    line-height: 1.6;
+                    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                    min-height: 100vh;
+                    padding: 20px;
+                }
+
+                .container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    background: white;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                }
+
+                .header {
+                    background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+                    color: white;
+                    padding: 40px 30px;
+                    text-align: center;
+                }
+
+                .header h1 {
+                    font-size: 2.5em;
+                    margin-bottom: 10px;
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+                }
+
+                .header p {
+                    font-size: 1.2em;
+                    opacity: 0.9;
+                }
+
+                .mode-info {
+                    background: rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    margin-top: 15px;
+                    display: inline-block;
+                    font-size: 0.9em;
+                }
+
+                .stats {
+                    display: flex;
+                    justify-content: center;
+                    gap: 30px;
+                    margin-top: 25px;
+                    flex-wrap: wrap;
+                }
+
+                .stat-item {
+                    background: rgba(255,255,255,0.2);
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    backdrop-filter: blur(10px);
+                    font-size: 1.1em;
+                }
+
+                .search-box {
+                    margin: 30px;
+                    text-align: center;
+                }
+
+                #searchInput {
+                    width: 80%;
+                    max-width: 600px;
+                    padding: 15px 25px;
+                    font-size: 16px;
+                    border: 2px solid #4facfe;
+                    border-radius: 50px;
+                    outline: none;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.1);
+                }
+
+                #searchInput:focus {
+                    border-color: #00f2fe;
+                    box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+                }
+
+                .quick-filters {
+                    margin-top: 20px;
+                    display: flex;
+                    justify-content: center;
+                    gap: 15px;
+                    flex-wrap: wrap;
+                }
+
+                .filter-btn {
+                    padding: 10px 20px;
+                    background: linear-gradient(to right, #4facfe, #00f2fe);
+                    color: white;
+                    border: none;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-weight: bold;
+                }
+
+                .filter-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+                }
+
+                .files-container {
+                    padding: 30px;
+                }
+
+                .folder-group {
+                    margin-bottom: 30px;
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+                    border: 1px solid #eaeaea;
+                }
+
+                .folder-header {
+                    background: linear-gradient(to right, #667eea, #764ba2);
+                    color: white;
+                    padding: 20px;
+                    font-size: 1.3em;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+
+                .folder-header:hover {
+                    background: linear-gradient(to right, #764ba2, #667eea);
+                }
+
+                .folder-count {
+                    background: rgba(255,255,255,0.2);
+                    padding: 5px 15px;
+                    border-radius: 15px;
+                    font-size: 0.9em;
+                }
+
+                .file-list {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                    gap: 20px;
+                    padding: 25px;
+                    background: #f9fafc;
+                }
+
+                .file-item {
+                    background: white;
+                    border-radius: 10px;
+                    padding: 25px;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;
+                    border: 1px solid #e0e0e0;
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+                }
+
+                .file-item:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+                    border-color: #4facfe;
+                }
+
+                .file-item::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 4px;
+                    height: 100%;
+                    background: #4facfe;
+                    transition: all 0.3s ease;
+                }
+
+                .file-item:hover::before {
+                    width: 6px;
+                    background: #00f2fe;
+                }
+
+                .file-name {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    color: #2c3e50;
+                    margin-bottom: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
+                .file-name::before {
+                    content: '📄';
+                    font-size: 1.4em;
+                }
+
+                .file-path {
+                    color: #666;
+                    font-size: 0.95em;
+                    margin-bottom: 15px;
+                    word-break: break-all;
+                    line-height: 1.4;
+                    background: #f8f9fa;
+                    padding: 10px;
+                    border-radius: 5px;
+                    border-left: 3px solid #4facfe;
+                }
+
+                .file-meta {
+                    display: flex;
+                    justify-content: space-between;
+                    color: #777;
+                    font-size: 0.9em;
+                    margin: 15px 0;
+                    padding-top: 15px;
+                    border-top: 1px solid #eee;
+                }
+
+                .open-btn {
+                    display: inline-block;
+                    padding: 12px 25px;
+                    background: linear-gradient(to right, #4facfe, #00f2fe);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                    transition: all 0.3s ease;
+                    font-weight: bold;
+                    text-align: center;
+                    width: 100%;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 1em;
+                }
+
+                .open-btn:hover {
+                    background: linear-gradient(to right, #00f2fe, #4facfe);
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+                }
+
+                .missing-file {
+                    color: #ff6b6b;
+                    font-size: 0.9em;
+                    margin-top: 5px;
+                    padding: 5px;
+                    background: #fff5f5;
+                    border-radius: 3px;
+                    border-left: 3px solid #ff6b6b;
+                }
+
+                .footer {
+                    text-align: center;
+                    padding: 25px;
+                    color: #666;
+                    border-top: 1px solid #eee;
+                    background: #f8f9fa;
+                    font-size: 0.95em;
+                }
+
+                .no-results {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: #888;
+                    font-size: 1.3em;
+                }
+
+                .toggle-icon {
+                    font-size: 0.9em;
+                    margin-left: 10px;
+                }
+
+                @media (max-width: 768px) {
+                    .file-list {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .stats {
+                        flex-direction: column;
+                        gap: 15px;
+                        align-items: center;
+                    }
+
+                    .stat-item {
+                        width: 80%;
+                        text-align: center;
+                    }
+
+                    .header h1 {
+                        font-size: 2em;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>📁 HTML文件导航系统</h1>
+                    <p>便捷访问您的HTML文件集合</p>
+                    <div class="mode-info">模式: 服务器模式</div>
+                    <div class="stats">
+                        <div class="stat-item">📊 文件总数: 29</div>
+                        <div class="stat-item">📁 文件夹数: 11</div>
+                        <div class="stat-item">🕒 生成时间: 2025-12-17 21:26:59</div>
+                    </div>
+                </div>
+
+                
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="输入文件名或路径进行搜索...">
+                    <div class="quick-filters">
+                        <button class="filter-btn" onclick="filterFiles('recent')">📅 最近修改</button>
+                        <button class="filter-btn" onclick="filterFiles('large')">💾 文件较大</button>
+                        <button class="filter-btn" onclick="filterFiles('clear')">🔄 显示全部</button>
+                        <button class="filter-btn" onclick="toggleAllFolders()">📂 展开/折叠所有</button>
+                    </div>
+                </div>
+                
+
+                <div class="files-container" id="filesContainer">
+                    
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 下拉框 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(3 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/下拉框/index.html">./CandyUI/下拉框/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 37.7 KB</span>
+                <span class="file-date">📅 2025-12-17 21:01</span>
+            </div>
+            <a href="./CandyUI/下拉框/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/下拉框/index2.html">./CandyUI/下拉框/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 39.0 KB</span>
+                <span class="file-date">📅 2025-12-17 21:03</span>
+            </div>
+            <a href="./CandyUI/下拉框/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index3.html</div>
+            <div class="file-path" title="./CandyUI/下拉框/index3.html">./CandyUI/下拉框/index3.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 34.4 KB</span>
+                <span class="file-date">📅 2025-12-17 21:03</span>
+            </div>
+            <a href="./CandyUI/下拉框/index3.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 单选框 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(1 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/单选框/index.html">./CandyUI/单选框/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 63.4 KB</span>
+                <span class="file-date">📅 2025-12-17 20:59</span>
+            </div>
+            <a href="./CandyUI/单选框/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 多选框 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(1 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/多选框/index.html">./CandyUI/多选框/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 68.0 KB</span>
+                <span class="file-date">📅 2025-12-17 20:58</span>
+            </div>
+            <a href="./CandyUI/多选框/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 按钮 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(2 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/按钮/index.html">./CandyUI/按钮/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 58.2 KB</span>
+                <span class="file-date">📅 2025-12-17 21:16</span>
+            </div>
+            <a href="./CandyUI/按钮/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/按钮/index2.html">./CandyUI/按钮/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 35.5 KB</span>
+                <span class="file-date">📅 2025-12-17 21:16</span>
+            </div>
+            <a href="./CandyUI/按钮/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 标签 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(4 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/标签/index.html">./CandyUI/标签/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 26.5 KB</span>
+                <span class="file-date">📅 2025-12-17 21:10</span>
+            </div>
+            <a href="./CandyUI/标签/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/标签/index2.html">./CandyUI/标签/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 67.6 KB</span>
+                <span class="file-date">📅 2025-12-17 21:10</span>
+            </div>
+            <a href="./CandyUI/标签/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index3.html</div>
+            <div class="file-path" title="./CandyUI/标签/index3.html">./CandyUI/标签/index3.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 39.5 KB</span>
+                <span class="file-date">📅 2025-12-17 21:11</span>
+            </div>
+            <a href="./CandyUI/标签/index3.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index4.html</div>
+            <div class="file-path" title="./CandyUI/标签/index4.html">./CandyUI/标签/index4.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 31.2 KB</span>
+                <span class="file-date">📅 2025-12-17 21:11</span>
+            </div>
+            <a href="./CandyUI/标签/index4.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 滑块 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(2 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/滑块/index.html">./CandyUI/滑块/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 32.4 KB</span>
+                <span class="file-date">📅 2025-12-17 20:57</span>
+            </div>
+            <a href="./CandyUI/滑块/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/滑块/index2.html">./CandyUI/滑块/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 32.8 KB</span>
+                <span class="file-date">📅 2025-12-17 20:56</span>
+            </div>
+            <a href="./CandyUI/滑块/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 登录 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(7 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/登录/index.html">./CandyUI/登录/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 40.7 KB</span>
+                <span class="file-date">📅 2025-12-17 21:19</span>
+            </div>
+            <a href="./CandyUI/登录/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/登录/index2.html">./CandyUI/登录/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 19.5 KB</span>
+                <span class="file-date">📅 2025-12-17 21:19</span>
+            </div>
+            <a href="./CandyUI/登录/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index3.html</div>
+            <div class="file-path" title="./CandyUI/登录/index3.html">./CandyUI/登录/index3.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 21.8 KB</span>
+                <span class="file-date">📅 2025-12-17 21:19</span>
+            </div>
+            <a href="./CandyUI/登录/index3.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index4.html</div>
+            <div class="file-path" title="./CandyUI/登录/index4.html">./CandyUI/登录/index4.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 27.0 KB</span>
+                <span class="file-date">📅 2025-12-17 21:20</span>
+            </div>
+            <a href="./CandyUI/登录/index4.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index5.html</div>
+            <div class="file-path" title="./CandyUI/登录/index5.html">./CandyUI/登录/index5.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 25.0 KB</span>
+                <span class="file-date">📅 2025-12-17 21:21</span>
+            </div>
+            <a href="./CandyUI/登录/index5.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index6.html</div>
+            <div class="file-path" title="./CandyUI/登录/index6.html">./CandyUI/登录/index6.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 8.1 KB</span>
+                <span class="file-date">📅 2025-12-17 21:22</span>
+            </div>
+            <a href="./CandyUI/登录/index6.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index7.html</div>
+            <div class="file-path" title="./CandyUI/登录/index7.html">./CandyUI/登录/index7.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 10.2 KB</span>
+                <span class="file-date">📅 2025-12-17 21:22</span>
+            </div>
+            <a href="./CandyUI/登录/index7.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 菜单 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(1 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/菜单/index.html">./CandyUI/菜单/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 24.5 KB</span>
+                <span class="file-date">📅 2025-12-17 20:53</span>
+            </div>
+            <a href="./CandyUI/菜单/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 输入框 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(3 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/输入框/index.html">./CandyUI/输入框/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 18.8 KB</span>
+                <span class="file-date">📅 2025-12-17 21:07</span>
+            </div>
+            <a href="./CandyUI/输入框/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/输入框/index2.html">./CandyUI/输入框/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 20.3 KB</span>
+                <span class="file-date">📅 2025-12-17 21:06</span>
+            </div>
+            <a href="./CandyUI/输入框/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index3.html</div>
+            <div class="file-path" title="./CandyUI/输入框/index3.html">./CandyUI/输入框/index3.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 21.9 KB</span>
+                <span class="file-date">📅 2025-12-17 21:06</span>
+            </div>
+            <a href="./CandyUI/输入框/index3.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 进度条 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(4 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/进度条/index.html">./CandyUI/进度条/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 44.4 KB</span>
+                <span class="file-date">📅 2025-12-17 21:13</span>
+            </div>
+            <a href="./CandyUI/进度条/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index2.html</div>
+            <div class="file-path" title="./CandyUI/进度条/index2.html">./CandyUI/进度条/index2.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 46.9 KB</span>
+                <span class="file-date">📅 2025-12-17 21:13</span>
+            </div>
+            <a href="./CandyUI/进度条/index2.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index3.html</div>
+            <div class="file-path" title="./CandyUI/进度条/index3.html">./CandyUI/进度条/index3.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 39.6 KB</span>
+                <span class="file-date">📅 2025-12-17 21:14</span>
+            </div>
+            <a href="./CandyUI/进度条/index3.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+        <div class="file-item">
+            <div class="file-name">index4.html</div>
+            <div class="file-path" title="./CandyUI/进度条/index4.html">./CandyUI/进度条/index4.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 32.1 KB</span>
+                <span class="file-date">📅 2025-12-17 21:14</span>
+            </div>
+            <a href="./CandyUI/进度条/index4.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="folder-group">
+                    <div class="folder-header">
+                        <span>📁 面包屑导航 <span class="toggle-icon">📂</span></span>
+                        <span class="folder-count">(1 个文件)</span>
+                    </div>
+                    <div class="file-list">
+                
+        <div class="file-item">
+            <div class="file-name">index.html</div>
+            <div class="file-path" title="./CandyUI/面包屑导航/index.html">./CandyUI/面包屑导航/index.html</div>
+            
+            <div class="file-meta">
+                <span class="file-size">💾 26.5 KB</span>
+                <span class="file-date">📅 2025-12-17 20:54</span>
+            </div>
+            <a href="./CandyUI/面包屑导航/index.html" class="open-btn" target="_blank" >
+               🔗 打开文件
+            </a>
+        </div>
+        
+                    </div>
+                </div>
+                
+                </div>
+
+                <div class="footer">
+                    <p>📝 使用 HTML文件目录生成器 创建 • 最后更新: 2025-12-17 21:26:59</p>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #888;">
+                        共收录 29 个HTML文件 • 
+                        点击"打开文件"按钮可直接在浏览器中查看
+                    </p>
+                </div>
+            </div>
+
+            <script>
+                // 搜索功能
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', function(e) {
+                        const searchTerm = e.target.value.toLowerCase().trim();
+                        const fileItems = document.querySelectorAll('.file-item');
+                        let visibleCount = 0;
+
+                        fileItems.forEach(item => {
+                            const fileName = item.querySelector('.file-name').textContent.toLowerCase();
+                            const filePath = item.querySelector('.file-path').textContent.toLowerCase();
+
+                            if (!searchTerm || fileName.includes(searchTerm) || filePath.includes(searchTerm)) {
+                                item.style.display = 'block';
+                                visibleCount++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+
+                        // 更新文件夹计数
+                        document.querySelectorAll('.folder-group').forEach(folder => {
+                            const folderItems = folder.querySelectorAll('.file-item');
+                            const visibleItems = Array.from(folderItems).filter(item => 
+                                item.style.display !== 'none'
+                            ).length;
+
+                            const countSpan = folder.querySelector('.folder-count');
+                            if (countSpan) {
+                                countSpan.textContent = '(' + visibleItems + ' 个文件)';
+                            }
+
+                            // 如果文件夹内没有可见项目，隐藏整个文件夹
+                            if (visibleItems === 0) {
+                                folder.style.display = 'none';
+                            } else {
+                                folder.style.display = 'block';
+                            }
+                        });
+                    });
+                }
+
+                // 文件过滤功能
+                function filterFiles(type) {
+                    const fileLists = document.querySelectorAll('.file-list');
+
+                    fileLists.forEach(fileList => {
+                        const items = Array.from(fileList.querySelectorAll('.file-item'));
+
+                        items.sort((a, b) => {
+                            switch(type) {
+                                case 'recent':
+                                    const aDateText = a.querySelector('.file-date').textContent;
+                                    const bDateText = b.querySelector('.file-date').textContent;
+                                    const aDate = new Date(aDateText);
+                                    const bDate = new Date(bDateText);
+                                    return bDate - aDate;
+
+                                case 'large':
+                                    const aSizeText = a.querySelector('.file-size').textContent;
+                                    const bSizeText = b.querySelector('.file-size').textContent;
+                                    const aSize = parseFloat(aSizeText);
+                                    const bSize = parseFloat(bSizeText);
+                                    return bSize - aSize;
+
+                                default:
+                                    return 0;
+                            }
+                        });
+
+                        // 重新排序
+                        items.forEach(item => fileList.appendChild(item));
+                    });
+                }
+
+                // 文件夹折叠功能
+                function toggleAllFolders() {
+                    const folderHeaders = document.querySelectorAll('.folder-header');
+                    const allExpanded = Array.from(folderHeaders).every(header => {
+                        const content = header.nextElementSibling;
+                        return content.style.display !== 'none';
+                    });
+
+                    folderHeaders.forEach(header => {
+                        const content = header.nextElementSibling;
+                        const icon = header.querySelector('.toggle-icon');
+
+                        if (allExpanded) {
+                            content.style.display = 'none';
+                            if (icon) icon.textContent = '📁';
+                        } else {
+                            content.style.display = 'grid';
+                            if (icon) icon.textContent = '📂';
+                        }
+                    });
+                }
+
+                // 单个文件夹折叠
+                document.querySelectorAll('.folder-header').forEach(header => {
+                    header.addEventListener('click', function() {
+                        const content = this.nextElementSibling;
+                        const icon = this.querySelector('.toggle-icon');
+                        if (content.style.display === 'none') {
+                            content.style.display = 'grid';
+                            if (icon) icon.textContent = '📂';
+                        } else {
+                            content.style.display = 'none';
+                            if (icon) icon.textContent = '📁';
+                        }
+                    });
+                });
+
+                // 初始化显示所有文件夹为展开状态
+                document.querySelectorAll('.folder-header').forEach(header => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('.toggle-icon');
+                    content.style.display = 'grid';
+                    if (icon) icon.textContent = '📂';
+                });
+            </script>
+        </body>
+        </html>
