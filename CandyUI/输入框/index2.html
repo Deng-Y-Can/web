@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>50 种全新炫酷输入框 · 第二辑</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=VT323&family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            color: white;
+            outline: none;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        /* ———————————————————————————————— */
+        /* 全新 50 种风格（51–100） */
+        /* ———————————————————————————————— */
+
+        /* 51. 水波纹涟漪 */
+        .input-style-51 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .input-style-51::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgba(0, 200, 255, 0.2);
+                transform: translate(-50%, -50%);
+                transition: width 0.6s, height 0.6s;
+            }
+
+            .input-style-51:focus-within::before {
+                width: 400px;
+                height: 400px;
+            }
+
+        /* 52. 熔岩流动边框 */
+        .input-style-52 {
+            position: relative;
+            padding: 12px;
+            background: #111;
+        }
+
+            .input-style-52::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(90deg, #ff4500, #ff8c00, #ff4500);
+                mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                mask-composite: exclude;
+                -webkit-mask-composite: xor;
+                z-index: -1;
+                animation: lavaFlow 3s infinite linear;
+            }
+
+        @keyframes lavaFlow {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* 53. 赛博格义体接口 */
+        .input-style-53 {
+            background: #0a0a0a;
+            border: 2px solid #00ffaa;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-53::before {
+                content: "CYBORG";
+                position: absolute;
+                top: -24px;
+                left: 0;
+                font-size: 10px;
+                color: #00ffaa;
+                letter-spacing: 2px;
+            }
+
+        /* 54. 虚拟终端（绿色 CRT） */
+        .input-style-54 {
+            background: #001a00;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        /* 55. 全息悬浮 */
+        .input-style-55 {
+            background: transparent;
+            padding: 12px;
+            position: relative;
+            color: cyan;
+            text-shadow: 0 0 8px cyan;
+        }
+
+            .input-style-55::before {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(to right, transparent, cyan, transparent);
+                filter: blur(1px);
+            }
+
+        /* 56. 黑客代码雨背景 */
+        .input-style-56 {
+            background: #000 url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='0' y='15' fill='%2300ff00' font-size='12' font-family='monospace'%3E01010101%3C/text%3E%3C/svg%3E") repeat-y;
+            padding: 12px;
+            color: white;
+        }
+
+        /* 57. 镜面反射 */
+        .input-style-57 {
+            background: #222;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-57::after {
+                content: attr(data-value);
+                position: absolute;
+                bottom: -100%;
+                left: 16px;
+                color: rgba(255, 255, 255, 0.2);
+                transform: scaleY(-1);
+                filter: blur(1px);
+            }
+
+        /* 58. 量子纠缠线 */
+        .input-style-58 {
+            position: relative;
+            padding: 12px;
+            background: #000;
+        }
+
+            .input-style-58::before, .input-style-58::after {
+                content: '';
+                position: absolute;
+                width: 2px;
+                background: #ff00ff;
+                top: 0;
+                bottom: 0;
+            }
+
+            .input-style-58::before {
+                left: 10px;
+                animation: quantumPulse 2s infinite;
+            }
+
+            .input-style-58::after {
+                right: 10px;
+                animation: quantumPulse 2s infinite 0.5s;
+            }
+
+        @keyframes quantumPulse {
+            0%,100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* 59. 蒸汽朋克齿轮 */
+        .input-style-59 {
+            background: #2b1d0e;
+            padding: 12px;
+            border: 2px solid #c19a6b;
+            position: relative;
+        }
+
+            .input-style-59::before {
+                content: "⚙";
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%) rotate(0deg);
+                font-size: 16px;
+                color: #c19a6b;
+                animation: gearRotate 8s linear infinite;
+            }
+
+        @keyframes gearRotate {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        /* 60. 暗物质漩涡 */
+        .input-style-60 {
+            background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0.8), #000 100%);
+            padding: 12px;
+            border: 1px solid rgba(100, 100, 255, 0.3);
+        }
+
+        /* 61. 光纤导管 */
+        .input-style-61 {
+            position: relative;
+            padding: 12px;
+            background: #000;
+        }
+
+            .input-style-61::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: linear-gradient(to bottom, #00f, #0ff, #0f0);
+                animation: fiberGlow 2s infinite alternate;
+            }
+
+        /* 62. 太空舱控制台 */
+        .input-style-62 {
+            background: #000;
+            border: 2px solid #00ffcc;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+            .input-style-62 input {
+                background: transparent;
+                width: 120px;
+                text-align: center;
+                border-bottom: 1px solid #0ff;
+            }
+
+        /* 63. 生物荧光 */
+        .input-style-63 {
+            background: #001100;
+            padding: 12px;
+            color: #00ffaa;
+            text-shadow: 0 0 6px rgba(0, 255, 170, 0.7);
+        }
+
+        /* 64. 时间裂缝 */
+        .input-style-64 {
+            position: relative;
+            padding: 12px;
+            background: linear-gradient(90deg, #000, #111, #000);
+            overflow: hidden;
+        }
+
+            .input-style-64::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: 2px;
+                height: 100%;
+                background: #ff00ff;
+                left: 50%;
+                animation: timeRift 4s infinite linear;
+            }
+
+        @keyframes timeRift {
+            0% {
+                left: -10px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* 65. 金属蚀刻 */
+        .input-style-65 {
+            background: #333;
+            padding: 12px;
+            background-image: linear-gradient(90deg, transparent 49%, rgba(0,0,0,0.2) 49%, rgba(0,0,0,0.2) 51%, transparent 51%), linear-gradient(transparent 49%, rgba(255,255,255,0.1) 49%, rgba(255,255,255,0.1) 51%, transparent 51%);
+            background-size: 20px 20px;
+        }
+
+        /* 66. 虚拟现实头盔 HUD */
+        .input-style-66 {
+            background: rgba(0, 10, 20, 0.9);
+            border: 1px solid #00ffff;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-66::after {
+                content: "[VR]";
+                position: absolute;
+                top: -20px;
+                right: 0;
+                color: #0ff;
+                font-size: 10px;
+            }
+
+        /* 67. 数据流隧道 */
+        .input-style-67 {
+            background: conic-gradient(from 0deg at 40% 40%, #000, #001122, #000);
+            padding: 12px;
+            border: 1px solid #0066ff;
+        }
+
+        /* 68. 冰晶冻结 */
+        .input-style-68 {
+            background: #e0f7ff;
+            color: #003366;
+            padding: 12px;
+            border: 2px solid #a0d8ff;
+            position: relative;
+        }
+
+            .input-style-68::before {
+                content: "❄";
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                color: #a0d8ff;
+            }
+
+        /* 69. 反物质核心 */
+        .input-style-69 {
+            position: relative;
+            padding: 12px;
+            background: #000;
+            color: #ff55ff;
+        }
+
+            .input-style-69::before {
+                content: '';
+                position: absolute;
+                inset: -5px;
+                background: radial-gradient(circle, rgba(255,0,255,0.2), transparent 70%);
+                z-index: -1;
+            }
+
+        /* 70. 外星象形文字 */
+        .input-style-70 {
+            background: #1a001a;
+            padding: 12px;
+            font-family: 'Audiowide', cursive;
+            color: #00ffcc;
+            letter-spacing: 3px;
+        }
+
+        /* 71–100：继续补充独特风格 */
+        .input-style-71 {
+            background: #000;
+            padding: 12px;
+            border-image: linear-gradient(45deg, purple, orange) 1;
+            border-width: 2px;
+            border-style: solid;
+        }
+
+        .input-style-72 {
+            background: #000;
+            padding: 12px;
+            clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+        }
+
+        .input-style-73 {
+            background: #000;
+            padding: 12px;
+            filter: contrast(1.5) brightness(1.2);
+        }
+
+        .input-style-74 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-74::before {
+                content: "→";
+                position: absolute;
+                left: -20px;
+                color: #ffaa00;
+            }
+
+        .input-style-75 {
+            background: #000;
+            padding: 12px;
+            animation: breathe 4s infinite;
+        }
+
+        @keyframes breathe {
+            0%,100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        .input-style-76 {
+            background: #000;
+            padding: 12px;
+            background: repeating-conic-gradient(from 0deg, #222 0 10deg, #333 10deg 20deg);
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .input-style-76 input {
+                width: 100px;
+                text-align: center;
+            }
+
+        .input-style-77 {
+            background: #000;
+            padding: 12px;
+            mask-image: radial-gradient(circle, black 70%, transparent 100%);
+        }
+
+        .input-style-78 {
+            background: #000;
+            padding: 12px;
+            text-shadow: 2px 2px 0 red, -2px -2px 0 cyan;
+        }
+
+        .input-style-79 {
+            background: #000;
+            padding: 12px;
+            border: 3px inset #0ff;
+        }
+
+        .input-style-80 {
+            background: #000;
+            padding: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L40 40M40 0L0 40' stroke='%23ff00ff' stroke-width='1'/%3E%3C/svg%3E");
+        }
+
+        .input-style-81 {
+            background: #000;
+            padding: 12px;
+            font-variant-caps: small-caps;
+            color: gold;
+        }
+
+        .input-style-82 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-82::after {
+                content: "AI";
+                position: absolute;
+                top: 50%;
+                right: 8px;
+                transform: translateY(-50%);
+                font-size: 10px;
+                color: #00ff99;
+            }
+
+        .input-style-83 {
+            background: #000;
+            padding: 12px;
+            transform: rotateZ(2deg);
+        }
+
+        .input-style-84 {
+            background: #000;
+            padding: 12px;
+            box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px transparent, 0 0 0 6px #00ffff;
+        }
+
+        .input-style-85 {
+            background: #000;
+            padding: 12px;
+            background: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%);
+            background-size: 20px 20px;
+        }
+
+        .input-style-86 {
+            background: #000;
+            padding: 12px;
+            border: 1px dashed #ff5500;
+            animation: dashMove 2s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to {
+                background-position: 20px 0;
+            }
+        }
+
+        .input-style-87 {
+            background: #000;
+            padding: 12px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .input-style-88 {
+            background: #000;
+            padding: 12px;
+            color: #ff0055;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .input-style-89 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .input-style-89::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                width: 30px;
+                height: 30px;
+                background: #00ffaa;
+                transform: rotate(45deg);
+            }
+
+        .input-style-90 {
+            background: #000;
+            padding: 12px;
+            border: 2px double #ffaa00;
+        }
+
+        .input-style-91 {
+            background: #000;
+            padding: 12px;
+            background: radial-gradient(ellipse at top left, rgba(0,200,255,0.1), transparent), radial-gradient(ellipse at bottom right, rgba(255,0,255,0.1), transparent);
+        }
+
+        .input-style-92 {
+            background: #000;
+            padding: 12px;
+            clip-path: circle(45% at 50% 50%);
+        }
+
+        .input-style-93 {
+            background: #000;
+            padding: 12px;
+            filter: grayscale(100%) contrast(1.3);
+        }
+
+        .input-style-94 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-94::after {
+                content: "🔒";
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.5;
+            }
+
+            .input-style-94 input {
+                padding-left: 30px;
+            }
+
+        .input-style-95 {
+            background: #000;
+            padding: 12px;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0%,100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.95;
+            }
+        }
+
+        .input-style-96 {
+            background: #000;
+            padding: 12px;
+            border: 1px solid;
+            border-image-source: linear-gradient(135deg, #ff00cc, #00eeff);
+            border-image-slice: 1;
+        }
+
+        .input-style-97 {
+            background: #000;
+            padding: 12px;
+            transform: perspective(600px) rotateX(15deg);
+        }
+
+        .input-style-98 {
+            background: #000;
+            padding: 12px;
+            box-shadow: inset 5px 0 0 #ff00ff, inset -5px 0 0 #00ffff;
+        }
+
+        .input-style-99 {
+            background: #000;
+            padding: 12px;
+            background-image: linear-gradient(90deg, transparent 50%, rgba(0,255,255,0.1) 50%);
+            background-size: 4px 4px;
+        }
+
+        .input-style-100 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-100::after {
+                content: "∞";
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #ff55ff;
+                font-size: 16px;
+            }
+
+        /* 双击聚焦动画 */
+        .focus-animate {
+            animation: focusGlow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes focusGlow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(0,200,255,0);
+            }
+
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 25px rgba(0,255,255,0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // 生成 50 个新样式（51–100）
+        for (let i = 51; i <= 100; i++) {
+            const div = document.createElement('div');
+            div.className = `container input-style-${i}`;
+            div.innerHTML = `<input type="text" placeholder="Style ${i}" data-value="" />`;
+            document.body.appendChild(div);
+        }
+
+        // 双击聚焦 + 动画
+        document.addEventListener('dblclick', function (e) {
+            if (e.target.tagName === 'INPUT') {
+                e.target.focus();
+                const parent = e.target.parentElement;
+                parent.classList.add('focus-animate');
+                setTimeout(() => parent.classList.remove('focus-animate'), 600);
+            }
+        });
+    </script>
+
+</body>
+</html> 

@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>另20种炫酷下拉框合集 Part 3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e; /* Dark Blue Gray */
+            color: #eeeeee;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+        }
+
+        h3 {
+            margin-bottom: 12px;
+            font-weight: 400;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+
+        /* 通用选项样式 */
+        .option {
+            padding: 10px 16px;
+            cursor: default;
+            transition: all 0.2s ease;
+        }
+
+
+        /* ========== 41. 极简主义 (Minimalism) ========= */
+        .minimal-trigger {
+            background: transparent;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #555;
+        }
+
+        .minimal-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #222;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+            .minimal-options.show {
+                max-height: 180px;
+            }
+
+        .minimal-option {
+            color: #ccc;
+        }
+
+            .minimal-option:hover {
+                background: #333;
+            }
+
+        /* ========== 42. 霓虹灯牌 (Neon Signage) ========= */
+        .neon-trigger {
+            background: #000;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 5px #00ffff, inset 0 0 5px rgba(0, 255, 255, 0.1), 0 0 10px rgba(0, 255, 255, 0.1);
+            text-shadow: 0 0 5px #00ffff;
+            font-weight: bold;
+        }
+
+        .neon-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 1px solid #00ffff;
+            border-top: none;
+            box-shadow: 0 0 5px #00ffff, inset 0 0 5px rgba(0, 255, 255, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .neon-options.show {
+                max-height: 180px;
+            }
+
+        .neon-option {
+            color: #fff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+
+            .neon-option:hover {
+                background: rgba(0, 255, 255, 0.1);
+                box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2);
+            }
+
+        /* ========== 43. 像素艺术 (Pixel Art) ========= */
+        .pixel-trigger {
+            background: #6a5acd; /* SlateBlue */
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            image-rendering: pixelated;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .pixel-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h2v2H0V0zm2 2h2v2H2V2z' fill='%235645a3'/%3E%3C/svg%3E");
+                opacity: 0.3;
+            }
+
+        .pixel-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #5645a3;
+            border: 2px solid #000;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s steps(4);
+        }
+
+            .pixel-options.show {
+                max-height: 180px;
+            }
+
+        .pixel-option {
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            padding: 8px;
+        }
+
+            .pixel-option:hover {
+                background: #4b3a8d;
+            }
+
+        /* ========== 44. 玻璃拟态 (Acrylic/Glassmorphism) ========= */
+        .glass-trigger {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        .glass-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .glass-options.show {
+                max-height: 180px;
+            }
+
+        .glass-option {
+            color: #eee;
+        }
+
+            .glass-option:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        /* ========== 45. 手绘涂鸦 (Hand-drawn Sketch) ========= */
+        .sketch-trigger {
+            background: #fff8dc; /* Cornsilk */
+            color: #333;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #000;
+            border-radius: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .sketch-trigger::before, .sketch-trigger::after {
+                content: "";
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .sketch-trigger::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px);
+                background-size: 4px 4px;
+                opacity: 0.2;
+            }
+
+        .sketch-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fefefe;
+            border: 2px solid #000;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .sketch-options.show {
+                max-height: 180px;
+            }
+
+        .sketch-option {
+            color: #333;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            border-top: 1px dashed #999;
+        }
+
+            .sketch-option:hover {
+                background: #f5f5dc;
+            }
+
+        /* ========== 46. 水墨晕染 (Ink Bleed) ========= */
+        .inkbleed-trigger {
+            background: #f5f5dc; /* Beige */
+            color: #3e2723; /* Deep Brown */
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .inkbleed-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle, rgba(62,39,35,0.2) 0%, transparent 70%);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .inkbleed-trigger:hover::before {
+                opacity: 1;
+            }
+
+        .inkbleed-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fcfcf5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out;
+        }
+
+            .inkbleed-options.show {
+                max-height: 180px;
+            }
+
+        .inkbleed-option {
+            color: #5d4037;
+        }
+
+            .inkbleed-option:hover {
+                background: #edebe4;
+            }
+
+        /* ========== 47. 全息投影 (Hologram) ========= */
+        .hologram-trigger {
+            background: #000;
+            color: #0ff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+            .hologram-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, transparent 50%, rgba(0,255,255,0.1) 50%);
+                background-size: 10px 10px;
+                opacity: 0.5;
+                z-index: -1;
+            }
+
+            .hologram-trigger::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(0,255,255,0.3), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.8s ease;
+                z-index: -1;
+            }
+
+            .hologram-trigger:hover::after {
+                transform: translateX(100%);
+            }
+
+        .hologram-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+            border-top: 1px solid #0ff;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .hologram-options.show {
+                max-height: 180px;
+            }
+
+        .hologram-option {
+            color: #0ff;
+            text-shadow: 0 0 5px rgba(0,255,255,0.5);
+        }
+
+            .hologram-option:hover {
+                background: rgba(0,255,255,0.05);
+                text-shadow: 0 0 8px #0ff;
+            }
+
+        /* ========== 48. 浮雕效果 (Embossed) ========= */
+        .emboss-trigger {
+            background: #444;
+            color: #ddd;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(255,255,255,0.1);
+        }
+
+        .emboss-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #333;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(255,255,255,0.05);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .emboss-options.show {
+                max-height: 180px;
+            }
+
+        .emboss-option {
+            color: #ccc;
+            border-top: 1px solid #222;
+        }
+
+            .emboss-option:hover {
+                background: #3a3a3a;
+                box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+            }
+
+        /* ========== 49. 信息图 (Infographic) ========= */
+        .info-trigger {
+            background: #007acc; /* Blue */
+            color: white;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .info-trigger::before {
+                content: "i";
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 20px;
+                background: white;
+                color: #007acc;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-style: normal;
+            }
+
+        .info-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #e3f2fd; /* Light Blue */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .info-options.show {
+                max-height: 180px;
+            }
+
+        .info-option {
+            color: #004499;
+            padding-left: 35px;
+            position: relative;
+        }
+
+            .info-option::before {
+                content: "•";
+                position: absolute;
+                left: 20px;
+                color: #007acc;
+            }
+
+            .info-option:hover {
+                background: #bbdefb;
+            }
+
+        /* ========== 50. 磁贴风格 (Metro/Tile) ========= */
+        .metro-trigger {
+            background: #00aba9; /* Teal */
+            color: white;
+            padding: 14px;
+            text-align: left;
+            cursor: pointer;
+            user-select: none;
+            font-size: 18px;
+            border: none;
+        }
+
+        .metro-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #1aba17; /* Green */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+            .metro-options.show {
+                max-height: 180px;
+            }
+
+        .metro-option {
+            color: white;
+            font-size: 16px;
+            padding: 12px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+            .metro-option:hover {
+                background: rgba(0,0,0,0.1);
+            }
+
+        /* ========== 51. 立体按钮 (3D Button Press) ========= */
+        .button3d-trigger {
+            background: linear-gradient(to bottom, #ff9800, #f57c00);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 4px 0 #e65100;
+            transition: all 0.1s ease;
+        }
+
+            .button3d-trigger.pressed {
+                transform: translateY(4px);
+                box-shadow: 0 0 0 #e65100;
+            }
+
+        .button3d-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            width: 100%;
+            background: #ffd54f;
+            border-radius: 0 0 4px 4px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .button3d-options.show {
+                max-height: 180px;
+            }
+
+        .button3d-option {
+            color: #333;
+        }
+
+            .button3d-option:hover {
+                background: #ffecb3;
+            }
+
+        /* ========== 52. 暗黑模式开关 (Dark Mode Toggle Inspired) ========= */
+        .darkmode-trigger {
+            background: #2d2d2d;
+            color: #ccc;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+            .darkmode-trigger::before {
+                content: "🌙";
+            }
+
+            .darkmode-trigger.light {
+                background: #f0f0f0;
+                color: #333;
+            }
+
+                .darkmode-trigger.light::before {
+                    content: "☀️";
+                }
+
+        .darkmode-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #1e1e1e;
+            border-radius: 0 0 20px 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .darkmode-options.show {
+                max-height: 180px;
+            }
+
+        .darkmode-option {
+            color: #aaa;
+        }
+
+            .darkmode-option:hover {
+                background: #2a2a2a;
+                color: #fff;
+            }
+
+        /* ========== 53. 波纹扩散 (Ripple Effect) ========= */
+        .ripple-trigger {
+            background: #2196f3;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .ripple-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #bbdefb;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .ripple-options.show {
+                max-height: 180px;
+            }
+
+        .ripple-option {
+            color: #0d47a1;
+        }
+
+            .ripple-option:hover {
+                background: #e3f2fd;
+            }
+
+        /* ========== 54. 橡皮筋弹跳 (Rubber Band) ========= */
+        .rubber-trigger {
+            background: #9c27b0;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+        }
+
+            .rubber-trigger.active {
+                animation: rubberBand 0.6s ease;
+            }
+
+        @keyframes rubberBand {
+            0% {
+                transform: scale3d(1, 1, 1);
+            }
+
+            30% {
+                transform: scale3d(1.25, 0.75, 1);
+            }
+
+            40% {
+                transform: scale3d(0.75, 1.25, 1);
+            }
+
+            50% {
+                transform: scale3d(1.15, 0.85, 1);
+            }
+
+            65% {
+                transform: scale3d(.95, 1.05, 1);
+            }
+
+            75% {
+                transform: scale3d(1.05, .95, 1);
+            }
+
+            100% {
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        .rubber-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #ce93d8;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+            .rubber-options.show {
+                max-height: 180px;
+            }
+
+        .rubber-option {
+            color: #4a148c;
+        }
+
+            .rubber-option:hover {
+                background: #e1bee7;
+            }
+
+        /* ========== 55. 粒子系统 (Particle System) ========= */
+        /* Note: Pure CSS particle effect is very limited. This is a simplified representation. */
+        .particle-trigger {
+            background: #000;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .particle-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+                background-size: 15px 15px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .particle-trigger:hover::before {
+                opacity: 0.3;
+            }
+
+        .particle-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .particle-options.show {
+                max-height: 180px;
+            }
+
+        .particle-option {
+            color: #ddd;
+        }
+
+            .particle-option:hover {
+                background: #222;
+            }
+
+        /* ========== 56. 乐高积木 (Lego Block) ========= */
+        .lego-trigger {
+            background: #d81b60; /* Red */
+            color: white;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #c11350; /* Darker Red */
+            border-radius: 0;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .lego-trigger::before {
+                content: "";
+                position: absolute;
+                top: -5px;
+                left: 10px;
+                width: 10px;
+                height: 10px;
+                background: #d81b60;
+                border: 2px solid #c11350;
+                border-radius: 50%;
+                box-shadow: 20px 0 0 #d81b60, 20px 0 0 2px #c11350, 40px 0 0 #d81b60, 40px 0 0 2px #c11350;
+            }
+
+        .lego-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #f8bbd0; /* Light Pink */
+            border: 2px solid #c11350;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .lego-options.show {
+                max-height: 180px;
+            }
+
+        .lego-option {
+            color: #880e4f;
+            border-top: 1px solid #f48fb1;
+        }
+
+            .lego-option:hover {
+                background: #f48fb1;
+            }
+
+        /* ========== 57. 时间线 (Timeline) ========= */
+        .timeline-trigger {
+            background: transparent;
+            color: #4fc3f7;
+            padding: 12px 12px 12px 30px;
+            text-align: left;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+            .timeline-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 4px;
+                height: 100%;
+                background: #4fc3f7;
+            }
+
+            .timeline-trigger::after {
+                content: "●";
+                position: absolute;
+                top: 50%;
+                left: -6px;
+                transform: translateY(-50%);
+                color: #4fc3f7;
+                font-size: 18px;
+            }
+
+        .timeline-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #0277bd;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding-left: 20px;
+        }
+
+            .timeline-options.show {
+                max-height: 180px;
+            }
+
+        .timeline-option {
+            color: #b3e5fc;
+            position: relative;
+            padding-left: 20px;
+            border-left: 1px dashed rgba(179, 229, 252, 0.5);
+        }
+
+            .timeline-option::before {
+                content: "●";
+                position: absolute;
+                top: 50%;
+                left: -6px;
+                transform: translateY(-50%);
+                color: #81d4fa;
+                font-size: 14px;
+            }
+
+            .timeline-option:hover {
+                background: rgba(2, 119, 189, 0.7);
+            }
+
+        /* ========== 58. 卡片翻转 (Card Flip) ========= */
+        .cardflip-container {
+            perspective: 1000px;
+            height: 50px; /* Match trigger height */
+        }
+
+        .cardflip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .cardflip-container.flipped .cardflip-inner {
+            transform: rotateX(180deg);
+        }
+
+        .cardflip-front, .cardflip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .cardflip-front {
+            background: #607d8b; /* Blue Grey */
+            color: white;
+        }
+
+        .cardflip-back {
+            background: #eceff1; /* Blue Grey Light */
+            color: #455a64;
+            transform: rotateX(180deg);
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            cursor: default;
+        }
+
+            .cardflip-back > div {
+                width: 100%;
+                padding: 5px;
+                text-align: center;
+            }
+
+                .cardflip-back > div:hover {
+                    background: #cfd8dc;
+                }
+
+        /* ========== 59. 错误/警告 (Error/Warning) ========= */
+        .error-trigger {
+            background: #d32f2f;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .error-trigger::before {
+                content: "⚠";
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                font-size: 18px;
+            }
+
+        .error-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #ffcdd2;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .error-options.show {
+                max-height: 180px;
+            }
+
+        .error-option {
+            color: #b71c1c;
+            padding-left: 35px;
+        }
+
+            .error-option:hover {
+                background: #ef9a9a;
+            }
+
+        /* ========== 60. 悬浮窗 (Floating Window) ========= */
+        .floatwin-trigger {
+            background: #3f51b5;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .floatwin-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #c5cae9;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            z-index: 10;
+        }
+
+            .floatwin-options.show {
+                max-height: 180px;
+            }
+
+        .floatwin-option {
+            color: #1a237e;
+            border-top: 1px solid #9fa8da;
+        }
+
+            .floatwin-option:hover {
+                background: #9fa8da;
+            }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 41 -->
+    <div><h3>41. 极简主义 (Minimalism)</h3><div class="dropdown-container"><div class="minimal-trigger" ondblclick="toggle(this, 'minimal')">简约之美 ▼</div><div class="minimal-options"><div class="option minimal-option">Less is More</div><div class="option minimal-option">留白艺术</div></div></div></div>
+
+    <!-- 42 -->
+    <div><h3>42. 霓虹灯牌 (Neon Signage)</h3><div class="dropdown-container"><div class="neon-trigger" ondblclick="toggle(this, 'neon')">NEON SIGN ▼</div><div class="neon-options"><div class="option neon-option">Open 24 Hours</div><div class="option neon-option">Special Offer</div></div></div></div>
+
+    <!-- 43 -->
+    <div><h3>43. 像素艺术 (Pixel Art)</h3><div class="dropdown-container"><div class="pixel-trigger" ondblclick="toggle(this, 'pixel')">8-BIT MENU ▼</div><div class="pixel-options"><div class="option pixel-option">START GAME</div><div class="option pixel-option">OPTIONS</div></div></div></div>
+
+    <!-- 44 -->
+    <div><h3>44. 玻璃拟态 (Acrylic/Glassmorphism)</h3><div class="dropdown-container"><div class="glass-trigger" ondblclick="toggle(this, 'glass')">模糊之美 ▼</div><div class="glass-options"><div class="option glass-option">透明选项 A</div><div class="option glass-option">透明选项 B</div></div></div></div>
+
+    <!-- 45 -->
+    <div><h3>45. 手绘涂鸦 (Hand-drawn Sketch)</h3><div class="dropdown-container"><div class="sketch-trigger" ondblclick="toggle(this, 'sketch')">草图笔记 ▼</div><div class="sketch-options"><div class="option sketch-option">想法一</div><div class="option sketch-option">想法二</div></div></div></div>
+
+    <!-- 46 -->
+    <div><h3>46. 水墨晕染 (Ink Bleed)</h3><div class="dropdown-container"><div class="inkbleed-trigger" ondblclick="toggle(this, 'inkbleed')">墨韵丹青 ▼</div><div class="inkbleed-options"><div class="option inkbleed-option">山水意境</div><div class="option inkbleed-option">花鸟情趣</div></div></div></div>
+
+    <!-- 47 -->
+    <div><h3>47. 全息投影 (Hologram)</h3><div class="dropdown-container"><div class="hologram-trigger" ondblclick="toggle(this, 'hologram')">HOLOGRAM ▼</div><div class="hologram-options"><div class="option hologram-option">Project A</div><div class="option hologram-option">Project B</div></div></div></div>
+
+    <!-- 48 -->
+    <div><h3>48. 浮雕效果 (Embossed)</h3><div class="dropdown-container"><div class="emboss-trigger" ondblclick="toggle(this, 'emboss')">压印工艺 ▼</div><div class="emboss-options"><div class="option emboss-option">质感选项 A</div><div class="option emboss-option">质感选项 B</div></div></div></div>
+
+    <!-- 49 -->
+    <div><h3>49. 信息图 (Infographic)</h3><div class="dropdown-container"><div class="info-trigger" ondblclick="toggle(this, 'info')">INFOGRAPHIC ▼</div><div class="info-options"><div class="option info-option">Stat Point 1</div><div class="option info-option">Stat Point 2</div></div></div></div>
+
+    <!-- 50 -->
+    <div><h3>50. 磁贴风格 (Metro/Tile)</h3><div class="dropdown-container"><div class="metro-trigger" ondblclick="toggle(this, 'metro')">TILE MENU ▼</div><div class="metro-options"><div class="option metro-option">Live Tile 1</div><div class="option metro-option">Live Tile 2</div></div></div></div>
+
+    <!-- 51 -->
+    <div><h3>51. 立体按钮 (3D Button Press)</h3><div class="dropdown-container"><div class="button3d-trigger" ondblclick="toggleButton3D(this)">PRESS ME ▼</div><div class="button3d-options"><div class="option button3d-option">Action Alpha</div><div class="option button3d-option">Action Beta</div></div></div></div>
+
+    <!-- 52 -->
+    <div><h3>52. 暗黑模式开关 (Dark Mode Toggle Inspired)</h3><div class="dropdown-container"><div class="darkmode-trigger" ondblclick="toggleDarkMode(this)">暗黑模式 ▼</div><div class="darkmode-options"><div class="option darkmode-option">启用暗色</div><div class="option darkmode-option">调整对比度</div></div></div></div>
+
+    <!-- 53 -->
+    <div><h3>53. 波纹扩散 (Ripple Effect)</h3><div class="dropdown-container"><div class="ripple-trigger" ondblclick="createRipple(event, this)">RIPPLE EFFECT ▼</div><div class="ripple-options"><div class="option ripple-option">涟漪选项 A</div><div class="option ripple-option">涟漪选项 B</div></div></div></div>
+
+    <!-- 54 -->
+    <div><h3>54. 橡皮筋弹跳 (Rubber Band)</h3><div class="dropdown-container"><div class="rubber-trigger" ondblclick="toggleRubber(this)">Bounce! ▼</div><div class="rubber-options"><div class="option rubber-option">弹性选项 A</div><div class="option rubber-option">弹性选项 B</div></div></div></div>
+
+    <!-- 55 -->
+    <div><h3>55. 粒子系统 (Particle System)</h3><div class="dropdown-container"><div class="particle-trigger" ondblclick="toggle(this, 'particle')">PARTICLE FIELD ▼</div><div class="particle-options"><div class="option particle-option">粒子 A</div><div class="option particle-option">粒子 B</div></div></div></div>
+
+    <!-- 56 -->
+    <div><h3>56. 乐高积木 (Lego Block)</h3><div class="dropdown-container"><div class="lego-trigger" ondblclick="toggle(this, 'lego')">LEGO PIECES ▼</div><div class="lego-options"><div class="option lego-option">红色砖块</div><div class="option lego-option">蓝色砖块</div></div></div></div>
+
+    <!-- 57 -->
+    <div><h3>57. 时间线 (Timeline)</h3><div class="dropdown-container"><div class="timeline-trigger" ondblclick="toggle(this, 'timeline')">TIMELINE EVENT ▼</div><div class="timeline-options"><div class="option timeline-option">Event Marker 1</div><div class="option timeline-option">Event Marker 2</div></div></div></div>
+
+    <!-- 58 -->
+    <div><h3>58. 卡片翻转 (Card Flip)</h3><div class="dropdown-container cardflip-container"><div class="cardflip-inner"><div class="cardflip-front" ondblclick="flipCard(this)">FLIP CARD ▼</div><div class="cardflip-back"><div class="option">Detail A</div><div class="option">Detail B</div></div></div></div></div>
+
+    <!-- 59 -->
+    <div><h3>59. 错误/警告 (Error/Warning)</h3><div class="dropdown-container"><div class="error-trigger" ondblclick="toggle(this, 'error')">WARNING! ▼</div><div class="error-options"><div class="option error-option">Critical Error</div><div class="option error-option">System Alert</div></div></div></div>
+
+    <!-- 60 -->
+    <div><h3>60. 悬浮窗 (Floating Window)</h3><div class="dropdown-container"><div class="floatwin-trigger" ondblclick="toggle(this, 'floatwin')">FLOATING WIN ▼</div><div class="floatwin-options"><div class="option floatwin-option">Window Item 1</div><div class="option floatwin-option">Window Item 2</div></div></div></div>
+
+    <script>
+        function toggle(trigger, type) {
+            const container = trigger.closest('.dropdown-container');
+            const options = container.querySelector(`.${type}-options`);
+            if (options) options.classList.toggle('show');
+        }
+
+        function toggleButton3D(trigger) {
+            trigger.classList.toggle('pressed');
+            toggle(trigger, 'button3d');
+        }
+
+        function toggleDarkMode(trigger) {
+            trigger.classList.toggle('light');
+            toggle(trigger, 'darkmode');
+        }
+
+        function createRipple(event, trigger) {
+            const ripple = document.createElement("span");
+            ripple.classList.add("ripple");
+            const rect = trigger.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            trigger.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+            toggle(trigger, 'ripple');
+        }
+
+        function toggleRubber(trigger) {
+            trigger.classList.add('active');
+            setTimeout(() => trigger.classList.remove('active'), 600);
+            toggle(trigger, 'rubber');
+        }
+
+        function flipCard(frontElement) {
+            const container = frontElement.closest('.cardflip-container');
+            container.classList.toggle('flipped');
+            // No need for separate toggle as the flip handles visibility
+        }
+    </script>
+</body>
+</html> 

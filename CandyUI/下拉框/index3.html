@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>20种炫酷下拉框合集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a12;
+            color: #f0f0f0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+        }
+
+        h3 {
+            margin-bottom: 12px;
+            font-weight: 400;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+
+        /* 通用选项样式 */
+        .option {
+            padding: 10px 16px;
+            cursor: default;
+            transition: all 0.2s ease;
+        }
+
+        /* ========== 1. 赛博朋克霓虹 ========= */
+        .cyber-trigger {
+            background: #000;
+            color: #ff00ff;
+            border: 2px solid #00ffff;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            text-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            user-select: none;
+        }
+
+        .cyber-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #0a0a1a;
+            border: 2px solid #ff00ff;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+            .cyber-options.show {
+                max-height: 180px;
+            }
+
+        .cyber-option {
+            color: white;
+            border-top: 1px dashed #ff00ff;
+        }
+
+            .cyber-option:hover {
+                background: rgba(255, 0, 255, 0.1);
+            }
+
+        /* ========== 2. 玻璃拟态（Glassmorphism） ========= */
+        .glass-trigger {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            color: white;
+        }
+
+        .glass-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .glass-options.show {
+                max-height: 180px;
+            }
+
+        .glass-option {
+            color: #e0e0ff;
+        }
+
+            .glass-option:hover {
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+        /* ========== 3. 故障艺术（Glitch） ========= */
+        @keyframes glitch-anim {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, 3px);
+            }
+
+            40% {
+                transform: translate(-3px, -3px);
+            }
+
+            60% {
+                transform: translate(3px, 3px);
+            }
+
+            80% {
+                transform: translate(3px, -3px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        .glitch-trigger {
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .glitch-trigger::before,
+            .glitch-trigger::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+            }
+
+            .glitch-trigger.active::before {
+                opacity: 0.8;
+                color: red;
+                animation: glitch-anim 0.3s infinite;
+            }
+
+            .glitch-trigger.active::after {
+                opacity: 0.8;
+                color: cyan;
+                animation: glitch-anim 0.4s infinite reverse;
+            }
+
+        .glitch-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+
+            .glitch-options.show {
+                max-height: 180px;
+            }
+
+        .glitch-option {
+            color: lime;
+            font-family: monospace;
+        }
+
+            .glitch-option:hover {
+                color: yellow;
+            }
+
+        /* ========== 4. 蒸汽波（Vaporwave） ========= */
+        .vapor-trigger {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(255, 122, 140, 0.5);
+        }
+
+        .vapor-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 20px 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+            .vapor-options.show {
+                max-height: 180px;
+            }
+
+        .vapor-option {
+            color: #ff758c;
+            font-weight: bold;
+        }
+
+            .vapor-option:hover {
+                background: #ffebee;
+            }
+
+        /* ========== 5. 极简线框（Minimal Wireframe） ========= */
+        .wire-trigger {
+            background: transparent;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 4px;
+        }
+
+        .wire-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            border: 1px solid #666;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+            .wire-options.show {
+                max-height: 180px;
+            }
+
+        .wire-option {
+            color: #ddd;
+            border-top: 1px solid #333;
+        }
+
+            .wire-option:hover {
+                color: white;
+            }
+
+        /* ========== 6. 暗黑金属（Dark Metal） ========= */
+        .metal-trigger {
+            background: radial-gradient(circle, #222, #000);
+            color: gold;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid gold;
+            border-radius: 8px;
+            text-shadow: 0 0 6px rgba(255,215,0,0.7);
+        }
+
+        .metal-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 2px solid gold;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+            .metal-options.show {
+                max-height: 180px;
+            }
+
+        .metal-option {
+            color: #ffd700;
+        }
+
+            .metal-option:hover {
+                background: rgba(255,215,0,0.05);
+            }
+
+        /* ========== 7. 液态流动（Liquid Morph） ========= */
+        .liquid-trigger {
+            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .liquid-trigger::after {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 20px;
+                height: 200%;
+                background: rgba(255,255,255,0.3);
+                transform: rotate(25deg);
+                transition: left 0.5s;
+            }
+
+            .liquid-trigger:hover::after {
+                left: 120%;
+            }
+
+        .liquid-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 50px 50px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+            .liquid-options.show {
+                max-height: 180px;
+            }
+
+        .liquid-option {
+            color: #4a00e0;
+            text-align: center;
+        }
+
+            .liquid-option:hover {
+                background: #f0f0ff;
+            }
+
+        /* ========== 8. 全息投影（Hologram） ========= */
+        .hologram-trigger {
+            background: transparent;
+            color: transparent;
+            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #f0f, 0 0 20px #f0f;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+            .hologram-trigger::before {
+                content: "HOLO MENU ▼";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                color: transparent;
+                background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+                -webkit-background-clip: text;
+                background-clip: text;
+                animation: hue-rotate 3s infinite linear;
+            }
+
+        @keyframes hue-rotate {
+            to {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .hologram-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .hologram-options.show {
+                max-height: 180px;
+            }
+
+        .hologram-option {
+            color: white;
+            background: linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent);
+            background-size: 200% 100%;
+            background-position: -200% 0;
+        }
+
+            .hologram-option:hover {
+                background-position: 200% 0;
+                transition: background-position 0.5s;
+            }
+
+        /* ========== 9. 手绘草图（Sketch Style） ========= */
+        .sketch-trigger {
+            background: white;
+            color: #333;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px dashed #999;
+            border-radius: 8px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .sketch-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 2px dashed #999;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+            .sketch-options.show {
+                max-height: 180px;
+            }
+
+        .sketch-option {
+            color: #555;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+            .sketch-option:hover {
+                background: #f9f9f9;
+            }
+
+        /* ========== 10. 星空宇宙（Cosmic） ========= */
+        .cosmic-trigger {
+            background: #000 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='30' r='1' fill='white'/%3E%3Ccircle cx='100' cy='80' r='1.5' fill='cyan'/%3E%3Ccircle cx='180' cy='150' r='1' fill='magenta'/%3E%3C/svg%3E");
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .cosmic-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='60' r='1' fill='white'/%3E%3Ccircle cx='120' cy='100' r='1' fill='yellow'/%3E%3C/svg%3E");
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+            .cosmic-options.show {
+                max-height: 180px;
+            }
+
+        .cosmic-option {
+            color: #aaffff;
+        }
+
+            .cosmic-option:hover {
+                color: white;
+                background: rgba(0, 50, 100, 0.3);
+            }
+
+        /* ========== 11. 赛博格机械（Cyborg） ========= */
+        .cyborg-trigger {
+            background: #111;
+            color: #0f0;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #0a0;
+            border-radius: 0;
+            font-family: monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .cyborg-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 2px solid #0a0;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s steps(6);
+        }
+
+            .cyborg-options.show {
+                max-height: 180px;
+            }
+
+        .cyborg-option {
+            color: lime;
+            font-family: monospace;
+        }
+
+            .cyborg-option:hover {
+                background: #020;
+            }
+
+        /* ========== 12. 日式禅意（Zen） ========= */
+        .zen-trigger {
+            background: #f9f3e9;
+            color: #5a4a42;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            font-family: serif;
+            letter-spacing: 1px;
+        }
+
+        .zen-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fdfaf5;
+            border-top: 1px solid #e0d8c8;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+            .zen-options.show {
+                max-height: 180px;
+            }
+
+        .zen-option {
+            color: #6b5b4b;
+            font-family: serif;
+        }
+
+            .zen-option:hover {
+                background: #f5efe0;
+            }
+
+        /* ========== 13. 霓虹故障（Neon Glitch） ========= */
+        .neonglitch-trigger {
+            background: #000;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .neonglitch-trigger span {
+                position: relative;
+                z-index: 2;
+            }
+
+            .neonglitch-trigger::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 20%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+                transition: left 0.6s;
+            }
+
+            .neonglitch-trigger:hover::after {
+                left: 120%;
+            }
+
+        .neonglitch-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s;
+        }
+
+            .neonglitch-options.show {
+                max-height: 180px;
+            }
+
+        .neonglitch-option {
+            color: #ff00ff;
+            text-shadow: 0 0 6px #ff00ff;
+        }
+
+            .neonglitch-option:hover {
+                color: #00ffff;
+            }
+
+        /* ========== 14. 黑胶唱片（Vinyl） ========= */
+        .vinyl-trigger {
+            background: radial-gradient(circle, #111 40%, #000 100%);
+            color: #aaa;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+            .vinyl-trigger::before {
+                content: "";
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                background: #333;
+                border-radius: 50%;
+                z-index: 2;
+            }
+
+        .vinyl-options {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            background: #111;
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .vinyl-options.show {
+                max-height: 180px;
+            }
+
+        .vinyl-option {
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+            .vinyl-option:hover {
+                background: #222;
+            }
+
+        /* ========== 15. 未来科技（Futuristic HUD） ========= */
+        .hud-trigger {
+            background: #000;
+            color: #0ff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #0ff;
+            position: relative;
+        }
+
+            .hud-trigger::before {
+                content: ">";
+                position: absolute;
+                left: 8px;
+                animation: blink 1s infinite;
+            }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .hud-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 1px solid #0ff;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s;
+        }
+
+            .hud-options.show {
+                max-height: 180px;
+            }
+
+        .hud-option {
+            color: #0ff;
+            font-family: monospace;
+        }
+
+            .hud-option::before {
+                content: "• ";
+            }
+
+        /* ========== 16. 水彩晕染（Watercolor） ========= */
+        .watercolor-trigger {
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='20' fill='rgba(255,100,100,0.3)'/%3E%3Ccircle cx='70' cy='70' r='25' fill='rgba(100,100,255,0.3)'/%3E%3C/svg%3E");
+            color: #333;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 12px;
+        }
+
+        .watercolor-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='30' fill='rgba(100,255,100,0.2)'/%3E%3C/svg%3E");
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out;
+        }
+
+            .watercolor-options.show {
+                max-height: 180px;
+            }
+
+        .watercolor-option {
+            color: #222;
+        }
+
+            .watercolor-option:hover {
+                background: rgba(255,255,255,0.5);
+            }
+
+        /* ========== 17. 像素艺术（Pixel Art） ========= */
+        .pixel-trigger {
+            background: #222;
+            color: #ff5555;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            image-rendering: pixelated;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .pixel-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s steps(5);
+        }
+
+            .pixel-options.show {
+                max-height: 180px;
+            }
+
+        .pixel-option {
+            color: #55ff55;
+            font-family: 'Courier New', monospace;
+        }
+
+            .pixel-option:hover {
+                background: #222;
+            }
+
+        /* ========== 18. 磁流体（Magnetic Fluid） ========= */
+        .magnetic-trigger {
+            background: #000;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .magnetic-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.1) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+        .magnetic-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+        }
+
+            .magnetic-options.show {
+                max-height: 180px;
+            }
+
+        .magnetic-option {
+            color: #aaa;
+        }
+
+            .magnetic-option:hover {
+                color: white;
+            }
+
+        /* ========== 19. 极光（Aurora） ========= */
+        .aurora-trigger {
+            background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .aurora-trigger::after {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(45deg, transparent, rgba(0,255,200,0.2), transparent);
+                transform: rotate(30deg);
+                animation: aurora-move 6s infinite linear;
+                z-index: 0;
+            }
+
+            .aurora-trigger span {
+                position: relative;
+                z-index: 1;
+            }
+
+        @keyframes aurora-move {
+            0% {
+                transform: rotate(30deg) translateX(-10%);
+            }
+
+            100% {
+                transform: rotate(30deg) translateX(10%);
+            }
+        }
+
+        .aurora-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(15,12,41,0.95);
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease;
+        }
+
+            .aurora-options.show {
+                max-height: 180px;
+            }
+
+        .aurora-option {
+            color: #a0f0f0;
+        }
+
+            .aurora-option:hover {
+                background: rgba(0,200,150,0.1);
+            }
+
+        /* ========== 20. 时间沙漏（Hourglass） ========= */
+        .hourglass-trigger {
+            background: #2c1b0f;
+            color: #f0e6d2;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #5a4a3a;
+            position: relative;
+        }
+
+            .hourglass-trigger::before {
+                content: "⏳";
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+        .hourglass-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #1e120a;
+            border: 1px solid #5a4a3a;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+            .hourglass-options.show {
+                max-height: 180px;
+            }
+
+        .hourglass-option {
+            color: #d4c3a8;
+        }
+
+            .hourglass-option:hover {
+                background: #2a1f12;
+            }
+
+        /* 磁流体鼠标追踪 */
+        .magnetic-trigger {
+            --x: 50%;
+            --y: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1 -->
+    <div><h3>1. 赛博朋克霓虹</h3><div class="dropdown-container"><div class="cyber-trigger" ondblclick="toggle(this, 'cyber')">NEON MENU ▼</div><div class="cyber-options"><div class="option cyber-option">Option Alpha</div><div class="option cyber-option">Option Beta</div></div></div></div>
+
+    <!-- 2 -->
+    <div><h3>2. 玻璃拟态</h3><div class="dropdown-container"><div class="glass-trigger" ondblclick="toggle(this, 'glass')">Glass Menu ▼</div><div class="glass-options"><div class="option glass-option">Clear View</div><div class="option glass-option">Frosted</div></div></div></div>
+
+    <!-- 3 -->
+    <div><h3>3. 故障艺术</h3><div class="dropdown-container"><div class="glitch-trigger" data-text="GLITCH ▼" ondblclick="toggleGlitch(this)">GLITCH ▼</div><div class="glitch-options"><div class="option glitch-option">ERROR_01</div><div class="option glitch-option">CORRUPTED</div></div></div></div>
+
+    <!-- 4 -->
+    <div><h3>4. 蒸汽波</h3><div class="dropdown-container"><div class="vapor-trigger" ondblclick="toggle(this, 'vapor')">VAPORWAVE ▼</div><div class="vapor-options"><div class="option vapor-option">Palm Trees</div><div class="option vapor-option">Sunset</div></div></div></div>
+
+    <!-- 5 -->
+    <div><h3>5. 极简线框</h3><div class="dropdown-container"><div class="wire-trigger" ondblclick="toggle(this, 'wire')">Wireframe ▼</div><div class="wire-options"><div class="option wire-option">Minimal</div><div class="option wire-option">Clean</div></div></div></div>
+
+    <!-- 6 -->
+    <div><h3>6. 暗黑金属</h3><div class="dropdown-container"><div class="metal-trigger" ondblclick="toggle(this, 'metal')">METAL ▼</div><div class="metal-options"><div class="option metal-option">Gold Vein</div><div class="option metal-option">Obsidian</div></div></div></div>
+
+    <!-- 7 -->
+    <div><h3>7. 液态流动</h3><div class="dropdown-container"><div class="liquid-trigger" ondblclick="toggle(this, 'liquid')">Liquid ▼</div><div class="liquid-options"><div class="option liquid-option">Flow A</div><div class="option liquid-option">Flow B</div></div></div></div>
+
+    <!-- 8 -->
+    <div><h3>8. 全息投影</h3><div class="dropdown-container"><div class="hologram-trigger" ondblclick="toggle(this, 'hologram')"></div><div class="hologram-options"><div class="option hologram-option">Holo 1</div><div class="option hologram-option">Holo 2</div></div></div></div>
+
+    <!-- 9 -->
+    <div><h3>9. 手绘草图</h3><div class="dropdown-container"><div class="sketch-trigger" ondblclick="toggle(this, 'sketch')">Sketch ▼</div><div class="sketch-options"><div class="option sketch-option">Doodle</div><div class="option sketch-option">Rough</div></div></div></div>
+
+    <!-- 10 -->
+    <div><h3>10. 星空宇宙</h3><div class="dropdown-container"><div class="cosmic-trigger" ondblclick="toggle(this, 'cosmic')">COSMOS ▼</div><div class="cosmic-options"><div class="option cosmic-option">Nebula</div><div class="option cosmic-option">Quasar</div></div></div></div>
+
+    <!-- 11 -->
+    <div><h3>11. 赛博格机械</h3><div class="dropdown-container"><div class="cyborg-trigger" ondblclick="toggle(this, 'cyborg')">SYSTEM ▼</div><div class="cyborg-options"><div class="option cyborg-option">ACCESS GRANTED</div><div class="option cyborg-option">LOCKDOWN</div></div></div></div>
+
+    <!-- 12 -->
+    <div><h3>12. 日式禅意</h3><div class="dropdown-container"><div class="zen-trigger" ondblclick="toggle(this, 'zen')">静寂 ▼</div><div class="zen-options"><div class="option zen-option">枯山水</div><div class="option zen-option">茶道</div></div></div></div>
+
+    <!-- 13 -->
+    <div><h3>13. 霓虹故障</h3><div class="dropdown-container"><div class="neonglitch-trigger" ondblclick="toggle(this, 'neonglitch')"><span>NEON GLITCH ▼</span></div><div class="neonglitch-options"><div class="option neonglitch-option">PULSE</div><div class="option neonglitch-option">STATIC</div></div></div></div>
+
+    <!-- 14 -->
+    <div><h3>14. 黑胶唱片</h3><div class="dropdown-container"><div class="vinyl-trigger" ondblclick="toggle(this, 'vinyl')">VINYL</div><div class="vinyl-options"><div class="option vinyl-option">Side A</div><div class="option vinyl-option">Side B</div></div></div></div>
+
+    <!-- 15 -->
+    <div><h3>15. 未来科技 HUD</h3><div class="dropdown-container"><div class="hud-trigger" ondblclick="toggle(this, 'hud')">[ SYSTEM ] ▼</div><div class="hud-options"><div class="option hud-option">SCAN</div><div class="option hud-option">TARGET</div></div></div></div>
+
+    <!-- 16 -->
+    <div><h3>16. 水彩晕染</h3><div class="dropdown-container"><div class="watercolor-trigger" ondblclick="toggle(this, 'watercolor')">Watercolor ▼</div><div class="watercolor-options"><div class="option watercolor-option">Rose</div><div class="option watercolor-option">Sky</div></div></div></div>
+
+    <!-- 17 -->
+    <div><h3>17. 像素艺术</h3><div class="dropdown-container"><div class="pixel-trigger" ondblclick="toggle(this, 'pixel')">PIXEL ▼</div><div class="pixel-options"><div class="option pixel-option">8-BIT</div><div class="option pixel-option">16-COLOR</div></div></div></div>
+
+    <!-- 18 -->
+    <div><h3>18. 磁流体</h3><div class="dropdown-container"><div class="magnetic-trigger" ondblclick="toggle(this, 'magnetic')" onmousemove="updateMagnetic(event, this)">MAGNETIC ▼</div><div class="magnetic-options"><div class="option magnetic-option">Field A</div><div class="option magnetic-option">Field B</div></div></div></div>
+
+    <!-- 19 -->
+    <div><h3>19. 极光</h3><div class="dropdown-container"><div class="aurora-trigger" ondblclick="toggle(this, 'aurora')"><span>AURORA ▼</span></div><div class="aurora-options"><div class="option aurora-option">Green Wave</div><div class="option aurora-option">Purple Drift</div></div></div></div>
+
+    <!-- 20 -->
+    <div><h3>20. 时间沙漏</h3><div class="dropdown-container"><div class="hourglass-trigger" ondblclick="toggle(this, 'hourglass')">Time ▼</div><div class="hourglass-options"><div class="option hourglass-option">Past</div><div class="option hourglass-option">Future</div></div></div></div>
+
+    <script>
+        function toggle(trigger, type) {
+            const container = trigger.closest('.dropdown-container');
+            const options = container.querySelector(`.${type}-options`);
+            options.classList.toggle('show');
+        }
+
+        function toggleGlitch(trigger) {
+            trigger.classList.toggle('active');
+            toggle(trigger, 'glitch');
+        }
+
+        function updateMagnetic(e, el) {
+            const rect = el.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / el.offsetWidth) * 100;
+            const y = ((e.clientY - rect.top) / el.offsetHeight) * 100;
+            el.style.setProperty('--x', `${x}%`);
+            el.style.setProperty('--y', `${y}%`);
+        }
+    </script>
+</body>
+</html> 

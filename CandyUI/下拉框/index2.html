@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>另20种炫酷下拉框合集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0d1a;
+            color: #f0f0f0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+        }
+
+        h3 {
+            margin-bottom: 12px;
+            font-weight: 400;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+        }
+
+        /* 通用选项样式 */
+        .option {
+            padding: 10px 16px;
+            cursor: default;
+            transition: all 0.2s ease;
+        }
+
+
+        /* ========== 21. 生物感 (Organic) ========= */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .organic-trigger {
+            background: linear-gradient(135deg, #1d976c, #93f9b9);
+            color: #000;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 50% / 15%;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 3s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(147, 249, 185, 0.5);
+        }
+
+        .organic-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #e0f7fa;
+            border-radius: 0 0 50% / 15%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+            .organic-options.show {
+                max-height: 180px;
+            }
+
+        .organic-option {
+            color: #006064;
+            border-top: 1px solid #b2ebf2;
+        }
+
+            .organic-option:hover {
+                background: #b2ebf2;
+            }
+
+        /* ========== 22. 解构主义 (Deconstructivism) ========= */
+        .decon-trigger {
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: none;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+        }
+
+        .decon-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #222;
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .decon-options.show {
+                max-height: 180px;
+            }
+
+        .decon-option {
+            color: #ddd;
+            border-top: 1px solid #444;
+        }
+
+            .decon-option:hover {
+                background: #333;
+            }
+
+        /* ========== 23. 游戏化 UI (Gaming HUD) ========= */
+        .gaming-trigger {
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='20' height='20' fill='%23222'/%3E%3Cpath d='M0,0 L20,20 M20,0 L0,20' stroke='%230f0' stroke-width='1'/%3E%3C/svg%3E");
+            color: #0f0;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #0f0;
+            position: relative;
+        }
+
+            .gaming-trigger::after {
+                content: "_";
+                animation: blink-caret 1s infinite;
+            }
+
+        @keyframes blink-caret {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .gaming-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 2px solid #0f0;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s steps(4);
+        }
+
+            .gaming-options.show {
+                max-height: 180px;
+            }
+
+        .gaming-option {
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            padding-left: 20px;
+        }
+
+            .gaming-option::before {
+                content: "> ";
+            }
+
+            .gaming-option:hover {
+                background: #020;
+            }
+
+        /* ========== 24. 数据可视化 (Data Viz) ========= */
+        .dataviz-trigger {
+            background: #001f3f;
+            color: #7fdbff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .dataviz-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( 90deg, transparent, transparent 19px, rgba(127, 219, 255, 0.2) 19px, rgba(127, 219, 255, 0.2) 20px );
+            }
+
+        .dataviz-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #001f3f;
+            border-top: 1px solid #7fdbff;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .dataviz-options.show {
+                max-height: 180px;
+            }
+
+        .dataviz-option {
+            color: #7fdbff;
+            padding-left: 25px;
+            position: relative;
+        }
+
+            .dataviz-option::before {
+                content: "";
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                background-color: #7fdbff;
+                border-radius: 50%;
+            }
+
+            .dataviz-option:hover::before {
+                background-color: #ff851b;
+            }
+
+        /* ========== 25. 复古未来主义 (Retro-Futurism) ========= */
+        .retrofuturism-trigger {
+            background: linear-gradient(to bottom, #ffcc00, #ff9900);
+            color: #000;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #000;
+            border-radius: 0;
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 5px 5px 0 #000;
+        }
+
+        .retrofuturism-options {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 5px;
+            width: calc(100% - 10px);
+            background: #ffdd44;
+            border: 2px solid #000;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            box-shadow: 5px 5px 0 #000;
+        }
+
+            .retrofuturism-options.show {
+                max-height: 180px;
+            }
+
+        .retrofuturism-option {
+            color: #000;
+            border-top: 1px solid #000;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+            .retrofuturism-option:hover {
+                background: #ffeeaa;
+            }
+
+        /* ========== 26. 液态金属 (Liquid Metal) ========= */
+        .liquidmetal-trigger {
+            background: #222;
+            color: #aaa;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .liquidmetal-trigger::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 20%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+                transition: left 0.8s ease-in-out;
+            }
+
+            .liquidmetal-trigger:hover::after {
+                left: 120%;
+            }
+
+        .liquidmetal-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+            .liquidmetal-options.show {
+                max-height: 180px;
+            }
+
+        .liquidmetal-option {
+            color: #ddd;
+        }
+
+            .liquidmetal-option:hover {
+                color: #fff;
+                text-shadow: 0 0 8px #fff;
+            }
+
+        /* ========== 27. 光纤电缆 (Fiber Optic) ========= */
+        .fiber-trigger {
+            background: #000;
+            color: #0ff;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #0ff;
+            position: relative;
+        }
+
+            .fiber-trigger::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent 50%, rgba(0,255,255,0.1) 50%);
+                background-size: 10px 100%;
+                animation: fiber-move 1s linear infinite;
+            }
+
+        @keyframes fiber-move {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 10px 0;
+            }
+        }
+
+        .fiber-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border: 1px solid #0ff;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .fiber-options.show {
+                max-height: 180px;
+            }
+
+        .fiber-option {
+            color: #0ff;
+        }
+
+            .fiber-option:hover {
+                background: rgba(0,255,255,0.05);
+            }
+
+        /* ========== 28. 赛博甲虫 (Cyber Beetle) ========= */
+        .beetle-trigger {
+            background: #000;
+            color: #f00;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #f00;
+            position: relative;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .beetle-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            border: 2px solid #f00;
+            border-top: none;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .beetle-options.show {
+                max-height: 180px;
+            }
+
+        .beetle-option {
+            color: #f88;
+        }
+
+            .beetle-option:hover {
+                background: rgba(255,0,0,0.1);
+            }
+
+        /* ========== 29. 电路板 (Circuit Board) ========= */
+        .circuit-trigger {
+            background: #001100;
+            color: #0f0;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-family: monospace;
+            border: 1px solid #0a0;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .circuit-trigger::before {
+                content: "10110010";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                color: rgba(0, 255, 0, 0.05);
+                font-size: 10px;
+                line-height: 1;
+                white-space: pre-wrap;
+                pointer-events: none;
+                animation: scroll-code 10s linear infinite;
+            }
+
+        @keyframes scroll-code {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+
+        .circuit-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #001100;
+            border: 1px solid #0a0;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .circuit-options.show {
+                max-height: 180px;
+            }
+
+        .circuit-option {
+            color: #0f0;
+            font-family: monospace;
+        }
+
+            .circuit-option:hover {
+                background: #002200;
+            }
+
+        /* ========== 30. 幻灯片 (Slide Reveal) ========= */
+        .slide-trigger {
+            background: #333;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .slide-trigger::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.5s ease;
+            }
+
+            .slide-trigger:hover::after {
+                transform: translateX(100%);
+            }
+
+        .slide-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #222;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+            .slide-options.show {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+        .slide-option {
+            color: #ddd;
+        }
+
+            .slide-option:hover {
+                background: #3a3a3a;
+            }
+
+        /* ========== 31. 磁带倒带 (Tape Rewind) ========= */
+        @keyframes rewind {
+            0% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .tape-trigger {
+            background: #222;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .tape-trigger::before, .tape-trigger::after {
+                content: "●";
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 20px;
+                color: #555;
+            }
+
+            .tape-trigger::before {
+                left: 20px;
+            }
+
+            .tape-trigger::after {
+                right: 20px;
+            }
+
+            .tape-trigger.active::before, .tape-trigger.active::after {
+                animation: rewind 0.5s linear infinite;
+                color: #ff5555;
+            }
+
+        .tape-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #111;
+            border-radius: 0 0 20px 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+            .tape-options.show {
+                max-height: 180px;
+            }
+
+        .tape-option {
+            color: #ddd;
+            text-align: center;
+        }
+
+            .tape-option:hover {
+                background: #2a2a2a;
+            }
+
+        /* ========== 32. 折纸 (Origami) ========= */
+        .origami-trigger {
+            background: #f9f3e9;
+            color: #5a4a42;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+        }
+
+        .origami-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fdfaf5;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .origami-options.show {
+                max-height: 180px;
+            }
+
+        .origami-option {
+            color: #6b5b4b;
+        }
+
+            .origami-option:hover {
+                background: #f5efe0;
+            }
+
+        /* ========== 33. 全息干扰 (Holo Distortion) ========= */
+        .holodistort-trigger {
+            background: #000;
+            color: transparent;
+            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #f0f, 0 0 20px #f0f;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .holodistort-trigger::before {
+                content: "DISTORT MENU ▼";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                color: transparent;
+                background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+                -webkit-background-clip: text;
+                background-clip: text;
+                animation: hue-shift 3s infinite linear, distort-wave 2s infinite ease-in-out;
+            }
+
+        @keyframes hue-shift {
+            to {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes distort-wave {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(3px);
+            }
+        }
+
+        .holodistort-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .holodistort-options.show {
+                max-height: 180px;
+            }
+
+        .holodistort-option {
+            color: white;
+            background: linear-gradient(90deg, transparent, rgba(0,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            background-position: -200% 0;
+        }
+
+            .holodistort-option:hover {
+                background-position: 200% 0;
+                transition: background-position 0.5s;
+            }
+
+        /* ========== 34. 立体书 (Pop-up Book) ========= */
+        .popup-trigger {
+            background: #f5deb3; /* Wheat */
+            color: #8b4513; /* SaddleBrown */
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #d2b48c;
+            font-family: Georgia, serif;
+            position: relative;
+            transform-origin: top;
+            transition: transform 0.4s ease;
+        }
+
+            .popup-trigger.active {
+                transform: rotateX(5deg);
+            }
+
+        .popup-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fdf5e6;
+            border: 1px solid #d2b48c;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            transform-origin: top;
+            transform: rotateX(-15deg);
+            opacity: 0;
+        }
+
+            .popup-options.show {
+                max-height: 180px;
+                transform: rotateX(0);
+                opacity: 1;
+            }
+
+        .popup-option {
+            color: #654321;
+            font-family: Georgia, serif;
+        }
+
+            .popup-option:hover {
+                background: #fff8dc;
+            }
+
+        /* ========== 35. 万花筒 (Kaleidoscope) ========= */
+        .kaleido-trigger {
+            background: conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
+            color: white;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .kaleido-trigger::before {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                background: inherit;
+                border-radius: 50%;
+                filter: blur(10px);
+                z-index: -1;
+            }
+
+        .kaleido-options {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            background: #111;
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+            .kaleido-options.show {
+                max-height: 180px;
+            }
+
+        .kaleido-option {
+            color: white;
+            text-align: center;
+        }
+
+            .kaleido-option:hover {
+                background: #222;
+            }
+
+        /* ========== 36. 暗物质 (Dark Matter) ========= */
+        .darkmatter-trigger {
+            background: #000;
+            color: #aaa;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .darkmatter-trigger::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+                animation: dark-pulse 4s infinite ease-in-out;
+            }
+
+        @keyframes dark-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.1;
+            }
+        }
+
+        .darkmatter-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+            .darkmatter-options.show {
+                max-height: 180px;
+            }
+
+        .darkmatter-option {
+            color: #bbb;
+        }
+
+            .darkmatter-option:hover {
+                color: #fff;
+            }
+
+        /* ========== 37. 量子纠缠 (Quantum Entanglement) ========= */
+        .quantum-trigger {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            color: #00eeff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .quantum-trigger::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle at 20% 30%, rgba(0, 238, 255, 0.2) 0px, transparent 50px), radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.2) 0px, transparent 50px);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .quantum-trigger:hover::after {
+                opacity: 1;
+            }
+
+        .quantum-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #0f1120;
+            border-top: 1px solid #00eeff;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .quantum-options.show {
+                max-height: 180px;
+            }
+
+        .quantum-option {
+            color: #00eeff;
+        }
+
+            .quantum-option:hover {
+                background: rgba(0, 238, 255, 0.05);
+            }
+
+        /* ========== 38. 虚空漩涡 (Void Vortex) ========= */
+        .void-trigger {
+            background: #000;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .void-trigger::before {
+                content: "";
+                position: absolute;
+                width: 200%;
+                height: 200%;
+                background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent 30%);
+                animation: spin 10s linear infinite;
+            }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .void-options {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            background: #000;
+            border-radius: 0 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+            .void-options.show {
+                max-height: 180px;
+            }
+
+        .void-option {
+            color: #aaa;
+            text-align: center;
+        }
+
+            .void-option:hover {
+                color: #fff;
+            }
+
+        /* ========== 39. 蒸汽齿轮 (Steampunk Gear) ========= */
+        .steampunk-trigger {
+            background: #3e2723; /* Deep Brown */
+            color: #ffecb3; /* Cream */
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #5d4037;
+            font-family: 'Times New Roman', serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .steampunk-trigger::before {
+                content: "⚙"; /* Gear Symbol */
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%) rotate(0);
+                font-size: 18px;
+                transition: transform 0.5s ease;
+            }
+
+            .steampunk-trigger:hover::before {
+                transform: translateY(-50%) rotate(90deg);
+            }
+
+        .steampunk-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #2d1b18;
+            border: 2px solid #5d4037;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+            .steampunk-options.show {
+                max-height: 180px;
+            }
+
+        .steampunk-option {
+            color: #ffecb3;
+            font-family: 'Times New Roman', serif;
+        }
+
+            .steampunk-option:hover {
+                background: #3e2723;
+            }
+
+        /* ========== 40. 数字雨 (Digital Rain) ========= */
+        .matrix-trigger {
+            background: #000;
+            color: #0f0;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-family: monospace;
+            border: 1px solid #0a0;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .matrix-trigger::before {
+                content: "10101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101......"; /* Long string of binary */
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                color: rgba(0, 255, 0, 0.05);
+                font-size: 10px;
+                line-height: 1;
+                white-space: pre-wrap;
+                pointer-events: none;
+                animation: matrix-fall 5s linear infinite;
+            }
+
+        @keyframes matrix-fall {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .matrix-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #001100;
+            border: 1px solid #0a0;
+            border-top: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+            .matrix-options.show {
+                max-height: 180px;
+            }
+
+        .matrix-option {
+            color: #0f0;
+            font-family: monospace;
+        }
+
+            .matrix-option:hover {
+                background: #002200;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- 21 -->
+    <div><h3>21. 生物感 (Organic)</h3><div class="dropdown-container"><div class="organic-trigger" ondblclick="toggle(this, 'organic')">生命之源 ▼</div><div class="organic-options"><div class="option organic-option">细胞分裂</div><div class="option organic-option">基因螺旋</div></div></div></div>
+
+    <!-- 22 -->
+    <div><h3>22. 解构主义 (Deconstructivism)</h3><div class="dropdown-container"><div class="decon-trigger" ondblclick="toggle(this, 'decon')">解构 ▼</div><div class="decon-options"><div class="option decon-option">碎片 A</div><div class="option decon-option">碎片 B</div></div></div></div>
+
+    <!-- 23 -->
+    <div><h3>23. 游戏化 UI (Gaming HUD)</h3><div class="dropdown-container"><div class="gaming-trigger" ondblclick="toggle(this, 'gaming')">PLAYER_MENU ▼</div><div class="gaming-options"><div class="option gaming-option">INVENTORY</div><div class="option gaming-option">MAP</div></div></div></div>
+
+    <!-- 24 -->
+    <div><h3>24. 数据可视化 (Data Viz)</h3><div class="dropdown-container"><div class="dataviz-trigger" ondblclick="toggle(this, 'dataviz')">DATA STREAM ▼</div><div class="dataviz-options"><div class="option dataviz-option">Metric 1</div><div class="option dataviz-option">Metric 2</div></div></div></div>
+
+    <!-- 25 -->
+    <div><h3>25. 复古未来主义 (Retro-Futurism)</h3><div class="dropdown-container"><div class="retrofuturism-trigger" ondblclick="toggle(this, 'retrofuturism')">ATOMOSCOPE ▼</div><div class="retrofuturism-options"><div class="option retrofuturism-option">RADIAL SCAN</div><div class="option retrofuturism-option">FLUX CAPACITOR</div></div></div></div>
+
+    <!-- 26 -->
+    <div><h3>26. 液态金属 (Liquid Metal)</h3><div class="dropdown-container"><div class="liquidmetal-trigger" ondblclick="toggle(this, 'liquidmetal')">TERMINATOR ▼</div><div class="liquidmetal-options"><div class="option liquidmetal-option">Mimic Form</div><div class="option liquidmetal-option">Phase Shift</div></div></div></div>
+
+    <!-- 27 -->
+    <div><h3>27. 光纤电缆 (Fiber Optic)</h3><div class="dropdown-container"><div class="fiber-trigger" ondblclick="toggle(this, 'fiber')">光速传输 ▼</div><div class="fiber-options"><div class="option fiber-option">Channel A</div><div class="option fiber-option">Channel B</div></div></div></div>
+
+    <!-- 28 -->
+    <div><h3>28. 赛博甲虫 (Cyber Beetle)</h3><div class="dropdown-container"><div class="beetle-trigger" ondblclick="toggle(this, 'beetle')">甲壳虫协议 ▼</div><div class="beetle-options"><div class="option beetle-option">外壳硬化</div><div class="option beetle-option">毒液喷射</div></div></div></div>
+
+    <!-- 29 -->
+    <div><h3>29. 电路板 (Circuit Board)</h3><div class="dropdown-container"><div class="circuit-trigger" ondblclick="toggle(this, 'circuit')">主板诊断 ▼</div><div class="circuit-options"><div class="option circuit-option">CPU Status</div><div class="option circuit-option">RAM Check</div></div></div></div>
+
+    <!-- 30 -->
+    <div><h3>30. 幻灯片 (Slide Reveal)</h3><div class="dropdown-container"><div class="slide-trigger" ondblclick="toggle(this, 'slide')">幻灯片菜单 ▼</div><div class="slide-options"><div class="option slide-option">图片 1</div><div class="option slide-option">图片 2</div></div></div></div>
+
+    <!-- 31 -->
+    <div><h3>31. 磁带倒带 (Tape Rewind)</h3><div class="dropdown-container"><div class="tape-trigger" ondblclick="toggleRewind(this)">REWIND ▼</div><div class="tape-options"><div class="option tape-option">Track 1</div><div class="option tape-option">Track 2</div></div></div></div>
+
+    <!-- 32 -->
+    <div><h3>32. 折纸 (Origami)</h3><div class="dropdown-container"><div class="origami-trigger" ondblclick="toggle(this, 'origami')">折纸艺术 ▼</div><div class="origami-options"><div class="option origami-option">鹤之舞</div><div class="option origami-option">花之语</div></div></div></div>
+
+    <!-- 33 -->
+    <div><h3>33. 全息干扰 (Holo Distortion)</h3><div class="dropdown-container"><div class="holodistort-trigger" ondblclick="toggle(this, 'holodistort')"></div><div class="holodistort-options"><div class="option holodistort-option">扭曲 A</div><div class="option holodistort-option">扭曲 B</div></div></div></div>
+
+    <!-- 34 -->
+    <div><h3>34. 立体书 (Pop-up Book)</h3><div class="dropdown-container"><div class="popup-trigger" ondblclick="togglePopup(this)">立体翻开 ▼</div><div class="popup-options"><div class="option popup-option">故事一页</div><div class="option popup-option">故事二页</div></div></div></div>
+
+    <!-- 35 -->
+    <div><h3>35. 万花筒 (Kaleidoscope)</h3><div class="dropdown-container"><div class="kaleido-trigger" ondblclick="toggle(this, 'kaleido')">万花筒 ▼</div><div class="kaleido-options"><div class="option kaleido-option">Pattern A</div><div class="option kaleido-option">Pattern B</div></div></div></div>
+
+    <!-- 36 -->
+    <div><h3>36. 暗物质 (Dark Matter)</h3><div class="dropdown-container"><div class="darkmatter-trigger" ondblclick="toggle(this, 'darkmatter')">暗能核心 ▼</div><div class="darkmatter-options"><div class="option darkmatter-option">引力波</div><div class="option darkmatter-option">时空扭曲</div></div></div></div>
+
+    <!-- 37 -->
+    <div><h3>37. 量子纠缠 (Quantum Entanglement)</h3><div class="dropdown-container"><div class="quantum-trigger" ondblclick="toggle(this, 'quantum')">量子链接 ▼</div><div class="quantum-options"><div class="option quantum-option">粒子 A</div><div class="option quantum-option">粒子 B</div></div></div></div>
+
+    <!-- 38 -->
+    <div><h3>38. 虚空漩涡 (Void Vortex)</h3><div class="dropdown-container"><div class="void-trigger" ondblclick="toggle(this, 'void')">虚空入口</div><div class="void-options"><div class="option void-option">奇点 A</div><div class="option void-option">奇点 B</div></div></div></div>
+
+    <!-- 39 -->
+    <div><h3>39. 蒸汽齿轮 (Steampunk Gear)</h3><div class="dropdown-container"><div class="steampunk-trigger" ondblclick="toggle(this, 'steampunk')">蒸汽枢纽 ▼</div><div class="steampunk-options"><div class="option steampunk-option">压力表</div><div class="option steampunk-option">活塞阀</div></div></div></div>
+
+    <!-- 40 -->
+    <div><h3>40. 数字雨 (Digital Rain)</h3><div class="dropdown-container"><div class="matrix-trigger" ondblclick="toggle(this, 'matrix')">MATRIX ▼</div><div class="matrix-options"><div class="option matrix-option">程序加载</div><div class="option matrix-option">防火墙穿透</div></div></div></div>
+
+    <script>
+        function toggle(trigger, type) {
+            const container = trigger.closest('.dropdown-container');
+            const options = container.querySelector(`.${type}-options`);
+            options.classList.toggle('show');
+        }
+
+        function toggleRewind(trigger) {
+            trigger.classList.toggle('active');
+            toggle(trigger, 'tape');
+        }
+
+        function togglePopup(trigger) {
+            trigger.classList.toggle('active');
+            toggle(trigger, 'popup');
+        }
+    </script>
+</body>
+</html>

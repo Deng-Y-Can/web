@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>50 种全新输入框 · 第三辑（101–150）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&family=Monofett&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            color: white;
+            outline: none;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        /* ———————————————————————————————— */
+        /* 第三辑：101–150（全新概念） */
+        /* ———————————————————————————————— */
+
+        /* 101. 液态变形（使用 @property 模拟） */
+        .input-style-101 {
+            background: #0a0a1a;
+            padding: 12px;
+            position: relative;
+            border-radius: 12px;
+            --liquid: 0;
+        }
+
+            .input-style-101::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0,200,255,0.2), transparent 70%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .input-style-101:hover::before {
+                opacity: 1;
+            }
+
+        /* 102. 光子轨道 */
+        .input-style-102 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-102::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(to right, transparent, cyan, transparent);
+                transform: translateY(-50%);
+                animation: photonOrbit 3s linear infinite;
+            }
+
+        @keyframes photonOrbit {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* 103. 数字幽灵（半透明残影） */
+        .input-style-103 {
+            background: rgba(0,0,0,0.7);
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-103::before {
+                content: attr(data-ghost);
+                position: absolute;
+                top: 12px;
+                left: 16px;
+                color: rgba(0,255,255,0.2);
+                font-style: italic;
+                pointer-events: none;
+            }
+
+        /* 104. 虫洞入口 */
+        .input-style-104 {
+            background: radial-gradient(circle, #000 40%, #000033 100%);
+            border: 2px solid #00ffff;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-104::before {
+                content: '';
+                position: absolute;
+                inset: 2px;
+                border: 1px solid rgba(0,255,255,0.3);
+                border-radius: 8px;
+                animation: wormholePulse 2s infinite alternate;
+            }
+
+        @keyframes wormholePulse {
+            from {
+                opacity: 0.3;
+            }
+
+            to {
+                opacity: 0.8;
+            }
+        }
+
+        /* 105. 像素崩解 */
+        .input-style-105 {
+            background: #111;
+            padding: 12px;
+            image-rendering: pixelated;
+            font-family: 'Space Mono', monospace;
+            position: relative;
+        }
+
+            .input-style-105:hover {
+                filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3C/svg%3E#noise");
+            }
+
+        /* 106. 星云气体 */
+        .input-style-106 {
+            background: radial-gradient(circle at 20% 30%, rgba(128,0,128,0.2), transparent), radial-gradient(circle at 80% 70%, rgba(0,100,255,0.2), transparent);
+            padding: 12px;
+            border: 1px solid rgba(100,100,255,0.3);
+        }
+
+        /* 107. 脑机接口波形 */
+        .input-style-107 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-107::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 L10 0 L20 10 L30 5 L40 0 L50 10 L60 5 L70 0 L80 10 L90 5 L100 0' stroke='%2300ffaa' fill='none'/%3E%3C/svg%3E") repeat-x;
+                animation: brainwave 5s linear infinite;
+            }
+
+        @keyframes brainwave {
+            to {
+                background-position: 100px 0;
+            }
+        }
+
+        /* 108. 虚空之眼 */
+        .input-style-108 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-108::after {
+                content: "👁";
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 18px;
+                opacity: 0.6;
+            }
+
+        /* 109. 量子泡沫 */
+        .input-style-109 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-109::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px), radial-gradient(circle, rgba(0,255,255,0.05) 1px, transparent 1px);
+                background-size: 30px 30px, 50px 50px;
+                animation: quantumFoam 10s linear infinite;
+            }
+
+        @keyframes quantumFoam {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 110. 太阳耀斑 */
+        .input-style-110 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+            color: #ffff00;
+            text-shadow: 0 0 8px rgba(255,255,0,0.7);
+        }
+
+            .input-style-110::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: conic-gradient(from 0deg, transparent, rgba(255,255,0,0.1), transparent);
+                animation: solarFlare 6s infinite linear;
+                z-index: -1;
+            }
+
+        /* 111–150：继续创新风格 */
+        .input-style-111 {
+            background: #000;
+            padding: 12px;
+            mix-blend-mode: screen;
+            color: #ff00ff;
+            position: relative;
+            isolation: isolate;
+        }
+
+            .input-style-111::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle, rgba(255,0,255,0.1), transparent);
+                z-index: -1;
+            }
+
+        .input-style-112 {
+            background: #000;
+            padding: 12px;
+            clip-path: polygon(0 20%, 20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%);
+        }
+
+        .input-style-113 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-113::before {
+                content: "⚠";
+                position: absolute;
+                left: -20px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: orange;
+            }
+
+        .input-style-114 {
+            background: #000;
+            padding: 12px;
+            animation: neonFlicker 1.5s infinite alternate;
+        }
+
+        @keyframes neonFlicker {
+            0% {
+                text-shadow: 0 0 5px cyan;
+            }
+
+            100% {
+                text-shadow: 0 0 20px cyan, 0 0 30px cyan;
+            }
+        }
+
+        .input-style-115 {
+            background: #000;
+            padding: 12px;
+            border: 2px solid;
+            border-image: conic-gradient(at 40% 40%, gold, red, purple, cyan) 1;
+        }
+
+        .input-style-116 {
+            background: #000;
+            padding: 12px;
+            transform: skewY(5deg);
+            background: repeating-linear-gradient(120deg, #111 0px, #111 10px, #222 10px, #222 20px);
+        }
+
+        .input-style-117 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-117::after {
+                content: "📡";
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 14px;
+            }
+
+        .input-style-118 {
+            background: #000;
+            padding: 12px;
+            filter: invert(1) hue-rotate(180deg);
+            color: black;
+        }
+
+        .input-style-119 {
+            background: #000;
+            padding: 12px;
+            border: 3px outset rgba(0,255,255,0.7);
+        }
+
+        .input-style-120 {
+            background: #000;
+            padding: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff00ff'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%2300ffff'/%3E%3C/svg%3E");
+        }
+
+        .input-style-121 {
+            background: #000;
+            padding: 12px;
+            font-family: 'Monofett', cursive;
+            color: #ff5500;
+            letter-spacing: 2px;
+        }
+
+        .input-style-122 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .input-style-122::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                width: 200%;
+                height: 10px;
+                background: linear-gradient(90deg, red, orange, yellow);
+                transform: rotate(-3deg);
+            }
+
+        .input-style-123 {
+            background: #000;
+            padding: 12px;
+            backdrop-filter: blur(5px) contrast(1.2);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .input-style-124 {
+            background: #000;
+            padding: 12px;
+            text-shadow: 1px 1px 0 red, 2px 2px 0 orange, 3px 3px 0 yellow;
+        }
+
+        .input-style-125 {
+            background: #000;
+            padding: 12px;
+            clip-path: ellipse(60% 40% at 50% 50%);
+        }
+
+        .input-style-126 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-126::after {
+                content: "⚡";
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.6;
+            }
+
+            .input-style-126 input {
+                padding-left: 30px;
+            }
+
+        .input-style-127 {
+            background: #000;
+            padding: 12px;
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%,100% {
+                box-shadow: 0 0 0 0 rgba(255,0,255,0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 12px rgba(255,0,255,0);
+            }
+        }
+
+        .input-style-128 {
+            background: #000;
+            padding: 12px;
+            border: 2px ridge gold;
+        }
+
+        .input-style-129 {
+            background: #000;
+            padding: 12px;
+            background: linear-gradient(45deg, transparent 49%, rgba(0,255,255,0.1) 49%, rgba(0,255,255,0.1) 51%, transparent 51%), linear-gradient(-45deg, transparent 49%, rgba(255,0,255,0.1) 49%, rgba(255,0,255,0.1) 51%, transparent 51%);
+            background-size: 20px 20px;
+        }
+
+        .input-style-130 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-130::before {
+                content: "[CLASSIFIED]";
+                position: absolute;
+                top: -20px;
+                left: 0;
+                font-size: 10px;
+                color: red;
+            }
+
+        .input-style-131 {
+            background: #000;
+            padding: 12px;
+            transform: perspective(800px) rotateY(8deg);
+        }
+
+        .input-style-132 {
+            background: #000;
+            padding: 12px;
+            box-shadow: inset 0 0 15px rgba(0,255,0,0.3);
+            color: lime;
+        }
+
+        .input-style-133 {
+            background: #000;
+            padding: 12px;
+            background-image: linear-gradient(90deg, #ff00ff 2px, transparent 2px), linear-gradient(transparent 2px, #00ffff 2px);
+            background-size: 4px 4px;
+            background-position: 0 0, 2px 2px;
+        }
+
+        .input-style-134 {
+            background: #000;
+            padding: 12px;
+            font-variant: small-caps;
+            color: #aaa;
+        }
+
+        .input-style-135 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .input-style-135::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+                animation: scanLine 4s linear infinite;
+            }
+
+        @keyframes scanLine {
+            to {
+                left: 100%;
+            }
+        }
+
+        .input-style-136 {
+            background: #000;
+            padding: 12px;
+            border: 1px dashed cyan;
+            animation: dashFlow 1s linear infinite;
+        }
+
+        @keyframes dashFlow {
+            to {
+                background-position: 10px 0;
+            }
+        }
+
+        .input-style-137 {
+            background: #000;
+            padding: 12px;
+            filter: sepia(0.8) contrast(1.3);
+            color: #d2b48c;
+        }
+
+        .input-style-138 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-138::after {
+                content: "AI";
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: #00ff99;
+                color: black;
+                font-size: 10px;
+                padding: 0 4px;
+                border-radius: 3px;
+            }
+
+        .input-style-139 {
+            background: #000;
+            padding: 12px;
+            clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+        }
+
+        .input-style-140 {
+            background: #000;
+            padding: 12px;
+            border: 2px double cyan;
+        }
+
+        .input-style-141 {
+            background: #000;
+            padding: 12px;
+            background: radial-gradient(ellipse at top right, rgba(255,0,255,0.1), transparent), radial-gradient(ellipse at bottom left, rgba(0,255,255,0.1), transparent);
+        }
+
+        .input-style-142 {
+            background: #000;
+            padding: 12px;
+            mix-blend-mode: overlay;
+            color: white;
+            position: relative;
+            isolation: isolate;
+        }
+
+            .input-style-142::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(45deg, magenta, cyan);
+                opacity: 0.1;
+                z-index: -1;
+            }
+
+        .input-style-143 {
+            background: #000;
+            padding: 12px;
+            transform: rotateZ(-3deg);
+        }
+
+        .input-style-144 {
+            background: #000;
+            padding: 12px;
+            box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px #00ffff, 0 0 0 6px transparent;
+            animation: multiRing 3s infinite alternate;
+        }
+
+        @keyframes multiRing {
+            from {
+                box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px #00ffff, 0 0 0 6px transparent;
+            }
+
+            to {
+                box-shadow: 0 0 0 6px #ff00ff, 0 0 0 10px #00ffff, 0 0 0 14px rgba(0,255,255,0.3);
+            }
+        }
+
+        .input-style-145 {
+            background: #000;
+            padding: 12px;
+            background: repeating-radial-gradient(circle, #222, #222 5px, #333 5px, #333 10px);
+            border-radius: 50%;
+            width: 170px;
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .input-style-145 input {
+                width: 110px;
+                text-align: center;
+            }
+
+        .input-style-146 {
+            background: #000;
+            padding: 12px;
+            mask-image: linear-gradient(to right, black 70%, transparent 100%);
+        }
+
+        .input-style-147 {
+            background: #000;
+            padding: 12px;
+            text-shadow: 0 0 6px rgba(255,215,0,0.8);
+            color: gold;
+        }
+
+        .input-style-148 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-148::before {
+                content: "🔒";
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 16px;
+                color: #0f0;
+            }
+
+        .input-style-149 {
+            background: #000;
+            padding: 12px;
+            animation: glitchText 0.3s infinite;
+        }
+
+        @keyframes glitchText {
+            0% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-2px);
+            }
+
+            40% {
+                transform: translateX(2px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .input-style-150 {
+            background: #000;
+            padding: 12px;
+            position: relative;
+        }
+
+            .input-style-150::after {
+                content: "Ω";
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #ff55ff;
+                font-size: 18px;
+            }
+
+        /* 双击聚焦动画 */
+        .focus-animate {
+            animation: focusZoomGlow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes focusZoomGlow {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(0,200,255,0);
+            }
+
+            50% {
+                transform: scale(1.04);
+                box-shadow: 0 0 30px rgba(0,255,255,0.95);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // 生成 101–150
+        for (let i = 101; i <= 150; i++) {
+            const div = document.createElement('div');
+            div.className = `container input-style-${i}`;
+            div.innerHTML = `<input type="text" placeholder="Style ${i}" data-ghost="ghost text" />`;
+            document.body.appendChild(div);
+        }
+
+        // 双击聚焦 + 动画
+        document.addEventListener('dblclick', function (e) {
+            if (e.target.tagName === 'INPUT') {
+                e.target.focus();
+                const parent = e.target.parentElement;
+                parent.classList.add('focus-animate');
+                setTimeout(() => parent.classList.remove('focus-animate'), 600);
+            }
+        });
+
+        // 为 101 液态效果添加鼠标追踪
+        document.querySelectorAll('.input-style-101').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                el.style.setProperty('--x', `${x}px`);
+                el.style.setProperty('--y', `${y}px`);
+            });
+        });
+    </script>
+
+</body>
+</html> 
