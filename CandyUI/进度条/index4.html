@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>25 Advanced Progress Bars</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-bg: #2c3e50;
+            --light-bg: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: var(--light-bg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .bar-container {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            color: #3498db;
+        }
+
+
+        /* --- 1. Classic with Glow --- */
+        .classic-glow {
+            width: 100%;
+            height: 20px;
+            background-color: #34495e;
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+            .classic-glow .fill {
+                height: 100%;
+                width: 75%;
+                background-color: var(--primary-color);
+                border-radius: 10px;
+                box-shadow: 0 0 10px var(--primary-color);
+                animation: glow-pulse 2s infinite alternate;
+            }
+
+        @keyframes glow-pulse {
+            from {
+                box-shadow: 0 0 5px var(--primary-color);
+            }
+
+            to {
+                box-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+            }
+        }
+
+
+        /* --- 2. Gradient Stripes --- */
+        .striped {
+            width: 100%;
+            height: 25px;
+            background-color: #2c3e50;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+            .striped .fill {
+                height: 100%;
+                width: 60%;
+                background: repeating-linear-gradient( 45deg, #2ecc71, #2ecc71 10px, #27ae60 10px, #27ae60 20px );
+                border-radius: 12px;
+                animation: slideStripes 1s linear infinite;
+                box-shadow: 0 0 10px #2ecc71;
+            }
+
+        @keyframes slideStripes {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 20px 0;
+            }
+        }
+
+
+        /* --- 3. Neon Glow --- */
+        .neon {
+            width: 100%;
+            height: 15px;
+            background-color: #0d0d0d;
+            border-radius: 7px;
+            box-shadow: inset 0 0 5px black;
+        }
+
+            .neon .fill {
+                height: 100%;
+                width: 85%;
+                background-color: cyan;
+                border-radius: 7px;
+                box-shadow: 0 0 5px cyan, 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan;
+                filter: blur(0.5px);
+            }
+
+
+        /* --- 4. Liquid Fill --- */
+        .liquid {
+            width: 100%;
+            height: 30px;
+            background-color: #1a1a2e;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+            .liquid .fill {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 55%;
+                height: 100%;
+                background: #9b59b6;
+                border-radius: 15px;
+                overflow: hidden;
+            }
+
+                .liquid .fill::after {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -40%;
+                    width: 200%;
+                    height: 200%;
+                    background: rgba(255, 255, 255, 0.1);
+                    transform: rotate(30deg);
+                    animation: liquid-shine 3s infinite linear;
+                }
+
+        @keyframes liquid-shine {
+            0% {
+                transform: translateX(-100%) rotate(30deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(30deg);
+            }
+        }
+
+
+        /* --- 5. Bouncing Balls --- */
+        .balls {
+            width: 100%;
+            height: 30px;
+            background-color: transparent;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+            .balls .track {
+                width: 100%;
+                height: 8px;
+                background-color: #34495e;
+                border-radius: 4px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .balls .ball {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background-color: #e74c3c;
+                border-radius: 50%;
+                top: 50%;
+                left: 0;
+                transform: translate(-50%, -50%);
+                animation: bounce 2s infinite ease-in-out;
+                box-shadow: 0 0 10px #e74c3c;
+            }
+
+        @keyframes bounce {
+            0%, 100% {
+                left: 0;
+            }
+
+            50% {
+                left: calc(100% - 20px);
+            }
+            /* Adjust for ball size */
+        }
+
+
+        /* --- 6. Glitch Effect --- */
+        .glitch {
+            width: 100%;
+            height: 20px;
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .glitch .fill {
+                height: 100%;
+                width: 70%;
+                background-color: #3498db;
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .glitch .fill::before,
+                .glitch .fill::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: inherit;
+                    border-radius: inherit;
+                    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 70%);
+                    animation: glitch-anim 3s infinite linear alternate-reverse;
+                }
+
+                .glitch .fill::after {
+                    animation: glitch-anim2 2s infinite linear alternate-reverse;
+                    clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
+                }
+
+        @keyframes glitch-anim {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, 3px);
+            }
+
+            40% {
+                transform: translate(-3px, -3px);
+            }
+
+            60% {
+                transform: translate(3px, 3px);
+            }
+
+            80% {
+                transform: translate(3px, -3px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(2px, -2px);
+            }
+
+            40% {
+                transform: translate(-2px, 2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(-2px, -2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+
+        /* --- 7. Gradient Wave --- */
+        .wave {
+            width: 100%;
+            height: 25px;
+            background-color: #2c3e50;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+            .wave .fill {
+                height: 100%;
+                width: 65%;
+                background: linear-gradient(90deg, #ff7e5f, #feb47b, #ff7e5f);
+                background-size: 200% 100%;
+                border-radius: 12px;
+                animation: wave-animation 2s linear infinite;
+                box-shadow: 0 0 10px #ff7e5f;
+            }
+
+        @keyframes wave-animation {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+
+        /* --- 8. Pulsing Dot --- */
+        .dot-pulse {
+            width: 100%;
+            height: 20px;
+            background-color: #34495e;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .dot-pulse .fill {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 20px;
+                height: 20px;
+                background-color: #2ecc71;
+                border-radius: 50%;
+                transform: translateY(-50%);
+                animation: pulse-move 3s infinite ease-in-out;
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+        @keyframes pulse-move {
+            0% {
+                left: 0;
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                left: calc(100% - 20px); /* Adjust for dot size */
+                box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                left: calc(100% - 20px);
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+
+        /* --- 9. 3D Groove --- */
+        .groove-3d {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to bottom, #555, #333);
+            border-radius: 15px;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+            .groove-3d .fill {
+                height: 100%;
+                width: 80%;
+                background: linear-gradient(to bottom, #3498db, #2980b9);
+                border-radius: 15px;
+                box-shadow: inset -2px -2px 5px rgba(0,0,0,0.3), inset 2px 2px 5px rgba(255,255,255,0.2);
+            }
+
+
+        /* --- 10. Shiny Slider --- */
+        .shiny {
+            width: 100%;
+            height: 20px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+            .shiny .fill {
+                height: 100%;
+                width: 50%;
+                background-color: #9b59b6;
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .shiny .fill::after {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -60%;
+                    width: 30%;
+                    height: 200%;
+                    background: rgba(255, 255, 255, 0.6);
+                    transform: rotate(30deg);
+                    animation: shiny-slide 2s infinite linear;
+                }
+
+        @keyframes shiny-slide {
+            0% {
+                left: -60%;
+            }
+
+            100% {
+                left: 160%;
+            }
+        }
+
+
+        /* --- 11. Minimalist Line --- */
+        .line {
+            width: 100%;
+            height: 4px;
+            background-color: #7f8c8d;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+            .line .fill {
+                height: 100%;
+                width: 90%;
+                background-color: #fff;
+                border-radius: 2px;
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            }
+
+
+        /* --- 12. Candy Stripe --- */
+        .candy {
+            width: 100%;
+            height: 25px;
+            background-color: #ecf0f1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        }
+
+            .candy .fill {
+                height: 100%;
+                width: 45%;
+                background: repeating-linear-gradient( -45deg, #e74c3c, #e74c3c 10px, #c0392b 10px, #c0392b 20px );
+                border-radius: 12px;
+            }
+
+
+        /* --- 13. Fire Animation --- */
+        .fire {
+            width: 100%;
+            height: 20px;
+            background-color: #111;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .fire .fill {
+                height: 100%;
+                width: 75%;
+                background: linear-gradient(to top, #ff416c, #ff4b2b);
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .fire .fill::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="none"/><path d="M100,50 Q120,30 140,50 T180,50 Q160,70 140,50 T100,50 Z" fill="rgba(255,255,255,0.2)"/></svg>');
+                    background-size: 30px 30px;
+                    animation: fire-flicker 0.5s infinite alternate;
+                }
+
+        @keyframes fire-flicker {
+            from {
+                opacity: 0.8;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(-2px);
+            }
+        }
+
+
+        /* --- 14. Diamond Dots --- */
+        .diamond-dots {
+            width: 100%;
+            height: 25px;
+            background-color: #2c3e50;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+            .diamond-dots .dot {
+                width: 15px;
+                height: 15px;
+                background-color: #7f8c8d;
+                margin-right: 5px;
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+                transition: background-color 0.3s ease;
+            }
+
+                .diamond-dots .dot.active {
+                    background-color: #f1c40f;
+                    box-shadow: 0 0 5px #f1c40f;
+                }
+
+
+        /* --- 15. Holographic --- */
+        .holographic {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(90deg, #000, #434343, #000);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .holographic .fill {
+                height: 100%;
+                width: 60%;
+                background: linear-gradient(90deg, #00c9ff, #92fe9d, #00c9ff, #92fe9d);
+                background-size: 300% 100%;
+                border-radius: 10px;
+                animation: hologram-shift 3s linear infinite;
+                mix-blend-mode: screen;
+            }
+
+        @keyframes hologram-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 300% 50%;
+            }
+        }
+
+
+        /* --- 16. Pixel Art --- */
+        .pixel {
+            width: 100%;
+            height: 24px;
+            background-color: #000;
+            border: 2px solid #555;
+            display: flex;
+        }
+
+            .pixel .pixel-fill {
+                height: 100%;
+                width: 55%;
+                background-color: #00ff00;
+                image-rendering: pixelated;
+                display: flex;
+            }
+
+                .pixel .pixel-fill div {
+                    width: 12px; /* Adjust pixel size */
+                    height: 100%;
+                    background-color: inherit;
+                    border-right: 1px solid #000;
+                }
+
+
+        /* --- 17. Glass Morphism --- */
+        .glass {
+            width: 100%;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+            .glass .fill {
+                height: 100%;
+                width: 70%;
+                background: linear-gradient(90deg, rgba(52, 152, 219, 0.5), rgba(41, 128, 185, 0.5));
+                border-radius: 12px;
+            }
+
+
+        /* --- 18. Circuit Board --- */
+        .circuit {
+            width: 100%;
+            height: 20px;
+            background-color: #001f00;
+            border: 1px solid #00cc00;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px #00cc00;
+            position: relative;
+        }
+
+            .circuit .fill {
+                height: 100%;
+                width: 80%;
+                background-color: #00cc00;
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .circuit .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: repeating-linear-gradient( 90deg, transparent, transparent 5px, rgba(0, 51, 0, 0.5) 5px, rgba(0, 51, 0, 0.5) 6px );
+                    animation: circuit-flow 1s linear infinite;
+                }
+
+        @keyframes circuit-flow {
+            0% {
+                background-position-x: 0;
+            }
+
+            100% {
+                background-position-x: 6px;
+            }
+        }
+
+
+        /* --- 19. Origami Fold --- */
+        .origami {
+            width: 100%;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+            .origami .fill {
+                height: 100%;
+                width: 65%;
+                background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+                position: relative;
+                transform-origin: left center;
+                animation: fold 3s infinite alternate;
+            }
+
+        @keyframes fold {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            50% {
+                transform: rotateY(10deg);
+            }
+
+            100% {
+                transform: rotateY(0deg);
+            }
+        }
+
+
+        /* --- 20. Aurora Borealis --- */
+        .aurora {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+            .aurora .fill {
+                height: 100%;
+                width: 75%;
+                background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+                background-size: 200% auto;
+                border-radius: 12px;
+                animation: aurora-flow 3s linear infinite;
+                filter: blur(2px);
+            }
+
+        @keyframes aurora-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+
+        /* --- 21. Retro CRT --- */
+        .crt {
+            width: 100%;
+            height: 25px;
+            background-color: #000;
+            border: 2px solid #555;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.5);
+            position: relative;
+        }
+
+            .crt .fill {
+                height: 100%;
+                width: 50%;
+                background-color: #0f0;
+                box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .crt .fill::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: repeating-linear-gradient( 0deg, transparent, transparent 1px, rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.2) 2px );
+                    animation: scanline 0.1s linear infinite;
+                }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+
+        /* --- 22. Floating Islands --- */
+        .islands {
+            width: 100%;
+            height: 40px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><rect width="100" height="40" fill="%232c3e50"/><circle cx="20" cy="20" r="5" fill="%2334495e"/><circle cx="50" cy="15" r="7" fill="%2334495e"/><circle cx="80" cy="25" r="6" fill="%2334495e"/></svg>') repeat-x;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .islands .fill {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 60%;
+                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><rect width="100" height="40" fill="none"/><circle cx="20" cy="20" r="5" fill="%232ecc71"/><circle cx="50" cy="15" r="7" fill="%232ecc71"/><circle cx="80" cy="25" r="6" fill="%232ecc71"/></svg>') repeat-x;
+                border-radius: 20px;
+                animation: float 10s linear infinite;
+            }
+
+        @keyframes float {
+            0% {
+                background-position-x: 0;
+            }
+
+            100% {
+                background-position-x: 100px;
+            }
+            /* Match SVG width */
+        }
+
+
+        /* --- 23. Quantum Leap --- */
+        .quantum {
+            width: 100%;
+            height: 25px;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .quantum .fill {
+                height: 100%;
+                width: 85%;
+                background: conic-gradient(from 0deg, #40e0d0, #ff8c00, #ff0080, #40e0d0);
+                border-radius: 12px;
+                mask: radial-gradient(circle at center, white 60%, transparent 70%);
+                animation: quantum-spin 5s linear infinite;
+            }
+
+        @keyframes quantum-spin {
+            100% {
+                transform: rotate(1turn);
+            }
+        }
+
+
+        /* --- 24. VHS Tracking --- */
+        .vhs {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border: 1px dashed #aaa;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .vhs .fill {
+                height: 100%;
+                width: 55%;
+                background: repeating-linear-gradient( 90deg, #ff0000, #ff0000 5px, #00ff00 5px, #00ff00 10px, #0000ff 10px, #0000ff 15px );
+                position: relative;
+                animation: vhs-static 0.1s infinite;
+            }
+
+        @keyframes vhs-static {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-1px);
+            }
+
+            50% {
+                transform: translateX(1px);
+            }
+
+            75% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(1px);
+            }
+        }
+
+
+        /* --- 25. Cyberpunk Grid --- */
+        .cyber-grid {
+            width: 100%;
+            height: 30px;
+            background-color: #000;
+            border: 1px solid #0ff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px #0ff;
+            position: relative;
+        }
+
+            .cyber-grid .fill {
+                height: 100%;
+                width: 90%;
+                background-color: #f0f;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .cyber-grid .fill::before,
+                .cyber-grid .fill::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: linear-gradient(90deg, transparent 50%, rgba(0, 255, 255, 0.5) 50%), linear-gradient(transparent 50%, rgba(0, 255, 255, 0.5) 50%);
+                    background-size: 10px 10px;
+                    animation: grid-move 2s linear infinite;
+                }
+
+                .cyber-grid .fill::after {
+                    animation-duration: 1s;
+                    animation-direction: reverse;
+                }
+
+        @keyframes grid-move {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 10px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>25 Advanced & Stylish Progress Bars</h1>
+    <div class="container">
+
+        <!-- 1 -->
+        <div class="bar-container">
+            <h2>1. Classic with Glow</h2>
+            <div class="classic-glow">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="bar-container">
+            <h2>2. Gradient Stripes</h2>
+            <div class="striped">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="bar-container">
+            <h2>3. Neon Glow</h2>
+            <div class="neon">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="bar-container">
+            <h2>4. Liquid Fill</h2>
+            <div class="liquid">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="bar-container">
+            <h2>5. Bouncing Ball</h2>
+            <div class="balls">
+                <div class="track">
+                    <div class="ball"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="bar-container">
+            <h2>6. Glitch Effect</h2>
+            <div class="glitch">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="bar-container">
+            <h2>7. Gradient Wave</h2>
+            <div class="wave">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="bar-container">
+            <h2>8. Pulsing Dot</h2>
+            <div class="dot-pulse">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 9 -->
+        <div class="bar-container">
+            <h2>9. 3D Groove</h2>
+            <div class="groove-3d">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="bar-container">
+            <h2>10. Shiny Slider</h2>
+            <div class="shiny">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="bar-container">
+            <h2>11. Minimalist Line</h2>
+            <div class="line">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="bar-container">
+            <h2>12. Candy Stripe</h2>
+            <div class="candy">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 13 -->
+        <div class="bar-container">
+            <h2>13. Fire Animation</h2>
+            <div class="fire">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 14 -->
+        <div class="bar-container">
+            <h2>14. Diamond Dots</h2>
+            <div class="diamond-dots">
+                <div class="dot active"></div>
+                <div class="dot active"></div>
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- 15 -->
+        <div class="bar-container">
+            <h2>15. Holographic</h2>
+            <div class="holographic">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 16 -->
+        <div class="bar-container">
+            <h2>16. Pixel Art</h2>
+            <div class="pixel">
+                <div class="pixel-fill">
+                    <div></div><div></div><div></div><div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 17 -->
+        <div class="bar-container">
+            <h2>17. Glass Morphism</h2>
+            <div class="glass">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 18 -->
+        <div class="bar-container">
+            <h2>18. Circuit Board</h2>
+            <div class="circuit">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 19 -->
+        <div class="bar-container">
+            <h2>19. Origami Fold</h2>
+            <div class="origami">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 20 -->
+        <div class="bar-container">
+            <h2>20. Aurora Borealis</h2>
+            <div class="aurora">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 21 -->
+        <div class="bar-container">
+            <h2>21. Retro CRT</h2>
+            <div class="crt">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 22 -->
+        <div class="bar-container">
+            <h2>22. Floating Islands</h2>
+            <div class="islands">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 23 -->
+        <div class="bar-container">
+            <h2>23. Quantum Leap</h2>
+            <div class="quantum">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 24 -->
+        <div class="bar-container">
+            <h2>24. VHS Tracking</h2>
+            <div class="vhs">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 25 -->
+        <div class="bar-container">
+            <h2>25. Cyberpunk Grid</h2>
+            <div class="cyber-grid">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>  

@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yet Another 25 Advanced Progress Bars</title>
+    <style>
+        :root {
+            --deep-space: #0a0a1a;
+            --neon-blue: #00eeff;
+            --neon-purple: #bd00ff;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --carbon: #1e1e1e;
+        }
+
+        body {
+            font-family: 'Orbitron', 'Exo 2', sans-serif; /* Sci-fi fonts */
+            background: radial-gradient(ellipse at center, #1a2a6c 0%, #000428 100%);
+            color: var(--silver);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 238, 255, 0.3);
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .bar-container {
+            margin-bottom: 50px;
+            background: rgba(10, 10, 26, 0.7); /* Slightly darker than bg */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--neon-purple);
+            text-shadow: 0 0 5px rgba(189, 0, 255, 0.5);
+        }
+
+
+        /* --- 51. Volumetric Light Beam --- */
+        .volumetric-beam {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+            .volumetric-beam .fill {
+                height: 100%;
+                width: 75%;
+                background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+                position: relative;
+                overflow: hidden;
+                border-radius: 15px;
+            }
+
+                .volumetric-beam .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -50%;
+                    width: 50%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+                    animation: beam-sweep 2s infinite linear;
+                    filter: blur(5px);
+                }
+
+        @keyframes beam-sweep {
+            0% {
+                left: -50%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* --- 52. Liquid Mercury --- */
+        .liquid-mercury {
+            width: 100%;
+            height: 25px;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
+        }
+
+            .liquid-mercury .fill {
+                height: 100%;
+                width: 60%;
+                background: linear-gradient(to right, #aaa, #fff, #aaa);
+                border-radius: 12px;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+                .liquid-mercury .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 40%;
+                    background: rgba(255, 255, 255, 0.4);
+                    border-radius: 12px 12px 0 0;
+                }
+
+                .liquid-mercury .fill::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+                    animation: mercury-shine 3s infinite linear;
+                    border-radius: 12px;
+                }
+
+        @keyframes mercury-shine {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* --- 53. Cyber Grid --- */
+        .cyber-grid {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border: 1px solid var(--neon-blue);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+            .cyber-grid .fill {
+                height: 100%;
+                width: 85%;
+                background-color: rgba(0, 238, 255, 0.1);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .cyber-grid .grid-lines {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: linear-gradient(to right, rgba(0, 238, 255, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 238, 255, 0.2) 1px, transparent 1px);
+                background-size: 20px 20px;
+                animation: grid-scroll 10s linear infinite;
+            }
+
+            .cyber-grid .scan-line {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--neon-blue);
+                box-shadow: 0 0 10px var(--neon-blue);
+                animation: scan-down 4s linear infinite;
+            }
+
+        @keyframes grid-scroll {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 20px 20px;
+            }
+        }
+
+        @keyframes scan-down {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+
+        /* --- 54. Holographic Glitch --- */
+        .holographic-glitch {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .holographic-glitch .fill {
+                height: 100%;
+                width: 55%;
+                background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+                border-radius: 12px;
+                position: relative;
+                overflow: hidden;
+                animation: glitch-base 5s infinite;
+            }
+
+                .holographic-glitch .fill::before,
+                .holographic-glitch .fill::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: inherit;
+                    border-radius: inherit;
+                    opacity: 0.7;
+                    mix-blend-mode: screen;
+                    animation: glitch-overlays 3s infinite;
+                }
+
+                .holographic-glitch .fill::before {
+                    animation-delay: -1s;
+                    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%, 0 35%, 100% 35%, 100% 40%, 0 40%, 0 100%, 100% 100%);
+                }
+
+                .holographic-glitch .fill::after {
+                    animation-delay: -2s;
+                    clip-path: polygon(0 0, 0 30%, 100% 30%, 100% 35%, 0 35%, 0 40%, 100% 40%, 100% 100%, 0 100%, 0 70%);
+                }
+
+        @keyframes glitch-base {
+            0%, 100% {
+                filter: hue-rotate(0deg);
+            }
+
+            50% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes glitch-overlays {
+            0%, 100% {
+                transform: translate(0);
+            }
+
+            10% {
+                transform: translate(-3px, 3px);
+            }
+
+            20% {
+                transform: translate(-3px, -3px);
+            }
+
+            30% {
+                transform: translate(3px, 3px);
+            }
+
+            40% {
+                transform: translate(3px, -3px);
+            }
+
+            50% {
+                transform: translate(0);
+            }
+
+            60% {
+                transform: translate(-2px, 2px);
+            }
+
+            70% {
+                transform: translate(-2px, -2px);
+            }
+
+            80% {
+                transform: translate(2px, 2px);
+            }
+
+            90% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+
+        /* --- 55. Aurora Borealis --- */
+        .aurora-borealis {
+            width: 100%;
+            height: 40px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .aurora-borealis .fill {
+                height: 100%;
+                width: 80%;
+                background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+                background-size: 200% auto;
+                border-radius: 20px;
+                animation: aurora-flow 6s linear infinite;
+                filter: blur(3px);
+                position: relative;
+                overflow: hidden;
+            }
+
+                .aurora-borealis .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: inherit;
+                    filter: blur(10px);
+                    opacity: 0.7;
+                    z-index: -1;
+                }
+
+        @keyframes aurora-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+
+        /* --- 56. Carbon Fiber --- */
+        .carbon-fiber {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);
+            background-color: #111;
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+        }
+
+            .carbon-fiber .fill {
+                height: 100%;
+                width: 70%;
+                background: linear-gradient(90deg, var(--gold), #daa520);
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+                box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 5px var(--gold);
+            }
+
+                .carbon-fiber .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: inherit;
+                    background-size: 20px 20px;
+                    background-position: 0 0, 10px 10px;
+                    opacity: 0.5;
+                    mix-blend-mode: overlay;
+                }
+
+
+        /* --- 57. Neon Pulse --- */
+        .neon-pulse {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .neon-pulse .fill {
+                height: 100%;
+                width: 45%;
+                background: var(--neon-purple);
+                border-radius: 12px;
+                box-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple), inset 0 0 10px rgba(189, 0, 255, 0.3);
+                animation: neon-glow 1.5s ease-in-out infinite alternate;
+            }
+
+        @keyframes neon-glow {
+            from {
+                box-shadow: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple), inset 0 0 5px rgba(189, 0, 255, 0.2);
+            }
+
+            to {
+                box-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-purple), inset 0 0 15px rgba(189, 0, 255, 0.5);
+            }
+        }
+
+
+        /* --- 58. Tron Disc --- */
+        .tron-disc {
+            width: 100%;
+            height: 35px;
+            background: #000;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .tron-disc .track {
+                width: 100%;
+                height: 6px;
+                background: #222;
+                border-radius: 3px;
+                position: relative;
+                overflow: visible;
+            }
+
+            .tron-disc .glow-track {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--neon-blue);
+                transform: translateY(-50%);
+                box-shadow: 0 0 10px var(--neon-blue);
+                opacity: 0.7;
+            }
+
+            .tron-disc .disc {
+                position: absolute;
+                top: 50%;
+                left: 20%; /* Set position */
+                width: 25px;
+                height: 25px;
+                background: radial-gradient(circle, #fff, var(--neon-blue));
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 0 15px var(--neon-blue);
+                animation: disc-rotate 4s linear infinite;
+            }
+
+        @keyframes disc-rotate {
+            100% {
+                transform: translate(-50%, -50%) rotate(1turn);
+            }
+        }
+
+
+        /* --- 59. Energy Coil --- */
+        .energy-coil {
+            width: 100%;
+            height: 40px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+            .energy-coil .coil-center {
+                width: 100%;
+                height: 10px;
+                background: #222;
+                border-radius: 5px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .energy-coil .fill {
+                position: absolute;
+                top: 50%;
+                left: 10%;
+                width: 30px;
+                height: 30px;
+                background: radial-gradient(circle, var(--neon-blue), #00f, transparent 70%);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 0 20px var(--neon-blue);
+                animation: coil-pulse 2s ease-in-out infinite;
+            }
+
+                .energy-coil .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 20px;
+                    height: 20px;
+                    background: radial-gradient(circle, #fff, var(--neon-blue));
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                }
+
+        @keyframes coil-pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+
+        /* --- 60. Holo-Spectrum --- */
+        .holo-spectrum {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .holo-spectrum .fill {
+                height: 100%;
+                width: 90%;
+                background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red, violet);
+                background-size: 200% 100%;
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+                animation: spectrum-shift 4s linear infinite;
+            }
+
+                .holo-spectrum .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(rgba(255,255,255,0.5) 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+                    border-radius: 15px;
+                }
+
+        @keyframes spectrum-shift {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+
+        /* --- 61. Morphing Polygon --- */
+        .morph-polygon {
+            width: 100%;
+            height: 35px;
+            background: #111;
+            border-radius: 17px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .morph-polygon .fill {
+                height: 100%;
+                width: 65%;
+                background: var(--neon-purple);
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+                border-radius: 17px;
+                position: relative;
+                overflow: hidden;
+                animation: morph-shape 8s infinite;
+            }
+
+        @keyframes morph-shape {
+            0% {
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            }
+            /* Diamond */
+            25% {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            }
+            /* Square */
+            50% {
+                clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+            }
+            /* Octagon */
+            75% {
+                clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            }
+            /* Pentagon */
+            100% {
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            }
+            /* Back to Diamond */
+        }
+
+
+        /* --- 62. Particle Accelerator --- */
+        .particle-accelerator {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .particle-accelerator .track {
+                width: 100%;
+                height: 4px;
+                background: #333;
+                border-radius: 2px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .particle-accelerator .particle {
+                position: absolute;
+                top: 50%;
+                left: -10px;
+                width: 10px;
+                height: 10px;
+                background: var(--neon-blue);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0 0 10px var(--neon-blue);
+                animation: particle-run 3s linear infinite;
+            }
+
+        @keyframes particle-run {
+            0% {
+                left: -10px;
+            }
+
+            100% {
+                left: calc(65% + 10px);
+            }
+            /* Match progress */
+        }
+
+
+        /* --- 63. Quantum Foam --- */
+        .quantum-foam {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .quantum-foam .fill {
+                height: 100%;
+                width: 50%;
+                background: #111;
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .quantum-foam .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 2px);
+                    background-size: 30px 30px;
+                    animation: foam-fluctuate 4s ease-in-out infinite;
+                    opacity: 0.7;
+                }
+
+        @keyframes foam-fluctuate {
+            0%, 100% {
+                background-size: 30px 30px;
+                opacity: 0.5;
+            }
+
+            50% {
+                background-size: 25px 25px;
+                opacity: 0.9;
+            }
+        }
+
+
+        /* --- 64. Laser Etching --- */
+        .laser-etching {
+            width: 100%;
+            height: 20px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+        }
+
+            .laser-etching .fill {
+                height: 100%;
+                width: 78%;
+                background: #000;
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .laser-etching .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: repeating-linear-gradient( 90deg, transparent, transparent 5px, var(--neon-blue) 5px, var(--neon-blue) 6px );
+                    animation: laser-draw 2s steps(20, end) infinite;
+                }
+
+        @keyframes laser-draw {
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+
+        /* --- 65. Stellar Wind --- */
+        .stellar-wind {
+            width: 100%;
+            height: 35px;
+            background: radial-gradient(circle at 10% 50%, #111, #000);
+            border-radius: 17px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .stellar-wind .fill {
+                height: 100%;
+                width: 82%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                border-radius: 17px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .stellar-wind .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+                    animation: wind-blow 1.5s linear infinite;
+                    filter: blur(2px);
+                }
+
+        @keyframes wind-blow {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* --- 66. Gravitational Wave --- */
+        .grav-wave {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .grav-wave .fill {
+                height: 100%;
+                width: 100%;
+                background: #111;
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .grav-wave .wave {
+                position: absolute;
+                top: 50%;
+                left: 20%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                animation: wave-expand 3s ease-out infinite;
+            }
+
+                .grav-wave .wave:nth-child(1) { /* First wave */
+                    width: 0;
+                    height: 0;
+                    background: radial-gradient(circle, rgba(0, 238, 255, 0.6) 0%, transparent 70%);
+                    animation-delay: 0s;
+                }
+
+                .grav-wave .wave:nth-child(2) { /* Second wave */
+                    width: 0;
+                    height: 0;
+                    background: radial-gradient(circle, rgba(189, 0, 255, 0.4) 0%, transparent 70%);
+                    animation-delay: 1s;
+                }
+
+        @keyframes wave-expand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 200%;
+                height: 200%;
+                opacity: 0;
+            }
+        }
+
+
+        /* --- 67. Holo-Interface --- */
+        .holo-interface {
+            width: 100%;
+            height: 40px;
+            background: #000;
+            border: 1px solid var(--neon-blue);
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+            .holo-interface .node {
+                width: 12px;
+                height: 12px;
+                background: var(--neon-blue);
+                border-radius: 50%;
+                margin: 0 8px;
+                box-shadow: 0 0 8px var(--neon-blue);
+                animation: node-pulse 2s ease-in-out infinite;
+            }
+
+                .holo-interface .node:nth-child(2) {
+                    animation-delay: 0.2s;
+                    background-color: var(--neon-purple);
+                    box-shadow: 0 0 8px var(--neon-purple);
+                }
+
+                .holo-interface .node:nth-child(3) {
+                    animation-delay: 0.4s;
+                    background-color: var(--gold);
+                    box-shadow: 0 0 8px var(--gold);
+                }
+
+                .holo-interface .node:nth-child(4) {
+                    animation-delay: 0.6s;
+                    background-color: #0f0;
+                    box-shadow: 0 0 8px #0f0;
+                }
+
+            .holo-interface .link {
+                flex-grow: 1;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--neon-blue), var(--neon-purple), var(--gold), #0f0, transparent);
+                position: relative;
+                overflow: hidden;
+            }
+
+                .holo-interface .link::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, #fff, transparent);
+                    animation: link-flow 2s linear infinite;
+                }
+
+        @keyframes node-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes link-flow {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* --- 68. Plasma Conduit --- */
+        .plasma-conduit {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+            .plasma-conduit .fill {
+                height: 100%;
+                width: 58%;
+                background: linear-gradient(90deg, #ff00cc, #3333ff);
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+                filter: url(#turbulence); /* Requires SVG filter */
+            }
+
+                .plasma-conduit .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 50%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+                    animation: conduit-flow 1s linear infinite;
+                }
+
+        @keyframes conduit-flow {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+
+        /* --- 69. Dystopian Bar Code --- */
+        .dystopia-barcode {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border: 1px solid #444;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .dystopia-barcode .fill {
+                height: 100%;
+                width: 100%; /* Full width for effect */
+                background: repeating-linear-gradient( 90deg, #111, #111 5px, #444 5px, #444 10px, #222 10px, #222 15px );
+                position: relative;
+                overflow: hidden;
+            }
+
+            .dystopia-barcode .scanner {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 5px;
+                height: 100%;
+                background: var(--neon-purple);
+                box-shadow: 0 0 10px var(--neon-purple);
+                animation: scan-across 3s linear infinite;
+            }
+
+        @keyframes scan-across {
+            0% {
+                left: 0;
+            }
+
+            100% {
+                left: calc(100% - 5px);
+            }
+        }
+
+
+        /* --- 70. Singularity Core --- */
+        .singularity-core {
+            width: 100%;
+            height: 45px;
+            background: radial-gradient(circle, #222, #000);
+            border-radius: 22px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .singularity-core .horizon {
+                width: 90%;
+                height: 25px;
+                background: #111;
+                border-radius: 12px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .singularity-core .fill {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, #fff, #ffff00, #ff0000);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                animation: core-collapse 5s ease-in-out infinite alternate;
+            }
+
+        @keyframes core-collapse {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                width: 95%;
+                height: 95%;
+                opacity: 0;
+            }
+        }
+
+
+        /* --- 71. Kinetic Energy --- */
+        .kinetic-energy {
+            width: 100%;
+            height: 30px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .kinetic-energy .fill {
+                height: 100%;
+                width: 72%;
+                background: #333;
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+            }
+
+                .kinetic-energy .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: repeating-linear-gradient( 45deg, transparent, transparent 10px, rgba(0, 238, 255, 0.3) 10px, rgba(0, 238, 255, 0.3) 15px );
+                    animation: energy-motion 1s linear infinite;
+                }
+
+        @keyframes energy-motion {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 15px 15px;
+            }
+        }
+
+
+        /* --- 72. Retro CRT --- */
+        .retro-crt {
+            width: 100%;
+            height: 30px;
+            background: #001100;
+            border: 3px solid #336633;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 100, 0, 0.5), 0 0 15px rgba(0, 100, 0, 0.3);
+        }
+
+            .retro-crt .fill {
+                height: 100%;
+                width: 63%;
+                background: #0f0;
+                position: relative;
+                overflow: hidden;
+                animation: crt-flicker 0.1s infinite;
+            }
+
+            .retro-crt .scanlines {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( to bottom, transparent, transparent 1px, rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.2) 2px );
+                pointer-events: none; /* So it doesn't block interaction */
+            }
+
+            .retro-crt .glow {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(ellipse at center, rgba(0, 255, 0, 0.2) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+        @keyframes crt-flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.95;
+            }
+        }
+
+
+        /* --- 73. Holo-Decryption --- */
+        .holo-decrypt {
+            width: 100%;
+            height: 35px;
+            background: #000;
+            border-radius: 17px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .holo-decrypt .fill {
+                height: 100%;
+                width: 100%;
+                background: #111;
+                border-radius: 17px;
+                position: relative;
+                overflow: hidden;
+                color: var(--neon-blue);
+                font-family: monospace;
+                font-size: 16px;
+                line-height: 35px;
+                white-space: nowrap;
+                padding-left: 10px;
+                box-sizing: border-box;
+            }
+
+                .holo-decrypt .fill::before {
+                    content: "[ACCESS GRANTED]_DATA_STREAM_INTEGRITY_CHECK_PASSED_DECRYPTING_FILE_XYZ_789...[COMPLETE]";
+                    position: absolute;
+                    top: 0;
+                    left: 100%;
+                    animation: decrypt-scroll 8s linear infinite;
+                }
+
+            .holo-decrypt .progress-indicator {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 53%; /* Progress */
+                background: rgba(0, 238, 255, 0.1);
+                border-right: 1px solid var(--neon-blue);
+            }
+
+        @keyframes decrypt-scroll {
+            0% {
+                left: 100%;
+            }
+
+            100% {
+                left: -100%;
+            }
+        }
+
+
+        /* --- 74. Nanite Assembly --- */
+        .nanite-assembly {
+            width: 100%;
+            height: 25px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .nanite-assembly .fill {
+                height: 100%;
+                width: 100%;
+                background: #111;
+                border-radius: 12px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nanite-assembly .nanite {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                background: var(--neon-purple);
+                border-radius: 2px;
+                animation: assemble 4s ease-in-out infinite;
+            }
+        /* Position and delay nanites via JS or manually for better effect */
+
+
+        /* --- 75. Temporal Rift --- */
+        .temporal-rift {
+            width: 100%;
+            height: 40px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+            .temporal-rift .fill {
+                height: 100%;
+                width: 67%;
+                background: linear-gradient(90deg, #6a11cb, #2575fc);
+                border-radius: 20px;
+                position: relative;
+                overflow: hidden;
+                transform-style: preserve-3d;
+                animation: rift-warp 5s infinite linear;
+            }
+
+                .temporal-rift .fill::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(transparent 50%, rgba(255, 255, 255, 0.1) 50%);
+                    background-size: 100% 10px;
+                    animation: rift-lines 1s linear infinite;
+                }
+
+        @keyframes rift-warp {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        @keyframes rift-lines {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Filters for advanced effects -->
+    <svg width="0" height="0">
+        <filter id="turbulence">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <h1>Yet Another 25 Advanced Progress Bars</h1>
+    <div class="container">
+
+        <!-- 51 -->
+        <div class="bar-container">
+            <h2>51. Volumetric Light Beam</h2>
+            <div class="volumetric-beam">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 52 -->
+        <div class="bar-container">
+            <h2>52. Liquid Mercury</h2>
+            <div class="liquid-mercury">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 53 -->
+        <div class="bar-container">
+            <h2>53. Cyber Grid</h2>
+            <div class="cyber-grid">
+                <div class="fill">
+                    <div class="grid-lines"></div>
+                    <div class="scan-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 54 -->
+        <div class="bar-container">
+            <h2>54. Holographic Glitch</h2>
+            <div class="holographic-glitch">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 55 -->
+        <div class="bar-container">
+            <h2>55. Aurora Borealis</h2>
+            <div class="aurora-borealis">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 56 -->
+        <div class="bar-container">
+            <h2>56. Carbon Fiber</h2>
+            <div class="carbon-fiber">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 57 -->
+        <div class="bar-container">
+            <h2>57. Neon Pulse</h2>
+            <div class="neon-pulse">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 58 -->
+        <div class="bar-container">
+            <h2>58. Tron Disc</h2>
+            <div class="tron-disc">
+                <div class="track">
+                    <div class="glow-track"></div>
+                    <div class="disc"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 59 -->
+        <div class="bar-container">
+            <h2>59. Energy Coil</h2>
+            <div class="energy-coil">
+                <div class="coil-center">
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 60 -->
+        <div class="bar-container">
+            <h2>60. Holo-Spectrum</h2>
+            <div class="holo-spectrum">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 61 -->
+        <div class="bar-container">
+            <h2>61. Morphing Polygon</h2>
+            <div class="morph-polygon">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 62 -->
+        <div class="bar-container">
+            <h2>62. Particle Accelerator</h2>
+            <div class="particle-accelerator">
+                <div class="track"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+
+        <!-- 63 -->
+        <div class="bar-container">
+            <h2>63. Quantum Foam</h2>
+            <div class="quantum-foam">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 64 -->
+        <div class="bar-container">
+            <h2>64. Laser Etching</h2>
+            <div class="laser-etching">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 65 -->
+        <div class="bar-container">
+            <h2>65. Stellar Wind</h2>
+            <div class="stellar-wind">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 66 -->
+        <div class="bar-container">
+            <h2>66. Gravitational Wave</h2>
+            <div class="grav-wave">
+                <div class="fill">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 67 -->
+        <div class="bar-container">
+            <h2>67. Holo-Interface</h2>
+            <div class="holo-interface">
+                <div class="node"></div>
+                <div class="node"></div>
+                <div class="node"></div>
+                <div class="node"></div>
+                <div class="link"></div>
+            </div>
+        </div>
+
+        <!-- 68 -->
+        <div class="bar-container">
+            <h2>68. Plasma Conduit</h2>
+            <div class="plasma-conduit">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 69 -->
+        <div class="bar-container">
+            <h2>69. Dystopian Bar Code</h2>
+            <div class="dystopia-barcode">
+                <div class="fill"></div>
+                <div class="scanner"></div>
+            </div>
+        </div>
+
+        <!-- 70 -->
+        <div class="bar-container">
+            <h2>70. Singularity Core</h2>
+            <div class="singularity-core">
+                <div class="horizon">
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 71 -->
+        <div class="bar-container">
+            <h2>71. Kinetic Energy</h2>
+            <div class="kinetic-energy">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 72 -->
+        <div class="bar-container">
+            <h2>72. Retro CRT</h2>
+            <div class="retro-crt">
+                <div class="fill"></div>
+                <div class="scanlines"></div>
+                <div class="glow"></div>
+            </div>
+        </div>
+
+        <!-- 73 -->
+        <div class="bar-container">
+            <h2>73. Holo-Decryption</h2>
+            <div class="holo-decrypt">
+                <div class="progress-indicator"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+
+        <!-- 74 -->
+        <div class="bar-container">
+            <h2>74. Nanite Assembly</h2>
+            <div class="nanite-assembly">
+                <div class="fill">
+                    <!-- Nanites positioned by JS -->
+                    <div class="nanite" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+                    <div class="nanite" style="top: 60%; left: 20%; animation-delay: 0.5s;"></div>
+                    <div class="nanite" style="top: 40%; left: 30%; animation-delay: 1s;"></div>
+                    <div class="nanite" style="top: 10%; left: 40%; animation-delay: 1.5s;"></div>
+                    <div class="nanite" style="top: 70%; left: 50%; animation-delay: 2s;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 75 -->
+        <div class="bar-container">
+            <h2>75. Temporal Rift</h2>
+            <div class="temporal-rift">
+                <div class="fill"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple script to trigger initial animation state if needed
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log("Bars 51-75 loaded with cinematic flair!");
+            // Further dynamic behavior can be added here
+        });
+    </script>
+
+</body>
+</html>

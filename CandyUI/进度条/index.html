@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25种炫酷3D动态进度条</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #0ff0fc;
+            --secondary-color: #ff00ff;
+            --accent-color: #ffff00;
+            --bg-dark: #0d0d15;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            counter-reset: prog-counter;
+        }
+
+        .progress-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .progress-card:hover {
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 0 12px 40px rgba(0, 195, 255, 0.2);
+            }
+
+        .card-title {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+            .card-title::before {
+                counter-increment: prog-counter;
+                content: counter(prog-counter) ". ";
+            }
+
+
+        /* --- 1. 六边形脉冲 (Hexagon Pulse) --- */
+        .hex-pulse {
+            width: 120px;
+            height: 104px;
+            margin: 20px auto;
+            position: relative;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            animation: hexSpin 3s linear infinite;
+        }
+
+        @keyframes hexSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 2. 星形填充 (Star Fill) --- */
+        .star-fill {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            position: relative;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background: var(--secondary-color);
+            transition: all 2s ease-in-out;
+        }
+
+            .star-fill:hover {
+                clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+                background: radial-gradient(circle, var(--accent-color) 0%, var(--secondary-color) 70%);
+                filter: drop-shadow(0 0 15px var(--accent-color));
+            }
+
+        /* --- 3. 心跳线 (Heartbeat Line) --- */
+        .heartbeat-line {
+            width: 150px;
+            height: 4px;
+            margin: 50px auto;
+            background: var(--primary-color);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+            .heartbeat-line::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 20%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+                animation: heartbeatSlide 1.5s ease-in-out infinite;
+            }
+
+        @keyframes heartbeatSlide {
+            0%, 100% {
+                left: -20%;
+            }
+
+            50% {
+                left: 100%;
+            }
+        }
+
+        /* --- 4. 旋转立方体面 (Rotating Cube Face) --- */
+        .cube-face {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            position: relative;
+            perspective: 500px;
+        }
+
+        .cube-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cubeRotateY 4s infinite linear;
+        }
+
+        .cube-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            transform: translateZ(50px);
+        }
+
+        .back {
+            transform: rotateY(180deg) translateZ(50px);
+        }
+
+        .right {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        .left {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        .top {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        .bottom {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
+
+        .front::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--primary-color);
+            animation: fillWidth 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes cubeRotateY {
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+
+        @keyframes fillWidth {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* --- 5. DNA双螺旋 (DNA Helix) --- */
+        .dna-helix {
+            width: 100px;
+            height: 120px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .strand {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+
+            .strand.left {
+                left: 30px;
+            }
+
+            .strand.right {
+                right: 30px;
+            }
+
+            .strand::before, .strand::after {
+                content: '';
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                background: var(--accent-color);
+                border-radius: 50%;
+                top: 0;
+            }
+
+            .strand.right::before, .strand.right::after {
+                left: -3px;
+            }
+
+            .strand.left::before, .strand.left::after {
+                right: -3px;
+            }
+
+            .strand.left::before {
+                animation: dnaUp 2s ease-in-out infinite;
+            }
+
+            .strand.left::after {
+                animation: dnaDown 2s ease-in-out infinite 1s;
+            }
+
+            .strand.right::before {
+                animation: dnaDown 2s ease-in-out infinite;
+            }
+
+            .strand.right::after {
+                animation: dnaUp 2s ease-in-out infinite 1s;
+            }
+
+        @keyframes dnaUp {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+                transform: translate(0, -100%);
+            }
+        }
+
+        @keyframes dnaDown {
+            0% {
+                top: 100%;
+                transform: translate(0, -100%);
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        /* --- 6. 环形波浪 (Ring Wave) --- */
+        .ring-wave {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            position: relative;
+            border: 2px solid var(--primary-color);
+        }
+
+            .ring-wave::before, .ring-wave::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                border: 2px solid var(--accent-color);
+                opacity: 0;
+            }
+
+            .ring-wave::before {
+                animation: ringPulse 1.5s ease-out infinite;
+            }
+
+            .ring-wave::after {
+                animation: ringPulse 1.5s ease-out 0.75s infinite;
+            }
+
+        @keyframes ringPulse {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 100px;
+                height: 100px;
+                opacity: 0;
+            }
+        }
+
+        /* --- 7. 无限符号 (∞ Infinity) --- */
+        .infinity-symbol {
+            width: 120px;
+            height: 60px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+            .infinity-symbol::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: 40px;
+                height: 40px;
+                border: 4px solid var(--primary-color);
+                border-radius: 50%;
+                transform: rotate(45deg);
+            }
+
+            .infinity-symbol::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 40px;
+                height: 40px;
+                border: 4px solid var(--primary-color);
+                border-radius: 50%;
+                transform: rotate(45deg);
+            }
+
+        .infinity-dot {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: infinityMove 3s linear infinite;
+        }
+
+        @keyframes infinityMove {
+            0% {
+                left: 0;
+            }
+
+            25% {
+                left: calc(50% - 5px);
+                top: 0;
+            }
+
+            50% {
+                left: 100%;
+                top: 50%;
+            }
+
+            75% {
+                left: calc(50% - 5px);
+                top: 100%;
+            }
+
+            100% {
+                left: 0;
+            }
+        }
+
+        /* --- 8. 三角形旋转填充 (Triangle Rotate Fill) --- */
+        .tri-rotate-fill {
+            width: 100px;
+            height: 87px; /* sqrt(3)/2 * side */
+            margin: 20px auto;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background: conic-gradient(from 0deg at 50% 100%, transparent 0deg, var(--secondary-color) 120deg, transparent 240deg);
+            animation: triConicSpin 4s linear infinite;
+        }
+
+        @keyframes triConicSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 9. 发光粒子流 (Glowing Particle Stream) --- */
+        .particle-stream {
+            width: 150px;
+            height: 20px;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            top: 5px;
+            box-shadow: 0 0 8px 2px var(--accent-color);
+            animation: streamFlow 3s linear infinite;
+        }
+
+            .particle:nth-child(1) {
+                left: -10px;
+                animation-delay: 0s;
+            }
+
+            .particle:nth-child(2) {
+                left: -10px;
+                animation-delay: 0.5s;
+            }
+
+            .particle:nth-child(3) {
+                left: -10px;
+                animation-delay: 1s;
+            }
+
+            .particle:nth-child(4) {
+                left: -10px;
+                animation-delay: 1.5s;
+            }
+
+            .particle:nth-child(5) {
+                left: -10px;
+                animation-delay: 2s;
+            }
+
+        @keyframes streamFlow {
+            0% {
+                left: -10px;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 150px;
+                opacity: 0;
+            }
+        }
+
+        /* --- 10. 机械齿轮联动 (Mechanical Gear Linkage) --- */
+        .gear-linkage {
+            width: 120px;
+            height: 60px;
+            margin: 40px auto;
+            position: relative;
+        }
+
+        .gear {
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+        }
+
+            .gear.small {
+                left: 0;
+                width: 30px;
+                height: 30px;
+            }
+
+            .gear.large {
+                right: 0;
+            }
+
+            .gear::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 10px;
+                height: 10px;
+                background: var(--secondary-color);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .gear.small::after, .gear.large::after {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: 50%;
+                width: 6px;
+                height: 15px;
+                background: var(--primary-color);
+                transform-origin: bottom center;
+            }
+
+            .gear.small::after {
+                transform: translateX(-50%) rotate(0deg);
+                animation: gearSpinSmall 4s linear infinite;
+            }
+
+            .gear.large::after {
+                transform: translateX(-50%) rotate(0deg);
+                animation: gearSpinLarge 4s linear infinite reverse;
+            }
+
+        @keyframes gearSpinSmall {
+            to {
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+
+        @keyframes gearSpinLarge {
+            to {
+                transform: translateX(-50%) rotate(360deg);
+            }
+        }
+
+        /* --- 11. 液态金属 (Liquid Metal) --- */
+        .liquid-metal {
+            width: 150px;
+            height: 20px;
+            margin: 50px auto;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            mask: url(#liquidMask);
+            -webkit-mask: url(#liquidMask);
+        }
+
+            .liquid-metal::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* --- 12. 极光带 (Aurora Band) --- */
+        .aurora-band {
+            width: 150px;
+            height: 20px;
+            margin: 50px auto;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .aurora-band::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( 90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px );
+                animation: auroraShift 5s linear infinite;
+            }
+
+        @keyframes auroraShift {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 100% 0;
+            }
+        }
+
+        /* --- 13. 数据流矩阵 (Matrix Data Stream) --- */
+        .matrix-stream {
+            width: 150px;
+            height: 100px;
+            margin: 20px auto;
+            background: black;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary-color);
+        }
+
+        .matrix-col {
+            position: absolute;
+            top: -100%;
+            width: 10px;
+            color: var(--primary-color);
+            font-family: monospace;
+            font-size: 14px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            animation: matrixFall 5s linear infinite;
+        }
+
+            .matrix-col:nth-child(1) {
+                left: 10px;
+                animation-delay: 0s;
+            }
+
+            .matrix-col:nth-child(2) {
+                left: 30px;
+                animation-delay: 1s;
+            }
+
+            .matrix-col:nth-child(3) {
+                left: 50px;
+                animation-delay: 2s;
+            }
+
+            .matrix-col:nth-child(4) {
+                left: 70px;
+                animation-delay: 3s;
+            }
+
+            .matrix-col:nth-child(5) {
+                left: 90px;
+                animation-delay: 4s;
+            }
+
+            .matrix-col:nth-child(6) {
+                left: 110px;
+                animation-delay: 0.5s;
+            }
+
+            .matrix-col:nth-child(7) {
+                left: 130px;
+                animation-delay: 1.5s;
+            }
+
+        @keyframes matrixFall {
+            to {
+                top: 100%;
+            }
+        }
+
+        /* --- 14. 霓虹灯管 (Neon Tube) --- */
+        .neon-tube {
+            width: 150px;
+            height: 20px;
+            margin: 50px auto;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 5px var(--primary-color), inset 0 0 5px var(--primary-color);
+            animation: neonFlicker 3s infinite alternate;
+        }
+
+        .neon-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 70%;
+            background: var(--primary-color);
+            border-radius: 8px;
+            filter: blur(1px);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        @keyframes neonFlicker {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 5px var(--primary-color), inset 0 0 5px var(--primary-color);
+            }
+
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 0 2px var(--primary-color), inset 0 0 2px var(--primary-color);
+            }
+        }
+
+        /* --- 15. 全息投影 (Hologram Projection) --- */
+        .hologram-projection {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            position: relative;
+            perspective: 500px;
+        }
+
+        .hologram-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: hologramFloat 6s ease-in-out infinite;
+        }
+
+        .hologram-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--primary-color));
+            opacity: 0.7;
+            border: 1px solid white;
+        }
+
+        .front-h {
+            transform: translateZ(50px);
+        }
+
+        .back-h {
+            transform: rotateY(180deg) translateZ(50px);
+        }
+
+        .right-h {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        .left-h {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        .top-h {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        .bottom-h {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
+
+        @keyframes hologramFloat {
+            0%, 100% {
+                transform: translateY(0) rotateX(10deg) rotateY(10deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg);
+            }
+        }
+
+        /* --- 16. 磁力场线 (Magnetic Field Lines) --- */
+        .magnetic-field {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .field-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 4px;
+            background: var(--primary-color);
+            transform-origin: left center;
+        }
+
+            .field-line.l1 {
+                transform: translate(-50%, -50%) rotate(0deg);
+                width: 50px;
+                animation: fieldExtend 2s ease-in-out infinite alternate;
+            }
+
+            .field-line.l2 {
+                transform: translate(-50%, -50%) rotate(45deg);
+                width: 40px;
+                animation: fieldExtend 2s ease-in-out 0.2s infinite alternate;
+            }
+
+            .field-line.l3 {
+                transform: translate(-50%, -50%) rotate(90deg);
+                width: 50px;
+                animation: fieldExtend 2s ease-in-out 0.4s infinite alternate;
+            }
+
+            .field-line.l4 {
+                transform: translate(-50%, -50%) rotate(135deg);
+                width: 40px;
+                animation: fieldExtend 2s ease-in-out 0.6s infinite alternate;
+            }
+
+        .field-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        @keyframes fieldExtend {
+            to {
+                width: 60px;
+            }
+        }
+
+        /* --- 17. 能量核心 (Energy Core) --- */
+        .energy-core {
+            width: 80px;
+            height: 80px;
+            margin: 30px auto;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-color) 0%, var(--secondary-color) 70%, transparent 100%);
+            position: relative;
+            box-shadow: 0 0 20px var(--accent-color), inset 0 0 10px white;
+            animation: corePulse 2s ease-in-out infinite alternate;
+        }
+
+        .core-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .core-orbiter {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: orbit 4s linear infinite;
+        }
+
+        @keyframes corePulse {
+            to {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px var(--accent-color), inset 0 0 15px white;
+            }
+        }
+
+        @keyframes orbit {
+            to {
+                transform: translateX(-50%) rotate(360deg);
+                top: 0;
+            }
+        }
+
+        /* --- 18. 黑洞吸积盘 (Black Hole Accretion Disk) --- */
+        .blackhole-disk {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: radial-gradient(circle, black 30%, var(--primary-color) 100%);
+            position: relative;
+            overflow: hidden;
+            animation: diskSpin 10s linear infinite;
+        }
+
+        .disk-streak {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary-color);
+            transform-origin: left center;
+            opacity: 0.7;
+        }
+
+            .disk-streak.s1 {
+                transform: translate(0, -50%) rotate(0deg);
+            }
+
+            .disk-streak.s2 {
+                transform: translate(0, -50%) rotate(30deg);
+            }
+
+            .disk-streak.s3 {
+                transform: translate(0, -50%) rotate(60deg);
+            }
+
+            .disk-streak.s4 {
+                transform: translate(0, -50%) rotate(90deg);
+            }
+
+            .disk-streak.s5 {
+                transform: translate(0, -50%) rotate(120deg);
+            }
+
+            .disk-streak.s6 {
+                transform: translate(0, -50%) rotate(150deg);
+            }
+
+        .event-horizon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            background: black;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        @keyframes diskSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 19. 离子推进器 (Ion Thruster) --- */
+        .ion-thruster {
+            width: 40px;
+            height: 100px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .thruster-chamber {
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to right, var(--bg-dark), var(--primary-color));
+            border-radius: 5px 5px 0 0;
+        }
+
+        .plasma-beam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(to top, var(--primary-color), var(--accent-color), transparent);
+            border-radius: 3px;
+            transform: translateX(-50%);
+            animation: beamFlicker 0.5s ease-in-out infinite alternate;
+        }
+
+        .beam-particle {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: particleRise 1s ease-out infinite;
+        }
+
+            .beam-particle.p1 {
+                left: 0;
+                animation-delay: 0s;
+            }
+
+            .beam-particle.p2 {
+                left: 50%;
+                animation-delay: 0.2s;
+            }
+
+            .beam-particle.p3 {
+                right: 0;
+                animation-delay: 0.4s;
+            }
+
+        @keyframes beamFlicker {
+            to {
+                height: 65px;
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes particleRise {
+            to {
+                bottom: 60px;
+                opacity: 0;
+            }
+        }
+
+        /* --- 20. 赛博朋克扫描线 (Cyber Scanline) --- */
+        .cyber-scan {
+            width: 150px;
+            height: 100px;
+            margin: 20px auto;
+            background: #111;
+            border: 1px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+            animation: scanMove 2s linear infinite;
+        }
+
+        .scan-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        @keyframes scanMove {
+            to {
+                top: 100%;
+            }
+        }
+
+        /* --- 21. 光速飞行轨迹 (Lightspeed Trail) --- */
+        .lightspeed-trail {
+            width: 200px;
+            height: 4px;
+            margin: 50px auto;
+            background: linear-gradient(90deg, transparent, var(--primary-color), var(--accent-color), var(--primary-color), transparent);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .trail-star {
+            position: absolute;
+            top: 50%;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: starStreak 1s linear infinite;
+        }
+
+            .trail-star.s1 {
+                left: 0;
+                animation-delay: 0s;
+            }
+
+            .trail-star.s2 {
+                left: 25%;
+                animation-delay: 0.2s;
+            }
+
+            .trail-star.s3 {
+                left: 50%;
+                animation-delay: 0.4s;
+            }
+
+            .trail-star.s4 {
+                left: 75%;
+                animation-delay: 0.6s;
+            }
+
+        @keyframes starStreak {
+            0% {
+                left: -10px;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* --- 22. 分形树生长 (Fractal Tree Growth) --- */
+        .fractal-tree {
+            width: 100px;
+            height: 120px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 60px;
+            background: #5d4037;
+            transform: translateX(-50%);
+        }
+
+        .tree-branch {
+            position: absolute;
+            width: 2px;
+            height: 30px;
+            background: #4caf50;
+            transform-origin: bottom center;
+        }
+
+        .branch-l1 {
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-20deg);
+            height: 40px;
+            animation: growBranch 3s forwards;
+        }
+
+        .branch-r1 {
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%) rotate(20deg);
+            height: 40px;
+            animation: growBranch 3s forwards;
+        }
+
+        .branch-l2 {
+            bottom: 90px;
+            left: 30px;
+            transform: translateX(-50%) rotate(-40deg);
+            animation: growBranch 3s 1s forwards;
+        }
+
+        .branch-r2 {
+            bottom: 90px;
+            right: 30px;
+            transform: translateX(50%) rotate(40deg);
+            animation: growBranch 3s 1s forwards;
+        }
+
+        @keyframes growBranch {
+            from {
+                height: 0;
+            }
+
+            to {
+                height: 100%;
+            }
+        }
+
+        /* --- 23. 量子纠缠粒子 (Quantum Entangled Particles) --- */
+        .quantum-entanglement {
+            width: 120px;
+            height: 80px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .entangled-particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        .p1 {
+            left: 20px;
+            animation: quantumOscillate 2s ease-in-out infinite alternate;
+        }
+
+        .p2 {
+            right: 20px;
+            animation: quantumOscillate 2s ease-in-out infinite alternate-reverse;
+        }
+
+        .entanglement-link {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transform: translate(-50%, -50%);
+            animation: linkPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes quantumOscillate {
+            0%, 100% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.5);
+            }
+        }
+
+        @keyframes linkPulse {
+            0%, 100% {
+                width: 0;
+            }
+
+            50% {
+                width: 60px;
+            }
+        }
+
+        /* --- 24. 时间扭曲光环 (Time Warp Aura) --- */
+        .time-warp {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            position: relative;
+            animation: timeWarpRotate 20s linear infinite;
+        }
+
+        .warp-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .ring1 {
+            border-color: var(--primary-color);
+            animation: ringDistort 3s ease-in-out infinite alternate;
+        }
+
+        .ring2 {
+            border-color: var(--secondary-color);
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation: ringDistort 3s ease-in-out infinite alternate-reverse;
+        }
+
+        .ring3 {
+            border-color: var(--accent-color);
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation: ringDistort 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes timeWarpRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes ringDistort {
+            0%, 100% {
+                border-radius: 50%;
+            }
+
+            50% {
+                border-radius: 40% 60% 40% 60%;
+            }
+        }
+
+        /* --- 25. 宇宙弦振动 (Cosmic String Vibration) --- */
+        .cosmic-string {
+            width: 150px;
+            height: 2px;
+            margin: 60px auto;
+            background: linear-gradient(90deg, transparent, var(--primary-color), var(--secondary-color), var(--primary-color), transparent);
+            position: relative;
+            animation: stringVibrate 0.05s ease-in-out infinite alternate;
+        }
+
+        .string-node {
+            position: absolute;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .node1 {
+            left: 0;
+        }
+
+        .node2 {
+            left: 50%;
+        }
+
+        .node3 {
+            left: 100%;
+        }
+
+        @keyframes stringVibrate {
+            from {
+                transform: scaleY(1);
+            }
+
+            to {
+                transform: scaleY(1.5) scaleX(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-card">
+        <div class="card-title">六边形脉冲</div>
+        <div class="hex-pulse"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">星形填充</div>
+        <div class="star-fill"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">心跳线</div>
+        <div class="heartbeat-line"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">旋转立方体面</div>
+        <div class="cube-face">
+            <div class="cube-inner">
+                <div class="cube-side front"></div>
+                <div class="cube-side back"></div>
+                <div class="cube-side right"></div>
+                <div class="cube-side left"></div>
+                <div class="cube-side top"></div>
+                <div class="cube-side bottom"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">DNA双螺旋</div>
+        <div class="dna-helix">
+            <div class="strand left"></div>
+            <div class="strand right"></div>
+            <div class="strand left"></div>
+            <div class="strand right"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">环形波浪</div>
+        <div class="ring-wave"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">无限符号</div>
+        <div class="infinity-symbol">
+            <div class="infinity-dot"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">三角形旋转填充</div>
+        <div class="tri-rotate-fill"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">发光粒子流</div>
+        <div class="particle-stream">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">机械齿轮联动</div>
+        <div class="gear-linkage">
+            <div class="gear small"></div>
+            <div class="gear large"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">液态金属</div>
+        <div class="liquid-metal"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">极光带</div>
+        <div class="aurora-band"></div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">数据流矩阵</div>
+        <div class="matrix-stream">
+            <div class="matrix-col">010101010101010</div>
+            <div class="matrix-col">101010101010101</div>
+            <div class="matrix-col">010011001100110</div>
+            <div class="matrix-col">111000111000111</div>
+            <div class="matrix-col">000111000111000</div>
+            <div class="matrix-col">101101101101101</div>
+            <div class="matrix-col">010010010010010</div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">霓虹灯管</div>
+        <div class="neon-tube">
+            <div class="neon-fill"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">全息投影</div>
+        <div class="hologram-projection">
+            <div class="hologram-inner">
+                <div class="hologram-face front-h"></div>
+                <div class="hologram-face back-h"></div>
+                <div class="hologram-face right-h"></div>
+                <div class="hologram-face left-h"></div>
+                <div class="hologram-face top-h"></div>
+                <div class="hologram-face bottom-h"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">磁力场线</div>
+        <div class="magnetic-field">
+            <div class="field-line l1"></div>
+            <div class="field-line l2"></div>
+            <div class="field-line l3"></div>
+            <div class="field-line l4"></div>
+            <div class="field-line l5"></div>
+            <div class="field-line l6"></div>
+            <div class="field-center"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">能量核心</div>
+        <div class="energy-core">
+            <div class="core-orbit">
+                <div class="core-orbiter"></div>
+            </div>
+            <div class="core-orbit">
+                <div class="core-orbiter"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">黑洞吸积盘</div>
+        <div class="blackhole-disk">
+            <div class="disk-streak s1"></div>
+            <div class="disk-streak s2"></div>
+            <div class="disk-streak s3"></div>
+            <div class="disk-streak s4"></div>
+            <div class="disk-streak s5"></div>
+            <div class="disk-streak s6"></div>
+            <div class="event-horizon"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">离子推进器</div>
+        <div class="ion-thruster">
+            <div class="thruster-chamber"></div>
+            <div class="plasma-beam">
+                <div class="beam-particle p1"></div>
+                <div class="beam-particle p2"></div>
+                <div class="beam-particle p3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">赛博朋克扫描线</div>
+        <div class="cyber-scan">
+            <div class="scan-grid"></div>
+            <div class="scan-bar"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">光速飞行轨迹</div>
+        <div class="lightspeed-trail">
+            <div class="trail-star s1"></div>
+            <div class="trail-star s2"></div>
+            <div class="trail-star s3"></div>
+            <div class="trail-star s4"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">分形树生长</div>
+        <div class="fractal-tree">
+            <div class="tree-trunk"></div>
+            <div class="tree-branch branch-l1"></div>
+            <div class="tree-branch branch-r1"></div>
+            <div class="tree-branch branch-l2"></div>
+            <div class="tree-branch branch-r2"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">量子纠缠粒子</div>
+        <div class="quantum-entanglement">
+            <div class="entangled-particle p1"></div>
+            <div class="entangled-particle p2"></div>
+            <div class="entanglement-link"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">时间扭曲光环</div>
+        <div class="time-warp">
+            <div class="warp-ring ring1"></div>
+            <div class="warp-ring ring2"></div>
+            <div class="warp-ring ring3"></div>
+        </div>
+    </div>
+
+    <div class="progress-card">
+        <div class="card-title">宇宙弦振动</div>
+        <div class="cosmic-string">
+            <div class="string-node node1"></div>
+            <div class="string-node node2"></div>
+            <div class="string-node node3"></div>
+        </div>
+    </div>
+
+    <!-- SVG Masks -->
+    <svg width="0" height="0">
+        <mask id="liquidMask">
+            <rect x="0" y="0" width="150" height="20" fill="white" />
+            <circle cx="30" cy="10" r="15" fill="black" />
+            <circle cx="90" cy="10" r="10" fill="black" />
+            <circle cx="130" cy="10" r="7" fill="black" />
+        </mask>
+    </svg>
+
+</body>
+</html>

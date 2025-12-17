@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Cool Labels</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .label-wrapper {
+            perspective: 1000px; /* For 3D effects */
+        }
+
+            .label-wrapper label {
+                display: inline-block;
+                padding: 10px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                user-select: none; /* Prevent text selection on double click */
+                box-sizing: border-box;
+                min-width: 150px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+        /* --- Label Styles --- */
+
+        /* 1. Neon Glow */
+        .neon-glow {
+            background-color: #000;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 40px #ff00de;
+            box-shadow: 0 0 5px #fff, 0 0 10px #ff00de;
+            animation: neon-pulse 1.5s infinite alternate;
+        }
+
+        @keyframes neon-pulse {
+            to {
+                text-shadow: 0 0 5px #fff, 0 0 15px #fff, 0 0 30px #ff00de, 0 0 60px #ff00de;
+                box-shadow: 0 0 10px #fff, 0 0 20px #ff00de;
+            }
+        }
+
+        /* 2. Metallic Shine */
+        .metallic-shine {
+            background: linear-gradient(45deg, #8c7ae6, #9c88ff);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .metallic-shine::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+                transform: rotate(30deg);
+                transition: all 0.5s ease;
+            }
+
+            .metallic-shine:hover::before {
+                transform: rotate(30deg) translate(20%, 20%);
+            }
+
+        /* 3. Crystal Clear */
+        .crystal-clear {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        /* 4. Electric Pulse */
+        .electric-pulse {
+            background: #333;
+            color: #00eeff;
+            border: 2px solid #00eeff;
+            animation: electric-flicker 0.5s infinite alternate;
+        }
+
+        @keyframes electric-flicker {
+            0% {
+                opacity: 1;
+                box-shadow: 0 0 5px #00eeff;
+            }
+
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px #00eeff, 0 0 30px #00eeff;
+            }
+        }
+
+        /* 5. Space Odyssey */
+        .space-odyssey {
+            background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460);
+            color: #e94560;
+        }
+
+        /* 6. Digital Rain */
+        .digital-rain {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .digital-rain::after {
+                content: "0101010101";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, transparent, rgba(0,255,0,0.1));
+                pointer-events: none;
+            }
+
+        /* 7. Hologram Effect */
+        .hologram-effect {
+            background: linear-gradient(135deg, #00dbde, #fc00ff);
+            color: white;
+            position: relative;
+        }
+
+            .hologram-effect::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/></svg>') repeat;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+        /* 8. Aurora Borealis */
+        .aurora-borealis {
+            background: linear-gradient(270deg, #00c9ff, #92fe9d, #00c9ff);
+            background-size: 400% 400%;
+            color: #333;
+            animation: aurora-shift 10s ease infinite;
+        }
+
+        @keyframes aurora-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 9. Cyberpunk Chrome */
+        .cyberpunk-chrome {
+            background: linear-gradient(45deg, #ff00cc, #333399);
+            color: white;
+            border: 2px solid #00eeff;
+            box-shadow: 0 0 10px #00eeff, inset 0 0 10px rgba(0, 238, 255, 0.5);
+        }
+
+        /* 10. Glitch Art */
+        .glitch-art {
+            background: black;
+            color: white;
+            position: relative;
+        }
+
+            .glitch-art::before, .glitch-art::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .glitch-art::before {
+                color: #ff00c1;
+                clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+                animation: glitch-anim 3s infinite linear alternate-reverse;
+            }
+
+            .glitch-art::after {
+                color: #00fff9;
+                clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+                animation: glitch-anim2 2s infinite linear alternate-reverse;
+            }
+
+        @keyframes glitch-anim {
+            0% {
+                transform: translate(-2px, 2px);
+            }
+
+            100% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                transform: translate(2px, -2px);
+            }
+
+            100% {
+                transform: translate(-2px, 2px);
+            }
+        }
+
+        /* 11. Volumetric Light Beam */
+        .volumetric-light-beam {
+            background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            color: #333;
+            backdrop-filter: brightness(1.2);
+        }
+
+        /* 12. Liquid Metal */
+        .liquid-metal {
+            background: linear-gradient(45deg, #aaa, #ddd, #aaa);
+            background-size: 400% 400%;
+            color: #333;
+            animation: liquid-flow 3s ease infinite;
+            border-radius: 20px;
+        }
+
+        @keyframes liquid-flow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 13. Prismatic Refraction */
+        .prismatic-refraction {
+            background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .prismatic-refraction span {
+                position: relative;
+                z-index: 1;
+                mix-blend-mode: difference;
+                color: white;
+            }
+
+        /* 14. Hypergrid Core */
+        .hypergrid-core {
+            background-color: #000;
+            color: #0f0;
+            position: relative;
+        }
+
+            .hypergrid-core::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(0, 255, 0, 0.1) 4px, rgba(0, 255, 0, 0.1) 5px), repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0, 255, 0, 0.1) 4px, rgba(0, 255, 0, 0.1) 5px);
+            }
+
+        /* 15. Floating Holo-Card */
+        .floating-holo-card {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .floating-holo-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            }
+
+        /* 16. Extruded 3D Text (Simplified) */
+        .extruded-3d {
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transform: translateZ(20px);
+        }
+
+        /* 17. Retro Futurism */
+        .retro-futurism {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            border: 2px solid #ffd700;
+        }
+
+        /* 18. Deep Sea Glow */
+        .deep-sea-glow {
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            color: #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+        }
+
+        /* 19. Molten Lava */
+        .molten-lava {
+            background: linear-gradient(to right, #ff512f, #dd2476);
+            color: white;
+        }
+
+        /* 20. Quantum Fluctuation */
+        .quantum-fluctuation {
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .quantum-fluctuation::before {
+                content: "";
+                position: absolute;
+                top: -10%;
+                left: -10%;
+                width: 120%;
+                height: 120%;
+                background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+                animation: quantum-pulse 4s infinite ease-in-out;
+            }
+
+        @keyframes quantum-pulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* 21. Solar Flare */
+        .solar-flare {
+            background: radial-gradient(circle, #ff9966, #ff5e62);
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 94, 98, 0.7);
+        }
+
+        /* 22. Cosmic Dust */
+        .cosmic-dust {
+            background: #111;
+            color: #eee;
+            position: relative;
+        }
+
+            .cosmic-dust::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 2px);
+                background-size: 20px 20px;
+                opacity: 0.5;
+            }
+
+        /* 23. Phantom Energy */
+        .phantom-energy {
+            background: linear-gradient(45deg, #23074d, #cc5333);
+            color: white;
+        }
+
+        /* 24. Stellar Wind */
+        .stellar-wind {
+            background: linear-gradient(270deg, #141E30, #243B55);
+            color: #fff;
+            border-left: 5px solid #00eeff;
+        }
+
+        /* 25. Nano Tech */
+        .nano-tech {
+            background: #000;
+            color: #0f0;
+            font-family: monospace;
+            border: 1px dashed #0f0;
+        }
+
+        /* 26. Plasma Storm */
+        .plasma-storm {
+            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+            background-size: 300% 300%;
+            color: white;
+            animation: plasma-wave 5s ease infinite;
+        }
+
+        @keyframes plasma-wave {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 27. Time Warp */
+        .time-warp {
+            background: repeating-linear-gradient(45deg, #222, #222 10px, #333 10px, #333 20px);
+            color: #ff0;
+            transform: skewX(-10deg);
+        }
+
+        /* 28. Holographic Projection */
+        .holographic-projection {
+            background: linear-gradient(115deg, #74ebd5, #acb6e5, #d9afd9, #97d9e1);
+            background-size: 300% 300%;
+            color: #fff;
+            animation: holo-shift 7s ease infinite;
+            border-radius: 50px;
+        }
+
+        @keyframes holo-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 29. Black Hole */
+        .black-hole {
+            background: radial-gradient(circle, #000 30%, #333 100%);
+            color: #fff;
+        }
+
+        /* 30. Supernova Burst */
+        .supernova-burst {
+            background: radial-gradient(circle, #ffffff, #ffeb3b, #ff9800, #f44336);
+            color: #000;
+        }
+
+        /* 31. Zero Gravity */
+        .zero-gravity {
+            background: #000;
+            color: #fff;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 32. Data Stream */
+        .data-stream {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .data-stream::after {
+                content: "01";
+                animation: stream 1s steps(2, end) infinite;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+        /* 33. Ion Drive */
+        .ion-drive {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+        }
+
+        /* 34. Warp Speed */
+        .warp-speed {
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .warp-speed::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+                animation: warp 1s infinite;
+            }
+
+        @keyframes warp {
+            to {
+                left: 100%;
+            }
+        }
+
+        /* 35. Chrono Shift */
+        .chrono-shift {
+            background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+            color: white;
+        }
+
+        /* 36. Gravitational Wave */
+        .gravitational-wave {
+            background: #111;
+            color: #fff;
+            position: relative;
+        }
+
+            .gravitational-wave::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-radial-gradient(circle at center, transparent 0px, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+                animation: wave-pulse 3s infinite;
+            }
+
+        @keyframes wave-pulse {
+            to {
+                background-size: 200% 200%;
+            }
+        }
+
+        /* 37. Quantum Entanglement */
+        .quantum-entanglement {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* 38. Dark Matter */
+        .dark-matter {
+            background: #000;
+            color: #fff;
+            border: 1px solid #444;
+        }
+
+        /* 39. Singularity */
+        .singularity {
+            background: conic-gradient(from 0deg, #000, #333, #000);
+            color: #fff;
+            border-radius: 50%;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            padding: 0;
+        }
+
+        /* 40. Nebula Cloud */
+        .nebula-cloud {
+            background: linear-gradient(270deg, #2c3e50, #4ca1af, #2c3e50);
+            background-size: 600% 600%;
+            color: #fff;
+            animation: nebula-drift 15s ease infinite;
+        }
+
+        @keyframes nebula-drift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 41. Celestial Body */
+        .celestial-body {
+            background: radial-gradient(circle, #8e9eab, #eef2f3);
+            color: #333;
+            box-shadow: 0 0 20px rgba(142, 158, 171, 0.5);
+        }
+
+        /* 42. Interstellar Dust */
+        .interstellar-dust {
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+            .interstellar-dust::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+                background-size: 15px 15px;
+                opacity: 0.3;
+            }
+
+        /* 43. Galactic Core */
+        .galactic-core {
+            background: radial-gradient(circle, #ff0084, #33001b);
+            color: white;
+        }
+
+        /* 44. Astral Projection */
+        .astral-projection {
+            background: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+            color: white;
+        }
+
+        /* 45. Void Walker */
+        .void-walker {
+            background: #000;
+            color: #fff;
+            border: 2px dashed #fff;
+        }
+
+        /* 46. Dimensional Rift */
+        .dimensional-rift {
+            background: repeating-linear-gradient(45deg, #222, #222 5px, #444 5px, #444 10px);
+            color: #0f0;
+        }
+
+        /* 47. Reality Distortion */
+        .reality-distortion {
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .reality-distortion::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23ff0080" stroke-width="0.5"/></svg>');
+                opacity: 0.2;
+                animation: distort 5s infinite linear;
+            }
+
+        @keyframes distort {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(100px, 100px);
+            }
+        }
+
+        /* 48. Matrix Code */
+        .matrix-code {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .matrix-code::after {
+                content: "MATRIX";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, transparent, rgba(0,255,0,0.1));
+                pointer-events: none;
+            }
+
+        /* 49. Emissive Glow */
+        .emissive-glow {
+            background: #222;
+            color: #fff;
+            box-shadow: 0 0 15px #00eeff, inset 0 0 10px rgba(0, 238, 255, 0.3);
+            border: 1px solid #00eeff;
+        }
+
+        /* 50. Holo Lens Flare */
+        .holo-lens-flare {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .holo-lens-flare::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+                transform: rotate(30deg);
+                opacity: 0.3;
+                pointer-events: none;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="label-wrapper"><label class="neon-glow">Neon Glow</label></div>
+    <div class="label-wrapper"><label class="metallic-shine">Metallic Shine</label></div>
+    <div class="label-wrapper"><label class="crystal-clear">Crystal Clear</label></div>
+    <div class="label-wrapper"><label class="electric-pulse">Electric Pulse</label></div>
+    <div class="label-wrapper"><label class="space-odyssey">Space Odyssey</label></div>
+    <div class="label-wrapper"><label class="digital-rain" data-text="Digital Rain">Digital Rain</label></div>
+    <div class="label-wrapper"><label class="hologram-effect">Hologram Effect</label></div>
+    <div class="label-wrapper"><label class="aurora-borealis">Aurora Borealis</label></div>
+    <div class="label-wrapper"><label class="cyberpunk-chrome">Cyberpunk Chrome</label></div>
+    <div class="label-wrapper"><label class="glitch-art" data-text="Glitch Art">Glitch Art</label></div>
+    <div class="label-wrapper"><label class="volumetric-light-beam">Volumetric Light Beam</label></div>
+    <div class="label-wrapper"><label class="liquid-metal">Liquid Metal</label></div>
+    <div class="label-wrapper"><label class="prismatic-refraction" data-text="Prismatic Refraction"><span>Prismatic Refraction</span></label></div>
+    <div class="label-wrapper"><label class="hypergrid-core">Hypergrid Core</label></div>
+    <div class="label-wrapper"><label class="floating-holo-card">Floating Holo-Card</label></div>
+    <div class="label-wrapper"><label class="extruded-3d">Extruded 3D Text</label></div>
+    <div class="label-wrapper"><label class="retro-futurism">Retro Futurism</label></div>
+    <div class="label-wrapper"><label class="deep-sea-glow">Deep Sea Glow</label></div>
+    <div class="label-wrapper"><label class="molten-lava">Molten Lava</label></div>
+    <div class="label-wrapper"><label class="quantum-fluctuation">Quantum Fluctuation</label></div>
+    <div class="label-wrapper"><label class="solar-flare">Solar Flare</label></div>
+    <div class="label-wrapper"><label class="cosmic-dust">Cosmic Dust</label></div>
+    <div class="label-wrapper"><label class="phantom-energy">Phantom Energy</label></div>
+    <div class="label-wrapper"><label class="stellar-wind">Stellar Wind</label></div>
+    <div class="label-wrapper"><label class="nano-tech">Nano Tech</label></div>
+    <div class="label-wrapper"><label class="plasma-storm">Plasma Storm</label></div>
+    <div class="label-wrapper"><label class="time-warp">Time Warp</label></div>
+    <div class="label-wrapper"><label class="holographic-projection">Holographic Projection</label></div>
+    <div class="label-wrapper"><label class="black-hole">Black Hole</label></div>
+    <div class="label-wrapper"><label class="supernova-burst">Supernova Burst</label></div>
+    <div class="label-wrapper"><label class="zero-gravity">Zero Gravity</label></div>
+    <div class="label-wrapper"><label class="data-stream">Data Stream</label></div>
+    <div class="label-wrapper"><label class="ion-drive">Ion Drive</label></div>
+    <div class="label-wrapper"><label class="warp-speed">Warp Speed</label></div>
+    <div class="label-wrapper"><label class="chrono-shift">Chrono Shift</label></div>
+    <div class="label-wrapper"><label class="gravitational-wave">Gravitational Wave</label></div>
+    <div class="label-wrapper"><label class="quantum-entanglement">Quantum Entanglement</label></div>
+    <div class="label-wrapper"><label class="dark-matter">Dark Matter</label></div>
+    <div class="label-wrapper"><label class="singularity">Singularity</label></div>
+    <div class="label-wrapper"><label class="nebula-cloud">Nebula Cloud</label></div>
+    <div class="label-wrapper"><label class="celestial-body">Celestial Body</label></div>
+    <div class="label-wrapper"><label class="interstellar-dust">Interstellar Dust</label></div>
+    <div class="label-wrapper"><label class="galactic-core">Galactic Core</label></div>
+    <div class="label-wrapper"><label class="astral-projection">Astral Projection</label></div>
+    <div class="label-wrapper"><label class="void-walker">Void Walker</label></div>
+    <div class="label-wrapper"><label class="dimensional-rift">Dimensional Rift</label></div>
+    <div class="label-wrapper"><label class="reality-distortion">Reality Distortion</label></div>
+    <div class="label-wrapper"><label class="matrix-code">Matrix Code</label></div>
+    <div class="label-wrapper"><label class="emissive-glow">Emissive Glow</label></div>
+    <div class="label-wrapper"><label class="holo-lens-flare">Holo Lens Flare</label></div>
+
+</body>
+</html>  20字总结一下

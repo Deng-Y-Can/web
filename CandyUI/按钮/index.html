@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Another 50 Unique 3D & Visual Effect Buttons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-blue: #0f0c29;
+            --mid-purple: #302b63;
+            --violet: #24243e;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+            --cyber-green: #00ff41;
+            --cyber-pink: #ff00ff;
+            --matrix-green: #00FF41;
+            --space-black: #0a0a0a;
+            --glass-white: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--deep-blue), var(--violet), var(--mid-purple));
+            color: white;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: var(--cyber-green);
+            text-shadow: 0 0 10px var(--cyber-green);
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: contents;
+        }
+
+        /* --- Base Button Class --- */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transform-style: preserve-3d; /* Enable 3D for children */
+        }
+
+        /* --- 1. Extruded Plastic --- */
+        .btn-extrude {
+            background: #4e54c8;
+            color: white;
+            box-shadow: 0 6px 0 #3a40a0, /* Main shadow */
+            0 6px 3px rgba(0,0,0,0.2); /* Soft shadow */
+            transform: translateY(0);
+        }
+
+            .btn-extrude:hover {
+                background: #5a60d0;
+                box-shadow: 0 4px 0 #3a40a0, 0 4px 3px rgba(0,0,0,0.2);
+                transform: translateY(2px);
+            }
+
+            .btn-extrude:active {
+                box-shadow: 0 0px 0 #3a40a0, 0 0px 3px rgba(0,0,0,0.2);
+                transform: translateY(6px);
+            }
+
+        /* --- 2. Hologram Foil --- */
+        .btn-holo-foil {
+            background: transparent;
+            color: #fff;
+            border: 2px solid transparent;
+            position: relative;
+            isolation: isolate; /* Contain pseudo-element stacking */
+        }
+
+            .btn-holo-foil::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(115deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 30%, transparent 40%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.3) 100%);
+                border-radius: inherit;
+                z-index: -1;
+                transition: opacity 0.3s ease;
+                opacity: 0;
+            }
+
+            .btn-holo-foil::after {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+                background-size: 400%;
+                border-radius: calc(8px + 2px);
+                z-index: -2;
+                filter: blur(8px);
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                animation: holoShine 3s linear infinite;
+            }
+
+            .btn-holo-foil:hover::before,
+            .btn-holo-foil:hover::after {
+                opacity: 1;
+            }
+
+        @keyframes holoShine {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 400% 0;
+            }
+        }
+
+        /* --- 3. Isometric Cube --- */
+        .btn-cube {
+            background: #FF6B6B;
+            color: white;
+            transform: translateZ(20px);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+            .btn-cube::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: #FF5252;
+                transform: translateZ(-20px);
+                z-index: -1;
+            }
+
+            .btn-cube::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 100%;
+                top: 0;
+                right: -20px;
+                background: #E53935;
+                transform: rotateY(-90deg) translateZ(20px);
+                transform-origin: right center;
+                z-index: -1;
+            }
+
+            .btn-cube .cube-top {
+                position: absolute;
+                width: 100%;
+                height: 20px;
+                top: -20px;
+                left: 0;
+                background: #FF8A80;
+                transform: rotateX(90deg) translateZ(20px);
+                transform-origin: top center;
+                z-index: -1;
+            }
+
+            .btn-cube:hover {
+                background: #FF8A80;
+            }
+
+                .btn-cube:hover .cube-top {
+                    background: #FFAB91;
+                }
+
+        /* --- 4. Levitating Glow --- */
+        .btn-levitate {
+            background: #7400b8;
+            color: white;
+            border-radius: 50px;
+            box-shadow: 0 0 10px #7400b8, 0 0 20px #7400b8, 0 0 30px #7400b8, 0 0 40px #7400b8;
+            animation: levitateFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes levitateFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .btn-levitate::before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 10%;
+            width: 80%;
+            height: 10px;
+            background: radial-gradient(ellipse at center, rgba(116, 0, 184, 0.5) 0%, rgba(116, 0, 184, 0) 70%);
+            border-radius: 50%;
+            filter: blur(5px);
+            z-index: -1;
+            animation: levitateShadow 3s ease-in-out infinite;
+        }
+
+        @keyframes levitateShadow {
+            0%, 100% {
+                transform: scaleX(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scaleX(0.7);
+                opacity: 0.4;
+            }
+        }
+
+        /* --- 5. Cyber Chrome --- */
+        .btn-chrome {
+            background: linear-gradient(145deg, #c0c0c0, #808080);
+            color: #000;
+            border: 2px solid #a0a0a0;
+            box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.5), inset -2px -2px 4px rgba(0, 0, 0, 0.2), 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-chrome::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 20px;
+                height: 200%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: rotate(25deg);
+                transition: left 0.5s;
+            }
+
+            .btn-chrome:hover::before {
+                left: 120%;
+            }
+
+        /* --- 6. Matrix Rain --- */
+        .btn-matrix {
+            background-color: #000;
+            color: var(--matrix-green);
+            font-family: 'Courier New', monospace;
+            border: 1px solid var(--matrix-green);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+
+            .btn-matrix::before {
+                content: "0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101......";
+                position: absolute;
+                top: 0;
+                left: 0;
+                white-space: pre;
+                color: rgba(0, 255, 65, 0.2);
+                animation: matrixRain 10s linear infinite;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+        @keyframes matrixRain {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* --- 7. Glassmorphism --- */
+        .btn-glass {
+            background: var(--glass-white);
+            color: white;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+            .btn-glass:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+        /* --- 8. Anaglyph 3D --- */
+        .btn-anaglyph {
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+            .btn-anaglyph span {
+                position: relative;
+            }
+
+            .btn-anaglyph:hover span {
+                color: #f00; /* Red offset */
+                text-shadow: 4px 0 0 #00f; /* Blue offset */
+            }
+
+        /* --- 9. Voxel Art --- */
+        .btn-voxel {
+            background: #5D4037; /* Brown base */
+            color: white;
+            border: 2px solid #3E2723; /* Darker brown border */
+            box-shadow: 4px 4px 0 0 #3E2723, /* Right/bottom shadow */
+            4px 4px 0 2px #000; /* Outer black line */
+            transform: translate(0, 0);
+        }
+
+            .btn-voxel:hover {
+                transform: translate(2px, 2px);
+                box-shadow: 2px 2px 0 0 #3E2723, 2px 2px 0 2px #000;
+            }
+
+            .btn-voxel:active {
+                transform: translate(4px, 4px);
+                box-shadow: 0px 0px 0 0 #3E2723, 0px 0px 0 2px #000;
+            }
+
+        /* --- 10. Hologram Projector --- */
+        .btn-projector {
+            background: #000;
+            color: #0ff;
+            border: 1px solid #0ff;
+            box-shadow: 0 0 10px #0ff, inset 0 0 10px rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-projector::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( 0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.1) 2px, rgba(0, 255, 255, 0.1) 4px );
+                pointer-events: none;
+                animation: scanline 5s linear infinite;
+            }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* --- 11. Pop Out Sticker --- */
+        .btn-sticker {
+            background: #FFEB3B;
+            color: #333;
+            border-radius: 12px;
+            transform: translateZ(10px);
+            box-shadow: 0 4px 0 #FDD835, 0 8px 10px rgba(0,0,0,0.2);
+        }
+
+            .btn-sticker:hover {
+                transform: translateZ(15px) translateY(-5px);
+                box-shadow: 0 9px 0 #FDD835, 0 13px 15px rgba(0,0,0,0.3);
+            }
+
+            .btn-sticker:active {
+                transform: translateZ(10px) translateY(0);
+                box-shadow: 0 4px 0 #FDD835, 0 8px 10px rgba(0,0,0,0.2);
+            }
+
+        /* --- 12. Wireframe --- */
+        .btn-wireframe {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            position: relative;
+        }
+
+            .btn-wireframe::before,
+            .btn-wireframe::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 2px solid #fff;
+                box-sizing: border-box;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+                opacity: 0;
+            }
+
+            .btn-wireframe::before {
+                transform: translate(4px, 4px);
+                z-index: -1;
+            }
+
+            .btn-wireframe::after {
+                transform: translate(8px, 8px);
+                z-index: -2;
+            }
+
+            .btn-wireframe:hover::before,
+            .btn-wireframe:hover::after {
+                opacity: 1;
+            }
+
+            .btn-wireframe:hover::before {
+                transform: translate(6px, 6px);
+            }
+
+            .btn-wireframe:hover::after {
+                transform: translate(12px, 12px);
+            }
+
+        /* --- 13. Origami Crane --- */
+        .btn-origami {
+            background: linear-gradient(135deg, #FE6B8B, #FF8E53);
+            color: white;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            padding: 20px 30px; /* Adjust padding for shape */
+        }
+
+        /* --- 14. Candy Stripe --- */
+        .btn-candy {
+            background: repeating-linear-gradient( 45deg, #FF5252, #FF5252 10px, #FF4081 10px, #FF4081 20px );
+            color: white;
+            border: none;
+        }
+
+        /* --- 15. Lava Lamp --- */
+        .btn-lava {
+            background: #222;
+            color: white;
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .btn-lava::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,0,150,0.5) 0%, rgba(255,0,255,0) 70%);
+                animation: lavaFlow 10s infinite linear;
+                z-index: 0;
+            }
+
+            .btn-lava span {
+                position: relative;
+                z-index: 1;
+            }
+
+        @keyframes lavaFlow {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50%, 50%);
+            }
+        }
+
+        /* --- 16. Pixel Explosion --- */
+        .btn-pixel-explosion {
+            background: #333;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            border: 2px solid #fff;
+            position: relative;
+        }
+
+        .pixel-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        /* --- 17. Aurora Borealis --- */
+        .btn-aurora {
+            background: #000;
+            color: #fff;
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-aurora::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(270deg, #00dbde, #fc00ff, #00dbde);
+                background-size: 600% 600%;
+                opacity: 0.3;
+                z-index: 0;
+                animation: auroraWave 10s ease infinite;
+            }
+
+            .btn-aurora span {
+                position: relative;
+                z-index: 1;
+            }
+
+        @keyframes auroraWave {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- 18. Diamond Facet --- */
+        .btn-diamond {
+            background: #b9fbc0;
+            color: #000;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            padding: 20px 30px;
+            border: 2px solid #90e0ef;
+        }
+
+        /* --- 19. Retro CRT --- */
+        .btn-crt {
+            background-color: #121212;
+            color: #00FF00;
+            font-family: 'VT323', monospace;
+            border: 2px solid #444;
+            box-shadow: inset 0 0 10px #00FF00;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-crt::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: #00FF00;
+                box-shadow: 0 0 10px #00FF00;
+                animation: crtScan 0.1s linear infinite;
+            }
+
+        @keyframes crtScan {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* --- 20. Quantum Entanglement --- */
+        .btn-quantum {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            position: relative;
+        }
+
+            .btn-quantum::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .btn-quantum:hover::before {
+                opacity: 1;
+            }
+
+        /* --- 21. Ink Bleed --- */
+        .btn-ink {
+            background: #fff;
+            color: #000;
+            border: 2px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-ink::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, rgba(64, 224, 208, 0.8) 0%, transparent 70%);
+                transform: translate(-50%, -50%);
+                transition: width 0.5s ease, height 0.5s ease;
+                border-radius: 50%;
+                z-index: 0;
+            }
+
+            .btn-ink:hover::before {
+                width: 300px;
+                height: 300px;
+            }
+
+            .btn-ink span {
+                position: relative;
+                z-index: 1;
+            }
+
+        /* --- 22. Fractal Zoom --- */
+        .btn-fractal {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-fractal::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                /* Simplified fractal-like pattern using SVG data URI */
+                background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40 L60 40 L60 60 L40 60 Z M45 45 L55 45 L55 55 L45 55 Z M47.5 47.5 L52.5 47.5 L52.5 52.5 L47.5 52.5 Z' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+                background-size: 50% 50%;
+                opacity: 0.5;
+                transition: transform 10s ease-in-out;
+            }
+
+            .btn-fractal:hover::before {
+                transform: scale(2);
+            }
+
+        /* --- 23. Kaleidoscope --- */
+        .btn-kaleido {
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            border: 2px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-kaleido::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+                animation: kaleidoSpin 10s linear infinite;
+                opacity: 0.5;
+            }
+
+        @keyframes kaleidoSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 24. Plasma Globe --- */
+        .btn-plasma {
+            background: radial-gradient(circle at center, #ff00cc, #333399);
+            color: white;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plasma-bolt {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* --- 25. Solar Flare --- */
+        .btn-solar {
+            background: #000;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 10px #FFD700;
+            position: relative;
+        }
+
+        .flare {
+            position: absolute;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* --- 26. Tron Disc --- */
+        .btn-tron {
+            background: #000;
+            color: #0ff;
+            border: 2px solid #0ff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            box-shadow: 0 0 10px #0ff, inset 0 0 10px rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+
+            .btn-tron::before {
+                content: '';
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border: 2px solid #0ff;
+                border-radius: 50%;
+            }
+
+            .btn-tron::after {
+                content: '';
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                width: 2px;
+                height: 40px;
+                background: #0ff;
+                transform: translateX(-50%);
+                box-shadow: 0 0 5px #0ff;
+            }
+
+        /* --- 27. Hologram Sticker --- */
+        .btn-holo-sticker {
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: #fff;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-holo-sticker::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(115deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 30%, transparent 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.8) 100%);
+                transform: rotate(30deg);
+                transition: left 1s ease;
+                opacity: 0.7;
+            }
+
+            .btn-holo-sticker:hover::before {
+                left: 50%;
+            }
+
+        /* --- 28. Neumorphic --- */
+        .btn-neumorphic {
+            background: #1a1a2e;
+            color: #e6e6e6;
+            border-radius: 12px;
+            box-shadow: 8px 8px 16px #0d0d17, -8px -8px 16px #272745;
+        }
+
+            .btn-neumorphic:active {
+                box-shadow: inset 4px 4px 8px #0d0d17, inset -4px -4px 8px #272745;
+            }
+
+        /* --- 29. ASCII Art --- */
+        .btn-ascii {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            border: 1px solid #0f0;
+            padding: 15px;
+        }
+
+        /* --- 30. Light Sword --- */
+        .btn-lightsword {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-lightsword::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, #00ffff, transparent);
+                transform: translateX(-100%);
+                transition: transform 0.5s ease;
+            }
+
+            .btn-lightsword:hover::before {
+                transform: translateX(100%);
+            }
+
+        /* --- 31. Dataglobe --- */
+        .btn-dataglobe {
+            background: radial-gradient(circle, #1a2a6c, #2c3e50);
+            color: #ecf0f1;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            border: 2px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #2ecc71;
+            border-radius: 50%;
+        }
+
+        /* --- 32. Geometric Tessellation --- */
+        .btn-tessellate {
+            background: #2c3e50;
+            color: #ecf0f1;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-tessellate::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%233498db' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M0 0h40L0 40'/%3E%3C/g%3E%3C/svg%3E");
+            }
+
+        /* --- 33. Bioluminescent --- */
+        .btn-bio {
+            background: #000;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            box-shadow: 0 0 5px #00ffcc, inset 0 0 5px rgba(0, 255, 204, 0.2);
+            animation: bioPulse 2s infinite ease-in-out;
+        }
+
+        @keyframes bioPulse {
+            0%, 100% {
+                box-shadow: 0 0 5px #00ffcc, inset 0 0 5px rgba(0, 255, 204, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 15px #00ffcc, inset 0 0 10px rgba(0, 255, 204, 0.4);
+            }
+        }
+
+        /* --- 34. Time Warp --- */
+        .btn-time-warp {
+            background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-time-warp::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transform: translateX(-100%);
+            }
+
+            .btn-time-warp:hover::before {
+                animation: timeWarpGlide 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+            }
+
+        @keyframes timeWarpGlide {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* --- 35. Nanotech --- */
+        .btn-nano {
+            background: #000;
+            color: #00ffff;
+            border: 1px solid #00ffff;
+            font-family: 'Share Tech Mono', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nano-line {
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            background: #00ffff;
+            left: 0;
+            animation: nanoScan 3s linear infinite;
+        }
+
+        @keyframes nanoScan {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* --- 36. Crystal Shard --- */
+        .btn-crystal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+            padding: 15px 25px;
+            position: relative;
+        }
+
+            .btn-crystal::before {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+                z-index: -1;
+                opacity: 0.5;
+                filter: blur(5px);
+            }
+
+        /* --- 37. Hologram Tape --- */
+        .btn-tape {
+            background: #000;
+            color: #fff;
+            border-left: 5px dashed #FF0000;
+            border-right: 5px dashed #0000FF;
+            padding: 12px 30px;
+        }
+
+        /* --- 38. Glitch Realm --- */
+        .btn-glitch-realm {
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+            .btn-glitch-realm:hover {
+                animation: glitchRealm 0.5s infinite;
+            }
+
+        @keyframes glitchRealm {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, 3px);
+                color: #ff00c1;
+            }
+
+            40% {
+                transform: translate(-3px, -3px);
+                color: #00fff9;
+            }
+
+            60% {
+                transform: translate(3px, 3px);
+                color: #ff0000;
+            }
+
+            80% {
+                transform: translate(3px, -3px);
+                color: #00ff4c;
+            }
+
+            100% {
+                transform: translate(0);
+                color: #fff;
+            }
+        }
+
+        /* --- 39. Vaporwave Sunset --- */
+        .btn-vaporwave {
+            background: linear-gradient(90deg, #ff71ce, #01cdfe, #05ffa1, #b967ff, #ff71ce);
+            background-size: 300% 300%;
+            color: #000;
+            font-weight: bold;
+            animation: vaporWaveBG 10s ease infinite;
+            border: none;
+        }
+
+        @keyframes vaporWaveBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- 40. Isometric Tile --- */
+        .btn-iso-tile {
+            background: #34495e;
+            color: #ecf0f1;
+            position: relative;
+            padding-left: 30px;
+        }
+
+            .btn-iso-tile::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 20px;
+                height: 100%;
+                background: #2c3e50;
+                transform: skewX(-20deg);
+                transform-origin: left bottom;
+            }
+
+        /* --- 41. Laser Grid --- */
+        .btn-laser-grid {
+            background: #000;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .grid-line-h, .grid-line-v {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.5);
+        }
+
+        .grid-line-h {
+            width: 100%;
+            height: 1px;
+        }
+
+        .grid-line-v {
+            width: 1px;
+            height: 100%;
+        }
+
+        /* --- 42. Hologram Pyramid --- */
+        .btn-pyramid {
+            background: #000;
+            color: #fff;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            padding: 30px 20px 15px 20px;
+            position: relative;
+        }
+
+            .btn-pyramid::before {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                background: linear-gradient(white, transparent);
+                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                z-index: -1;
+                opacity: 0.2;
+            }
+
+        /* --- 43. Cybernetic Implant --- */
+        .btn-implant {
+            background: #000;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 5px #0f0;
+            position: relative;
+        }
+
+        .implant-line {
+            position: absolute;
+            height: 1px;
+            background: #0f0;
+        }
+
+        /* --- 44. Quantum Tunnel --- */
+        .btn-quantum-tunnel {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tunnel {
+            position: absolute;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
+        /* --- 45. Hologram Prism --- */
+        .btn-prism {
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8);
+            background-size: 400% 400%;
+            color: #000;
+            animation: prismShift 5s ease infinite;
+            border: none;
+        }
+
+        @keyframes prismShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- 46. Digital Rain --- */
+        .btn-digital-rain {
+            background: #000;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            border: 1px solid #0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rain-char {
+            position: absolute;
+            color: #0f0;
+            font-size: 14px;
+        }
+
+        /* --- 47. Isometric Gem --- */
+        .btn-iso-gem {
+            background: #9b59b6;
+            color: white;
+            position: relative;
+            padding-top: 25px;
+        }
+
+            .btn-iso-gem::before,
+            .btn-iso-gem::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-style: solid;
+            }
+
+            .btn-iso-gem::before { /* Top facet */
+                top: 0;
+                left: 0;
+                border-width: 0 50px 25px 50px;
+                border-color: transparent transparent #8e44ad transparent;
+            }
+
+            .btn-iso-gem::after { /* Side facet */
+                top: 0;
+                right: -25px;
+                border-width: 25px 0 25px 25px;
+                border-color: transparent transparent transparent #8e44ad;
+            }
+
+        /* --- 48. Hologram Circuit --- */
+        .btn-circuit {
+            background: #000;
+            color: #0ff;
+            border: 1px solid #0ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: #0ff;
+            height: 2px;
+        }
+
+        /* --- 49. Cyber Glitch Text --- */
+        .btn-cyber-glitch-text {
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(42px, 9999px, 44px, 0);
+            }
+
+            5% {
+                clip: rect(12px, 9999px, 59px, 0);
+            }
+
+            10% {
+                clip: rect(48px, 9999px, 29px, 0);
+            }
+
+            15% {
+                clip: rect(42px, 9999px, 73px, 0);
+            }
+
+            20% {
+                clip: rect(63px, 9999px, 27px, 0);
+            }
+
+            25% {
+                clip: rect(34px, 9999px, 55px, 0);
+            }
+
+            30% {
+                clip: rect(86px, 9999px, 73px, 0);
+            }
+
+            35% {
+                clip: rect(20px, 9999px, 20px, 0);
+            }
+
+            40% {
+                clip: rect(26px, 9999px, 60px, 0);
+            }
+
+            45% {
+                clip: rect(25px, 9999px, 66px, 0);
+            }
+
+            50% {
+                clip: rect(57px, 9999px, 98px, 0);
+            }
+
+            55% {
+                clip: rect(5px, 9999px, 46px, 0);
+            }
+
+            60% {
+                clip: rect(82px, 9999px, 31px, 0);
+            }
+
+            65% {
+                clip: rect(54px, 9999px, 27px, 0);
+            }
+
+            70% {
+                clip: rect(28px, 9999px, 99px, 0);
+            }
+
+            75% {
+                clip: rect(45px, 9999px, 69px, 0);
+            }
+
+            80% {
+                clip: rect(23px, 9999px, 85px, 0);
+            }
+
+            85% {
+                clip: rect(1px, 9999px, 83px, 0);
+            }
+
+            90% {
+                clip: rect(72px, 9999px, 11px, 0);
+            }
+
+            95% {
+                clip: rect(60px, 9999px, 89px, 0);
+            }
+
+            100% {
+                clip: rect(52px, 9999px, 74px, 0);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 32px, 0);
+            }
+
+            5% {
+                clip: rect(52px, 9999px, 62px, 0);
+            }
+
+            10% {
+                clip: rect(79px, 9999px, 85px, 0);
+            }
+
+            15% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+
+            20% {
+                clip: rect(67px, 9999px, 67px, 0);
+            }
+
+            25% {
+                clip: rect(14px, 9999px, 1px, 0);
+            }
+
+            30% {
+                clip: rect(1px, 9999px, 66px, 0);
+            }
+
+            35% {
+                clip: rect(86px, 9999px, 30px, 0);
+            }
+
+            40% {
+                clip: rect(23px, 9999px, 98px, 0);
+            }
+
+            45% {
+                clip: rect(85px, 9999px, 72px, 0);
+            }
+
+            50% {
+                clip: rect(71px, 9999px, 75px, 0);
+            }
+
+            55% {
+                clip: rect(2px, 9999px, 48px, 0);
+            }
+
+            60% {
+                clip: rect(30px, 9999px, 16px, 0);
+            }
+
+            65% {
+                clip: rect(59px, 9999px, 50px, 0);
+            }
+
+            70% {
+                clip: rect(41px, 9999px, 62px, 0);
+            }
+
+            75% {
+                clip: rect(2px, 9999px, 82px, 0);
+            }
+
+            80% {
+                clip: rect(47px, 9999px, 73px, 0);
+            }
+
+            85% {
+                clip: rect(3px, 9999px, 27px, 0);
+            }
+
+            90% {
+                clip: rect(26px, 9999px, 55px, 0);
+            }
+
+            95% {
+                clip: rect(42px, 9999px, 97px, 0);
+            }
+
+            100% {
+                clip: rect(38px, 9999px, 49px, 0);
+            }
+        }
+
+        /* --- 50. Hologram Waveform --- */
+        .btn-waveform {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+            height: 50px; /* Fixed height for waveform */
+            padding: 0;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50"><path d="M0,25 Q 25,5 50,25 T 100,25 T 150,25 T 200,25" stroke="white" fill="none"/></svg>') repeat-x;
+            background-size: 50% 100%;
+            animation: waveScroll 2s linear infinite;
+        }
+
+        @keyframes waveScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Another 50 Unique 3D & Visual Effect Buttons</h1>
+    <div class="container">
+
+        <button class="btn btn-extrude">Extruded Plastic</button>
+        <button class="btn btn-holo-foil">Hologram Foil</button>
+
+        <!-- Isometric Cube requires special structure -->
+        <div class="btn btn-cube">
+            <span class="cube-top"></span>
+            Isometric Cube
+        </div>
+
+        <button class="btn btn-levitate">Levitating Glow</button>
+        <button class="btn btn-chrome">Cyber Chrome</button>
+        <button class="btn btn-matrix"><span>Matrix Rain</span></button>
+        <button class="btn btn-glass">Glassmorphism</button>
+        <button class="btn btn-anaglyph"><span data-text="Anaglyph 3D">Anaglyph 3D</span></button>
+        <button class="btn btn-voxel">Voxel Art</button>
+        <button class="btn btn-projector">Hologram Projector</button>
+        <button class="btn btn-sticker">Pop Out Sticker</button>
+        <button class="btn btn-wireframe">Wireframe</button>
+        <button class="btn btn-origami">Origami Crane</button>
+        <button class="btn btn-candy">Candy Stripe</button>
+        <button class="btn btn-lava"><span>Lava Lamp</span></button>
+        <button class="btn btn-pixel-explosion">Pixel Explosion</button>
+        <button class="btn btn-aurora"><span>Aurora Borealis</span></button>
+        <button class="btn btn-diamond">Diamond Facet</button>
+        <button class="btn btn-crt">Retro CRT</button>
+        <button class="btn btn-quantum">Quantum Entanglement</button>
+        <button class="btn btn-ink"><span>Ink Bleed</span></button>
+        <button class="btn btn-fractal">Fractal Zoom</button>
+        <button class="btn btn-kaleido">Kaleidoscope</button>
+        <button class="btn btn-plasma" id="plasmaBtn">Plasma Globe</button>
+        <button class="btn btn-solar" id="solarBtn">Solar Flare</button>
+        <button class="btn btn-tron">Tron Disc</button>
+        <button class="btn btn-holo-sticker">Hologram Sticker</button>
+        <button class="btn btn-neumorphic">Neumorphic</button>
+        <button class="btn btn-ascii">
+            /\   /\
+            (  . .)
+            )   (
+            (  v  )
+        </button>
+        <button class="btn btn-lightsword">Light Sword</button>
+        <button class="btn btn-dataglobe" id="dataglobeBtn">Dataglobe</button>
+        <button class="btn btn-tessellate">Geometric Tessellation</button>
+        <button class="btn btn-bio">Bioluminescent</button>
+        <button class="btn btn-time-warp">Time Warp</button>
+        <button class="btn btn-nano"><span>Nanotech</span></button>
+        <button class="btn btn-crystal">Crystal Shard</button>
+        <button class="btn btn-tape">Hologram Tape</button>
+        <button class="btn btn-glitch-realm">Glitch Realm</button>
+        <button class="btn btn-vaporwave">Vaporwave Sunset</button>
+        <button class="btn btn-iso-tile">Isometric Tile</button>
+        <button class="btn btn-laser-grid" id="laserGridBtn">Laser Grid</button>
+        <button class="btn btn-pyramid">Hologram Pyramid</button>
+        <button class="btn btn-implant"><span>Cybernetic Implant</span></button>
+        <button class="btn btn-quantum-tunnel" id="quantumTunnelBtn">Quantum Tunnel</button>
+        <button class="btn btn-prism">Hologram Prism</button>
+        <button class="btn btn-digital-rain" id="digitalRainBtn">Digital Rain</button>
+        <button class="btn btn-iso-gem">Isometric Gem</button>
+        <button class="btn btn-circuit" id="circuitBtn">Hologram Circuit</button>
+        <button class="btn btn-cyber-glitch-text"><span class="glitch-text" data-text="Cyber Glitch Text">Cyber Glitch Text</span></button>
+        <button class="btn btn-waveform"><div class="wave"></div></button>
+
+    </div>
+
+    <script>
+        // --- Plasma Globe Interaction ---
+        document.getElementById('plasmaBtn').addEventListener('mousemove', (e) => {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const bolt = document.createElement('span');
+            bolt.className = 'plasma-bolt';
+            bolt.style.left = `${x}px`;
+            bolt.style.top = `${y}px`;
+            // Random size and fade out
+            const size = Math.random() * 10 + 5;
+            bolt.style.width = `${size}px`;
+            bolt.style.height = `${size}px`;
+            bolt.style.animation = `fadeOut ${Math.random() * 1 + 0.5}s forwards`;
+
+            btn.appendChild(bolt);
+
+            // Add CSS for fadeOut animation dynamically or define it in style
+            if (!document.querySelector('#plasmaFadeOutStyle')) {
+                const style = document.createElement('style');
+                style.id = 'plasmaFadeOutStyle';
+                style.textContent = `
+                        @keyframes fadeOut {
+                            to { opacity: 0; transform: scale(0); }
+                        }
+                    `;
+                document.head.appendChild(style);
+            }
+
+            setTimeout(() => {
+                bolt.remove();
+            }, 1000); // Match animation duration
+        });
+
+        // --- Solar Flare Interaction ---
+        document.getElementById('solarBtn').addEventListener('mousemove', (e) => {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const flare = document.createElement('span');
+            flare.className = 'flare';
+            flare.style.left = `${x}px`;
+            flare.style.top = `${y}px`;
+            const size = Math.random() * 20 + 5;
+            flare.style.width = `${size}px`;
+            flare.style.height = `${size}px`;
+            flare.style.animation = `fadeOut ${Math.random() * 1 + 0.3}s forwards`;
+
+            btn.appendChild(flare);
+
+            setTimeout(() => {
+                flare.remove();
+            }, 1000);
+        });
+
+        // --- Laser Grid Generator ---
+        function createLaserGrid(btnId) {
+            const btn = document.getElementById(btnId);
+            const linesContainer = document.createDocumentFragment();
+
+            // Horizontal lines
+            for (let i = 0; i < btn.offsetHeight; i += 10) {
+                const line = document.createElement('div');
+                line.className = 'grid-line-h';
+                line.style.top = `${i}px`;
+                linesContainer.appendChild(line);
+            }
+            // Vertical lines
+            for (let i = 0; i < btn.offsetWidth; i += 10) {
+                const line = document.createElement('div');
+                line.className = 'grid-line-v';
+                line.style.left = `${i}px`;
+                linesContainer.appendChild(line);
+            }
+            btn.appendChild(linesContainer);
+        }
+        // Initialize grids on load
+        window.addEventListener('load', () => {
+            createLaserGrid('laserGridBtn');
+            // Add others if needed
+        });
+        // Optional: Recreate on resize
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.btn-laser-grid').forEach(btn => {
+                btn.innerHTML = ''; // Clear existing lines
+                // Find the button's ID and recreate
+                const idMatch = [...btn.attributes].find(attr => attr.name.startsWith('id'));
+                if (idMatch) createLaserGrid(idMatch.value);
+            });
+        });
+
+
+        // --- Dataglobe Data Points ---
+        function populateDataglobe(btnId) {
+            const btn = document.getElementById(btnId);
+            const pointsContainer = document.createDocumentFragment();
+            for (let i = 0; i < 20; i++) {
+                const point = document.createElement('span');
+                point.className = 'data-point';
+                point.style.left = `${Math.random() * 100}%`;
+                point.style.top = `${Math.random() * 100}%`;
+                point.style.animationDelay = `${Math.random() * 2}s`;
+                pointsContainer.appendChild(point);
+            }
+            btn.appendChild(pointsContainer);
+
+            // Add CSS for pulsing animation dynamically
+            if (!document.querySelector('#dataPointPulseStyle')) {
+                const style = document.createElement('style');
+                style.id = 'dataPointPulseStyle';
+                style.textContent = `
+                        @keyframes dataPulse {
+                            0%, 100% { transform: scale(1); opacity: 0.8; }
+                            50% { transform: scale(1.5); opacity: 0.4; }
+                        }
+                        .data-point {
+                            animation: dataPulse 2s infinite ease-in-out;
+                        }
+                    `;
+                document.head.appendChild(style);
+            }
+        }
+        window.addEventListener('load', () => {
+            populateDataglobe('dataglobeBtn');
+        });
+
+
+        // --- Quantum Tunnel Circles ---
+        document.getElementById('quantumTunnelBtn').addEventListener('mousemove', (e) => {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const tunnel = document.createElement('div');
+            tunnel.className = 'tunnel';
+            tunnel.style.left = `${x}px`;
+            tunnel.style.top = `${y}px`;
+            const size = Math.random() * 30 + 10;
+            tunnel.style.width = `${size}px`;
+            tunnel.style.height = `${size}px`;
+            tunnel.style.animation = `fadeOut ${Math.random() * 1 + 0.5}s forwards`;
+
+            btn.appendChild(tunnel);
+
+            setTimeout(() => {
+                tunnel.remove();
+            }, 1000);
+        });
+
+        // --- Digital Rain Characters ---
+        function generateDigitalRain(btnId) {
+            const btn = document.getElementById(btnId);
+            const rainContainer = document.createDocumentFragment();
+            const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (let i = 0; i < 30; i++) {
+                const charSpan = document.createElement('span');
+                charSpan.className = 'rain-char';
+                charSpan.textContent = chars.charAt(Math.floor(Math.random() * chars.length));
+                charSpan.style.left = `${Math.random() * 100}%`;
+                charSpan.style.animationDelay = `${Math.random() * 2}s`;
+                charSpan.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                rainContainer.appendChild(charSpan);
+            }
+            btn.appendChild(rainContainer);
+
+            // Add CSS for falling animation dynamically
+            if (!document.querySelector('#rainFallStyle')) {
+                const style = document.createElement('style');
+                style.id = 'rainFallStyle';
+                style.textContent = `
+                        @keyframes rainFall {
+                            to { transform: translateY(100px); opacity: 0; }
+                        }
+                        .rain-char {
+                            animation: rainFall linear infinite;
+                        }
+                    `;
+                document.head.appendChild(style);
+            }
+        }
+        window.addEventListener('load', () => {
+            generateDigitalRain('digitalRainBtn');
+        });
+
+        // --- Hologram Circuit Lines ---
+        function drawCircuitPattern(btnId) {
+            const btn = document.getElementById(btnId);
+            const linesContainer = document.createDocumentFragment();
+            const width = btn.offsetWidth;
+            const height = btn.offsetHeight;
+
+            // Draw some horizontal and vertical lines randomly
+            for (let i = 0; i < 5; i++) {
+                const hLine = document.createElement('div');
+                hLine.className = 'circuit-line';
+                hLine.style.width = `${Math.random() * width * 0.5}px`;
+                hLine.style.left = `${Math.random() * width * 0.5}px`;
+                hLine.style.top = `${Math.random() * height}px`;
+                linesContainer.appendChild(hLine);
+            }
+            for (let i = 0; i < 5; i++) {
+                const vLine = document.createElement('div');
+                vLine.className = 'circuit-line';
+                vLine.style.height = `${Math.random() * height * 0.5}px`;
+                vLine.style.top = `${Math.random() * height * 0.5}px`;
+                vLine.style.left = `${Math.random() * width}px`;
+                vLine.style.width = '2px'; // Ensure width is set for vertical
+                linesContainer.appendChild(vLine);
+            }
+            btn.appendChild(linesContainer);
+        }
+        window.addEventListener('load', () => {
+            drawCircuitPattern('circuitBtn');
+        });
+        window.addEventListener('resize', () => {
+            const btn = document.getElementById('circuitBtn');
+            if (btn) {
+                btn.innerHTML = '';
+                drawCircuitPattern('circuitBtn');
+            }
+        });
+
+        // --- Nano Scan Line ---
+        window.addEventListener('load', () => {
+            const nanoBtn = document.querySelector('.btn-nano');
+            if (nanoBtn) {
+                const line = document.createElement('div');
+                line.className = 'nano-line';
+                nanoBtn.appendChild(line);
+
+                // Add CSS for nanoScan animation if not already present
+                if (!document.querySelector('#nanoScanStyle')) {
+                    const style = document.createElement('style');
+                    style.id = 'nanoScanStyle';
+                    // Animation defined in CSS above
+                    document.head.appendChild(style);
+                }
+            }
+        });
+
+        // --- Implant Lines ---
+        window.addEventListener('load', () => {
+            const implantBtn = document.querySelector('.btn-implant');
+            if (implantBtn) {
+                const linesContainer = document.createDocumentFragment();
+                // Horizontal scanning line
+                const hLine = document.createElement('div');
+                hLine.className = 'implant-line';
+                hLine.style.width = '100%';
+                hLine.style.top = '50%';
+                hLine.style.animation = 'nanoScan 2s linear infinite'; // Reuse nanoScan or define new
+                linesContainer.appendChild(hLine);
+
+                // Vertical center line
+                const vLine = document.createElement('div');
+                vLine.className = 'implant-line';
+                vLine.style.height = '100%';
+                vLine.style.left = '50%';
+                vLine.style.width = '1px';
+                linesContainer.appendChild(vLine);
+
+                implantBtn.appendChild(linesContainer);
+            }
+        });
+
+    </script>
+</body>
+</html>  

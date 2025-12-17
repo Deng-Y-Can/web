@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 More Advanced & 3D Label Effects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Bebas+Neue&family=Rajdhani:wght@700&family=Audiowide&family=Michroma&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a12; /* Very dark blue-black */
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scrollbar from wide elements */
+        }
+
+        h1 {
+            text-align: center;
+            grid-column: 1 / -1;
+            margin: 20px 0 40px 0;
+            color: #fff;
+            text-shadow: 0 0 15px #00aaff, 0 0 30px #0055ff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider columns */
+            gap: 30px;
+        }
+
+        .label-wrapper {
+            background: rgba(15, 15, 25, 0.85); /* Deep purple-blue */
+            padding: 25px; /* Increased padding */
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5), inset 0 0 10px rgba(0, 100, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px; /* Increased height */
+            overflow: hidden;
+            perspective: 1000px; /* For 3D transforms */
+            border: 1px solid rgba(100, 150, 255, 0.1);
+        }
+
+        label {
+            font-size: 24px; /* Slightly larger base size */
+            font-weight: bold;
+            user-select: none;
+            cursor: default;
+            display: inline-block; /* Allows transforms */
+        }
+
+        /* --- New 50 Advanced/3D Effects --- */
+
+        /* 1. Extruded 3D Text */
+        .extruded-3d {
+            color: #ffffff;
+            text-shadow: 0 1px 0 #cccccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbbbbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaaaaa, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.2), 0 20px 20px rgba(0,0,0,0.15);
+            transform: translateZ(30px);
+            transform-style: preserve-3d;
+        }
+
+        /* 2. Floating Holo-Card */
+        .floating-holo-card {
+            position: relative;
+            color: #fff;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.2), 0 0 40px rgba(0, 100, 255, 0.1);
+        }
+
+            .floating-holo-card::before {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                background: linear-gradient(45deg, #00eeff, #ff00dd, #00eeff);
+                border-radius: 15px;
+                z-index: -1;
+                filter: blur(15px);
+                opacity: 0.7;
+                animation: holoPulse 4s ease-in-out infinite alternate;
+            }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateX(5deg) rotateY(5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotateX(-5deg) rotateY(-5deg);
+            }
+        }
+
+        @keyframes holoPulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 0.9;
+            }
+        }
+
+        /* 3. Prismatic Refraction */
+        .prismatic-refraction {
+            position: relative;
+            color: transparent;
+            background: #111;
+            padding: 10px 20px;
+            overflow: hidden;
+        }
+
+            .prismatic-refraction::before {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #ff0000; /* Red Channel */
+                clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            }
+
+            .prismatic-refraction::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #00ff00; /* Green Channel */
+                clip-path: polygon(0 33%, 100% 33%, 100% 66%, 0 66%);
+            }
+
+            .prismatic-refraction span {
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #0000ff; /* Blue Channel */
+                clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+            }
+
+        /* 4. Hypergrid Core */
+        .hypergrid-core {
+            position: relative;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            padding: 10px 20px;
+        }
+
+            .hypergrid-core::before, .hypergrid-core::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+            }
+
+            .hypergrid-core::before {
+                background: linear-gradient(90deg, transparent 49%, rgba(0, 255, 255, 0.3) 50%, transparent 51%), linear-gradient(transparent 49%, rgba(0, 255, 255, 0.3) 50%, transparent 51%);
+                background-size: 20px 20px;
+                animation: hyperGridMove 10s linear infinite;
+            }
+
+            .hypergrid-core::after {
+                background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, transparent 70%);
+                opacity: 0.3;
+                animation: corePulse 3s ease-in-out infinite alternate;
+            }
+
+        @keyframes hyperGridMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes corePulse {
+            0% {
+                opacity: 0.1;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        /* 5. Liquid Metal */
+        .liquid-metal {
+            color: #aaa;
+            background: linear-gradient(135deg, #2c3e50, #bdc3c7, #2c3e50);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: liquidFlow 5s ease infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        @keyframes liquidFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 6. Volumetric Light Beam */
+        .volumetric-light {
+            position: relative;
+            color: #fff;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+            .volumetric-light::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 300px; /* Wider beam */
+                height: 300px;
+                background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+                filter: blur(40px); /* Softer edges */
+                transform: translate(-50%, -50%) rotate(45deg);
+                z-index: -1;
+                animation: lightRotate 15s linear infinite;
+            }
+
+        @keyframes lightRotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* 7. Augmented Reality Marker */
+        .ar-marker {
+            position: relative;
+            color: #00ff00;
+            font-family: 'Michroma', sans-serif;
+            letter-spacing: 3px;
+            padding: 15px;
+            border: 2px solid #00ff00;
+        }
+
+            .ar-marker::before, .ar-marker::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #00ff00;
+            }
+
+            .ar-marker::before {
+                top: -10px;
+                left: -10px;
+                border-right: none;
+                border-bottom: none;
+            }
+
+            .ar-marker::after {
+                bottom: -10px;
+                right: -10px;
+                border-left: none;
+                border-top: none;
+            }
+
+            .ar-marker span::before, .ar-marker span::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #00ff00;
+            }
+
+            .ar-marker span::before {
+                top: -10px;
+                right: -10px;
+                border-left: none;
+                border-bottom: none;
+            }
+
+            .ar-marker span::after {
+                bottom: -10px;
+                left: -10px;
+                border-right: none;
+                border-top: none;
+            }
+
+        /* 8. Quantum Tunneling */
+        .quantum-tunnel {
+            position: relative;
+            color: #9d4edd;
+            overflow: hidden;
+            isolation: isolate; /* Important for blend modes */
+        }
+
+            .quantum-tunnel::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( 90deg, transparent, transparent 5px, rgba(157, 78, 221, 0.1) 5px, rgba(157, 78, 221, 0.1) 10px );
+                animation: tunnelSlide 0.5s linear infinite;
+                mix-blend-mode: difference;
+                z-index: -1;
+            }
+
+        @keyframes tunnelSlide {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* 9. Hologram Foil */
+        .hologram-foil {
+            position: relative;
+            color: #fff;
+            background: #000;
+            padding: 10px 20px;
+            isolation: isolate;
+        }
+
+            .hologram-foil::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, #ff00cc, #3333ff, #00ccff, #00ff99, #ffcc00, #ff0000, #ff00cc);
+                background-size: 300% 300%;
+                mix-blend-mode: screen;
+                opacity: 0.8;
+                z-index: -1;
+                animation: foilShimmer 4s ease infinite;
+                border-radius: inherit;
+            }
+
+            .hologram-foil::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 11px), repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 11px);
+                mix-blend-mode: overlay;
+                z-index: -1;
+                border-radius: inherit;
+            }
+
+        @keyframes foilShimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+        /* 10. Cyberpunk Glitch V2 */
+        .cyber-glitch-v2 {
+            position: relative;
+            font-family: 'Rajdhani', sans-serif;
+            color: #f00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+            .cyber-glitch-v2::before, .cyber-glitch-v2::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                mix-blend-mode: screen;
+            }
+
+            .cyber-glitch-v2::before {
+                color: #0ff;
+                animation: cyberGlitch1 2s infinite;
+            }
+
+            .cyber-glitch-v2::after {
+                color: #f0f;
+                animation: cyberGlitch2 3s infinite;
+            }
+
+        @keyframes cyberGlitch1 {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, 3px);
+            }
+
+            40% {
+                transform: translate(-3px, -3px);
+            }
+
+            60% {
+                transform: translate(3px, 3px);
+            }
+
+            80% {
+                transform: translate(3px, -3px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        @keyframes cyberGlitch2 {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(2px, -2px);
+            }
+
+            40% {
+                transform: translate(2px, 2px);
+            }
+
+            60% {
+                transform: translate(-2px, 2px);
+            }
+
+            80% {
+                transform: translate(-2px, -2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        /* 11. Morphing Geometric */
+        .morphing-geo {
+            position: relative;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 80px;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            transition: clip-path 1s ease, background 1s ease;
+            animation: morphShape 8s infinite;
+        }
+
+            .morphing-geo span {
+                padding: 10px;
+            }
+
+        @keyframes morphShape {
+            0% {
+                clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+                background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            }
+
+            25% {
+                clip-path: polygon(50% 0%, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%, 0% 50%, 15% 15%);
+                background: linear-gradient(45deg, #00c9ff, #92fe9d);
+            }
+
+            50% {
+                clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+                background: linear-gradient(45deg, #a8ff78, #78ffd6);
+            }
+
+            75% {
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+                background: linear-gradient(45deg, #ff5858, #f09819);
+            }
+
+            100% {
+                clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+                background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            }
+        }
+
+        /* 12. Particle Accelerator */
+        .particle-accelerator {
+            position: relative;
+            color: #fff;
+            overflow: hidden;
+        }
+
+            .particle-accelerator::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: -100%;
+                width: 20px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent);
+                box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
+                animation: particleBeam 1.5s linear infinite;
+            }
+
+        @keyframes particleBeam {
+            0% {
+                left: -10%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 110%;
+                opacity: 0;
+            }
+        }
+
+        /* 13. Neural Network Pulse */
+        .neural-pulse {
+            position: relative;
+            color: #00eeff;
+            text-shadow: 0 0 5px rgba(0, 238, 255, 0.5);
+        }
+
+            .neural-pulse::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border: 2px solid #00eeff;
+                border-radius: 50%;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+                animation: neuralPulseWave 3s ease-out infinite;
+            }
+
+        @keyframes neuralPulseWave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        /* 14. Crystalline Structure */
+        .crystalline {
+            position: relative;
+            color: #fff;
+            background: transparent;
+            padding: 15px 25px;
+        }
+
+            .crystalline::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%), linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.1) 50%, transparent 51%);
+                background-size: 20px 20px;
+                z-index: -1;
+                border-radius: inherit;
+            }
+
+            .crystalline::after {
+                content: '';
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                background: linear-gradient(45deg, #64b3f4, #c2e59c);
+                z-index: -2;
+                filter: blur(20px);
+                opacity: 0.3;
+            }
+
+        /* 15. Singularity Event Horizon */
+        .singularity {
+            position: relative;
+            color: #fff;
+            overflow: hidden;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #000 30%, rgba(0,0,0,0.8) 70%, transparent 100%);
+        }
+
+            .singularity::before {
+                content: '';
+                position: absolute;
+                top: 10%;
+                left: 10%;
+                right: 10%;
+                bottom: 10%;
+                border: 2px dashed rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                animation: horizonSpin 20s linear infinite reverse;
+            }
+
+            .singularity::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle, transparent 0%, transparent 70%, rgba(255,255,255,0.8) 100%);
+                opacity: 0;
+                animation: horizonGlow 4s ease-in-out infinite alternate;
+            }
+
+        @keyframes horizonSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes horizonGlow {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* 16. Hover: 3D Tilt */
+        .hover-tilt {
+            padding: 15px 25px;
+            background: linear-gradient(145deg, #2a2a3a, #1a1a2a);
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5), -5px -5px 15px rgba(60,60,80,0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+            .hover-tilt:hover {
+                transform: rotateX(10deg) rotateY(-10deg) translateZ(20px);
+                box-shadow: 10px 10px 25px rgba(0,0,0,0.7), -10px -10px 25px rgba(60,60,80,0.3);
+            }
+
+        /* 17. Hover: Nano-Bots Assemble */
+        .hover-nano {
+            position: relative;
+            color: #fff;
+            overflow: hidden;
+        }
+
+            .hover-nano:hover::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.8) 2px, transparent 3px), radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.8) 2px, transparent 3px), radial-gradient(circle at 40% 80%, rgba(255, 255, 0, 0.8) 2px, transparent 3px), radial-gradient(circle at 60% 20%, rgba(0, 255, 0, 0.8) 2px, transparent 3px);
+                background-size: 100px 100px;
+                animation: nanoAssemble 1s forwards;
+                z-index: -1;
+            }
+
+        @keyframes nanoAssemble {
+            0% {
+                background-size: 100px 100px;
+                opacity: 0;
+            }
+
+            100% {
+                background-size: 20px 20px;
+                opacity: 1;
+            }
+        }
+
+        /* 18. Hover: Gravitational Lens */
+        .hover-lens {
+            position: relative;
+            color: #fff;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+            .hover-lens::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.5s, height 0.5s;
+                z-index: -1;
+            }
+
+            .hover-lens:hover {
+                transform: scale(1.1);
+            }
+
+                .hover-lens:hover::before {
+                    width: 300px;
+                    height: 300px;
+                }
+
+        /* 19. Click: Implosion */
+        .click-implosion {
+            position: relative;
+            padding: 10px 20px;
+            background: #444;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+            .click-implosion:active {
+                animation: implodeEffect 0.5s ease forwards;
+            }
+
+                .click-implosion:active::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    background: rgba(255, 255, 255, 0.5);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: implodeWave 0.5s ease-out forwards;
+                }
+
+        @keyframes implodeEffect {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(0.8);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes implodeWave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        /* 20. Click: Hologram Activation */
+        .click-holo-activate {
+            position: relative;
+            color: rgba(0, 255, 255, 0.5);
+            padding: 10px 20px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+            .click-holo-activate:active {
+                color: #0ff;
+                text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+                border-color: #0ff;
+                animation: holoFlicker 0.3s ease;
+            }
+
+                .click-holo-activate:active::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent), linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+                    animation: holoScan 0.5s ease-out;
+                    z-index: -1;
+                }
+
+        @keyframes holoFlicker {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes holoScan {
+            0% {
+                background-position: -100% 0, 0 -100%;
+            }
+
+            100% {
+                background-position: 200% 0, 0 200%;
+            }
+        }
+
+        /* 21. Retro CRT Scanlines */
+        .crt-scanlines {
+            position: relative;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            background: #121212;
+            padding: 15px 20px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+            overflow: hidden;
+        }
+
+            .crt-scanlines::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( to bottom, transparent, transparent 1px, rgba(0, 255, 0, 0.05) 1px, rgba(0, 255, 0, 0.05) 2px );
+                pointer-events: none;
+                animation: scanMove 5s linear infinite;
+            }
+
+            .crt-scanlines::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: rgba(0, 255, 0, 0.4);
+                box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+                animation: scanLine 6s linear infinite;
+            }
+
+        @keyframes scanMove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100px;
+            }
+        }
+
+        @keyframes scanLine {
+            0% {
+                top: 0;
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* 22. Neo-Tokyo Skyline */
+        .neo-tokyo {
+            position: relative;
+            color: #fff;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+            padding: 10px 20px;
+        }
+
+            .neo-tokyo::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(0deg, transparent 0%, rgba(255,0,255,0.1) 2%, transparent 4%), linear-gradient(0deg, transparent 20%, rgba(0,255,255,0.1) 22%, transparent 24%), linear-gradient(0deg, transparent 40%, rgba(255,255,0,0.1) 42%, transparent 44%), linear-gradient(0deg, transparent 60%, rgba(0,255,0,0.1) 62%, transparent 64%), linear-gradient(0deg, transparent 80%, rgba(255,0,0,0.1) 82%, transparent 84%);
+                pointer-events: none;
+                z-index: -1;
+                animation: buildingLights 5s linear infinite;
+            }
+
+        @keyframes buildingLights {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100px;
+            }
+        }
+
+        /* 23. Pixelated Explosion */
+        .pixel-explosion {
+            position: relative;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            color: #fff;
+            background: #000;
+            padding: 10px;
+            image-rendering: pixelated;
+            overflow: hidden;
+        }
+
+            .pixel-explosion::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle at 30% 30%, #ff0000 10%, transparent 11%), radial-gradient(circle at 70% 30%, #00ff00 10%, transparent 11%), radial-gradient(circle at 50% 70%, #0000ff 10%, transparent 11%);
+                border-radius: 0;
+                transform: translate(-50%, -50%);
+                animation: pixelBoom 1s steps(10) infinite;
+            }
+
+        @keyframes pixelBoom {
+            0% {
+                width: 0;
+                height: 0;
+            }
+
+            100% {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* 24. Anaglyph 3D Enhanced */
+        .anaglyph-enhanced {
+            position: relative;
+            color: transparent; /* Hide original text */
+        }
+
+            .anaglyph-enhanced::before, .anaglyph-enhanced::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: attr(data-text);
+                font-weight: bold;
+            }
+
+            .anaglyph-enhanced::before {
+                color: rgba(255, 0, 0, 0.7); /* Red channel with opacity */
+                text-shadow: 3px 0 0 rgba(0, 0, 0, 0.5);
+            }
+
+            .anaglyph-enhanced::after {
+                color: rgba(0, 255, 255, 0.7); /* Cyan channel with opacity */
+                text-shadow: -3px 0 0 rgba(0, 0, 0, 0.5);
+            }
+
+        /* 25. Isometric City Block */
+        .iso-city-block {
+            position: relative;
+            color: #fff;
+            padding: 20px 30px;
+            background: #333;
+            transform: rotateX(60deg) rotateZ(45deg) translateZ(0);
+            transform-origin: center;
+            box-shadow: 10px -10px 0 0 #222, /* Right side */
+            -10px 10px 0 0 #444, /* Left side */
+            15px -15px 10px rgba(0,0,0,0.5); /* Shadow */
+        }
+
+            .iso-city-block::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent), linear-gradient(45deg, rgba(0,0,0,0.1), transparent);
+                pointer-events: none;
+            }
+
+        /* 26. Levitating Rune */
+        .levitating-rune {
+            position: relative;
+            color: #daa520; /* Goldenrod */
+            font-family: 'Cinzel Decorative', cursive; /* Fallback if specific rune font isn't loaded */
+            text-shadow: 0 0 5px gold, 0 0 10px goldenrod;
+            animation: runeFloat 4s ease-in-out infinite;
+        }
+
+            .levitating-rune::before {
+                content: 'ᛟ'; /* Example rune character */
+                position: absolute;
+                top: -20px;
+                left: -20px;
+                font-size: 30px;
+                color: rgba(218, 165, 32, 0.5);
+                animation: runeOrbit 8s linear infinite;
+            }
+
+        @keyframes runeFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        @keyframes runeOrbit {
+            0% {
+                transform: rotate(0deg) translateX(30px) rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(30px) rotate(-360deg);
+            }
+        }
+
+        /* 27. DNA Helix */
+        .dna-helix {
+            position: relative;
+            color: #00ff00;
+            font-family: 'Michroma', sans-serif;
+            letter-spacing: 5px;
+        }
+
+            .dna-helix::before, .dna-helix::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 4px;
+                background: #00ff00;
+            }
+
+            .dna-helix::before {
+                left: -15px;
+                background: linear-gradient(to bottom, #00ff00, #008800, #00ff00);
+                animation: dnaWaveLeft 2s ease-in-out infinite;
+            }
+
+            .dna-helix::after {
+                right: -15px;
+                background: linear-gradient(to bottom, #008800, #00ff00, #008800);
+                animation: dnaWaveRight 2s ease-in-out infinite 1s; /* Offset start */
+            }
+
+        @keyframes dnaWaveLeft {
+            0%, 100% {
+                transform: translateX(0) scaleY(1);
+            }
+
+            50% {
+                transform: translateX(5px) scaleY(1.2);
+            }
+        }
+
+        @keyframes dnaWaveRight {
+            0%, 100% {
+                transform: translateX(0) scaleY(1);
+            }
+
+            50% {
+                transform: translateX(-5px) scaleY(1.2);
+            }
+        }
+
+        /* 28. Holographic Pyramid */
+        .hologram-pyramid {
+            position: relative;
+            color: #fff;
+            padding: 30px 40px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            background: rgba(0, 200, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 200, 255, 0.3), 0 0 20px rgba(0, 200, 255, 0.2);
+            backdrop-filter: blur(2px);
+        }
+
+            .hologram-pyramid::before {
+                content: '';
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border: 1px solid rgba(0, 200, 255, 0.5);
+                clip-path: inherit;
+                pointer-events: none;
+            }
+
+        /* 29. Quantum Foam */
+        .quantum-foam {
+            position: relative;
+            color: #fff;
+            background: #000;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+            .quantum-foam::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200%;
+                height: 200%;
+                background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 2px), radial-gradient(circle, rgba(255,0,255,0.6) 1px, transparent 2px), radial-gradient(circle, rgba(0,255,255,0.6) 1px, transparent 2px);
+                background-size: 50px 50px, 70px 70px, 90px 90px;
+                background-position: 0 0, 25px 25px, 50px 50px;
+                animation: foamBubble 20s linear infinite;
+                opacity: 0.3;
+                z-index: 0;
+            }
+
+            .quantum-foam span {
+                position: relative;
+                z-index: 1;
+            }
+
+        @keyframes foamBubble {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* 30. Fusion Core Glow */
+        .fusion-core {
+            position: relative;
+            color: #fff;
+            padding: 15px 25px;
+            background: #111;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+            .fusion-core::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, #ff8c00, #ff4500, transparent 70%);
+                filter: blur(40px);
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                animation: fusionPulse 3s ease-in-out infinite alternate;
+            }
+
+            .fusion-core::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100px;
+                height: 100px;
+                background: radial-gradient(circle, #ffff00, #ff8c00, transparent 70%);
+                filter: blur(20px);
+                transform: translate(-50%, -50%);
+                z-index: -1;
+                animation: fusionPulseInner 1.5s ease-in-out infinite alternate;
+            }
+
+        @keyframes fusionPulse {
+            0% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fusionPulseInner {
+            0% {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        /* 31. Hover: Warp Drive */
+        .hover-warp-drive {
+            position: relative;
+            color: #fff;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+            .hover-warp-drive::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.6), transparent);
+                transition: left 0.4s ease;
+            }
+
+            .hover-warp-drive:hover {
+                box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+                border-color: rgba(100, 200, 255, 0.8);
+            }
+
+                .hover-warp-drive:hover::before {
+                    left: 100%;
+                }
+
+        /* 32. Hover: Molecular Disruption */
+        .hover-disrupt {
+            position: relative;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+            .hover-disrupt:hover {
+                color: transparent;
+                animation: disruptText 0.5s steps(10) forwards;
+            }
+
+                .hover-disrupt:hover::before {
+                    content: attr(data-text);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #ff0000;
+                    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+                    animation: disruptTop 0.5s steps(10) forwards;
+                }
+
+                .hover-disrupt:hover::after {
+                    content: attr(data-text);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #0000ff;
+                    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+                    animation: disruptBottom 0.5s steps(10) forwards 0.25s;
+                }
+
+        @keyframes disruptText {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes disruptTop {
+            100% {
+                transform: translate(-5px, -5px);
+            }
+        }
+
+        @keyframes disruptBottom {
+            100% {
+                transform: translate(5px, 5px);
+            }
+        }
+
+        /* 33. Click: Energy Surge */
+        .click-energy-surge {
+            position: relative;
+            color: #fff;
+            padding: 10px 20px;
+            background: #222;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+            .click-energy-surge:active::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, rgba(0, 255, 255, 0.8), transparent 70%), conic-gradient(from 0deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                animation: energySurge 0.8s ease-out forwards;
+            }
+
+        @keyframes energySurge {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 300px;
+                height: 300px;
+                opacity: 0;
+            }
+        }
+
+        /* 34. Click: Dimensional Rift */
+        .click-rift {
+            position: relative;
+            color: #fff;
+            padding: 15px 25px;
+            background: #111;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+            transition: clip-path 0.5s ease, background 0.5s ease;
+        }
+
+            .click-rift:active {
+                clip-path: polygon(30% 10%, 70% 10%, 90% 30%, 90% 70%, 70% 90%, 30% 90%, 10% 70%, 10% 30%);
+                background: #000;
+                animation: riftShake 0.3s linear;
+            }
+
+                .click-rift:active::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: repeating-conic-gradient( from 0deg, transparent 0deg 10deg, rgba(255, 0, 255, 0.2) 10deg 20deg );
+                    animation: riftSpin 2s linear infinite;
+                    z-index: -1;
+                }
+
+        @keyframes riftShake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-3px);
+            }
+
+            75% {
+                transform: translateX(3px);
+            }
+        }
+
+        @keyframes riftSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 35. Chrono Font Shift */
+        .chrono-shift {
+            font-family: 'VT323', monospace; /* Fallback */
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+            animation: chronoChange 10s infinite steps(1);
+        }
+
+        @keyframes chronoChange {
+            0% {
+                font-family: 'VT323', monospace;
+                font-size: 24px;
+            }
+            /* Fallback */
+            20% {
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 26px;
+            }
+
+            40% {
+                font-family: 'Nova Mono', monospace;
+                font-size: 22px;
+            }
+
+            60% {
+                font-family: 'Fira Code', monospace;
+                font-size: 25px;
+            }
+
+            80% {
+                font-family: 'Source Code Pro', monospace;
+                font-size: 23px;
+            }
+
+            100% {
+                font-family: 'VT323', monospace;
+                font-size: 24px;
+            }
+        }
+
+        /* 36. Hologram Sticker V2 */
+        .hologram-sticker-v2 {
+            position: relative;
+            color: #fff;
+            padding: 15px 25px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+            .hologram-sticker-v2::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(120deg, #ff00cc, #3333ff, #00ccff, #00ff99, #ffcc00, #ff0000, #ff00cc, #3333ff);
+                background-size: 400% 400%;
+                mix-blend-mode: screen;
+                opacity: 0.7;
+                z-index: -1;
+                animation: stickerShine 6s ease infinite;
+                border-radius: inherit;
+            }
+
+            .hologram-sticker-v2::after {
+                content: '';
+                position: absolute;
+                inset: 2px; /* Inset slightly */
+                border: 1px dashed rgba(255, 255, 255, 0.3);
+                border-radius: inherit;
+                pointer-events: none;
+                z-index: -1;
+            }
+
+        @keyframes stickerShine {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 37. Biomechanical Implant */
+        .bio-implant {
+            position: relative;
+            color: #0af;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
+            padding: 10px 20px;
+        }
+
+            .bio-implant::before, .bio-implant::after {
+                content: '';
+                position: absolute;
+                background: #0af;
+                box-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
+            }
+
+            .bio-implant::before {
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                animation: bioScanHorizontal 3s linear infinite;
+            }
+
+            .bio-implant::after {
+                top: 0;
+                left: 0;
+                width: 2px;
+                height: 100%;
+                animation: bioScanVertical 3s linear infinite 1.5s; /* Staggered start */
+            }
+
+        @keyframes bioScanHorizontal {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes bioScanVertical {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* 38. Nanite Swarm */
+        .nanite-swarm {
+            position: relative;
+            color: #fff;
+            background: #000;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+            .nanite-swarm::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200%;
+                height: 200%;
+                background-image: radial-gradient(circle, #fff 1px, transparent 1px), radial-gradient(circle, #0ff 1px, transparent 1px), radial-gradient(circle, #f0f 1px, transparent 1px);
+                background-size: 30px 30px;
+                animation: swarmMove 10s linear infinite;
+                opacity: 0.5;
+            }
+
+        @keyframes swarmMove {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* 39. Spectral Analysis */
+        .spectral-analysis {
+            position: relative;
+            color: transparent;
+            background: #000;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+            .spectral-analysis::before {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: spectralSlide 3s linear infinite;
+            }
+
+        @keyframes spectralSlide {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        /* 40. Zero Point Module */
+        .zpm {
+            position: relative;
+            color: #fff;
+            padding: 20px;
+            background: radial-gradient(circle at center, #ffff00 0%, #ff8c00 30%, #8B0000 100%);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 0 30px #ffff00, inset 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: zpmPulse 2s ease-in-out infinite alternate;
+        }
+
+            .zpm::before {
+                content: '';
+                position: absolute;
+                top: 10%;
+                left: 10%;
+                right: 10%;
+                bottom: 10%;
+                border: 2px solid rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                animation: zpmRing 4s linear infinite;
+            }
+
+        @keyframes zpmPulse {
+            0% {
+                box-shadow: 0 0 20px #ffff00, inset 0 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 40px #ffff00, inset 0 0 25px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        @keyframes zpmRing {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 41. Hover: Force Field */
+        .hover-force-field {
+            position: relative;
+            color: #00eeff;
+            padding: 10px 20px;
+            transition: color 0.3s ease;
+        }
+
+            .hover-force-field::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border: 2px solid #00eeff;
+                border-radius: inherit;
+                clip-path: circle(0% at 50% 50%);
+                transition: clip-path 0.3s ease;
+                pointer-events: none;
+            }
+
+            .hover-force-field:hover {
+                color: #fff;
+                text-shadow: 0 0 10px #00eeff;
+            }
+
+                .hover-force-field:hover::before {
+                    clip-path: circle(100% at 50% 50%);
+                    box-shadow: 0 0 10px #00eeff;
+                }
+
+        /* 42. Hover: Temporal Distortion */
+        .hover-temporal {
+            position: relative;
+            display: inline-block;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+            .hover-temporal:hover {
+                animation: temporalWarp 1s ease-in-out;
+            }
+
+        @keyframes temporalWarp {
+            0% {
+                transform: scaleX(1);
+            }
+
+            25% {
+                transform: scaleX(1.2) skewX(10deg);
+            }
+
+            50% {
+                transform: scaleX(0.8) skewX(-10deg);
+            }
+
+            75% {
+                transform: scaleX(1.1) skewX(5deg);
+            }
+
+            100% {
+                transform: scaleX(1);
+            }
+        }
+
+        /* 43. Click: Teleportation */
+        .click-teleport {
+            position: relative;
+            color: #fff;
+            padding: 10px 20px;
+            background: rgba(100, 100, 200, 0.2);
+            border-radius: 5px;
+            transition: all 0.5s ease;
+        }
+
+            .click-teleport:active {
+                animation: teleportOut 0.5s ease forwards;
+            }
+
+            .click-teleport.teleported {
+                animation: teleportIn 0.5s ease 0.5s forwards;
+            }
+
+        @keyframes teleportOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0;
+                transform: scale(0.8) rotateY(90deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.8) rotateY(90deg);
+            }
+        }
+
+        @keyframes teleportIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotateY(-90deg);
+            }
+
+            50% {
+                opacity: 0;
+                transform: scale(0.8) rotateY(-90deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+        /* JS will add/remove .teleported class */
+
+        /* 44. Click: Matter Reconstitution */
+        .click-reconstitute {
+            position: relative;
+            color: #fff;
+            padding: 10px 20px;
+            background: #333;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            transition: clip-path 0.8s ease, background 0.8s ease;
+        }
+
+            .click-reconstitute.deconstructed {
+                clip-path: polygon(20% 0%, 80% 20%, 80% 80%, 20% 100%);
+                background: #222;
+                animation: reconstituteShake 0.2s ease infinite;
+            }
+
+            .click-reconstitute.reconstituted {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                background: #333;
+                animation: none;
+            }
+
+        @keyframes reconstituteShake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-2px);
+            }
+
+            75% {
+                transform: translateX(2px);
+            }
+        }
+        /* JS will manage classes */
+
+        /* 45. ASCII Art */
+        .ascii-art {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1;
+            color: #0f0;
+            background: #000;
+            padding: 10px;
+            white-space: pre;
+            text-align: left;
+        }
+
+        /* 46. Terminal Boot Sequence */
+        .terminal-boot {
+            font-family: 'Share Tech Mono', monospace; /* Fallback */
+            color: #0f0;
+            background: #000;
+            padding: 15px;
+            border: 1px solid #0f0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid #0f0;
+            margin: 0 auto;
+            animation: bootType 4s steps(40, end) 1s both, bootCaret 1s step-end infinite;
+        }
+
+        @keyframes bootType {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes bootCaret {
+            from, to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #0f0;
+            }
+        }
+
+        /* 47. Digital Rain */
+        .digital-rain {
+            position: relative;
+            color: rgba(0, 255, 0, 0.8);
+            font-family: 'Share Tech Mono', monospace; /* Fallback */
+            overflow: hidden;
+            background: #000;
+            padding: 10px;
+        }
+
+            .digital-rain::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                color: rgba(0, 255, 0, 0.1);
+                pointer-events: none;
+                z-index: -1;
+                word-break: break-all;
+                animation: digitalRainScroll 15s linear infinite;
+            }
+
+        @keyframes digitalRainScroll {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(0%);
+            }
+        }
+
+        /* 48. Glowing Circuit Board */
+        .glow-circuit {
+            position: relative;
+            color: #0af;
+            padding: 15px;
+            background: #000;
+        }
+
+            .glow-circuit::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(90deg, transparent 49%, rgba(0, 170, 255, 0.3) 50%, transparent 51%), linear-gradient(transparent 49%, rgba(0, 170, 255, 0.3) 50%, transparent 51%);
+                background-size: 20px 20px;
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .glow-circuit::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: #0af;
+                box-shadow: 0 0 10px #0af;
+                animation: circuitFlow 2s linear infinite;
+            }
+
+        @keyframes circuitFlow {
+            0% {
+                transform: translateY(-50%) translateX(-100%);
+            }
+
+            100% {
+                transform: translateY(-50%) translateX(100%);
+            }
+        }
+
+        /* 49. Hologram Projection V2 */
+        .holo-project-v2 {
+            position: relative;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            animation: holoFlickerV2 3s infinite;
+        }
+
+            .holo-project-v2::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.1) 3px, rgba(255,255,255,0.1) 6px);
+                pointer-events: none;
+                z-index: -1;
+                animation: holoScanV2 4s linear infinite;
+            }
+
+        @keyframes holoFlickerV2 {
+            0%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            }
+
+            50% {
+                opacity: 0.8;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes holoScanV2 {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100px;
+            }
+        }
+
+        /* 50. Black Hole Accretion Disk */
+        .black-hole {
+            position: relative;
+            color: #fff;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #000 40%, #111 70%, #222 100%);
+            overflow: hidden;
+        }
+
+            .black-hole::before {
+                content: '';
+                position: absolute;
+                top: 10%;
+                left: 10%;
+                right: 10%;
+                bottom: 10%;
+                border-radius: 50%;
+                background: conic-gradient( #ff0000, #ff9a00, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000 );
+                animation: accretionSpin 10s linear infinite;
+                filter: blur(5px);
+                opacity: 0.7;
+            }
+
+            .black-hole::after {
+                content: '';
+                position: absolute;
+                top: 40%;
+                left: 40%;
+                width: 20%;
+                height: 20%;
+                border-radius: 50%;
+                background: #fff;
+                box-shadow: 0 0 20px #fff;
+                animation: eventHorizonPulse 2s ease-in-out infinite alternate;
+            }
+
+        @keyframes accretionSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes eventHorizonPulse {
+            0% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>50 更多高级 & 3D Label 特效</h1>
+    <div class="container">
+
+        <div class="label-wrapper"><label class="extruded-3d">Extruded 3D Text</label></div>
+        <div class="label-wrapper"><label class="floating-holo-card">Floating Holo-Card</label></div>
+        <div class="label-wrapper"><label class="prismatic-refraction" data-text="Prismatic Refraction"><span></span></label></div>
+        <div class="label-wrapper"><label class="hypergrid-core">Hypergrid Core</label></div>
+        <div class="label-wrapper"><label class="liquid-metal">Liquid Metal</label></div>
+        <div class="label-wrapper"><label class="volumetric-light">Volumetric Light Beam</label></div>
+        <div class="label-wrapper"><label class="ar-marker"><span>AR Marker</span></label></div>
+        <div class="label-wrapper"><label class="quantum-tunnel">Quantum Tunneling</label></div>
+        <div class="label-wrapper"><label class="hologram-foil">Hologram Foil</label></div>
+        <div class="label-wrapper"><label class="cyber-glitch-v2" data-text="Cyber Glitch V2">Cyber Glitch V2</label></div>
+
+        <div class="label-wrapper"><label class="morphing-geo"><span>Morphing Geometric</span></label></div>
+        <div class="label-wrapper"><label class="particle-accelerator">Particle Accelerator</label></div>
+        <div class="label-wrapper"><label class="neural-pulse">Neural Network Pulse</label></div>
+        <div class="label-wrapper"><label class="crystalline">Crystalline Structure</label></div>
+        <div class="label-wrapper"><label class="singularity">Singularity Event Horizon</label></div>
+        <div class="label-wrapper"><label class="hover-tilt">Hover: 3D Tilt</label></div>
+        <div class="label-wrapper"><label class="hover-nano">Hover: Nano-Bots Assemble</label></div>
+        <div class="label-wrapper"><label class="hover-lens">Hover: Gravitational Lens</label></div>
+        <div class="label-wrapper"><label class="click-implosion">Click: Implosion</label></div>
+        <div class="label-wrapper"><label class="click-holo-activate">Click: Hologram Activation</label></div>
+
+        <div class="label-wrapper"><label class="crt-scanlines">Retro CRT Scanlines</label></div>
+        <div class="label-wrapper"><label class="neo-tokyo">Neo-Tokyo Skyline</label></div>
+        <div class="label-wrapper"><label class="pixel-explosion">Pixelated Explosion</label></div>
+        <div class="label-wrapper"><label class="anaglyph-enhanced" data-text="Anaglyph 3D Enhanced"></label></div>
+        <div class="label-wrapper"><label class="iso-city-block">Isometric City Block</label></div>
+        <div class="label-wrapper"><label class="levitating-rune">Levitating Rune</label></div>
+        <div class="label-wrapper"><label class="dna-helix">DNA Helix</label></div>
+        <div class="label-wrapper"><label class="hologram-pyramid">Holographic Pyramid</label></div>
+        <div class="label-wrapper"><label class="quantum-foam"><span>Quantum Foam</span></label></div>
+        <div class="label-wrapper"><label class="fusion-core">Fusion Core Glow</label></div>
+
+        <div class="label-wrapper"><label class="hover-warp-drive">Hover: Warp Drive</label></div>
+        <div class="label-wrapper"><label class="hover-disrupt" data-text="Molecular Disruption"></label></div>
+        <div class="label-wrapper"><label class="click-energy-surge">Click: Energy Surge</label></div>
+        <div class="label-wrapper"><label class="click-rift">Click: Dimensional Rift</label></div>
+        <div class="label-wrapper"><label class="chrono-shift">Chrono Font Shift</label></div>
+        <div class="label-wrapper"><label class="hologram-sticker-v2">Hologram Sticker V2</label></div>
+        <div class="label-wrapper"><label class="bio-implant">Biomechanical Implant</label></div>
+        <div class="label-wrapper"><label class="nanite-swarm">Nanite Swarm</label></div>
+        <div class="label-wrapper"><label class="spectral-analysis" data-text="Spectral Analysis"></label></div>
+        <div class="label-wrapper"><label class="zpm">Zero Point Module</label></div>
+
+        <div class="label-wrapper"><label class="hover-force-field">Hover: Force Field</label></div>
+        <div class="label-wrapper"><label class="hover-temporal">Hover: Temporal Distortion</label></div>
+        <!-- The following two require JavaScript interaction, simplified for static demo -->
+        <div class="label-wrapper"><label class="click-teleport" onclick="this.classList.add('teleported'); setTimeout(()=>this.classList.remove('teleported'), 1000);">Click: Teleportation</label></div>
+        <div class="label-wrapper"><label class="click-reconstitute" onclick="this.classList.add('deconstructed'); setTimeout(()=>this.classList.remove('deconstructed'), 800); setTimeout(()=>this.classList.add('reconstituted'), 800); setTimeout(()=>this.classList.remove('reconstituted'), 1600);">Click: Matter Reconstitute</label></div>
+        <div class="label-wrapper"><label class="ascii-art">  ___ _ _<br /> / __| (_)<br /> \__ \ | |<br /> |___/_|_|</label></div>
+        <div class="label-wrapper"><label class="terminal-boot">> SYSTEM BOOT SEQUENCE INITIATED...</label></div>
+        <div class="label-wrapper"><label class="digital-rain">Digital Rain</label></div>
+        <div class="label-wrapper"><label class="glow-circuit">Glowing Circuit Board</label></div>
+        <div class="label-wrapper"><label class="holo-project-v2">Hologram Projection V2</label></div>
+        <div class="label-wrapper"><label class="black-hole">Black Hole Accretion</label></div>
+
+    </div>
+
+    <!-- Simple script for interactive examples -->
+    <script>
+        // The onclick handlers above handle the simple JS interactions.
+        // More complex interactions could be added here.
+    </script>
+</body>
+</html>

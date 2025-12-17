@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50+ Unique Button Styles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #4A44C6;
+            --accent-color: #FF6584;
+            --dark-bg: #1a1a2e;
+            --light-bg: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .container {
+            display: contents;
+        }
+
+        /* --- Base Button Class --- */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* --- 1. Simple Gradient --- */
+        .btn-gradient {
+            background: linear-gradient(45deg, #FF9A9E, #FAD0C4);
+            color: #333;
+        }
+
+            .btn-gradient:hover {
+                background: linear-gradient(45deg, #FAD0C4, #FF9A9E);
+            }
+
+        /* --- 2. Animated Border --- */
+        .btn-animated-border {
+            background: transparent;
+            color: #00C9FF;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #00C9FF, #92FE9D) 1;
+        }
+
+            .btn-animated-border::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, #00C9FF, #92FE9D);
+                z-index: -1;
+                clip-path: circle(0% at 50% 50%);
+                transition: clip-path 0.5s ease;
+            }
+
+            .btn-animated-border:hover::before {
+                clip-path: circle(100% at 50% 50%);
+            }
+
+        /* --- 3. Fill Effect --- */
+        .btn-fill {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+            .btn-fill::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 100%;
+                background: #fff;
+                z-index: -1;
+                transition: width 0.5s ease;
+            }
+
+            .btn-fill:hover {
+                color: #000;
+            }
+
+                .btn-fill:hover::before {
+                    width: 100%;
+                }
+
+        /* --- 4. Shimmer --- */
+        .btn-shimmer {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            color: white;
+            animation: shimmerBG 3s ease infinite;
+            border: none;
+        }
+
+        @keyframes shimmerBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- 5. Icon Transform --- */
+        .btn-icon-transform i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-icon-transform:hover i {
+            transform: rotate(360deg);
+        }
+
+        /* --- 6. Shadow Lift --- */
+        .btn-shadow-lift {
+            background: #11998e;
+            color: white;
+            box-shadow: 0 4px 0 #0d7a6d;
+        }
+
+            .btn-shadow-lift:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 0 #0d7a6d;
+            }
+
+            .btn-shadow-lift:active {
+                transform: translateY(0);
+                box-shadow: 0 4px 0 #0d7a6d;
+            }
+
+        /* --- 7. Corner Folded --- */
+        .btn-corner-folded {
+            background: #FF416C;
+            color: white;
+            position: relative;
+        }
+
+            .btn-corner-folded::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                border-width: 0 16px 16px 0;
+                border-style: solid;
+                border-color: #bd1c42 #fff;
+            }
+
+        /* --- 8. Pulse --- */
+        .btn-pulse {
+            background: #21D4FD;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(33, 212, 253, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(33, 212, 253, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(33, 212, 253, 0);
+            }
+        }
+
+        /* --- 9. Flip Text --- */
+        .btn-flip-text {
+            background: #8E2DE2;
+            color: white;
+            perspective: 1000px;
+        }
+
+            .btn-flip-text span {
+                display: inline-block;
+                transition: transform 0.6s;
+                transform-style: preserve-3d;
+            }
+
+            .btn-flip-text:hover span {
+                transform: rotateY(180deg);
+            }
+
+        /* --- 10. Jelly Bounce --- */
+        .btn-jelly {
+            background: #FF5858;
+            color: white;
+        }
+
+            .btn-jelly:hover {
+                animation: jelly 0.5s;
+            }
+
+        @keyframes jelly {
+            0%, 100% {
+                transform: scale(1, 1);
+            }
+
+            25% {
+                transform: scale(0.9, 1.1);
+            }
+
+            50% {
+                transform: scale(1.1, 0.9);
+            }
+
+            75% {
+                transform: scale(0.95, 1.05);
+            }
+        }
+
+        /* --- 11. Underline Reveal --- */
+        .btn-underline-reveal {
+            background: transparent;
+            color: #FECB00;
+            border: none;
+        }
+
+            .btn-underline-reveal::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #FECB00;
+                transition: width 0.3s ease;
+            }
+
+            .btn-underline-reveal:hover::after {
+                width: 100%;
+            }
+
+        /* --- 12. Diagonal Slide --- */
+        .btn-diagonal-slide {
+            background: #1D976C;
+            color: white;
+            overflow: hidden;
+        }
+
+            .btn-diagonal-slide span {
+                position: relative;
+                z-index: 1;
+            }
+
+            .btn-diagonal-slide::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: #117a53;
+                transform: skewX(-45deg);
+                transition: left 0.5s ease;
+            }
+
+            .btn-diagonal-slide:hover::before {
+                left: 100%;
+            }
+
+        /* --- 13. Glitch --- */
+        .btn-glitch {
+            background: #000;
+            color: #fff;
+            position: relative;
+        }
+
+            .btn-glitch:hover {
+                animation: glitch 0.3s linear infinite;
+            }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, 3px);
+            }
+
+            40% {
+                transform: translate(-3px, -3px);
+            }
+
+            60% {
+                transform: translate(3px, 3px);
+            }
+
+            80% {
+                transform: translate(3px, -3px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        /* --- 14. Liquid Fill --- */
+        .btn-liquid {
+            background: #4A00E0;
+            color: white;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+            .btn-liquid::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                background: conic-gradient( transparent, transparent, transparent, #8E2DE2, #8E2DE2, #8E2DE2, transparent, transparent );
+                animation: rotate 4s linear infinite;
+                z-index: -1;
+            }
+
+            .btn-liquid::after {
+                content: '';
+                position: absolute;
+                inset: 4px;
+                background: #4A00E0;
+                border-radius: inherit;
+                z-index: -1;
+            }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 15. Neon Glow --- */
+        .btn-neon-glow {
+            background: #000;
+            color: #0ff;
+            border: 2px solid #0ff;
+            text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+            box-shadow: 0 0 5px #0ff;
+        }
+
+            .btn-neon-glow:hover {
+                box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+                text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+            }
+
+        /* --- 16. Morph Shape --- */
+        .btn-morph {
+            background: #FF416C;
+            color: white;
+            border-radius: 50px;
+            transition: border-radius 0.3s ease;
+        }
+
+            .btn-morph:hover {
+                border-radius: 8px;
+            }
+
+        /* --- 17. Expand Border --- */
+        .btn-expand-border {
+            background: transparent;
+            color: #fff;
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+            .btn-expand-border::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 1px solid #fff;
+                transform: scale(1.2);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .btn-expand-border:hover::before {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        /* --- 18. Text Swap --- */
+        .btn-text-swap {
+            background: #00C9FF;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-text-swap .default {
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .btn-text-swap .hover {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, 100%);
+                opacity: 0;
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .btn-text-swap:hover .default {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            .btn-text-swap:hover .hover {
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
+
+        /* --- 19. Split Line --- */
+        .btn-split-line {
+            background: transparent;
+            color: #fff;
+            border-top: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+            .btn-split-line::before,
+            .btn-split-line::after {
+                content: '';
+                position: absolute;
+                width: 2px;
+                height: 100%;
+                background: #fff;
+                top: 0;
+                transform: scaleY(0);
+                transition: transform 0.3s ease;
+            }
+
+            .btn-split-line::before {
+                left: 0;
+            }
+
+            .btn-split-line::after {
+                right: 0;
+            }
+
+            .btn-split-line:hover::before,
+            .btn-split-line:hover::after {
+                transform: scaleY(1);
+            }
+
+        /* --- 20. Holographic --- */
+        .btn-holo {
+            background: linear-gradient(45deg, #00dbde, #fc00ff, #00dbde);
+            background-size: 400% 400%;
+            color: white;
+            animation: holoBG 4s ease infinite;
+            border: none;
+        }
+
+        @keyframes holoBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- 21. Dot Trail --- */
+        .btn-dot-trail {
+            background: #333;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: dotTrail 1s forwards;
+        }
+
+        @keyframes dotTrail {
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* --- 22. Inset Shadow --- */
+        .btn-inset-shadow {
+            background: #FF9A9E;
+            color: #333;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+            .btn-inset-shadow:hover {
+                box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+            }
+
+        /* --- 23. Fade Background --- */
+        .btn-fade-bg {
+            background: #6A11CB;
+            color: white;
+        }
+
+            .btn-fade-bg:hover {
+                background: transparent;
+                color: #6A11CB;
+                border: 2px solid #6A11CB;
+            }
+
+        /* --- 24. Rotate Icon --- */
+        .btn-rotate-icon i {
+            transition: transform 0.5s ease;
+        }
+
+        .btn-rotate-icon:hover i {
+            transform: rotate(90deg);
+        }
+
+        /* --- 25. Elastic Stretch --- */
+        .btn-elastic {
+            background: #FF6B6B;
+            color: white;
+        }
+
+            .btn-elastic:hover {
+                animation: elasticStretch 0.5s ease;
+            }
+
+        @keyframes elasticStretch {
+            0% {
+                transform: scaleX(1);
+            }
+
+            30% {
+                transform: scaleX(1.2);
+            }
+
+            60% {
+                transform: scaleX(0.8);
+            }
+
+            100% {
+                transform: scaleX(1);
+            }
+        }
+
+        /* --- 26. Floating Letters --- */
+        .btn-floating-letters span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-floating-letters:hover span:nth-child(1) {
+            transform: translateY(-5px);
+        }
+
+        .btn-floating-letters:hover span:nth-child(2) {
+            transform: translateY(-10px);
+        }
+
+        .btn-floating-letters:hover span:nth-child(3) {
+            transform: translateY(-15px);
+        }
+
+        .btn-floating-letters:hover span:nth-child(4) {
+            transform: translateY(-10px);
+        }
+
+        .btn-floating-letters:hover span:nth-child(5) {
+            transform: translateY(-5px);
+        }
+
+        /* --- 27. Gradient Border --- */
+        .btn-gradient-border {
+            background: #121212;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+            .btn-gradient-border::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+                background-size: 400%;
+                border-radius: 10px;
+                z-index: -1;
+                animation: gradientBorder 20s linear infinite;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .btn-gradient-border:hover::before {
+                opacity: 1;
+            }
+
+            .btn-gradient-border::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #121212;
+                border-radius: 6px;
+                z-index: -1;
+            }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 400% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        /* --- 28. Spotlight --- */
+        .btn-spotlight {
+            background: #222;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-spotlight::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+                transform: translate(-50%, -50%);
+                transition: width 0.5s ease, height 0.5s ease;
+            }
+
+            .btn-spotlight:hover::before {
+                width: 300px;
+                height: 300px;
+            }
+
+        /* --- 29. Pixelate --- */
+        .btn-pixelate {
+            background: #FFD700;
+            color: #000;
+            image-rendering: pixelated;
+        }
+
+            .btn-pixelate:hover {
+                filter: contrast(150%) brightness(120%);
+            }
+
+        /* --- 30. Origami Fold --- */
+        .btn-origami {
+            background: #8A2BE2;
+            color: white;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+            .btn-origami::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.2);
+                transform: rotateX(90deg) translateY(-50%);
+                transform-origin: top center;
+                transition: transform 0.3s ease;
+            }
+
+            .btn-origami:hover::before {
+                transform: rotateX(0) translateY(0);
+            }
+
+        /* --- 31. Magnetic Pull --- */
+        .btn-magnetic {
+            background: #00CED1;
+            color: white;
+            transition: transform 0.1s linear;
+        }
+
+        /* --- 32. Blur In --- */
+        .btn-blur-in {
+            background: #FF1493;
+            color: white;
+            filter: blur(2px);
+        }
+
+            .btn-blur-in:hover {
+                filter: blur(0);
+            }
+
+        /* --- 33. Layered Shadow --- */
+        .btn-layered-shadow {
+            background: #20B2AA;
+            color: white;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 2px 0 rgba(0,0,0,0.2), 0 3px 0 rgba(0,0,0,0.2), 0 4px 0 rgba(0,0,0,0.2);
+        }
+
+            .btn-layered-shadow:active {
+                transform: translateY(4px);
+                box-shadow: 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2);
+            }
+
+        /* --- 34. Skew Hover --- */
+        .btn-skew-hover {
+            background: #FF8C00;
+            color: white;
+        }
+
+            .btn-skew-hover:hover {
+                transform: skewX(-15deg);
+            }
+
+        /* --- 35. Color Shift --- */
+        .btn-color-shift {
+            background: #4B0082;
+            color: white;
+        }
+
+            .btn-color-shift:hover {
+                background: linear-gradient(90deg, #4B0082, #8A2BE2, #9370DB);
+            }
+
+        /* --- 36. Heartbeat --- */
+        .btn-heartbeat {
+            background: #DC143C;
+            color: white;
+        }
+
+            .btn-heartbeat:hover {
+                animation: heartbeat 1s infinite;
+            }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* --- 37. Text Outline --- */
+        .btn-text-outline {
+            background: transparent;
+            color: transparent;
+            -webkit-text-stroke: 1px #00FA9A;
+        }
+
+            .btn-text-outline:hover {
+                color: #00FA9A;
+                background: transparent;
+            }
+
+        /* --- 38. Dashed Border --- */
+        .btn-dashed {
+            background: transparent;
+            color: #FFD700;
+            border: 2px dashed #FFD700;
+        }
+
+            .btn-dashed:hover {
+                border-style: solid;
+            }
+
+        /* --- 39. Inner Glow --- */
+        .btn-inner-glow {
+            background: #000;
+            color: #fff;
+            box-shadow: inset 0 0 10px #00FA9A;
+        }
+
+            .btn-inner-glow:hover {
+                box-shadow: inset 0 0 20px #00FA9A;
+            }
+
+        /* --- 40. Retro Scanlines --- */
+        .btn-retro {
+            background: #000;
+            color: #00FF00;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-retro::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( to bottom, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px );
+                pointer-events: none;
+            }
+
+        /* --- 41. Rainbow Text --- */
+        .btn-rainbow-text {
+            background: #333;
+            color: #fff;
+        }
+
+            .btn-rainbow-text:hover {
+                background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+        /* --- 42. Flip Card --- */
+        .btn-flip-card {
+            background: transparent;
+            color: #fff;
+            perspective: 1000px;
+            width: 150px;
+            height: 50px;
+            padding: 0;
+        }
+
+        .btn-flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .btn-flip-card:hover .btn-flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .btn-flip-card-front, .btn-flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .btn-flip-card-front {
+            background: #3498db;
+        }
+
+        .btn-flip-card-back {
+            background: #e74c3c;
+            transform: rotateY(180deg);
+        }
+
+        /* --- 43. Flashing --- */
+        .btn-flash {
+            background: #34495e;
+            color: white;
+        }
+
+            .btn-flash:hover {
+                animation: flash 1s infinite;
+            }
+
+        @keyframes flash {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* --- 44. Wobble --- */
+        .btn-wobble {
+            background: #9b59b6;
+            color: white;
+        }
+
+            .btn-wobble:hover {
+                animation: wobble 0.8s ease-in-out;
+            }
+
+        @keyframes wobble {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            15% {
+                transform: translateX(-5px) rotate(-5deg);
+            }
+
+            30% {
+                transform: translateX(4px) rotate(3deg);
+            }
+
+            45% {
+                transform: translateX(-3px) rotate(-3deg);
+            }
+
+            60% {
+                transform: translateX(2px) rotate(2deg);
+            }
+
+            75% {
+                transform: translateX(-1px) rotate(-1deg);
+            }
+        }
+
+        /* --- 45. Typewriter --- */
+        .btn-typewriter {
+            background: #2c3e50;
+            color: #ecf0f1;
+            font-family: monospace;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3s steps(40, end) infinite alternate, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: #ecf0f1;
+            }
+        }
+
+        /* --- 46. Vibrate --- */
+        .btn-vibrate {
+            background: #e67e22;
+            color: white;
+        }
+
+            .btn-vibrate:hover {
+                animation: vibrate 0.3s linear infinite both;
+            }
+
+        @keyframes vibrate {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        /* --- 47. Squeeze --- */
+        .btn-squeeze {
+            background: #16a085;
+            color: white;
+        }
+
+            .btn-squeeze:active {
+                transform: scale(0.95);
+            }
+
+        /* --- 48. Grow Shadow --- */
+        .btn-grow-shadow {
+            background: #f39c12;
+            color: white;
+            box-shadow: 0 0 0 rgba(243, 156, 18, 0.7);
+        }
+
+            .btn-grow-shadow:hover {
+                box-shadow: 0 10px 20px rgba(243, 156, 18, 0.7);
+            }
+
+        /* --- 49. Door Close --- */
+        .btn-door-close {
+            background: #d35400;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-door-close::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #e67e22;
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.5s ease;
+                z-index: -1;
+            }
+
+            .btn-door-close:hover::before {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+        /* --- 50. Curtain Reveal --- */
+        .btn-curtain {
+            background: #8e44ad;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-curtain::before,
+            .btn-curtain::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: 50%;
+                height: 100%;
+                background: #9b59b6;
+                transition: transform 0.5s ease;
+                z-index: -1;
+            }
+
+            .btn-curtain::before {
+                left: 0;
+                transform-origin: left;
+            }
+
+            .btn-curtain::after {
+                right: 0;
+                transform-origin: right;
+            }
+
+            .btn-curtain:hover::before {
+                transform: translateX(-100%);
+            }
+
+            .btn-curtain:hover::after {
+                transform: translateX(100%);
+            }
+    </style>
+</head>
+<body>
+    <h1>50+ Unique Button Styles</h1>
+    <div class="container">
+        <button class="btn btn-gradient">Simple Gradient</button>
+        <button class="btn btn-animated-border">Animated Border</button>
+        <button class="btn btn-fill">Fill Effect</button>
+        <button class="btn btn-shimmer">Shimmer</button>
+        <button class="btn btn-icon-transform"><i class="fas fa-star"></i> Icon Transform</button>
+        <button class="btn btn-shadow-lift">Shadow Lift</button>
+        <button class="btn btn-corner-folded">Corner Folded</button>
+        <button class="btn btn-pulse">Pulse</button>
+        <button class="btn btn-flip-text"><span>Flip Text</span></button>
+        <button class="btn btn-jelly">Jelly Bounce</button>
+        <button class="btn btn-underline-reveal">Underline Reveal</button>
+        <button class="btn btn-diagonal-slide"><span>Diagonal Slide</span></button>
+        <button class="btn btn-glitch">Glitch</button>
+        <button class="btn btn-liquid">Liquid Fill</button>
+        <button class="btn btn-neon-glow">Neon Glow</button>
+        <button class="btn btn-morph">Morph Shape</button>
+        <button class="btn btn-expand-border">Expand Border</button>
+        <button class="btn btn-text-swap">
+            <span class="default">Default Text</span>
+            <span class="hover">Hover Text</span>
+        </button>
+        <button class="btn btn-split-line">Split Line</button>
+        <button class="btn btn-holo">Holographic</button>
+        <button class="btn btn-dot-trail" id="dotTrailBtn">Dot Trail</button>
+        <button class="btn btn-inset-shadow">Inset Shadow</button>
+        <button class="btn btn-fade-bg">Fade Background</button>
+        <button class="btn btn-rotate-icon"><i class="fas fa-sync-alt"></i> Rotate Icon</button>
+        <button class="btn btn-elastic">Elastic Stretch</button>
+        <button class="btn btn-floating-letters"><span>F</span><span>l</span><span>o</span><span>a</span><span>t</span></button>
+        <button class="btn btn-gradient-border">Gradient Border</button>
+        <button class="btn btn-spotlight">Spotlight</button>
+        <button class="btn btn-pixelate">Pixelate</button>
+        <button class="btn btn-origami">Origami Fold</button>
+        <button class="btn btn-magnetic" id="magneticBtn">Magnetic Pull</button>
+        <button class="btn btn-blur-in">Blur In</button>
+        <button class="btn btn-layered-shadow">Layered Shadow</button>
+        <button class="btn btn-skew-hover">Skew Hover</button>
+        <button class="btn btn-color-shift">Color Shift</button>
+        <button class="btn btn-heartbeat">Heartbeat</button>
+        <button class="btn btn-text-outline">Text Outline</button>
+        <button class="btn btn-dashed">Dashed Border</button>
+        <button class="btn btn-inner-glow">Inner Glow</button>
+        <button class="btn btn-retro">Retro Scanlines</button>
+        <button class="btn btn-rainbow-text">Rainbow Text</button>
+
+        <!-- Flip Card needs special structure -->
+        <div class="btn btn-flip-card">
+            <div class="btn-flip-card-inner">
+                <div class="btn-flip-card-front">Front</div>
+                <div class="btn-flip-card-back">Back</div>
+            </div>
+        </div>
+
+        <button class="btn btn-flash">Flashing</button>
+        <button class="btn btn-wobble">Wobble</button>
+        <button class="btn btn-typewriter">Typewriter</button>
+        <button class="btn btn-vibrate">Vibrate</button>
+        <button class="btn btn-squeeze">Squeeze</button>
+        <button class="btn btn-grow-shadow">Grow Shadow</button>
+        <button class="btn btn-door-close">Door Close</button>
+        <button class="btn btn-curtain">Curtain Reveal</button>
+    </div>
+
+    <script>
+        // --- Dot Trail Interaction ---
+        document.getElementById('dotTrailBtn').addEventListener('mousemove', (e) => {
+            const btn = e.currentTarget;
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+
+            btn.appendChild(dot);
+
+            setTimeout(() => {
+                dot.remove();
+            }, 1000);
+        });
+
+        // --- Magnetic Pull Interaction ---
+        const magneticBtn = document.getElementById('magneticBtn');
+        magneticBtn.addEventListener('mousemove', (e) => {
+            const btnRect = magneticBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const deltaX = mouseX - btnCenterX;
+            const deltaY = mouseY - btnCenterY;
+
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const maxDistance = 150;
+
+            if (distance < maxDistance) {
+                const moveX = (deltaX / maxDistance) * 10;
+                const moveY = (deltaY / maxDistance) * 10;
+                magneticBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+
+        magneticBtn.addEventListener('mouseleave', () => {
+            magneticBtn.style.transform = 'translate(0, 0)';
+        });
+
+    </script>
+</body>
+</html>  
