@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberDeck Terminal UI - Enhanced</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --terminal-bg: #0a0a0a;
+            --terminal-text: #c0c0c0; /* Silver/Grey */
+            --terminal-highlight-green: #33ff33; /* Classic Green */
+            --terminal-highlight-amber: #ffbb00; /* Amber */
+            --terminal-border: #444;
+            --terminal-border-active: #33ff33;
+            --terminal-border-warning: #ffbb00;
+            --terminal-glow-green: 0 0 8px var(--terminal-highlight-green);
+            --terminal-glow-amber: 0 0 8px var(--terminal-highlight-amber);
+            --terminal-input-bg: #111;
+            --terminal-scrollbar-thumb: #333;
+            --terminal-scrollbar-track: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image: radial-gradient(circle at 10% 20%, rgba(51, 255, 51, 0.05) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(255, 187, 0, 0.05) 0%, transparent 20%);
+            background-size: cover;
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 750px; /* Slightly wider */
+            border: 1px solid var(--terminal-border);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            background-color: rgba(10, 10, 10, 0.9);
+            position: relative;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--terminal-scrollbar-track);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--terminal-scrollbar-thumb);
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+
+        /* Title Bar */
+        .title-bar {
+            background-color: #222;
+            color: var(--terminal-text);
+            padding: 8px 15px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+
+        .title-bar-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .title-bar-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #000;
+        }
+
+        .close-btn {
+            background-color: #ff5f57;
+        }
+
+        .minimize-btn {
+            background-color: #febc2e;
+        }
+
+        .maximize-btn {
+            background-color: #28c840;
+        }
+
+        /* Terminal Content */
+        .terminal-content {
+            padding: 25px;
+        }
+
+        .terminal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+            .terminal-header h1 {
+                font-size: 24px;
+                letter-spacing: 2px;
+                margin-bottom: 8px;
+                color: var(--terminal-highlight-green);
+                text-shadow: var(--terminal-glow-green);
+            }
+
+            .terminal-header p {
+                font-size: 14px;
+                color: var(--terminal-text);
+            }
+
+        .section-title {
+            font-size: 16px;
+            color: var(--terminal-highlight-amber);
+            margin: 25px 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-label {
+            position: absolute;
+            top: 15px;
+            left: 12px;
+            font-size: 14px;
+            color: var(--terminal-text);
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-field, .custom-textarea, .custom-select-native {
+            width: 100%;
+            padding: 15px 12px 8px;
+            background-color: var(--terminal-input-bg);
+            border: 1px solid var(--terminal-border);
+            border-radius: 0; /* Sharp edges */
+            color: var(--terminal-text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: none; /* Instant feedback */
+        }
+
+            .input-field:focus, .custom-textarea:focus, .custom-select-native:focus {
+                border-color: var(--terminal-border-active);
+                box-shadow: var(--terminal-glow-green), inset 0 0 5px rgba(0, 0, 0, 0.5);
+            }
+
+                /* Label float effect */
+                .input-field:focus + .input-label,
+                .input-field:not(:placeholder-shown) + .input-label,
+                .custom-textarea:focus + .input-label,
+                .custom-textarea:not(:placeholder-shown) + .input-label {
+                    top: 2px;
+                    left: 12px;
+                    font-size: 11px;
+                    color: var(--terminal-highlight-green);
+                    text-shadow: var(--terminal-glow-green);
+                }
+
+        .custom-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Custom Select (Simple version matching terminal style) */
+        .custom-select-wrapper {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            padding: 15px 35px 8px 12px;
+            background-color: var(--terminal-input-bg);
+            border: 1px solid var(--terminal-border);
+            border-radius: 0;
+            color: var(--terminal-text);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            text-align: left;
+            width: 100%;
+            min-height: 50px; /* Prevent collapse */
+        }
+
+            .custom-select-trigger::after {
+                content: "▼";
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--terminal-text);
+                font-size: 10px;
+            }
+
+        .custom-select-wrapper.focus .custom-select-trigger {
+            border-color: var(--terminal-border-active);
+            box-shadow: var(--terminal-glow-green);
+        }
+
+
+        /* Number Input Specific Styling */
+        /* Chrome, Safari, Edge, Opera */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+
+        /* Checkbox & Radio */
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+            .checkbox-group label, .radio-group label {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                cursor: pointer;
+                position: relative;
+                padding-left: 30px;
+                min-height: 25px; /* Prevent collapse */
+            }
+
+            .checkbox-group input[type="checkbox"],
+            .radio-group input[type="radio"] {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        .checkmark, .radiomark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 18px;
+            width: 18px;
+            background-color: var(--terminal-input-bg);
+            border: 1px solid var(--terminal-border);
+            transition: none;
+        }
+
+        .checkmark {
+            border-radius: 0; /* Square */
+        }
+
+        .radio-group .checkmark {
+            border-radius: 50%; /* Circle */
+        }
+
+        /* Hover */
+        .checkbox-group label:hover .checkmark,
+        .radio-group label:hover .radiomark {
+            border-color: var(--terminal-highlight-green);
+            box-shadow: var(--terminal-glow-green);
+        }
+
+        /* Checked */
+        .checkbox-group input:checked ~ .checkmark,
+        .radio-group input:checked ~ .radiomark {
+            background-color: var(--terminal-highlight-green);
+            border-color: var(--terminal-highlight-green);
+            box-shadow: var(--terminal-glow-green);
+        }
+
+        /* Checkmark indicator */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #000;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-group input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Radio indicator */
+        .radio-group .radiomark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #000;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-group input:checked ~ .radiomark:after {
+            display: block;
+        }
+
+        /* Slider */
+        .slider-container {
+            margin-top: 10px;
+        }
+
+            .slider-container label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 13px;
+                color: var(--terminal-text);
+            }
+
+            .slider-container span {
+                color: var(--terminal-highlight-amber);
+                font-weight: bold;
+            }
+
+            .slider-container input[type="range"] {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 4px;
+                border-radius: 0;
+                background: #333;
+                outline: none;
+            }
+
+                .slider-container input[type="range"]::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 0;
+                    background: var(--terminal-highlight-green);
+                    cursor: pointer;
+                    box-shadow: var(--terminal-glow-green);
+                    border: 1px solid #000;
+                }
+
+        /* Color Picker */
+        .input-field[type="color"] {
+            height: 45px;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+            .input-field[type="color"]::-webkit-color-swatch-wrapper {
+                padding: 0;
+            }
+
+            .input-field[type="color"]::-webkit-color-swatch {
+                border: 1px solid var(--terminal-border);
+            }
+
+        /* *** NEW CONTROLS STYLING *** */
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Increased size */
+            height: 24px;
+            flex-shrink: 0; /* Prevent shrinking in flex container */
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333; /* Off state */
+            border: 1px solid var(--terminal-border);
+            transition: .2s;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 18px; /* Adjusted */
+                width: 18px; /* Adjusted */
+                left: 2px; /* Adjusted */
+                bottom: 2px; /* Adjusted */
+                background-color: var(--terminal-text);
+                transition: .2s;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: var(--terminal-highlight-green);
+            box-shadow: var(--terminal-glow-green);
+            border-color: var(--terminal-border-active);
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(26px); /* Adjusted for new width */
+                background-color: #000;
+            }
+
+        .toggle-switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between switch and label */
+            margin-top: 5px; /* Align with other inputs if needed */
+        }
+
+            .toggle-switch-container .input-label {
+                position: static; /* Override absolute positioning */
+                font-size: 14px;
+                color: var(--terminal-text);
+                pointer-events: none;
+                transition: none;
+                margin: 0;
+                padding: 0;
+            }
+
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #333;
+            border: 1px solid var(--terminal-border);
+            border-radius: 0;
+            overflow: hidden;
+            height: 20px;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--terminal-highlight-green);
+            box-shadow: var(--terminal-glow-green);
+            transition: width 0.5s ease-in-out;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+
+        /* File Upload */
+        .file-upload-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-trigger {
+            display: block;
+            width: 100%;
+            padding: 15px 12px;
+            background-color: var(--terminal-input-bg);
+            border: 1px solid var(--terminal-border);
+            border-radius: 0;
+            color: var(--terminal-text);
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            min-height: 50px; /* Prevent collapse */
+        }
+
+            .file-upload-trigger:hover {
+                border-color: var(--terminal-border-active);
+                box-shadow: var(--terminal-glow-green);
+            }
+
+            .file-upload-trigger i {
+                margin-right: 8px;
+            }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-name {
+            font-size: 12px;
+            margin-top: 5px;
+            color: var(--terminal-highlight-amber);
+            word-break: break-all; /* Handle long names */
+        }
+
+
+        /* Date Picker (Styling native one to fit theme) */
+        .input-field[type="date"] {
+            appearance: none; /* Remove default styling where possible */
+            /* Note: Full styling of date picker is complex due to browser differences */
+        }
+
+            .input-field[type="date"]::-webkit-calendar-picker-indicator {
+                filter: invert(1); /* Make calendar icon visible on dark bg */
+                cursor: pointer;
+            }
+
+
+        /* List Box (Multi-select) */
+        .custom-listbox {
+            width: 100%;
+            background-color: var(--terminal-input-bg);
+            border: 1px solid var(--terminal-border);
+            border-radius: 0;
+            color: var(--terminal-text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            min-height: 100px; /* Prevent collapse */
+            padding: 5px;
+        }
+
+            .custom-listbox option {
+                background-color: var(--terminal-input-bg);
+                color: var(--terminal-text);
+                padding: 5px;
+            }
+
+                .custom-listbox option:checked {
+                    background-color: var(--terminal-highlight-green);
+                    color: #000;
+                }
+
+            .custom-listbox:focus {
+                border-color: var(--terminal-border-active);
+                box-shadow: var(--terminal-glow-green), inset 0 0 5px rgba(0, 0, 0, 0.5);
+            }
+
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: transparent;
+            color: var(--terminal-highlight-green);
+            border: 1px solid var(--terminal-border);
+            border-radius: 0;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: none;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-submit:hover {
+                background-color: rgba(51, 255, 51, 0.1);
+                border-color: var(--terminal-border-active);
+                box-shadow: var(--terminal-glow-green);
+                color: white;
+            }
+
+        /* Status Bar */
+        .status-bar {
+            background-color: #222;
+            color: var(--terminal-text);
+            padding: 6px 15px;
+            font-size: 12px;
+            border-top: 1px solid var(--terminal-border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #555;
+        }
+
+            .status-indicator.active {
+                background-color: var(--terminal-highlight-green);
+                box-shadow: var(--terminal-glow-green);
+            }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .terminal-content {
+                padding: 15px;
+            }
+
+            .terminal-header h1 {
+                font-size: 20px;
+            }
+
+            .terminal-window {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-window">
+        <div class="title-bar">
+            <div>NEURAL_LINK_CONFIG.exe</div>
+            <div class="title-bar-controls">
+                <div class="title-bar-btn close-btn"></div>
+                <div class="title-bar-btn minimize-btn"></div>
+                <div class="title-bar-btn maximize-btn"></div>
+            </div>
+        </div>
+
+        <div class="terminal-content">
+            <div class="terminal-header">
+                <h1>> INITIATE CYBERDECK CONFIG //</h1>
+                <p>Establishing secure connection to mainframe... v2.1</p> <!-- Updated -->
+            </div>
+
+            <form id="terminalForm">
+                <!-- Section 1: Credentials -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-user-lock"></i> ACCESS CREDENTIALS</div>
+
+                    <div class="input-group">
+                        <input type="text" id="handle" class="input-field" placeholder=" " required />
+                        <label for="handle" class="input-label">USER HANDLE</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="passphrase" class="input-field" placeholder=" " required />
+                        <label for="passphrase" class="input-label">PASSPHRASE</label>
+                    </div>
+                </div>
+
+                <!-- Section 2: Node Info -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-server"></i> NODE INFORMATION</div>
+
+                    <div class="input-group">
+                        <div class="custom-select-wrapper">
+                            <select class="custom-select-native" id="node-location">
+                                <option value="">SELECT NODE</option>
+                                <option value="neo-tokyo">Neo-Tokyo Hub</option>
+                                <option value="atlanta-underground">Atlanta Underground</option>
+                                <option value="europa-station">Europa Ice Station</option>
+                                <option value="lunar-gateway">Lunar Gateway Outpost</option> <!-- New Option -->
+                            </select>
+                            <div class="custom-select-trigger">SELECT NODE</div>
+                            <label class="input-label">PRIMARY NODE LOCATION</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Preferences -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-cogs"></i> SYSTEM PREFERENCES</div>
+
+                    <div class="input-group">
+                        <div class="slider-container">
+                            <label for="data-throttle">DATA THROTTLE: <span id="throttle-value">75</span>%</label>
+                            <input type="range" id="data-throttle" class="input-field" min="0" max="100" value="75">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">SECURITY PROTOCOL</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="security" value="stealth" checked><span class="radiomark"></span> STEALTH MODE</label>
+                            <label><input type="radio" name="security" value="fortress"><span class="radiomark"></span> FORTRESS MODE</label>
+                            <label><input type="radio" name="security" value="phantom"><span class="radiomark"></span> PHANTOM MODE</label> <!-- New Option -->
+                        </div>
+                    </div>
+
+                    <!-- *** PREVIOUSLY ADDED CONTROLS *** -->
+                    <!-- Color Picker -->
+                    <div class="input-group">
+                        <label for="accent-color" class="input-label">ACCENT COLOR</label>
+                        <input type="color" id="accent-color" class="input-field" value="#33ff33">
+                    </div>
+
+                    <!-- Checkbox Group -->
+                    <div class="input-group">
+                        <label class="input-label">EXTRA OPTIONS</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="options" value="auto-connect"><span class="checkmark"></span> AUTO-CONNECT ON BOOT</label>
+                            <label><input type="checkbox" name="options" value="log-activity"><span class="checkmark"></span> LOG ALL ACTIVITY</label>
+                            <label><input type="checkbox" name="options" value="encrypt-cache"><span class="checkmark"></span> ENCRYPT CACHE</label>
+                            <label><input type="checkbox" name="options" value="ghost-net"><span class="checkmark"></span> GHOST NETWORK ENABLED</label> <!-- New Option -->
+                        </div>
+                    </div>
+                    <!-- *** END OF PREVIOUSLY ADDED CONTROLS *** -->
+                    <!-- *** NEW CONTROLS ADDED HERE *** -->
+                    <!-- Toggle Switch -->
+                    <div class="input-group">
+                        <label class="input-label">ADVANCED FEATURES</label>
+                        <div class="toggle-switch-container">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="advanced-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="input-label">ENABLE NEURAL LINK OVERCLOCK</span>
+                        </div>
+                    </div>
+
+                    <!-- Date Picker -->
+                    <div class="input-group">
+                        <input type="date" id="maintenance-date" class="input-field">
+                        <label for="maintenance-date" class="input-label">SCHEDULED MAINTENANCE DATE</label>
+                    </div>
+
+                    <!-- File Upload -->
+                    <div class="input-group">
+                        <div class="file-upload-container">
+                            <div class="file-upload-trigger">
+                                <i class="fas fa-cloud-upload-alt"></i> UPLOAD CONFIGURATION FILE (.cfg)
+                            </div>
+                            <input type="file" id="config-file" class="file-upload-input" accept=".cfg">
+                        </div>
+                        <div class="file-upload-name" id="file-name-display">No file chosen</div>
+                    </div>
+                    <!-- *** END OF NEW CONTROLS *** -->
+                </div>
+
+                <!-- *** PREVIOUSLY ADDED SECTION: ADVANCED CONFIGURATION *** -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-microchip"></i> ADVANCED CONFIGURATION</div>
+
+                    <!-- Custom Select Dropdown -->
+                    <div class="input-group">
+                        <div class="custom-select-wrapper">
+                            <select class="custom-select-native" id="encryption-algo">
+                                <option value="">CHOOSE ALGORITHM</option>
+                                <option value="aes-256">AES-256</option>
+                                <option value="rsa-4096">RSA-4096</option>
+                                <option value="quantum-resist">Quantum-Resistant</option>
+                                <option value="bio-lock">Bio-Metric Lock</option> <!-- New Option -->
+                            </select>
+                            <div class="custom-select-trigger">CHOOSE ALGORITHM</div>
+                            <label class="input-label">ENCRYPTION ALGORITHM</label>
+                        </div>
+                    </div>
+
+                    <!-- Number Input -->
+                    <div class="input-group">
+                        <input type="number" id="retry-attempts" class="input-field" placeholder=" " min="0" max="10" value="3" />
+                        <label for="retry-attempts" class="input-label">MAX RETRY ATTEMPTS</label>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="input-group">
+                        <span class="progress-label">SYNAPTIC ALIGNMENT STATUS</span>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="alignment-progress"></div>
+                        </div>
+                        <span class="progress-label" id="progress-percent">0%</span>
+                    </div>
+
+                    <!-- List Box -->
+                    <div class="input-group">
+                        <label class="input-label">SELECT COMPATIBLE MODULES (MULTI)</label>
+                        <select multiple class="custom-listbox" id="modules-list">
+                            <option value="neural_dampener">Neural Dampener</option>
+                            <option value="subspace_link">Subspace Link</option>
+                            <option value="data_crystal">Data Crystal Interface</option>
+                            <option value="hologram_core">Hologram Core</option>
+                            <option value="quantum_shield">Quantum Shield Generator</option>
+                            <option value="temporal_sync">Temporal Sync Module</option>
+                        </select>
+                    </div>
+
+                </div>
+                <!-- *** END OF PREVIOUSLY ADDED SECTION *** -->
+                <!-- Section 4: Message -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-terminal"></i> TERMINAL MESSAGE</div>
+
+                    <div class="input-group">
+                        <textarea id="message" class="custom-textarea" placeholder=" "></textarea>
+                        <label for="message" class="input-label">ENCRYPTED MESSAGE</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">EXECUTE PROTOCOL</button>
+            </form>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator active"></div> ONLINE
+            </div>
+            <div class="status-item">
+                <i class="fas fa-shield-alt"></i> ENCRYPTED
+            </div>
+            <div class="status-item">
+                <i class="fas fa-memory"></i> MEM OK
+            </div>
+            <div class="status-item">
+                <!-- New Status Item -->
+                <i class="fas fa-sync-alt" id="sync-icon"></i> SYNCING...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Custom Select Logic (Enhanced to handle new select) ---
+        document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+            const native = wrapper.querySelector('.custom-select-native');
+            const trigger = wrapper.querySelector('.custom-select-trigger');
+
+            function updateTriggerText() {
+                trigger.textContent = native.options[native.selectedIndex].text || 'SELECT OPTION';
+            }
+
+            trigger.addEventListener('click', () => {
+                native.focus();
+                native.click(); // Open the native dropdown
+            });
+
+            native.addEventListener('change', updateTriggerText);
+            native.addEventListener('focus', () => wrapper.classList.add('focus'));
+            native.addEventListener('blur', () => wrapper.classList.remove('focus'));
+
+            updateTriggerText(); // Initial update
+        });
+
+        // --- Slider Value Display ---
+        const throttleSlider = document.getElementById('data-throttle');
+        const throttleValue = document.getElementById('throttle-value');
+        throttleSlider.addEventListener('input', function () {
+            throttleValue.textContent = this.value;
+        });
+
+        // --- File Upload Name Display ---
+        const fileInput = document.getElementById('config-file');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        fileInput.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                fileNameDisplay.textContent = this.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+            }
+        });
+
+        // --- Simulate Progress Bar Animation ---
+        function simulateProgress() {
+            const progressBar = document.getElementById('alignment-progress');
+            const progressPercent = document.getElementById('progress-percent');
+            const syncIcon = document.getElementById('sync-icon');
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    syncIcon.className = 'fas fa-check'; // Change icon when done
+                    syncIcon.style.color = '#33ff33'; // Green check
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                    progressPercent.textContent = width + '%';
+                }
+            }, 50); // Adjust speed as needed
+        }
+        // Start simulation on page load or after a delay
+        window.addEventListener('load', () => {
+            setTimeout(simulateProgress, 1000); // Start after 1 second
+        });
+
+
+        // --- Form Submission ---
+        document.getElementById('terminalForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Example of collecting data from new controls
+            const advancedToggle = document.getElementById('advanced-toggle').checked;
+            const maintenanceDate = document.getElementById('maintenance-date').value;
+            const configFile = document.getElementById('config-file').files[0];
+            const modulesSelected = Array.from(document.getElementById('modules-list').selectedOptions).map(option => option.value);
+
+            console.log('Advanced Features Enabled:', advancedToggle);
+            console.log('Maintenance Date:', maintenanceDate);
+            if (configFile) {
+                console.log('Config File Uploaded:', configFile.name);
+            } else {
+                console.log('No Config File Uploaded.');
+            }
+            console.log('Selected Modules:', modulesSelected);
+
+            alert('> PROTOCOL EXECUTION ACKNOWLEDGED. ACCESS GRANTED. CONFIGURING...');
+            // Add your actual form submission logic here
+        });
+    </script>
+
+</body>
+</html>  

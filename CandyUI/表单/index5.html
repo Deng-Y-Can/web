@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Cyber Form v2.0 - Form 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-primary: #8a2be2; /* Blue Violet */
+            --neon-secondary: #00f3ff; /* Cyan */
+            --neon-accent: #ff2afa; /* Magenta */
+            --neon-glow-primary: rgba(138, 43, 226, 0.6);
+            --neon-glow-secondary: rgba(0, 243, 255, 0.5);
+            --neon-glow-accent: rgba(255, 42, 250, 0.5);
+            --glass-bg: rgba(10, 8, 20, 0.65);
+            --glass-border: rgba(138, 43, 226, 0.3);
+            --text-primary: #e0e0ff;
+            --text-placeholder: #7a70a0;
+            --input-bg: rgba(20, 18, 35, 0.7);
+            --input-border: rgba(100, 80, 180, 0.4);
+            --input-focus-glow-primary: 0 0 12px var(--neon-glow-primary), inset 0 0 8px var(--neon-glow-primary);
+            --input-focus-glow-secondary: 0 0 12px var(--neon-glow-secondary), inset 0 0 8px var(--neon-glow-secondary);
+            --input-focus-glow-accent: 0 0 12px var(--neon-glow-accent), inset 0 0 8px var(--neon-glow-accent);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #050310;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+            /* Scanline overlay */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient( to bottom, transparent, transparent 2px, rgba(0, 243, 255, 0.03) 2px, rgba(0, 243, 255, 0.03) 3px );
+                pointer-events: none;
+                z-index: 10;
+                animation: scanline 8s linear infinite;
+            }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px; /* Slightly wider for more complex layout */
+            z-index: 20;
+        }
+
+        .form-glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 45px 40px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: visible;
+            transition: box-shadow 0.4s ease;
+        }
+
+            .form-glass-card:hover {
+                box-shadow: 0 0 40px rgba(138, 43, 226, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.2);
+            }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+            .form-header h2 {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 32px;
+                font-weight: 700;
+                background: linear-gradient(90deg, var(--neon-primary), var(--neon-secondary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+
+            .form-header p {
+                color: var(--text-placeholder);
+                font-size: 15px;
+                letter-spacing: 0.5px;
+            }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--neon-secondary);
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+            .section-title i.fa-key {
+                color: var(--neon-primary);
+            }
+
+            .section-title i.fa-id-card {
+                color: var(--neon-secondary);
+            }
+
+            .section-title i.fa-sliders {
+                color: var(--neon-accent);
+            }
+
+            .section-title i.fa-image {
+                color: var(--neon-primary);
+            }
+
+            .section-title i.fa-list {
+                color: var(--neon-secondary);
+            }
+
+            .section-title i.fa-comment {
+                color: var(--neon-accent);
+            }
+
+        .input-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .input-field, .custom-textarea, .custom-select-native {
+            width: 100%;
+            padding: 18px 16px 10px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+            .input-field:focus, .custom-textarea:focus, .custom-select-native:focus {
+                /* Default focus glow, can be overridden per element */
+                border-color: var(--neon-primary);
+                box-shadow: var(--input-focus-glow-primary);
+            }
+
+        /* Specific focus glows */
+        #username:focus, #email:focus, #birthdate:focus, #avatar:focus {
+            box-shadow: var(--input-focus-glow-primary);
+            border-color: var(--neon-primary);
+        }
+
+        #password:focus, #confirm-password:focus, #country:focus, #volume:focus, #theme-color:focus {
+            box-shadow: var(--input-focus-glow-secondary);
+            border-color: var(--neon-secondary);
+        }
+
+        #bio:focus {
+            box-shadow: var(--input-focus-glow-accent);
+            border-color: var(--neon-accent);
+        }
+
+
+        .input-label {
+            position: absolute;
+            top: 18px;
+            left: 16px;
+            color: var(--text-placeholder);
+            font-size: 15px;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label,
+        .custom-textarea:focus + .input-label,
+        .custom-textarea:not(:placeholder-shown) + .input-label {
+            top: 6px;
+            left: 12px;
+            font-size: 12px;
+            color: var(--neon-secondary);
+            background: var(--glass-bg);
+            padding: 0 5px;
+            border-radius: 4px;
+        }
+
+        /* Custom Textarea */
+        .custom-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Custom Select */
+        .custom-select-wrapper {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            padding: 18px 40px 10px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 15px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+            .custom-select-trigger:hover,
+            .custom-select-wrapper.focus .custom-select-trigger {
+                border-color: var(--neon-primary);
+                box-shadow: var(--input-focus-glow-primary);
+            }
+
+            .custom-select-trigger::after {
+                content: "▼";
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--neon-secondary);
+                font-size: 12px;
+                font-family: Arial, sans-serif;
+            }
+
+        .custom-select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--neon-primary);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .custom-select-wrapper.open .custom-select-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-select-option {
+            padding: 14px 16px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+            .custom-select-option:hover,
+            .custom-select-option.selected {
+                background: rgba(138, 43, 226, 0.2);
+                color: white;
+            }
+
+        /* Checkbox & Radio Groups */
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+            .checkbox-group label, .radio-group label {
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+                cursor: pointer;
+                position: relative;
+                padding-left: 35px;
+            }
+
+            .checkbox-group input[type="checkbox"],
+            .radio-group input[type="radio"] {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        .checkmark, .radiomark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 22px;
+            width: 22px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 4px; /* Square for checkbox */
+            transition: all 0.3s ease;
+        }
+
+        .radio-group .checkmark {
+            border-radius: 50%; /* Circle for radio */
+        }
+
+        /* On mouse-over */
+        .checkbox-group label:hover .checkmark,
+        .radio-group label:hover .radiomark {
+            box-shadow: 0 0 8px var(--neon-glow-primary);
+            border-color: var(--neon-primary);
+        }
+
+        /* When checked */
+        .checkbox-group input:checked ~ .checkmark,
+        .radio-group input:checked ~ .radiomark {
+            background-color: var(--neon-primary);
+            border-color: var(--neon-primary);
+        }
+
+        /* Checkmark/indicator (hidden when not checked) */
+        .checkmark:after, .radiomark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .checkbox-group input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .checkbox-group .checkmark:after {
+            left: 8px;
+            top: 4px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Show the indicator when checked */
+        .radio-group input:checked ~ .radiomark:after {
+            display: block;
+        }
+
+        /* Style the indicator */
+        .radio-group .radiomark:after {
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            transform: translate(-50%, -50%);
+        }
+
+
+        /* File Upload Area */
+        .file-upload-area {
+            padding: 30px;
+            border: 2px dashed var(--neon-primary);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(20, 18, 35, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .file-upload-area:hover {
+                background: rgba(30, 25, 50, 0.7);
+                border-color: var(--neon-secondary);
+                box-shadow: 0 0 15px var(--neon-glow-primary);
+            }
+
+            .file-upload-area.dragover {
+                background: rgba(40, 30, 70, 0.8);
+                border-color: var(--neon-accent);
+                box-shadow: 0 0 20px var(--neon-glow-accent);
+            }
+
+        .file-upload-icon {
+            font-size: 36px;
+            color: var(--neon-primary);
+            margin-bottom: 10px;
+        }
+
+        .file-upload-area:hover .file-upload-icon {
+            color: var(--neon-secondary);
+        }
+
+        #file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #file-name {
+            font-size: 14px;
+            color: var(--text-placeholder);
+            margin-top: 10px;
+            word-break: break-all;
+        }
+
+        #file-preview-container {
+            margin-top: 15px;
+            display: none; /* Hidden by default */
+        }
+
+        #file-preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+
+        /* Slider Container */
+        .slider-container {
+            margin-top: 10px;
+        }
+
+            .slider-container label {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 14px;
+                color: var(--text-placeholder);
+            }
+
+            .slider-container span {
+                color: var(--neon-secondary);
+                font-weight: bold;
+            }
+
+            .slider-container input[type="range"] {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background: linear-gradient(to right, var(--neon-primary), var(--neon-secondary));
+                outline: none;
+            }
+
+                .slider-container input[type="range"]::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    background: white;
+                    cursor: pointer;
+                    box-shadow: 0 0 10px var(--neon-glow-primary);
+                }
+
+        /* Color Picker */
+        .input-field[type="color"] {
+            height: 55px;
+            padding: 5px;
+        }
+
+            .input-field[type="color"]::-webkit-color-swatch-wrapper {
+                padding: 0;
+            }
+
+            .input-field[type="color"]::-webkit-color-swatch {
+                border: none;
+                border-radius: 8px;
+            }
+
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: transparent;
+            color: var(--neon-secondary);
+            border: 2px solid var(--neon-primary);
+            border-radius: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            margin-top: 20px;
+        }
+
+            .btn-submit::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, var(--neon-glow-primary), transparent);
+                transition: 0.8s;
+            }
+
+            .btn-submit:hover {
+                box-shadow: 0 0 20px var(--neon-glow-primary);
+                color: white;
+            }
+
+                .btn-submit:hover::before {
+                    left: 100%;
+                }
+
+        @media (max-width: 650px) {
+            .form-glass-card {
+                padding: 35px 25px;
+            }
+
+            .form-header h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="form-container">
+        <div class="form-glass-card">
+            <div class="form-header">
+                <h2>Neural Interface Config v1.0</h2>
+                <p>Initialize and calibrate system parameters</p>
+            </div>
+            <form id="fullConfigForm">
+
+                <!-- Section 1: Credentials -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-key"></i> AUTHENTICATION</div>
+
+                    <div class="input-group">
+                        <input type="text" id="username" class="input-field" placeholder=" " required />
+                        <label for="username" class="input-label">USERNAME</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" id="email" class="input-field" placeholder=" " required />
+                        <label for="email" class="input-label">EMAIL ADDRESS</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="password" class="input-field" placeholder=" " required />
+                        <label for="password" class="input-label">SECURE PASSWORD</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" class="input-field" placeholder=" " required />
+                        <label for="confirm-password" class="input-label">CONFIRM PASSWORD</label>
+                    </div>
+                </div>
+
+                <!-- Section 2: Personal Info -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-id-card"></i> PERSONAL DATA</div>
+
+                    <div class="input-group">
+                        <input type="date" id="birthdate" class="input-field" />
+                        <label for="birthdate" class="input-label">DATE OF BIRTH</label>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="custom-select-wrapper" id="countrySelectWrapper">
+                            <select class="custom-select-native" id="country">
+                                <option value="">SELECT YOUR REGION</option>
+                                <option value="earth">Earth</option>
+                                <option value="mars">Mars Colony</option>
+                                <option value="titan">Titan Outpost</option>
+                                <option value="cybertron">Cybertron (Exile)</option>
+                            </select>
+                            <div class="custom-select-trigger">SELECT YOUR REGION</div>
+                            <div class="custom-select-dropdown">
+                                <div class="custom-select-option" data-value="">SELECT YOUR REGION</div>
+                                <div class="custom-select-option" data-value="earth">Earth</div>
+                                <div class="custom-select-option" data-value="mars">Mars Colony</div>
+                                <div class="custom-select-option" data-value="titan">Titan Outpost</div>
+                                <div class="custom-select-option" data-value="cybertron">Cybertron (Exile)</div>
+                            </div>
+                            <label class="input-label">PLANETARY AFFILIATION</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: System Settings -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-sliders"></i> SYSTEM PARAMETERS</div>
+
+                    <div class="input-group">
+                        <div class="slider-container">
+                            <label for="volume">AUDIO LEVEL: <span id="volume-value">50</span>%</label>
+                            <input type="range" id="volume" class="input-field" min="0" max="100" value="50">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="theme-color" class="input-label" style="position: static; margin-bottom: 8px;">UI TINT COLOR</label>
+                        <input type="color" id="theme-color" class="input-field" value="#8a2be2">
+                    </div>
+                </div>
+
+                <!-- Section 4: Media -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-image"></i> AVATAR UPLOAD</div>
+
+                    <div class="input-group">
+                        <div class="file-upload-area" id="upload-area">
+                            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                            <p>DRAG & DROP YOUR IMAGE HERE OR CLICK TO BROWSE</p>
+                            <input type="file" id="file-input" accept="image/*">
+                            <p id="file-name">NO FILE SELECTED</p>
+                            <div id="file-preview-container">
+                                <img id="file-preview-image" src="" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Preferences -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-list"></i> USER PREFERENCES</div>
+
+                    <div class="input-group">
+                        <label class="input-label">CORE INTERESTS</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="interests" value="ai"><span class="checkmark"></span> Artificial Intelligence</label>
+                            <label><input type="checkbox" name="interests" value="quantum"><span class="checkmark"></span> Quantum Mechanics</label>
+                            <label><input type="checkbox" name="interests" value="cybernetics"><span class="checkmark"></span> Cybernetics</label>
+                            <label><input type="checkbox" name="interests" value="astro"><span class="checkmark"></span> Astrophysics</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">IDENTITY PROTOCOL</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="identity" value="corp"><span class="radiomark"></span> Corporate Drone</label>
+                            <label><input type="radio" name="identity" value="freelancer"><span class="radiomark"></span> Freelance Operative</label>
+                            <label><input type="radio" name="identity" value="ghost"><span class="radiomark"></span> Ghost in the Machine</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Bio -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-comment"></i> NEURAL PROFILE</div>
+
+                    <div class="input-group">
+                        <textarea id="bio" class="custom-textarea" placeholder=" "></textarea>
+                        <label for="bio" class="input-label">PERSONAL MANTRA / BIO</label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit">CALIBRATE & DEPLOY</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // --- Particles.js Background ---
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ["#8a2be2", "#00f3ff", "#ff2afa"] }, // Added accent color
+                shape: { type: "circle" },
+                opacity: { value: 0.6, random: true },
+                size: { value: 2, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#8a2be2",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out"
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.4 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // --- Custom Select Logic (Simplified) ---
+        document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+            const native = wrapper.querySelector('.custom-select-native');
+            const trigger = wrapper.querySelector('.custom-select-trigger');
+            const dropdown = wrapper.querySelector('.custom-select-dropdown');
+            const options = wrapper.querySelectorAll('.custom-select-option');
+
+            function update() {
+                trigger.textContent = native.options[native.selectedIndex].text || 'SELECT OPTION';
+                options.forEach(opt => opt.classList.toggle('selected', opt.dataset.value === native.value));
+                wrapper.classList.toggle('has-value', !!native.value);
+            }
+
+            trigger.addEventListener('click', () => wrapper.classList.toggle('open'));
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    native.value = opt.dataset.value;
+                    update();
+                    native.dispatchEvent(new Event('change')); // Trigger change event if needed elsewhere
+                    wrapper.classList.remove('open');
+                });
+            });
+            native.addEventListener('change', update);
+            native.addEventListener('focus', () => wrapper.classList.add('focus'));
+            native.addEventListener('blur', () => wrapper.classList.remove('focus'));
+
+            document.addEventListener('click', e => {
+                if (!wrapper.contains(e.target)) wrapper.classList.remove('open');
+            });
+
+            update(); // Initial update
+        });
+
+
+        // --- Slider Value Display ---
+        const volumeSlider = document.getElementById('volume');
+        const volumeValue = document.getElementById('volume-value');
+        volumeSlider.addEventListener('input', function () {
+            volumeValue.textContent = this.value;
+        });
+
+
+        // --- File Upload with Drag & Drop and Preview ---
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const previewContainer = document.getElementById('file-preview-container');
+        const previewImage = document.getElementById('file-preview-image');
+
+        // Click to browse
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Drag & Drop events
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.remove('dragover');
+            });
+        });
+
+        // Handle dropped files
+        uploadArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        });
+
+        // Handle selected files (from click or drop)
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length === 0) return;
+
+            const file = files[0];
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file.');
+                return;
+            }
+
+            fileNameDisplay.textContent = file.name;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+
+        // --- Form Submission ---
+        document.getElementById('fullConfigForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Basic validation example
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            alert('CONFIGURATION ACCEPTED. NEURAL LINK ESTABLISHED.');
+            // Here you would typically send the data to a server
+        });
+    </script>
+</body>
+</html>  

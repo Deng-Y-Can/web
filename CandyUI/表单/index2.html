@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuraLink Setup – Minimal Future</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            /* 主题色板 */
+            --color-background: #0f172a; /* 深蓝灰 */
+            --color-surface: #1e293b; /* 表面层 */
+            --color-on-surface: #f1f5f9; /* 表面文字 */
+            --color-on-surface-variant: #94a3b8; /* 次要文字 */
+            --color-primary: #818cf8; /* 主色紫蓝 */
+            --color-primary-container: #4f46e5; /* 主色容器 */
+            --color-on-primary-container: #ffffff; /* 主色容器文字 */
+            --color-outline: #475569; /* 边框线 */
+            --color-error: #ef4444; /* 错误色 */
+            /* 形状与尺寸 */
+            --shape-corner-extra-large: 28px;
+            --shape-corner-large: 16px;
+            --shape-corner-medium: 12px;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            /* 动画 */
+            --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+            --motion-duration-short: 150ms;
+            --motion-duration-medium: 250ms;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-on-surface);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-4);
+        }
+
+        /* 卡片容器 */
+        .setup-card {
+            width: 100%;
+            max-width: 560px; /* 稍微窄一些，更聚焦 */
+            background-color: var(--color-surface);
+            border-radius: var(--shape-corner-extra-large);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 2 * var(--space-4)); /* 响应式最大高度 */
+        }
+
+        /* 头部 */
+        .card-header {
+            padding: var(--space-8) var(--space-6) var(--space-4);
+            text-align: center;
+            background: linear-gradient(120deg, #312e81, #4338ca); /* 微妙的顶部渐变 */
+        }
+
+            .card-header h1 {
+                font-size: 1.75rem; /* 28px */
+                font-weight: 700;
+                margin-bottom: var(--space-2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-2);
+                color: var(--color-on-primary-container);
+            }
+
+            .card-header p {
+                font-size: 0.9rem; /* 14.4px */
+                color: rgba(255, 255, 255, 0.85); /* 白色带点透明度 */
+            }
+
+        /* 表单主体 - 可滚动区域 */
+        .form-section {
+            padding: var(--space-6);
+            overflow-y: auto;
+            flex-grow: 1;
+            /* 自定义滚动条 */
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-primary) var(--color-surface);
+        }
+
+            .form-section::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .form-section::-webkit-scrollbar-track {
+                background: var(--color-surface);
+                border-radius: 4px;
+            }
+
+            .form-section::-webkit-scrollbar-thumb {
+                background-color: var(--color-primary);
+                border-radius: 4px;
+                border: 1px solid var(--color-surface);
+            }
+
+                .form-section::-webkit-scrollbar-thumb:hover {
+                    background-color: #a5b4fc; /* hover 时稍亮 */
+                }
+
+        /* 分节标题 */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            margin: var(--space-6) 0 var(--space-4);
+            color: var(--color-on-surface);
+        }
+
+        /* 输入组 */
+        .input-group {
+            margin-bottom: var(--space-5);
+        }
+
+            .input-group label {
+                display: block;
+                margin-bottom: var(--space-2);
+                font-size: 0.875rem; /* 14px */
+                font-weight: 500;
+                color: var(--color-on-surface-variant);
+            }
+
+        /* 输入框容器 */
+        .input-wrapper {
+            position: relative;
+        }
+
+        /* 通用输入框样式 */
+        input, select, textarea {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-outline);
+            border-radius: var(--shape-corner-medium);
+            background-color: rgba(30, 41, 59, 0.7); /* surface 的半透明加深版 */
+            color: var(--color-on-surface);
+            font-size: 1rem;
+            transition: border-color var(--motion-duration-short) var(--motion-easing-standard), box-shadow var(--motion-duration-short) var(--motion-easing-standard);
+        }
+
+            /* 聚焦状态 */
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3); /* 主色的柔和光环 */
+            }
+
+        /* 文本域特殊处理 */
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* 选项组 (Radio/Checkbox) */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+            /* 自定义单选框/复选框 */
+            .option-item input[type="radio"],
+            .option-item input[type="checkbox"] {
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border: 2px solid var(--color-outline);
+                border-radius: 50%; /* 圆形 for radio */
+                background-color: transparent;
+                display: grid;
+                place-content: center;
+                cursor: pointer;
+                transition: border-color var(--motion-duration-short) var(--motion-easing-standard);
+            }
+
+                .option-item input[type="radio"]:checked {
+                    border-color: var(--color-primary);
+                    background-color: transparent;
+                }
+
+                    .option-item input[type="radio"]:checked::before {
+                        content: "";
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        background-color: var(--color-primary);
+                        transform: scale(0);
+                        transition: transform var(--motion-duration-short) var(--motion-easing-standard);
+                    }
+
+                    .option-item input[type="radio"]:checked::before {
+                        transform: scale(1);
+                    }
+
+            .option-item input[type="checkbox"] {
+                border-radius: 4px; /* 方形 for checkbox */
+            }
+
+                .option-item input[type="checkbox"]:checked {
+                    border-color: var(--color-primary);
+                    background-color: var(--color-primary);
+                }
+
+                    .option-item input[type="checkbox"]:checked::before {
+                        content: "\2713"; /* Unicode 对勾符号 */
+                        color: white;
+                        font-size: 12px;
+                        line-height: 1;
+                    }
+
+
+        /* 滑块样式 */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--color-outline);
+            border-radius: 3px;
+            outline: none;
+        }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: var(--color-primary);
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                transition: background-color var(--motion-duration-short) var(--motion-easing-standard);
+            }
+
+            input[type="range"]::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: var(--color-primary);
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+                input[type="range"]::-webkit-slider-thumb:hover,
+                input[type="range"]::-moz-range-thumb:hover {
+                    background-color: #a5b4fc; /* hover 效果 */
+                }
+
+        /* 进度条容器 */
+        .progress-wrap {
+            height: 6px;
+            background-color: var(--color-outline);
+            border-radius: 3px;
+            margin-top: var(--space-2);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--color-primary);
+            width: 0%;
+            border-radius: 3px;
+            transition: width var(--motion-duration-medium) var(--motion-easing-standard);
+        }
+
+        /* 开关 (Toggle) */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 左右分布 */
+        }
+
+        .toggle-label {
+            font-size: 0.875rem; /* 14px */
+            font-weight: 500;
+            color: var(--color-on-surface);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--color-outline);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 20px;
+                width: 20px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: var(--color-primary);
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(24px);
+            }
+
+        /* 文件上传美化 (简化版) */
+        input[type="file"] {
+            padding: var(--space-2) var(--space-4);
+            border: 1px dashed var(--color-outline);
+            border-radius: var(--shape-corner-medium);
+            background-color: rgba(30, 41, 59, 0.5);
+            cursor: pointer;
+            transition: border-color var(--motion-duration-short) var(--motion-easing-standard);
+        }
+
+            input[type="file"]:hover {
+                border-color: var(--color-primary);
+            }
+
+        /* 提交按钮 */
+        .submit-container {
+            text-align: center;
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-4);
+        }
+
+        .btn-submit {
+            padding: var(--space-3) var(--space-6);
+            background-color: var(--color-primary-container);
+            color: var(--color-on-primary-container);
+            border: none;
+            border-radius: var(--shape-corner-large);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color var(--motion-duration-short) var(--motion-easing-standard), transform var(--motion-duration-short) var(--motion-easing-standard);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+            .btn-submit:hover {
+                background-color: #6366f1; /* hover 时稍暗 */
+                transform: translateY(-2px);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+        /* 底部状态栏 */
+        .status-footer {
+            padding: var(--space-4) var(--space-6);
+            background-color: rgba(30, 41, 59, 0.8); /* 稍微加深的表面色 */
+            border-top: 1px solid var(--color-outline);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem; /* 12.8px */
+            color: var(--color-on-surface-variant);
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .setup-card {
+                border-radius: var(--shape-corner-large);
+            }
+
+            .card-header {
+                padding: var(--space-6) var(--space-4) var(--space-3);
+            }
+
+                .card-header h1 {
+                    font-size: 1.5rem; /* 24px */
+                }
+
+            .form-section {
+                padding: var(--space-4);
+            }
+
+            .section-title {
+                font-size: 1rem; /* 16px */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="setup-card">
+        <div class="card-header">
+            <h1><i class="fas fa-microchip"></i> Neuralink Setup</h1>
+            <p>Configure your neural interface with precision.</p>
+        </div>
+
+        <form class="form-section" id="setupForm">
+
+            <div class="section-title"><i class="fas fa-id-badge"></i> Account Credentials</div>
+            <div class="input-group">
+                <label for="handle">Username *</label>
+                <div class="input-wrapper">
+                    <input type="text" id="handle" placeholder="Enter your handle" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email">Email Address *</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="you@example.com" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="passphrase">Passphrase *</label>
+                <div class="input-wrapper">
+                    <input type="password" id="passphrase" placeholder="••••••••" required />
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-network-wired"></i> Network Configuration</div>
+            <div class="input-group">
+                <label for="node-location">Primary Node *</label>
+                <div class="input-wrapper">
+                    <select id="node-location" required>
+                        <option value="">Select a node</option>
+                        <option value="neo-tokyo">Neo-Tokyo Hub</option>
+                        <option value="atlanta-underground">Atlanta Underground</option>
+                        <option value="europa-station">Europa Ice Station</option>
+                        <option value="lunar-gateway">Lunar Gateway Outpost</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="backup-node">Backup Node</label>
+                <div class="input-wrapper">
+                    <select id="backup-node">
+                        <option value="">None selected</option>
+                        <option value="mars-relay">Mars Relay Station</option>
+                        <option value="titan-orbital">Titan Orbital Array</option>
+                        <option value="deep-space-9">Deep Space 9</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-cogs"></i> System Preferences</div>
+
+            <div class="input-group">
+                <label for="data-throttle">Data Throttle: <span id="throttle-value">75%</span></label>
+                <div class="input-wrapper">
+                    <input type="range" min="0" max="100" value="75" id="data-throttle" />
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar" id="throttle-progress"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Security Mode *</label>
+                <div class="option-group">
+                    <div class="option-item">
+                        <input type="radio" id="stealth" name="security" value="stealth" checked required />
+                        <label for="stealth">Stealth Mode</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="fortress" name="security" value="fortress" required />
+                        <label for="fortress">Fortress Mode</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="phantom" name="security" value="phantom" required />
+                        <label for="phantom">Phantom Mode</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增的多选框组 -->
+            <div class="input-group">
+                <label>Additional Features *</label>
+                <div class="option-group">
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-notification" name="features" value="notification" required />
+                        <label for="feature-notification">Enable Real-time Notifications</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-sync" name="features" value="sync" />
+                        <label for="feature-sync">Enable Cross-Device Data Sync</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-backup" name="features" value="backup" />
+                        <label for="feature-backup">Enable Automatic Cloud Backup</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="toggle-container">
+                    <span class="toggle-label">Enable Neural Overclock</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="advanced-toggle" />
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="maintenance-date">Scheduled Maintenance Date</label>
+                <div class="input-wrapper">
+                    <input type="date" id="maintenance-date" />
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="firmware">Upload Firmware Update (.bin)</label>
+                <div class="input-wrapper">
+                    <input type="file" id="firmware" accept=".bin" />
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-sticky-note"></i> Operational Notes</div>
+            <div class="input-group">
+                <label for="message">Encrypted Note (Optional)</label>
+                <div class="input-wrapper">
+                    <textarea id="message" placeholder="Leave a secure note for the tech team..."></textarea>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" class="btn-submit">
+                    Initiate Neural Sync
+                </button>
+            </div>
+
+            <!-- 测试滚动 -->
+            <div style="height: 600px; background: rgba(255,255,255,0.03); border-radius: 8px; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                <p>Scrollable Content Area - Scroll down to see submit button</p>
+            </div>
+
+        </form>
+
+        <div class="status-footer">
+            <span>Status: <strong>Connected</strong></span>
+            <span>v1.2.3 | Secure Link Active</span>
+        </div>
+    </div>
+
+    <script>
+        // --- 进度条和数值联动 ---
+        const throttleSlider = document.getElementById('data-throttle');
+        const progress = document.getElementById('throttle-progress');
+        const valueDisplay = document.getElementById('throttle-value');
+
+        function updateThrottle() {
+            const value = throttleSlider.value;
+            progress.style.width = value + '%';
+            valueDisplay.textContent = value + '%';
+        }
+
+        updateThrottle(); // 初始化显示
+        throttleSlider.addEventListener('input', updateThrottle);
+        // --- End 进度条 ---
+
+        // --- 表单提交 ---
+        document.getElementById('setupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('✅ Neural parameters synchronized successfully!');
+        });
+        // --- End 表单 ---
+    </script>
+
+</body>
+</html> 

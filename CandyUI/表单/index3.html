@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuraLink Setup – Enhanced UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-glow: 0 0 15px rgba(100, 150, 255, 0.2);
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --accent-neon: #00f0ff; /* 霓虹青 */
+            --accent-neon-glow: 0 0 10px var(--accent-neon), 0 0 20px var(--accent-neon);
+            --success-neon: #00ff9d; /* 成功绿 */
+            --warning-neon: #ff00c8; /* 警告粉 */
+            --radius: 16px;
+            --transition-fast: all 0.2s ease;
+            --transition-normal: all 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* 与 max-height 计算相关 */
+            overflow: hidden; /* 防止 body 出现滚动条 */
+            position: relative;
+        }
+
+        /* 粒子背景 Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- 关键修改：设置卡片布局以支持内部滚动 --- */
+        .setup-card {
+            width: 100%;
+            max-width: 600px; /* 保持原来的最大宽度 */
+            /* 限制最大高度，留出 body 的 padding */
+            max-height: calc(100vh - 40px); /* 40px = 20px top + 20px bottom padding */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-glow), 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            overflow: hidden; /* 隐藏溢出，滚动在内部 */
+            position: relative;
+            isolation: isolate;
+            /* 使用 Flexbox 布局管理内部结构 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header 区域 - 固定不滚动 */
+        .header {
+            padding: 32px 24px 24px;
+            text-align: center;
+            background: rgba(0, 20, 40, 0.3);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+            /* 防止在空间不足时被压缩 */
+            flex-shrink: 0;
+        }
+
+            .header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(to right, transparent, rgba(0, 240, 255, 0.1), transparent);
+                animation: scan 4s linear infinite;
+                z-index: 1;
+            }
+
+            .header h1 {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                text-shadow: var(--accent-neon-glow);
+                color: var(--accent-neon);
+            }
+
+            .header p {
+                color: var(--text-secondary);
+                font-size: 15px;
+                position: relative;
+                z-index: 2;
+            }
+
+        @keyframes scan {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        /* --- 关键修改：表单主体区域，设置为可滚动 --- */
+        .form-section {
+            padding: 24px;
+            /* 允许垂直滚动 */
+            overflow-y: auto;
+            /* Flex-grow 占据中间可用空间 */
+            flex-grow: 1;
+            /* 自定义滚动条样式 (Firefox) */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-neon) var(--bg-dark);
+        }
+
+            /* 自定义滚动条样式 (Webkit browsers - Chrome, Safari) */
+            .form-section::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .form-section::-webkit-scrollbar-track {
+                background: var(--bg-dark);
+                border-radius: 4px;
+            }
+
+            .form-section::-webkit-scrollbar-thumb {
+                background-color: var(--accent-neon);
+                border-radius: 4px;
+                border: 1px solid var(--bg-dark);
+            }
+
+                .form-section::-webkit-scrollbar-thumb:hover {
+                    background-color: #66ffff; /* 鼠标悬停时稍微亮一点 */
+                }
+        /* --- End 关键修改 --- */
+
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(to right, var(--accent-neon), transparent);
+                opacity: 0.5;
+            }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* 输入框容器 */
+        .input-wrapper {
+            position: relative;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            background: rgba(0, 10, 20, 0.2);
+            font-size: 15px;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: var(--accent-neon);
+                box-shadow: 0 0 0 2px var(--accent-neon), 0 0 15px var(--accent-neon);
+            }
+
+        .input-wrapper:focus-within::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-neon), transparent);
+            animation: flowLine 1.5s infinite linear;
+        }
+
+        @keyframes flowLine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Checkbox & Radio */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .option-item input {
+                width: auto;
+                margin: 0;
+            }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(100, 100, 100, 0.3);
+            transition: 0.4s;
+            border-radius: 9999px;
+            border: 1px solid var(--glass-border);
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: 22px;
+                left: 2px;
+                bottom: 2px;
+                background-color: var(--text-secondary);
+                transition: 0.4s;
+                border-radius: 50%;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+        input:checked + .toggle-slider {
+            background: rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 8px var(--accent-neon);
+        }
+
+            input:checked + .toggle-slider:before {
+                background-color: var(--accent-neon);
+                box-shadow: 0 0 8px var(--accent-neon);
+                transform: translateX(24px);
+            }
+
+            input:checked + .toggle-slider::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 9999px;
+                background: linear-gradient(90deg, transparent, var(--accent-neon), transparent);
+                animation: flowLine 1.5s infinite linear;
+                opacity: 0.5;
+                z-index: -1;
+            }
+
+        /* Progress Bar */
+        .progress-wrap {
+            margin-top: 8px;
+            position: relative;
+            height: 10px;
+            background: rgba(0, 10, 20, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-neon);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 0 8px var(--accent-neon);
+        }
+
+            .progress-bar::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                animation: shimmer 1.5s infinite;
+            }
+
+            .progress-bar::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: -10px;
+                width: 20px;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, var(--accent-neon));
+                opacity: 0.7;
+                filter: blur(5px);
+                animation: trail 0.8s infinite alternate;
+            }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes trail {
+            0% {
+                opacity: 0.7;
+                transform: scaleX(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scaleX(0.2);
+            }
+        }
+
+        /* Submit Button - 强调并居中 */
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .btn-submit {
+            padding: 16px 40px; /* 增加左右内边距使按钮更宽 */
+            background: var(--accent-neon);
+            color: #0a0e17; /* 深色背景上的浅色文字需要对比 */
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700; /* 加粗 */
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 0px var(--accent-neon); /* 初始阴影 */
+        }
+
+            .btn-submit:hover {
+                box-shadow: 0 0 0 3px var(--accent-neon), 0 0 25px var(--accent-neon); /* 悬停时增强发光 */
+                transform: translateY(-2px); /* 轻微上移 */
+            }
+
+            .btn-submit:active {
+                transform: translateY(1px); /* 点击时下压 */
+                box-shadow: 0 0 0 1px var(--accent-neon), 0 0 10px var(--accent-neon);
+            }
+
+            /* 涟漪效果容器 */
+            .btn-submit .ripple-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                border-radius: 12px;
+                pointer-events: none;
+            }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(10, 14, 23, 0.4); /* 涟漪颜色与按钮背景形成对比 */
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Status Footer - 固定不滚动 */
+        .status-footer {
+            padding: 16px 24px;
+            background: rgba(0, 10, 20, 0.2);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            /* 防止在空间不足时被压缩 */
+            flex-shrink: 0;
+        }
+
+            .status-footer span:first-child::before {
+                content: "● ";
+                color: var(--success-neon);
+                text-shadow: 0 0 5px var(--success-neon);
+                animation: pulseOnline 2s infinite;
+            }
+
+        @keyframes pulseOnline {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .setup-card {
+                border-radius: 12px;
+            }
+
+            .header {
+                padding: 24px 16px 16px;
+            }
+
+            .form-section {
+                padding: 20px 16px;
+            }
+
+            .btn-submit {
+                padding: 14px 30px; /* 移动端稍作调整 */
+            }
+        }
+
+        /* --- 滑块样式优化 --- */
+        /* 专门针对 range 类型的输入框进行样式调整 */
+        input[type="range"] {
+            /* 移除默认的外观 */
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            /* 关键：添加左右内边距，使滑块轨道不贴边 */
+            padding: 0 12px; /* 你可以调整 12px 这个值来改变缩进大小 */
+            background: transparent; /* 背景透明，因为我们有自己的轨道样式 */
+            cursor: pointer;
+            /* 重置可能继承的通用 input 样式 */
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+            /* 定义滑块轨道的样式 (WebKit browsers - Chrome, Safari) */
+            input[type="range"]::-webkit-slider-runnable-track {
+                width: 100%;
+                height: 6px;
+                background: rgba(100, 200, 255, 0.2); /* 轨道背景色 */
+                border-radius: 3px;
+                border: none;
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 定义滑块手柄的样式 (WebKit browsers) */
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none; /* 移除默认外观 */
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: var(--accent-neon); /* 手柄颜色 */
+                border: 2px solid #0a0e17; /* 手柄边框 */
+                box-shadow: 0 0 5px var(--accent-neon);
+                cursor: pointer;
+                margin-top: -7px; /* 垂直居中调整 */
+            }
+
+            /* 定义滑块轨道的样式 (Firefox) */
+            input[type="range"]::-moz-range-track {
+                width: 100%;
+                height: 6px;
+                background: rgba(100, 200, 255, 0.2);
+                border-radius: 3px;
+                border: none;
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 定义滑块手柄的样式 (Firefox) */
+            input[type="range"]::-moz-range-thumb {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: var(--accent-neon);
+                border: 2px solid #0a0e17;
+                box-shadow: 0 0 5px var(--accent-neon);
+                cursor: pointer;
+                border: none; /* Firefox 默认有边框 */
+            }
+        /* --- End 滑块样式优化 --- */
+
+    </style>
+</head>
+<body>
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="setup-card">
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> NEURALINK SETUP</h1>
+            <p>CONFIGURE YOUR NEURAL INTERFACE FOR OPTIMAL PERFORMANCE</p>
+        </div>
+
+        <form class="form-section" id="setupForm">
+
+            <div class="section-title"><i class="fas fa-user-astronaut"></i> ACCOUNT CREDENTIALS</div>
+            <div class="input-group">
+                <label for="handle">USERNAME *</label>
+                <div class="input-wrapper">
+                    <input type="text" id="handle" placeholder="ENTER YOUR HANDLE" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email">EMAIL ADDRESS *</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="you@example.com" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="passphrase">PASSPHRASE *</label>
+                <div class="input-wrapper">
+                    <input type="password" id="passphrase" placeholder="••••••••" required />
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-satellite"></i> NETWORK CONFIGURATION</div>
+            <div class="input-group">
+                <label for="node-location">PRIMARY NODE *</label>
+                <div class="input-wrapper">
+                    <select id="node-location" required>
+                        <option value="">SELECT A NODE</option>
+                        <option value="neo-tokyo">NEO-TOKYO HUB</option>
+                        <option value="atlanta-underground">ATLANTA UNDERGROUND</option>
+                        <option value="europa-station">EUROPA ICE STATION</option>
+                        <option value="lunar-gateway">LUNAR GATEWAY OUTPOST</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="backup-node">BACKUP NODE</label>
+                <div class="input-wrapper">
+                    <select id="backup-node">
+                        <option value="">NONE SELECTED</option>
+                        <option value="mars-relay">MARS RELAY STATION</option>
+                        <option value="titan-orbital">TITAN ORBITAL ARRAY</option>
+                        <option value="deep-space-9">DEEP SPACE 9</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-sliders-h"></i> SYSTEM PREFERENCES</div>
+
+            <div class="input-group">
+                <label for="data-throttle">DATA THROTTLE: <span id="throttle-value">75%</span></label>
+                <div class="input-wrapper">
+                    <!-- 应用了新样式的滑块 -->
+                    <input type="range" min="0" max="100" value="75" id="data-throttle" />
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar" id="throttle-progress"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>SECURITY MODE *</label>
+                <div class="option-group">
+                    <div class="option-item">
+                        <input type="radio" id="stealth" name="security" value="stealth" checked required />
+                        <label for="stealth">STEALTH MODE</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="fortress" name="security" value="fortress" required />
+                        <label for="fortress">FORTRESS MODE</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="phantom" name="security" value="phantom" required />
+                        <label for="phantom">PHANTOM MODE</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="toggle-container">
+                    <span>ENABLE NEURAL OVERCLOCK</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="advanced-toggle" />
+                        <span class="toggle-slider"></span>
+                    </label>
+                </label>
+            </div>
+
+            <div class="input-group">
+                <label for="maintenance-date">SCHEDULED MAINTENANCE DATE</label>
+                <div class="input-wrapper">
+                    <input type="date" id="maintenance-date" />
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="firmware">UPLOAD FIRMWARE UPDATE (.BIN)</label>
+                <div class="input-wrapper">
+                    <input type="file" id="firmware" accept=".bin" />
+                </div>
+            </div>
+
+
+            <div class="section-title"><i class="fas fa-comment-alt"></i> OPERATIONAL NOTES</div>
+            <div class="input-group">
+                <label for="message">ENCRYPTED NOTE (OPTIONAL)</label>
+                <div class="input-wrapper">
+                    <textarea id="message" placeholder="LEAVE A SECURE NOTE FOR THE TECH TEAM..."></textarea>
+                </div>
+            </div>
+
+            <!-- 提交按钮容器 -->
+            <div class="submit-container">
+                <button type="submit" class="btn-submit">
+                    INITIATE NEURAL SYNC
+                    <div class="ripple-container"></div>
+                </button>
+            </div>
+
+            <!-- 添加额外内容以测试滚动 -->
+            <div style="height: 800px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                <p>SCROLLABLE CONTENT AREA - SCROLL DOWN TO SEE SUBMIT BUTTON</p>
+            </div>
+
+        </form>
+
+        <div class="status-footer">
+            <span>ONLINE</span>
+            <span>🔒 ENCRYPTED LINK ACTIVE</span>
+        </div>
+    </div>
+
+    <script>
+        // --- 粒子背景逻辑 ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 100;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = `rgba(100, 200, 255, ${Math.random() * 0.5 + 0.1})`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+        // --- End 粒子背景 ---
+
+        // --- 进度条和数值联动 ---
+        const throttleSlider = document.getElementById('data-throttle');
+        const progress = document.getElementById('throttle-progress');
+        const valueDisplay = document.getElementById('throttle-value');
+
+        function updateThrottle() {
+            const value = throttleSlider.value;
+            progress.style.width = value + '%';
+            valueDisplay.textContent = value + '%';
+        }
+
+        updateThrottle(); // 初始化显示
+        throttleSlider.addEventListener('input', updateThrottle);
+        // --- End 进度条 ---
+
+        // --- 表单提交 ---
+        document.getElementById('setupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // 这里可以添加实际的提交逻辑，例如发送AJAX请求
+            alert('✅ NEURAL PARAMETERS SYNCHRONIZED SUCCESSFULLY!');
+            // 可选：重置表单
+            // e.target.reset();
+            // updateThrottle(); // 重置滑块显示
+        });
+        // --- End 表单 ---
+
+        // --- 按钮涟漪效果 ---
+        const buttons = document.querySelectorAll('.btn-submit');
+        buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+
+                this.querySelector('.ripple-container').appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+        // --- End 涟漪 ---
+
+    </script>
+
+</body>
+</html> 

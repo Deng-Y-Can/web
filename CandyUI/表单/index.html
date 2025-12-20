@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title is fine -->
+    <title>NeuraLink Setup – Clean Protocol</title>
+    <!-- Using the same Font Awesome version -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            /* ===== Enhanced Clean & Functional Theme Colors ===== */
+            --color-background: linear-gradient(to bottom right, #f0f4f8, #e2e8f0); /* Subtle gradient background */
+            --color-panel-bg: #ffffff; /* Pure White for Cards */
+            --color-panel-border: #cbd5e1; /* Light Gray Border */
+            --color-text-primary: #0f172a; /* Almost Black Text */
+            --color-text-secondary: #64748b; /* Muted Gray Text */
+            --color-accent-primary: #3b82f6; /* Modern Blue */
+            --color-accent-secondary: #10b981; /* Vibrant Green */
+            --color-accent-warning: #f59e0b; /* Amber Warning */
+            --color-accent-error: #ef4444; /* Red Error */
+            --color-input-bg: #f8fafc; /* Softer light gray for inputs */
+            --color-input-border: #cbd5e1; /* Input Border */
+            --color-input-focus-bg: #ffffff; /* Background on focus */
+            --color-input-hover-border: #94a3b8; /* Border on hover */
+            /* ===== Dimensions & Spacing (Refined) ===== */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-7: 28px; /* Added for better spacing */
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            /* ===== Shapes ===== */
+            --shape-corner-small: 4px;
+            --shape-corner-medium: 6px;
+            --shape-corner-large: 10px; /* Slightly rounder */
+            --shape-corner-extra-large: 16px; /* More rounded corners */
+            /* ===== Motion ===== */
+            --motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+            --motion-duration-fast: 150ms;
+            --motion-duration-normal: 300ms;
+            --motion-duration-slow: 500ms;
+        }
+
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--color-background); /* Use gradient */
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top on small screens */
+            padding: var(--space-4);
+            line-height: 1.5; /* Improve readability */
+        }
+
+        @media (min-width: 768px) {
+            body {
+                align-items: center; /* Center vertically on larger screens */
+                padding: var(--space-6); /* Increase padding on larger screens */
+            }
+        }
+
+        /* ===== Card Container with Enhanced Depth & Clean Lines ===== */
+        .setup-card {
+            width: 100%;
+            max-width: 720px; /* Slightly wider for better balance */
+            background: var(--color-panel-bg);
+            border-radius: var(--shape-corner-extra-large);
+            border: 1px solid var(--color-panel-border);
+            /* Enhanced shadow for more depth */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Header with Clear Title ===== */
+        .card-header {
+            padding: var(--space-6) var(--space-6) var(--space-5); /* Adjusted padding */
+            text-align: center;
+            /* Removed bottom border for a cleaner look */
+            background-color: rgba(59, 130, 246, 0.03); /* Very subtle accent background */
+        }
+
+            .card-header h1 {
+                font-size: 1.85rem; /* Slightly larger */
+                font-weight: 700; /* Bolder */
+                margin-bottom: var(--space-2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-3);
+                color: var(--color-text-primary);
+            }
+
+                .card-header h1 i {
+                    color: var(--color-accent-primary);
+                    font-size: 1.5em; /* Make icon slightly larger */
+                }
+
+            .card-header p {
+                font-size: 1.05rem; /* Slightly larger */
+                color: var(--color-text-secondary);
+                font-weight: 400; /* Normal weight */
+            }
+
+        /* ===== Scrollable Form Section ===== */
+        .form-section {
+            padding: var(--space-6);
+            overflow-y: auto;
+            flex-grow: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-accent-primary) transparent;
+        }
+
+            .form-section::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .form-section::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .form-section::-webkit-scrollbar-thumb {
+                background-color: var(--color-accent-primary);
+                border-radius: 4px;
+            }
+
+        /* ===== Section Titles with Enhanced Divider ===== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-size: 1.2rem; /* Larger title */
+            font-weight: 600;
+            margin: var(--space-8) 0 var(--space-4); /* Increased top margin */
+            color: var(--color-text-primary);
+            position: relative;
+            padding-bottom: var(--space-2);
+            /* Enhanced divider */
+            border-bottom: 2px solid var(--color-panel-border);
+        }
+
+            .section-title:first-child { /* Remove top margin for first section */
+                margin-top: 0;
+            }
+
+            .section-title i {
+                color: var(--color-accent-secondary);
+                font-size: 1.1em; /* Slightly larger icon */
+            }
+
+        /* ===== Input Groups ===== */
+        .input-group {
+            margin-bottom: var(--space-5);
+        }
+
+            .input-group label {
+                display: block;
+                margin-bottom: var(--space-2);
+                font-size: 0.95rem; /* Slightly larger */
+                font-weight: 500;
+                color: var(--color-text-secondary);
+            }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        /* Universal Input Styling - Enhanced */
+        input, select, textarea {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-input-border);
+            border-radius: var(--shape-corner-medium);
+            background-color: var(--color-input-bg);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+        }
+
+            input:hover, select:hover, textarea:hover {
+                border-color: var(--color-input-hover-border); /* Hover state */
+            }
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: var(--color-accent-primary);
+                /* Enhanced focus ring */
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+                background-color: var(--color-input-focus-bg); /* Change bg on focus */
+            }
+
+        textarea {
+            min-height: 120px; /* Slightly taller */
+            resize: vertical;
+        }
+
+        /* ===== Option Groups (Radio/Checkbox) - Enhanced ===== */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3); /* Add padding for click area */
+            border-radius: var(--shape-corner-small);
+            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+        }
+
+            .option-item:hover {
+                background-color: rgba(59, 130, 246, 0.05); /* Subtle hover effect */
+            }
+
+            /* Custom Radio/Checkbox using modern CSS - Enhanced */
+            .option-item input[type="radio"],
+            .option-item input[type="checkbox"] {
+                accent-color: var(--color-accent-primary);
+                width: 18px;
+                height: 18px;
+            }
+
+            .option-item label {
+                font-size: 0.95rem; /* Match input label size */
+                color: var(--color-text-primary);
+                font-weight: normal;
+            }
+
+
+        /* ===== Slider & Progress Bar - Enhanced ===== */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--color-input-border);
+            border-radius: 3px;
+            outline: none;
+        }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 22px; /* Slightly larger */
+                height: 22px;
+                border-radius: 50%;
+                background: var(--color-panel-bg);
+                cursor: pointer;
+                /* Enhanced shadow */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                border: 2px solid var(--color-accent-primary);
+            }
+
+            input[type="range"]::-moz-range-thumb {
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                background: var(--color-panel-bg);
+                cursor: pointer;
+                border: 2px solid var(--color-accent-primary);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+        .progress-wrap {
+            height: 6px;
+            background-color: var(--color-input-border);
+            border-radius: 3px;
+            margin-top: var(--space-2);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            background: var(--color-accent-primary);
+            transition: width var(--motion-duration-normal) var(--motion-easing-standard);
+        }
+
+        /* ===== Toggle Switch - Significantly Enhanced ===== */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-2); /* Add padding */
+            border-radius: var(--shape-corner-medium);
+            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+        }
+
+            .toggle-container:hover {
+                background-color: rgba(59, 130, 246, 0.05); /* Subtle hover */
+            }
+
+        .toggle-label {
+            font-size: 0.95rem; /* Match other labels */
+            font-weight: 500;
+            color: var(--color-text-primary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Wider */
+            height: 26px; /* Taller */
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc; /* Default off color */
+            transition: .3s;
+            border-radius: 26px; /* Full pill shape */
+            /* Add slight inset shadow for depth when off */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 20px; /* Adjusted for new size */
+                width: 20px; /* Adjusted for new size */
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: .3s;
+                border-radius: 50%;
+                /* Enhanced shadow for the thumb */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+        input:checked + .toggle-slider {
+            background-color: var(--color-accent-primary);
+            /* Remove inset shadow when on */
+            box-shadow: none;
+        }
+
+            input:checked + .toggle-slider:before {
+                /* Adjust translation for new width */
+                transform: translateX(24px);
+            }
+
+
+        /* ===== File Upload - Enhanced ===== */
+        input[type="file"] {
+            padding: var(--space-3) var(--space-4); /* Increase padding */
+            border: 1px dashed var(--color-input-border);
+            border-radius: var(--shape-corner-medium);
+            background-color: var(--color-panel-bg); /* Start with panel bg */
+            cursor: pointer;
+            transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+            color: var(--color-text-secondary);
+            font-size: 0.95rem; /* Match label size */
+        }
+
+            input[type="file"]:hover {
+                border-color: var(--color-accent-primary);
+                background-color: var(--color-input-bg); /* Change to input bg on hover */
+            }
+
+            input[type="file"]::-webkit-file-upload-button {
+                visibility: hidden;
+            }
+
+            input[type="file"]::before {
+                content: '\f093  Choose File'; /* Add upload icon */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                display: inline-block;
+                background: var(--color-input-bg);
+                border: 1px solid var(--color-input-border);
+                border-radius: var(--shape-corner-small);
+                padding: 5px 10px; /* Better padding */
+                outline: none;
+                white-space: nowrap;
+                user-select: none;
+                cursor: pointer;
+                color: var(--color-text-secondary);
+                font-size: 0.9rem;
+                transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+            }
+
+            input[type="file"]:hover::before {
+                border-color: var(--color-accent-primary);
+                background-color: var(--color-panel-bg);
+                color: var(--color-accent-primary); /* Change text/icon color on hover */
+            }
+
+
+        /* ===== Submit Button - Significantly Enhanced ===== */
+        .submit-container {
+            text-align: center;
+            margin: var(--space-10) 0 var(--space-6); /* Increase margins */
+        }
+
+        .btn-submit {
+            padding: var(--space-4) var(--space-8); /* Larger padding */
+            background-color: var(--color-accent-primary);
+            color: white;
+            border: none;
+            border-radius: var(--shape-corner-large); /* Use larger radius */
+            font-size: 1.1rem; /* Larger font */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--motion-duration-fast) var(--motion-easing-standard);
+            /* Enhanced shadow */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            position: relative; /* For pseudo-element */
+            overflow: hidden; /* Contain pseudo-element */
+        }
+
+            .btn-submit:hover {
+                background-color: #2563eb; /* Darker blue on hover */
+                /* Lift effect on hover */
+                transform: translateY(-2px);
+                box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0); /* Return to original position */
+                /* Pressed effect */
+                box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            }
+
+        /* Optional: Add a subtle shine effect on hover (uncomment if desired)
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255,255,255,0.3);
+            transform: rotate(25deg);
+            transition: all 0.6s;
+        }
+        .btn-submit:hover::after {
+            left: 120%;
+        } */
+
+
+        /* ===== Status Footer - Enhanced ===== */
+        .status-footer {
+            padding: var(--space-4) var(--space-6);
+            background-color: rgba(241, 245, 249, 0.5); /* Slightly different background */
+            border-top: 1px solid var(--color-panel-border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem; /* Slightly larger */
+            color: var(--color-text-secondary);
+            font-weight: 500; /* Slightly bolder */
+        }
+
+        /* ===== Responsive Adjustments ===== */
+        @media (max-width: 768px) {
+            .setup-card {
+                border-radius: var(--shape-corner-large);
+                max-width: 95%; /* Ensure it fits well on very small screens */
+            }
+
+            .card-header {
+                padding: var(--space-5) var(--space-4) var(--space-4);
+            }
+
+                .card-header h1 {
+                    font-size: 1.6rem;
+                }
+
+                .card-header p {
+                    font-size: 1rem;
+                }
+
+            .form-section {
+                padding: var(--space-5);
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+                margin: var(--space-7) 0 var(--space-4); /* Adjust top margin */
+            }
+
+            .submit-container {
+                margin: var(--space-8) 0 var(--space-5);
+            }
+
+            .btn-submit {
+                padding: var(--space-3) var(--space-6);
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="setup-card">
+        <div class="card-header">
+            <h1><i class="fas fa-microchip"></i> Neuralink Setup</h1>
+            <p>Configure your neural interface protocol.</p>
+        </div>
+
+        <form class="form-section" id="setupForm">
+
+            <div class="section-title"><i class="fas fa-id-badge"></i> Account Credentials</div>
+            <div class="input-group">
+                <label for="handle">Username *</label>
+                <div class="input-wrapper">
+                    <input type="text" id="handle" placeholder="Enter your username" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="email">Email Address *</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" placeholder="you@example.com" required />
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="passphrase">Passphrase *</label>
+                <div class="input-wrapper">
+                    <input type="password" id="passphrase" placeholder="••••••••" required />
+                </div>
+            </div>
+
+            <div class="section-title"><i class="fas fa-network-wired"></i> Network Configuration</div>
+            <div class="input-group">
+                <label for="node-location">Primary Node *</label>
+                <div class="input-wrapper">
+                    <select id="node-location" required>
+                        <option value="">Select a node</option>
+                        <option value="mainframe-core">Mainframe Core</option>
+                        <option value="atlanta-datacenter">Atlanta Datacenter</option>
+                        <option value="geneva-lab">Geneva Lab</option>
+                        <option value="tokyo-hub">Tokyo Hub</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="backup-node">Backup Node</label>
+                <div class="input-wrapper">
+                    <select id="backup-node">
+                        <option value="">None selected</option>
+                        <option value="mars-relay">Mars Relay</option>
+                        <option value="singapore-cloud">Singapore Cloud</option>
+                        <option value="london-backup">London Backup</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title"><i class="fas fa-cogs"></i> System Preferences</div>
+
+            <div class="input-group">
+                <label for="data-throttle">Data Throttle: <span id="throttle-value">75%</span></label>
+                <div class="input-wrapper">
+                    <input type="range" min="0" max="100" value="75" id="data-throttle" />
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar" id="throttle-progress"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Security Mode *</label>
+                <div class="option-group">
+                    <div class="option-item">
+                        <input type="radio" id="stealth" name="security" value="stealth" checked required />
+                        <label for="stealth">Standard Security</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="fortress" name="security" value="fortress" required />
+                        <label for="fortress">Enhanced Security</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="radio" id="phantom" name="security" value="phantom" required />
+                        <label for="phantom">Maximum Security</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Additional Features *</label>
+                <div class="option-group">
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-notification" name="features" value="notification" required />
+                        <label for="feature-notification">Enable Real-time Notifications</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-sync" name="features" value="sync" />
+                        <label for="feature-sync">Enable Cross-Device Sync</label>
+                    </div>
+                    <div class="option-item">
+                        <input type="checkbox" id="feature-backup" name="features" value="backup" />
+                        <label for="feature-backup">Enable Cloud Backup</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="toggle-container">
+                    <span class="toggle-label">Enable Advanced Diagnostics</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="advanced-toggle" />
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="maintenance-date">Scheduled Maintenance Date</label>
+                <div class="input-wrapper">
+                    <input type="date" id="maintenance-date" />
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="firmware">Upload Firmware Update (.bin)</label>
+                <div class="input-wrapper">
+                    <input type="file" id="firmware" accept=".bin" />
+                </div>
+            </div>
+
+            <div class="section-title"><i class="fas fa-sticky-note"></i> Operational Notes</div>
+            <div class="input-group">
+                <label for="message">Note (Optional)</label>
+                <div class="input-wrapper">
+                    <textarea id="message" placeholder="Leave any relevant notes here..."></textarea>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" class="btn-submit">
+                    Complete Setup
+                </button>
+            </div>
+
+        </form>
+
+        <div class="status-footer">
+            <span>Status: <strong style="color: var(--color-accent-secondary);">Online</strong></span>
+            <span>v2.1.0 | <i class="fas fa-lock"></i> Connection Secure</span>
+        </div>
+    </div>
+
+    <script>
+        // --- Progress bar and value linkage ---
+        const throttleSlider = document.getElementById('data-throttle');
+        const progress = document.getElementById('throttle-progress');
+        const valueDisplay = document.getElementById('throttle-value');
+
+        function updateThrottle() {
+            const value = throttleSlider.value;
+            progress.style.width = value + '%';
+            valueDisplay.textContent = value + '%';
+        }
+
+        updateThrottle();
+        throttleSlider.addEventListener('input', updateThrottle);
+        // --- End progress bar ---
+
+        // --- Form submission ---
+        document.getElementById('setupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('✅ Setup completed successfully!');
+            // In a real app, you would handle the form data here
+            // e.g., send it to a server via fetch or XMLHttpRequest
+        });
+        // --- End form ---
+    </script>
+
+</body>
+</html>

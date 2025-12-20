@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Advanced 3D Glassmorphism Form v6.0 - Elite Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-hue: 250;
+            --primary-sat: 85%;
+            --primary-lit: 65%;
+            --primary-color: hsl(var(--primary-hue), var(--primary-sat), var(--primary-lit));
+            --primary-color-light: hsl(var(--primary-hue), var(--primary-sat), calc(var(--primary-lit) + 12%));
+            --primary-color-dark: hsl(var(--primary-hue), var(--primary-sat), calc(var(--primary-lit) - 20%));
+            --primary-color-transparent: hsla(var(--primary-hue), var(--primary-sat), var(--primary-lit), 0.2);
+            --primary-color-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-lit), 0.5);
+            --accent-hue: 320;
+            --accent-color: hsl(var(--accent-hue), 95%, 65%);
+            --accent-color-glow: hsla(var(--accent-hue), 95%, 65%, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-highlight: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            --glass-inset-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+            --glass-backdrop-filter: blur(18px);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --text-placeholder: rgba(255, 255, 255, 0.7);
+            --input-bg: rgba(0, 0, 0, 0.15);
+            --input-bg-hover: rgba(0, 0, 0, 0.2);
+            --input-bg-focus: rgba(0, 0, 0, 0.25);
+            --input-border: rgba(255, 255, 255, 0.15);
+            --input-border-focus: var(--primary-color-light);
+            --transition-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-spring: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            --transition-standard: 0.3s ease;
+            --transition-fast: 0.2s ease;
+            --transition-slower: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, hsl(calc(var(--primary-hue) - 40), 70%, 15%), hsl(calc(var(--primary-hue) + 20), 70%, 25%));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 520px;
+            /* perspective: 1500px; */ /* Removed to avoid complex stacking contexts */
+        }
+        /* --- CRITICAL FIXES FOR FORM CARD AND DROPDOWN --- */
+        .form-glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop-filter);
+            -webkit-backdrop-filter: var(--glass-backdrop-filter);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 50px 45px 40px;
+            box-shadow: var(--glass-shadow);
+            /* transform-style: preserve-3d; */ /* REMOVED - Causes stacking issues */
+            /* transition: transform 0.9s var(--transition-spring), box-shadow 0.6s ease, border-color 0.3s ease; */ /* Simplified hover */
+            position: relative;
+            overflow: visible; /* Allow dropdown to overflow */
+            /* isolation: isolate; */ /* REMOVED - Causes stacking issues */
+            z-index: 1; /* Base layer for the card */
+        }
+            /* Simplified hover effect */
+            .form-glass-card:hover {
+                /* transform: translateY(-18px) perspective(1500px) rotateX(6deg) rotateY(4deg); */
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+                border-color: var(--glass-border-highlight);
+            }
+
+            .form-glass-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: inherit;
+                background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 25%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 25%);
+                pointer-events: none;
+                z-index: -1;
+            }
+        /* --- END OF CRITICAL FIXES --- */
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+            /* transform: translateZ(40px); */ /* Removed with perspective */
+        }
+
+            .form-header h2 {
+                font-family: 'Playfair Display', serif;
+                font-weight: 700;
+                font-size: 38px;
+                margin-bottom: 15px;
+                background: linear-gradient(to right, var(--text-primary), var(--primary-color-light));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                letter-spacing: -0.5px;
+            }
+
+            .form-header p {
+                color: var(--text-secondary);
+                font-size: 18px;
+                font-weight: 300;
+            }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+            .form-section:last-child {
+                margin-bottom: 20px;
+            }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--primary-color-light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+                border-radius: 3px;
+            }
+
+            .section-title i {
+                font-size: 1.3em;
+                width: 30px;
+                text-align: center;
+            }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 32px;
+            /* transform: translateZ(25px); */ /* Removed with perspective */
+            z-index: 1; /* Ensure input groups stack correctly */
+        }
+
+        .input-field, .custom-textarea {
+            width: 100%;
+            padding: 22px 18px 14px;
+            font-size: 17px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 16px;
+            outline: none;
+            color: var(--text-primary);
+            transition: all var(--transition-standard);
+            box-shadow: var(--glass-inset-shadow);
+        }
+
+            .input-field:hover, .custom-textarea:hover {
+                background: var(--input-bg-hover);
+                border-color: var(--text-placeholder);
+            }
+
+            .input-field:focus, .custom-textarea:focus {
+                background: var(--input-bg-focus);
+                border-color: var(--input-border-focus);
+                box-shadow: var(--glass-inset-shadow), 0 0 0 3px var(--primary-color-transparent);
+            }
+
+            .input-field::placeholder, .custom-textarea::placeholder {
+                color: transparent;
+            }
+
+        .input-label {
+            position: absolute;
+            top: 22px;
+            left: 18px;
+            font-size: 17px;
+            color: var(--text-placeholder);
+            pointer-events: none;
+            transition: all 0.35s var(--transition-ease-out-back);
+            transform-origin: left center;
+            z-index: 1;
+            background: transparent;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label,
+        .custom-textarea:focus + .input-label,
+        .custom-textarea:not(:placeholder-shown) + .input-label {
+            top: 10px;
+            left: 15px;
+            font-size: 13px;
+            color: var(--primary-color-light);
+            transform: translateY(0) scale(0.92);
+            background: var(--glass-bg);
+            padding: 0 6px;
+            border-radius: 4px;
+            box-shadow: var(--glass-inset-shadow);
+        }
+
+        /* --- NEW Robust Custom Select --- */
+        /* Container for the select and label */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        /* The visible part of the select */
+        .custom-select-trigger {
+            width: 100%;
+            padding: 22px 45px 14px 18px; /* Space for arrow */
+            font-size: 17px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 16px;
+            outline: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-standard);
+            text-align: left;
+            box-shadow: var(--glass-inset-shadow);
+            position: relative;
+        }
+
+            .custom-select-trigger:hover {
+                background: var(--input-bg-hover);
+                border-color: var(--text-placeholder);
+            }
+
+            .custom-select-trigger:focus {
+                background: var(--input-bg-focus);
+                border-color: var(--input-border-focus);
+                box-shadow: var(--glass-inset-shadow), 0 0 0 3px var(--primary-color-transparent);
+            }
+            /* Dropdown arrow using Font Awesome */
+            .custom-select-trigger::after {
+                content: "\f107"; /* Font Awesome down arrow */
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                position: absolute;
+                right: 18px;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: transform 0.45s var(--transition-spring);
+                color: var(--text-placeholder);
+                font-size: 16px;
+            }
+
+            .custom-select-trigger.open::after {
+                transform: translateY(-50%) rotate(180deg); /* Rotate arrow when open */
+            }
+        /* Hidden native select for accessibility and form submission */
+        .custom-select-native {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            z-index: 2; /* Above the trigger visually */
+        }
+        /* The dropdown list */
+        .custom-select-dropdown {
+            position: absolute;
+            top: 100%; /* Position below the trigger */
+            left: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop-filter);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            z-index: 1000; /* High z-index to float above everything */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.4s var(--transition-spring);
+        }
+
+        .custom-select-wrapper.open .custom-select-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        /* Individual options */
+        .custom-select-option {
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .custom-select-option:hover {
+                color: var(--text-primary);
+                background-color: var(--primary-color-transparent);
+            }
+
+            .custom-select-option.selected {
+                color: var(--text-primary);
+                font-weight: 500;
+                background-color: var(--primary-color-transparent);
+            }
+
+                .custom-select-option.selected::after {
+                    content: '\f00c'; /* Font Awesome checkmark */
+                    font-family: "Font Awesome 6 Free";
+                    font-weight: 900;
+                    position: absolute;
+                    right: 18px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-size: 14px;
+                    color: var(--accent-color);
+                }
+        /* Label styling - similar to other inputs */
+        .custom-select-wrapper .input-label {
+            top: 22px;
+            left: 18px;
+        }
+
+        .custom-select-wrapper.has-value .input-label,
+        .custom-select-wrapper.focus .input-label {
+            top: 10px;
+            left: 15px;
+            font-size: 13px;
+            color: var(--primary-color-light);
+            transform: translateY(0) scale(0.92);
+            background: var(--glass-bg);
+            padding: 0 6px;
+            border-radius: 4px;
+            box-shadow: var(--glass-inset-shadow);
+        }
+
+        /* --- Textarea, File Upload, Choices, Slider, Button etc. (unchanged) --- */
+        .custom-textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+            .custom-textarea::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            .custom-textarea::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+            }
+
+            .custom-textarea::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color-transparent);
+                border-radius: 5px;
+                border: 2px solid var(--glass-bg);
+            }
+
+                .custom-textarea::-webkit-scrollbar-thumb:hover {
+                    background-color: var(--primary-color-light);
+                }
+
+        .file-upload-wrapper {
+            position: relative;
+            /* transform: translateZ(25px); */ /* Removed with perspective */
+        }
+
+        .file-upload-area {
+            width: 100%;
+            padding: 35px 25px;
+            background: var(--input-bg);
+            border: 2px dashed var(--input-border);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-standard);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: var(--glass-inset-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .file-upload-area::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(120deg, transparent, rgba(255,255,255,0.05), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.6s ease;
+            }
+
+            .file-upload-area:hover, .file-upload-input:focus + .file-upload-area {
+                background: var(--input-bg-hover);
+                border-color: var(--primary-color-light);
+            }
+
+                .file-upload-area:hover::before {
+                    transform: translateX(100%);
+                }
+
+            .file-upload-area.dragover {
+                background: var(--input-bg-focus);
+                border-color: var(--accent-color);
+                /* transform: scale(1.02); */ /* Removed with perspective */
+                box-shadow: var(--glass-inset-shadow), 0 0 0 3px var(--accent-color-glow);
+            }
+
+        .file-upload-icon {
+            font-size: 40px;
+            color: var(--text-placeholder);
+            transition: all var(--transition-standard);
+        }
+
+        .file-upload-area:hover .file-upload-icon, .file-upload-area.dragover .file-upload-icon {
+            color: var(--primary-color-light);
+            /* transform: translateY(-5px); */ /* Removed with perspective */
+        }
+
+        .file-upload-text {
+            font-size: 17px;
+            color: var(--text-secondary);
+            transition: all var(--transition-standard);
+        }
+
+        .file-upload-area:hover .file-upload-text, .file-upload-area.dragover .file-upload-text {
+            color: var(--text-primary);
+        }
+
+        .file-upload-input {
+            position: absolute;
+            opacity: 0;
+            width: 0.1px;
+            height: 0.1px;
+            z-index: -1;
+        }
+
+        .file-preview-container {
+            margin-top: 20px;
+            display: none;
+            animation: fadeInUp 0.5s var(--transition-spring) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .file-preview-image {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            display: block;
+            margin: 0 auto;
+            border: 2px solid var(--glass-border);
+        }
+
+        .file-info {
+            margin-top: 15px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            word-break: break-word;
+            text-align: center;
+        }
+
+        .choice-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .choice-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            padding-left: 42px;
+            user-select: none;
+            font-size: 17px;
+            font-weight: 400;
+            transition: color var(--transition-standard);
+            /* transform: translateZ(20px); */ /* Removed with perspective */
+        }
+
+            .choice-item:hover {
+                color: var(--primary-color-light);
+            }
+
+        .choice-input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 28px;
+            width: 28px;
+            background-color: transparent;
+            border: 2px solid var(--input-border);
+            border-radius: 50%;
+            transition: all var(--transition-standard);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glass-inset-shadow);
+        }
+
+        .choice-item.checkbox .checkmark {
+            border-radius: 8px;
+        }
+
+        .choice-item:hover .checkmark {
+            border-color: var(--primary-color-light);
+        }
+
+        .choice-input:checked ~ .checkmark {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            animation: popInChoice 0.5s var(--transition-spring);
+            box-shadow: 0 0 0 3px var(--primary-color-transparent);
+        }
+
+        .checkmark::after {
+            content: "";
+            position: absolute;
+            display: none;
+            transition: all var(--transition-standard);
+        }
+
+        .choice-item.radio .checkmark::after {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .choice-item.checkbox .checkmark::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: white;
+            font-size: 15px;
+        }
+
+        .choice-input:checked ~ .checkmark::after {
+            display: block;
+            animation: fadeInChoice 0.3s ease forwards;
+        }
+
+        @keyframes popInChoice {
+            0% {
+                transform: translateY(-50%) scale(0);
+                opacity: 0;
+            }
+
+            70% {
+                transform: translateY(-50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        @keyframes fadeInChoice {
+            from {
+                opacity: 0;
+                transform: scale(0.7);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .slider-container {
+            margin-top: 20px;
+            /* transform: translateZ(20px); */ /* Removed with perspective */
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .slider-value {
+            font-weight: 600;
+            color: var(--primary-color-light);
+            min-width: 60px;
+            text-align: right;
+            transition: all 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.1);
+        }
+
+            .slider-value.strong {
+                color: var(--accent-color);
+                background: rgba(255, 0, 100, 0.1);
+            }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(to right, var(--primary-color) var(--value-percent, 0%), rgba(255,255,255,0.15) var(--value-percent, 0%));
+            outline: none;
+            transition: box-shadow var(--transition-standard);
+        }
+
+            input[type="range"]:focus {
+                box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.25);
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                cursor: pointer;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+                transition: all 0.35s var(--transition-spring);
+                border: 3px solid white;
+            }
+
+            input[type="range"]::-moz-range-thumb {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background: var(--primary-color);
+                cursor: pointer;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+                border: 3px solid white;
+                transition: all 0.35s var(--transition-spring);
+            }
+
+            input[type="range"]:active::-webkit-slider-thumb {
+                transform: scale(1.3);
+                background: var(--accent-color);
+                box-shadow: 0 0 0 8px var(--accent-color-glow);
+            }
+
+            input[type="range"]:active::-moz-range-thumb {
+                transform: scale(1.3);
+                background: var(--accent-color);
+                box-shadow: 0 0 0 8px var(--accent-color-glow);
+            }
+
+        .password-strength-meter {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+            .password-strength-meter.visible {
+                opacity: 1;
+            }
+
+        .password-strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            transition: width 0.5s ease, background-color 0.5s ease;
+        }
+
+        .password-strength-text {
+            font-size: 13px;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+            .password-strength-text.visible {
+                opacity: 1;
+            }
+
+        .btn-submit {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-color-dark));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.5s var(--transition-spring);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(108, 99, 255, 0);
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+            /* transform: translateZ(30px); */ /* Removed with perspective */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit-text {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-submit-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-submit.loading .btn-submit-text {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .btn-submit.loading .btn-submit-spinner {
+            display: block;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.7s;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            /* transform: translateZ(40px) translateY(-8px) scale(1.03); */ /* Removed with perspective */
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), 0 0 0 4px var(--primary-color-glow);
+        }
+
+        .btn-submit:active {
+            /* transform: translateZ(30px) translateY(3px) scale(0.98); */ /* Removed with perspective */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(108, 99, 255, 0);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .form-glass-card {
+                padding: 40px 30px 30px;
+            }
+
+            .form-header h2 {
+                font-size: 32px;
+            }
+
+            .choice-group {
+                gap: 18px;
+            }
+
+            .choice-item {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="form-container">
+        <div class="form-glass-card">
+            <div class="form-header">
+                <h2>Dashboard Configuration</h2>
+                <p>Customize your experience</p>
+            </div>
+            <form id="configForm">
+                <!-- Section 1: Credentials -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-user-lock"></i> Access Credentials</div>
+                    <div class="input-group">
+                        <input type="email" id="email" class="input-field" placeholder=" " required />
+                        <label for="email" class="input-label">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" class="input-field" placeholder=" " required />
+                        <label for="password" class="input-label">Master Password</label>
+                        <div class="password-strength-meter">
+                            <div class="password-strength-fill"></div>
+                        </div>
+                        <div class="password-strength-text"></div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Preferences -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-sliders-h"></i> User Preferences</div>
+                    <!-- New Custom Select -->
+                    <div class="input-group">
+                        <div class="custom-select-wrapper" id="themeSelectWrapper">
+                            <select class="custom-select-native" id="theme">
+                                <option value="">Select Theme</option>
+                                <option value="dark">Midnight Dark</option>
+                                <option value="light">Solar Flare Light</option>
+                                <option value="auto">System Adaptive</option>
+                            </select>
+                            <div class="custom-select-trigger" tabindex="0">Select Theme</div>
+                            <div class="custom-select-dropdown">
+                                <div class="custom-select-option" data-value="">Select Theme</div>
+                                <div class="custom-select-option" data-value="dark">Midnight Dark</div>
+                                <div class="custom-select-option" data-value="light">Solar Flare Light</div>
+                                <div class="custom-select-option" data-value="auto">System Adaptive</div>
+                            </div>
+                            <label class="input-label">Visual Theme</label>
+                        </div>
+                    </div>
+                    <!-- End New Custom Select -->
+
+                    <div class="input-group">
+                        <div class="choice-group">
+                            <label class="choice-item radio">
+                                <input type="radio" name="layout" value="grid" class="choice-input" checked>
+                                <span class="checkmark"></span>
+                                Grid View
+                            </label>
+                            <label class="choice-item radio">
+                                <input type="radio" name="layout" value="list" class="choice-input">
+                                <span class="checkmark"></span>
+                                List View
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="choice-group">
+                            <label class="choice-item checkbox">
+                                <input type="checkbox" name="notifications" value="email" class="choice-input">
+                                <span class="checkmark"></span>
+                                Email Digests
+                            </label>
+                            <label class="choice-item checkbox">
+                                <input type="checkbox" name="notifications" value="sms" class="choice-input">
+                                <span class="checkmark"></span>
+                                Push Alerts
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" id="launch_date" class="input-field" />
+                        <label for="launch_date" class="input-label">Project Launch Date</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="color" id="brand_color" class="input-field" value="#7d5fff" style="height: 62px; padding: 1px 18px;" />
+                        <label for="brand_color" class="input-label" style="top: 10px; left: 15px; font-size: 13px; transform: translateY(0) scale(0.92); background: var(--glass-bg); padding: 0 6px; border-radius: 4px; box-shadow: var(--glass-inset-shadow);">Accent Hue</label>
+                    </div>
+                </div>
+
+                <!-- Section 3: Content -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-edit"></i> Content Details</div>
+                    <div class="input-group">
+<textarea id="bio" class="custom-textarea" placeholder=" "></textarea>
+                        <label for="bio" class="input-label">Profile Summary</label>
+                    </div>
+                    <div class="input-group file-upload-wrapper">
+                        <input type="file" id="avatar" class="file-upload-input" accept="image/*">
+                        <label for="avatar" class="file-upload-area">
+                            <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                            <span class="file-upload-text">Drag & Drop or Click to Upload Avatar</span>
+                        </label>
+                        <div class="file-preview-container" id="filePreviewContainer">
+                            <img id="filePreviewImage" class="file-preview-image" src="#" alt="Preview">
+                            <div class="file-info" id="fileInfo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Security -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-shield-alt"></i> Security Level</div>
+                    <div class="input-group">
+                        <div class="slider-container">
+                            <div class="slider-header">
+                                <span>Encryption Strength</span>
+                                <span class="slider-value" id="strength-value">Medium (50%)</span>
+                            </div>
+                            <input type="range" id="strength" name="strength" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitButton">
+                    <span class="btn-submit-text">Apply Settings</span>
+                    <span class="btn-submit-spinner"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles Background
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 900 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.4, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 170,
+                    color: "#ffffff",
+                    opacity: 0.15,
+                    width: 1.2
+                },
+                move: {
+                    enable: true,
+                    speed: 2.5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 160, line_linked: { opacity: 0.8 } },
+                    push: { particles_nb: 5 }
+                }
+            },
+            retina_detect: true
+        });
+
+        // Utility: Debounce
+        function debounce(func, wait, immediate) {
+            let timeout;
+            return function executedFunction() {
+                const context = this;
+                const args = arguments;
+                const later = () => {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                const callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        };
+
+        // Password Strength
+        const passwordField = document.getElementById('password');
+        const strengthMeter = document.querySelector('.password-strength-meter');
+        const strengthFill = document.querySelector('.password-strength-fill');
+        const strengthText = document.querySelector('.password-strength-text');
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length > 5) strength += 1;
+            if (password.length > 9) strength += 1;
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            return Math.min(strength, 5);
+        }
+
+        function updatePasswordStrength() {
+            const password = passwordField.value;
+            const score = calculatePasswordStrength(password);
+            const percent = (score / 5) * 100;
+            strengthFill.style.width = `${percent}%`;
+            let strengthTextContent = '';
+            let strengthColor = '#ff4757';
+            if (score >= 4) {
+                strengthTextContent = 'Strong';
+                strengthColor = '#2ed573';
+            } else if (score >= 2) {
+                strengthTextContent = 'Medium';
+                strengthColor = '#ffa502';
+            } else if (score > 0) {
+                strengthTextContent = 'Weak';
+            }
+            strengthFill.style.backgroundColor = strengthColor;
+            strengthText.textContent = strengthTextContent;
+            if (password.length > 0) {
+                strengthMeter.classList.add('visible');
+                strengthText.classList.add('visible');
+            } else {
+                strengthMeter.classList.remove('visible');
+                strengthText.classList.remove('visible');
+            }
+        }
+        passwordField.addEventListener('input', debounce(updatePasswordStrength, 300));
+
+        // Slider
+        const strengthSlider = document.getElementById('strength');
+        const strengthValue = document.getElementById('strength-value');
+        function updateStrengthLevel() {
+            const value = parseInt(strengthSlider.value);
+            let levelText = "Weak";
+            if (value > 33) levelText = "Medium";
+            if (value > 66) levelText = "Strong";
+            strengthValue.textContent = `${levelText} (${value}%)`;
+            strengthValue.className = 'slider-value';
+            if (value > 66) strengthValue.classList.add('strong');
+            strengthSlider.style.setProperty('--value-percent', `${value}%`);
+            strengthValue.style.transform = 'scale(1.1)';
+            setTimeout(() => strengthValue.style.transform = 'scale(1)', 150);
+        }
+        strengthSlider.addEventListener('input', updateStrengthLevel);
+        updateStrengthLevel();
+
+        // File Upload
+        const fileInput = document.getElementById('avatar');
+        const fileUploadArea = document.querySelector('.file-upload-area');
+        const filePreviewContainer = document.getElementById('filePreviewContainer');
+        const filePreviewImage = document.getElementById('filePreviewImage');
+        const fileInfo = document.getElementById('fileInfo');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, () => fileUploadArea.classList.add('dragover'), false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileUploadArea.addEventListener(eventName, () => fileUploadArea.classList.remove('dragover'), false);
+        });
+        fileUploadArea.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+        fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            const file = files[0];
+            if (!file.type.match('image.*')) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                filePreviewImage.src = e.target.result;
+                filePreviewContainer.style.display = 'block';
+                fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ✅ NEW: Robust Custom Select Logic
+        document.querySelectorAll('.custom-select-wrapper').forEach(wrapper => {
+            const nativeSelect = wrapper.querySelector('.custom-select-native');
+            const trigger = wrapper.querySelector('.custom-select-trigger');
+            const dropdown = wrapper.querySelector('.custom-select-dropdown');
+            const options = wrapper.querySelectorAll('.custom-select-option');
+            const label = wrapper.querySelector('.input-label');
+
+            // Update UI based on selected value
+            function updateUI() {
+                const selectedOption = nativeSelect.options[nativeSelect.selectedIndex];
+                const selectedText = selectedOption ? selectedOption.text : '';
+                const selectedValue = selectedOption ? selectedOption.value : '';
+
+                // Update trigger text
+                trigger.textContent = selectedText || 'Select Option';
+
+                // Update selected state in custom options
+                options.forEach(option => {
+                    option.classList.remove('selected');
+                    if (option.dataset.value === selectedValue) {
+                        option.classList.add('selected');
+                    }
+                });
+
+                // Handle label floating
+                wrapper.classList.toggle('has-value', !!selectedValue);
+
+                // Close dropdown after selection
+                wrapper.classList.remove('open');
+            }
+
+            // Initialize UI
+            updateUI();
+
+            // Toggle dropdown visibility
+            trigger.addEventListener('click', () => {
+                wrapper.classList.toggle('open');
+            });
+
+            // Handle option selection via custom dropdown
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const value = option.dataset.value;
+                    nativeSelect.value = value; // Update hidden native select
+                    updateUI(); // Reflect change in UI
+                    // Trigger native change event so other scripts can listen
+                    nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            });
+
+            // Handle selection via keyboard/tabbing on native select
+            nativeSelect.addEventListener('change', updateUI);
+
+            // Handle focus/blur for visual feedback and label
+            nativeSelect.addEventListener('focus', () => wrapper.classList.add('focus'));
+            nativeSelect.addEventListener('blur', () => wrapper.classList.remove('focus'));
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!wrapper.contains(e.target)) {
+                    wrapper.classList.remove('open');
+                }
+            });
+        });
+
+        // Form Submit (optional)
+        document.getElementById('configForm').addEventListener('submit', e => {
+            e.preventDefault();
+            console.log('Form submitted:', new FormData(e.target));
+        });
+    </script>
+</body>
+</html>  
