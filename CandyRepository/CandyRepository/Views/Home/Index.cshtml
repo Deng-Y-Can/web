@@ -1,0 +1,348 @@
+﻿@{
+    ViewData["Title"] = "首页";
+    var user = ViewBag.User as CandyRepository.Models.User;
+    var recentFolders = ViewBag.RecentFolders as List<CandyRepository.Models.Folder>;
+    var recentFiles = ViewBag.RecentFiles as List<CandyRepository.Models.File>;
+    var totalFiles = ViewBag.TotalFiles ?? 0;
+    var totalFolders = ViewBag.TotalFolders ?? 0;
+    var totalSize = ViewBag.TotalSize ?? "0 B";
+    var recentActivities = ViewBag.RecentActivities as List<CandyRepository.Models.OperationLog>;
+    var isAdmin = ViewBag.IsAdmin ?? false;
+}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CandyRepository</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .jumbotron {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+            .stat-card i {
+                font-size: 48px;
+                margin-bottom: 15px;
+            }
+
+            .stat-card h3 {
+                font-size: 32px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .stat-card p {
+                color: #666;
+                margin: 0;
+            }
+
+        .list-group-item {
+            border: none;
+            padding: 12px 15px;
+            border-radius: 10px !important;
+            margin-bottom: 5px;
+            transition: background 0.2s;
+        }
+
+            .list-group-item:hover {
+                background: #f8f9fa;
+            }
+
+            .list-group-item i {
+                margin-right: 10px;
+                color: #667eea;
+            }
+
+        .sidebar {
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            background: white;
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .nav-link {
+            color: #333 !important;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px 10px;
+        }
+
+            .nav-link:hover, .nav-link.active {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white !important;
+            }
+
+            .nav-link i {
+                margin-right: 10px;
+                width: 20px;
+            }
+
+        main {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-folder-open"></i> CandyRepository
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="fas fa-user"></i> @user?.Username
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" onclick="changePassword()">
+                        <i class="fas fa-key"></i> 修改密码
+                    </a>
+                    @if (isAdmin)
+                    {
+                        <a class="dropdown-item" href="/Admin/Dashboard">
+                            <i class="fas fa-cog"></i> 管理后台
+                        </a>
+                    }
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/Account/Logout" onclick="return confirm('确定要退出吗？')">
+                        <i class="fas fa-sign-out-alt"></i> 退出登录
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/Home/Index">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Folder/Index">
+                        <i class="fas fa-folder"></i> 我的文件
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/RecycleBin/Index">
+                        <i class="fas fa-trash"></i> 回收站
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Search">
+                        <i class="fas fa-search"></i> 搜索
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <h1 class="display-4">欢迎回来，@user?.Username！</h1>
+                <p class="lead">CandyRepository 文件管理系统 - 安全、高效的文件管理解决方案</p>
+                <hr class="my-4" style="background: rgba(255,255,255,0.3);">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-file"></i>
+                            <h3>@totalFiles</h3>
+                            <p>文件总数</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-folder"></i>
+                            <h3>@totalFolders</h3>
+                            <p>文件夹总数</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-database"></i>
+                            <h3>@totalSize</h3>
+                            <p>总存储空间</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>@(recentActivities?.Count ?? 0)</h3>
+                            <p>最近活动</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h5><i class="fas fa-folder-open"></i> 最近访问的文件夹</h5>
+                        </div>
+                        <div class="card-body">
+                            @if (recentFolders != null && recentFolders.Any())
+                            {
+                                <div class="list-group">
+                                    @foreach (var folder in recentFolders)
+                                    {
+                                        <a href="/Folder/Index?folderId=@folder.Id" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-folder text-warning"></i>
+                                            @folder.Name
+                                            <span class="badge badge-secondary float-right">@folder.Type</span>
+                                        </a>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted text-center">暂无最近访问的文件夹</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h5><i class="fas fa-clock"></i> 最近上传的文件</h5>
+                        </div>
+                        <div class="card-body">
+                            @if (recentFiles != null && recentFiles.Any())
+                            {
+                                <div class="list-group">
+                                    @foreach (var file in recentFiles)
+                                    {
+                                        <div class="list-group-item">
+                                            <i class="fas fa-file text-info"></i>
+                                            @file.Name
+                                            <span class="badge badge-info float-right">@FormatFileSize(file.Size)</span>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted text-center">暂无最近上传的文件</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    @functions {
+        public string FormatFileSize(long bytes)
+        {
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            double len = bytes;
+            int order = 0;
+            while (len >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                len = len / 1024;
+            }
+            return $"{len:0.##} {sizes[order]}";
+        }
+    }
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function changePassword() {
+            var oldPassword = prompt("请输入原密码:");
+            if (!oldPassword) return;
+
+            var newPassword = prompt("请输入新密码:");
+            if (!newPassword) return;
+
+            var confirmPassword = prompt("请确认新密码:");
+            if (newPassword !== confirmPassword) {
+                alert("两次输入的新密码不一致");
+                return;
+            }
+
+            $.post('/Account/ChangePassword', {
+                userId: @user?.Id,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            }, function(result) {
+                if (result.success) {
+                    alert(result.message);
+                } else {
+                    alert(result.message);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

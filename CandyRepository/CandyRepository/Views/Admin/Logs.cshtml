@@ -1,0 +1,235 @@
+﻿@{
+    ViewData["Title"] = "操作日志";
+    var logs = ViewBag.Logs as List<CandyRepository.Models.OperationLog>;
+    var currentPage = ViewBag.CurrentPage;
+    var totalPages = ViewBag.TotalPages;
+    var startDate = ViewBag.StartDate;
+    var endDate = ViewBag.EndDate;
+    var operationType = ViewBag.OperationType?.ToString();
+    var selectedUserId = ViewBag.SelectedUserId;
+    var users = ViewBag.Users as List<dynamic>;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="fas fa-history"></i> 操作日志</h2>
+            <hr />
+        </div>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="form-inline">
+                        <div class="form-group mr-2">
+                            <label class="mr-1">开始日期:</label>
+                            <input type="date" name="startDate" class="form-control" value="@(startDate?.ToString("yyyy-MM-dd"))">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label class="mr-1">结束日期:</label>
+                            <input type="date" name="endDate" class="form-control" value="@(endDate?.ToString("yyyy-MM-dd"))">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label class="mr-1">操作类型:</label>
+                            <select name="operationType" class="form-control">
+                                <option value="">全部</option>
+                                @{
+                                    var operationTypes = new[] {
+                                "Login", "Logout", "FileUpload", "FileDownload",
+                                "FileDelete", "FileRestore", "FileRename", "FileMove",
+                                "FolderCreate", "FolderDelete", "FolderRename", "FolderMove",
+                                "PermissionChange", "UserCreate", "UserUpdate", "UserDelete"
+                                };
+                                }
+                                @foreach (var type in operationTypes)
+                                {
+                                    if (!string.IsNullOrEmpty(operationType) && operationType == type)
+                                    {
+                                        <option value="@type" selected="selected">@type</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@type">@type</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group mr-2">
+                            <label class="mr-1">用户:</label>
+                            <select name="userId" class="form-control">
+                                <option value="">全部</option>
+                                @if (users != null)
+                                {
+                                    foreach (var user in users)
+                                    {
+                                        if (selectedUserId.HasValue && selectedUserId.Value == user.Id)
+                                        {
+                                            <option value="@user.Id" selected="selected">@user.Username</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@user.Id">@user.Username</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> 筛选
+                        </button>
+                        <a href="/Admin/Logs" class="btn btn-secondary ml-2">
+                            <i class="fas fa-refresh"></i> 重置
+                        </a>
+                        @{
+                            var exportUrl = $"/Admin/ExportLogs?startDate={startDate}&endDate={endDate}&operationType={operationType}&userId={selectedUserId}";
+                        }
+                        <a href="@exportUrl" class="btn btn-success ml-2">
+                            <i class="fas fa-download"></i> 导出CSV
+                        </a>
+                        <button type="button" class="btn btn-danger ml-2" onclick="cleanLogs()">
+                            <i class="fas fa-trash"></i> 清理旧日志
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日志列表 -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-list"></i> 日志列表</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>用户</th>
+                                    <th>操作类型</th>
+                                    <th>操作内容</th>
+                                    <th>详情</th>
+                                    <th>IP地址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (logs != null && logs.Any())
+                                {
+                                    @foreach (var log in logs)
+                                    {
+                                        <tr>
+                                            <td>@log.OperationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                            <td>@log.User?.Username</td>
+                                            <td>
+                                                @{
+                                                    var badgeClass = "badge-secondary";
+                                                    var iconClass = "";
+                                                    switch (log.OperationType)
+                                                    {
+                                                        case CandyRepository.Models.OperationType.Login:
+                                                            badgeClass = "badge-success";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.Logout:
+                                                            badgeClass = "badge-secondary";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.FileUpload:
+                                                            badgeClass = "badge-info";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.FileDownload:
+                                                            badgeClass = "badge-primary";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.FileDelete:
+                                                            badgeClass = "badge-danger";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.FolderCreate:
+                                                            badgeClass = "badge-info";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.FolderDelete:
+                                                            badgeClass = "badge-danger";
+                                                            break;
+                                                        case CandyRepository.Models.OperationType.PermissionChange:
+                                                            badgeClass = "badge-warning";
+                                                            break;
+                                                    }
+                                                }
+                                                <span class="badge @badgeClass">@log.OperationType</span>
+                                            </td>
+                                            <td>@log.TargetPath</td>
+                                            <td><small>@log.Details</small></td>
+                                            <td>@log.IPAddress</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">暂无操作记录</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页 -->
+                    @if (totalPages > 1)
+                    {
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                @if (currentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=@(currentPage-1)&startDate=@startDate&endDate=@endDate&operationType=@operationType&userId=@selectedUserId">上一页</a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= totalPages; i++)
+                                {
+                                    if (i == currentPage)
+                                    {
+                                        <li class="page-item active">
+                                            <span class="page-link">@i</span>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=@i&startDate=@startDate&endDate=@endDate&operationType=@operationType&userId=@selectedUserId">@i</a>
+                                        </li>
+                                    }
+                                }
+                                @if (currentPage < totalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=@(currentPage+1)&startDate=@startDate&endDate=@endDate&operationType=@operationType&userId=@selectedUserId">下一页</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function cleanLogs() {
+            if (confirm("确定要清理90天前的操作日志吗？此操作不可恢复！")) {
+                $.post('/Admin/CleanLogs', function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+    </script>
+}

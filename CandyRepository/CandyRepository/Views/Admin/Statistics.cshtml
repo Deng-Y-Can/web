@@ -1,0 +1,192 @@
+﻿@using CandyRepository.Models
+@{
+    ViewData["Title"] = "系统统计";
+    var stats = ViewBag.Stats;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="fas fa-chart-line"></i> 系统统计</h2>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-chart-pie"></i> 文件类型分布</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="fileTypeChart" style="height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-chart-line"></i> 近30天操作趋势</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="operationChart" style="height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-table"></i> 详细统计</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>总用户数</th>
+                                    <td>@(stats?.TotalUsers ?? 0)@*@*@
+                                    <th>活跃用户</th>
+                                    <td>@(stats?.ActiveUsers ?? 0)@*@*@
+                                </tr>
+                                <tr>
+                                    <th>总文件数</th>
+                                    <td>@(stats?.TotalFiles ?? 0)@*@*@
+                                    <th>总文件夹数</th>
+                                    <td>@(stats?.TotalFolders ?? 0)@*@*@
+                                </tr>
+                                <tr>
+                                    <th>总存储空间</th>
+                                    <td>@FormatFileSize(stats?.TotalStorage ?? 0)@*@*@
+                                    <th>平均文件大小</th>
+                                    <td>@FormatFileSize((stats?.TotalFiles ?? 0) > 0 ? (stats?.TotalStorage ?? 0) / (stats?.TotalFiles ?? 1) : 0)@*@*@
+                                </tr>
+                                <tr>
+                                    <th>今日操作数</th>
+                                    <td>@(stats?.TodayOperations ?? 0)@*@*@
+                                    <th>本周操作数</th>
+                                    <td>@(stats?.WeekOperations ?? 0)@*@*@
+                                </tr>
+                                <tr>
+                                    <th>本月操作数</th>
+                                    <td>@(stats?.MonthOperations ?? 0)@*@*@
+                                    <th>总操作数</th>
+                                    <td>@(stats?.TotalOperations ?? 0)@*@*@
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
+    }
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 准备文件类型数据
+        var fileTypeLabels = [];
+        var fileTypeData = [];
+
+        @if (stats?.FilesByType != null)
+        {
+            foreach (var item in stats.FilesByType)
+            {
+                @:fileTypeLabels.push("@item.Type");
+                @:fileTypeData.push(@item.Count);
+            }
+        }
+
+        // 文件类型分布图表
+        if (fileTypeLabels.length > 0) {
+            var fileTypeCtx = document.getElementById('fileTypeChart').getContext('2d');
+            new Chart(fileTypeCtx, {
+                type: 'pie',
+                data: {
+                    labels: fileTypeLabels,
+                    datasets: [{
+                        data: fileTypeData,
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF',
+                            '#FF9F40',
+                            '#FF8C42',
+                            '#6A4E9B',
+                            '#4C9F70',
+                            '#D96C6C'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // 准备操作趋势数据
+        var operationDates = [];
+        var operationCounts = [];
+
+        @if (stats?.OperationsByDay != null)
+        {
+            foreach (var item in stats.OperationsByDay)
+            {
+                @:operationDates.push("@item.Date.ToString("MM-dd")");
+                @:operationCounts.push(@item.Count);
+            }
+        }
+
+        // 操作趋势图表
+        if (operationDates.length > 0) {
+            var operationCtx = document.getElementById('operationChart').getContext('2d');
+            new Chart(operationCtx, {
+                type: 'line',
+                data: {
+                    labels: operationDates,
+                    datasets: [{
+                        label: '操作次数',
+                        data: operationCounts,
+                        borderColor: '#36A2EB',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}

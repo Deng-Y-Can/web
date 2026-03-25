@@ -1,0 +1,199 @@
+﻿@using CandyRepository.Models
+@{
+    ViewData["Title"] = "管理后台";
+    var stats = ViewBag.Stats;
+    var recentLogs = ViewBag.RecentLogs as List<OperationLog> ?? new List<OperationLog>();
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><i class="fas fa-cog"></i> 管理后台</h2>
+            <hr />
+        </div>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">用户总数</h5>
+                    <p class="card-text display-4">@(stats?.TotalUsers ?? 0)</p>
+                    <small>活跃用户: @(stats?.ActiveUsers ?? 0)</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">文件总数</h5>
+                    <p class="card-text display-4">@(stats?.TotalFiles ?? 0)</p>
+                    <small>文件夹: @(stats?.TotalFolders ?? 0)</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">总存储空间</h5>
+                    <p class="card-text display-4">@FormatFileSize(stats?.TotalStorage ?? 0)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">今日操作</h5>
+                    <p class="card-text display-4">@(stats?.TodayOperations ?? 0)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 管理菜单 -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-tools"></i> 管理功能</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="/Admin/Users" class="btn btn-outline-primary btn-block mb-2">
+                                <i class="fas fa-users"></i> 用户管理
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/Admin/Logs" class="btn btn-outline-info btn-block mb-2">
+                                <i class="fas fa-history"></i> 操作日志
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/Admin/Statistics" class="btn btn-outline-success btn-block mb-2">
+                                <i class="fas fa-chart-line"></i> 系统统计
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-outline-danger btn-block mb-2" onclick="cleanRecycleBin()">
+                                <i class="fas fa-trash"></i> 清理回收站
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 最近操作日志 -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-clock"></i> 最近操作记录</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>时间</th>
+                                    <th>用户</th>
+                                    <th>操作类型</th>
+                                    <th>操作内容</th>
+                                    <th>IP地址</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (recentLogs != null && recentLogs.Any())
+                                {
+                                    @foreach (var log in recentLogs)
+                                    {
+                                        <tr>
+                                            <td>@log.OperationTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                            <td>@log.User?.Username</td>
+                                            <td>
+                                                @{
+                                                    var badgeClass = "badge-secondary";
+                                                    switch (log.OperationType)
+                                                    {
+                                                        case OperationType.Login:
+                                                            badgeClass = "badge-success";
+                                                            break;
+                                                        case OperationType.Logout:
+                                                            badgeClass = "badge-secondary";
+                                                            break;
+                                                        case OperationType.FileUpload:
+                                                            badgeClass = "badge-info";
+                                                            break;
+                                                        case OperationType.FileDownload:
+                                                            badgeClass = "badge-primary";
+                                                            break;
+                                                        case OperationType.FileDelete:
+                                                            badgeClass = "badge-danger";
+                                                            break;
+                                                        case OperationType.FolderCreate:
+                                                            badgeClass = "badge-info";
+                                                            break;
+                                                        case OperationType.FolderDelete:
+                                                            badgeClass = "badge-danger";
+                                                            break;
+                                                        case OperationType.PermissionChange:
+                                                            badgeClass = "badge-warning";
+                                                            break;
+                                                    }
+                                                }
+                                                <span class="badge @badgeClass">@log.OperationType</span>
+                                            </td>
+                                            <td>@log.TargetPath</td>
+                                            <td>@log.IPAddress</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">暂无操作记录</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
+    }
+}
+
+@section Scripts {
+    <script>
+        function cleanRecycleBin() {
+            if (confirm("确定要清理回收站吗？所有超过30天的文件将被永久删除。")) {
+                $.post('/Admin/CleanRecycleBin', function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+    </script>
+}

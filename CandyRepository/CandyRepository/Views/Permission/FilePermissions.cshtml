@@ -1,0 +1,255 @@
+﻿@using CandyRepository.Models
+@{
+    ViewData["Title"] = "文件夹权限管理";
+    var folder = ViewBag.Folder as Folder;
+    var permissions = ViewBag.Permissions as List<FolderPermission> ?? new List<FolderPermission>();
+    var allUsers = ViewBag.AllUsers as List<dynamic> ?? new List<dynamic>();
+    var permissionTypes = ViewBag.PermissionTypes as List<PermissionType> ?? new List<PermissionType>();
+    var userId = Context.Session.GetInt32("UserId");
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">首页</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Folder" asp-action="Index">我的文件</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        权限管理 - @folder?.Name
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5><i class="fas fa-lock"></i> 文件夹权限管理</h5>
+                    <small class="text-muted">文件夹名称: @folder?.Name | 所有者: @folder?.Owner?.Username</small>
+                </div>
+                <div class="card-body">
+                    <!-- 权限说明 -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>权限说明：</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>仅查看：</strong> 只能查看文件夹列表和文件列表，不能下载</li>
+                            <li><strong>可下载：</strong> 可以查看和下载文件</li>
+                            <li><strong>可编辑：</strong> 可以上传、重命名、移动文件</li>
+                            <li><strong>完全控制：</strong> 拥有所有权限，包括删除和设置权限</li>
+                        </ul>
+                    </div>
+
+                    <!-- 添加权限表单 -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6><i class="fas fa-user-plus"></i> 添加用户权限</h6>
+                        </div>
+                        <div class="card-body">
+                            <form id="addPermissionForm" class="form-inline">
+                                <div class="form-group mr-2 mb-2">
+                                    <label class="mr-2">选择用户：</label>
+                                    <select id="userId" class="form-control" style="min-width: 150px;">
+                                        <option value="">-- 请选择用户 --</option>
+                                        @foreach (var user in allUsers)
+                                        {
+                                            <option value="@user.Id">@user.Username</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group mr-2 mb-2">
+                                    <label class="mr-2">权限级别：</label>
+                                    <select id="permission" class="form-control">
+                                        @foreach (var perm in permissionTypes)
+                                        {
+                                            <option value="@((int)perm)">@GetPermissionName(perm)</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group mr-2 mb-2">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="applyToChildren" class="custom-control-input">
+                                        <label class="custom-control-label" for="applyToChildren">
+                                            应用到所有子文件夹和文件
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary mb-2" onclick="addPermission()">
+                                    <i class="fas fa-plus"></i> 添加权限
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 当前权限列表 -->
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h6><i class="fas fa-list"></i> 当前权限列表</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>用户</th>
+                                            <th>权限级别</th>
+                                            <th>来源</th>
+                                            <th>设置时间</th>
+                                            <th>设置人</th>
+                                            <th>操作</th>
+                                    </thead>
+                                    <tbody>
+                                        @if (permissions.Any())
+                                        {
+                                            @foreach (var perm in permissions)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <i class="fas fa-user"></i> @perm.User?.Username
+                                                        @if (perm.UserId == folder?.OwnerId)
+                                                        {
+                                                            <span class="badge badge-warning ml-1">所有者</span>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            var badgeClass = GetPermissionBadgeClass(perm.Permission);
+                                                        }
+                                                        <span class="badge @badgeClass">@GetPermissionName(perm.Permission)</span>
+                                                    </td>
+                                                    <td>
+                                                        @if (perm.IsInherited)
+                                                        {
+                                                            <span class="badge badge-secondary">继承</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge badge-primary">直接设置</span>
+                                                        }
+                                                    </td>
+                                                    <td>@perm.GrantedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                                    <td>@perm.GrantedBy?.Username</td>
+                                                    <td>
+                                                        @if (!perm.IsInherited && perm.UserId != folder?.OwnerId)
+                                                        {
+                                                            <button class="btn btn-sm btn-danger" onclick="removePermission(@perm.Id)">
+                                                                <i class="fas fa-trash"></i> 移除
+                                                            </button>
+                                                        }
+                                                        else if (perm.UserId == folder?.OwnerId)
+                                                        {
+                                                            <span class="text-muted">所有者</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">继承权限</span>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">暂无权限设置</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@functions {
+    public string GetPermissionName(PermissionType permission)
+    {
+        return permission switch
+        {
+            PermissionType.ViewOnly => "仅查看",
+            PermissionType.CanDownload => "可下载",
+            PermissionType.CanEdit => "可编辑",
+            PermissionType.FullControl => "完全控制",
+            _ => "未知"
+        };
+    }
+
+    public string GetPermissionBadgeClass(PermissionType permission)
+    {
+        return permission switch
+        {
+            PermissionType.ViewOnly => "badge-secondary",
+            PermissionType.CanDownload => "badge-info",
+            PermissionType.CanEdit => "badge-warning",
+            PermissionType.FullControl => "badge-success",
+            _ => "badge-secondary"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        var folderId = @(folder?.Id ?? 0);
+
+        function addPermission() {
+            var userId = $('#userId').val();
+            var permission = $('#permission').val();
+            var applyToChildren = $('#applyToChildren').is(':checked');
+
+            if (!userId) {
+                alert('请选择用户');
+                return;
+            }
+
+            $.ajax({
+                url: '/Permission/AddFolderPermission',
+                type: 'POST',
+                data: {
+                    folderId: folderId,
+                    userId: userId,
+                    permission: parseInt(permission),
+                    applyToChildren: applyToChildren
+                },
+                success: function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert('添加权限失败，请重试');
+                }
+            });
+        }
+
+        function removePermission(permissionId) {
+            if (confirm('确定要移除此权限吗？')) {
+                $.post('/Permission/RemoveFolderPermission', {
+                    folderId: folderId,
+                    permissionId: permissionId
+                }, function(result) {
+                    if (result.success) {
+                        alert(result.message);
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+    </script>
+}

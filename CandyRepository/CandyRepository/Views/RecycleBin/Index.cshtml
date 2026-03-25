@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "回收站";
+    var recycleItems = ViewBag.RecycleItems as List<CandyRepository.Models.RecycleBin> ?? new List<CandyRepository.Models.RecycleBin>();
+    var userId = Context.Session.GetInt32("UserId");
+    var isAdmin = Context.Session.GetString("IsAdmin") == "True";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-trash"></i> 回收站</h5>
+                            <small class="text-muted">文件/文件夹删除后将在此保留30天，之后自动清理</small>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @if (recycleItems.Any())
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" onclick="emptyRecycleBin()">
+                                    <i class="fas fa-trash-alt"></i> 清空回收站
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (recycleItems.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>类型</th>
+                                        <th>名称</th>
+                                        <th>原路径</th>
+                                        <th>删除时间</th>
+                                        <th>删除人</th>
+                                        <th>剩余天数</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in recycleItems)
+                                    {
+                                        var remainingDays = (int)(item.ExpiresAt - DateTime.UtcNow).TotalDays;
+                                        <tr>
+                                            <td>
+                                                @if (item.ItemType == CandyRepository.Models.DeletedItemType.File)
+                                                {
+                                                    @:<i class="fas fa-file text-info"></i> 文件
+                                                }
+                                                else
+                                                {
+                                                    @:<i class="fas fa-folder text-warning"></i> 文件夹
+                                                }
+                                            </td>
+                                            <td>@item.Name</td>
+                                            <td><small>@item.OriginalPath</small></td>
+                                            <td>@item.DeletedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                            <td>@(item.DeletedBy?.Username ?? "未知")</td>
+                                            <td>
+                                                @if (remainingDays > 0)
+                                                {
+                                                    <span class="badge badge-warning">@remainingDays 天</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">即将过期</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button onclick="restoreItem(@item.Id)" class="btn btn-success">
+                                                        <i class="fas fa-undo-alt"></i> 恢复
+                                                    </button>
+                                                    <button onclick="permanentDelete(@item.Id)" class="btn btn-danger">
+                                                        <i class="fas fa-trash-alt"></i> 彻底删除
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info text-center">
+                            <i class="fas fa-info-circle"></i> 回收站是空的
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function restoreItem(id) {
+            if (confirm("确定要恢复此项目吗？")) {
+                $.post('/RecycleBin/Restore', { id: id }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        function permanentDelete(id) {
+            if (confirm("确定要彻底删除此项目吗？此操作不可恢复！")) {
+                $.post('/RecycleBin/PermanentDelete', { id: id }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        function emptyRecycleBin() {
+            if (confirm("确定要清空回收站吗？所有项目将被彻底删除，此操作不可恢复！")) {
+                $.post('/RecycleBin/EmptyRecycleBin', function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+    </script>
+}

@@ -1,0 +1,656 @@
+﻿@model CandyRepository.Models.Folder
+@{
+    ViewData["Title"] = ViewBag.CurrentFolder?.Name ?? "根目录";
+    var currentFolder = ViewBag.CurrentFolder as CandyRepository.Models.Folder;
+    var folders = ViewBag.Folders as List<CandyRepository.Models.Folder>;
+    var files = ViewBag.Files as List<CandyRepository.Models.File>;
+    var breadcrumbs = ViewBag.Breadcrumbs as List<CandyRepository.Models.Folder>;
+    var userId = Context.Session.GetInt32("UserId");
+    var isAdmin = Context.Session.GetString("IsAdmin") == "True";
+}
+
+<div class="container-fluid">
+    <!-- 面包屑导航 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="Index">首页</a>
+            </li>
+            @if (breadcrumbs != null)
+            {
+                @foreach (var folder in breadcrumbs)
+                {
+                    <li class="breadcrumb-item">
+                        <a asp-action="Index" asp-route-folderId="@folder.Id">@folder.Name</a>
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+
+    <!-- 工具栏 -->
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFolderModal">
+                    <i class="fas fa-folder-plus"></i> 新建文件夹
+                </button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadModal">
+                    <i class="fas fa-upload"></i> 上传文件
+                </button>
+                @if (currentFolder != null)
+                {
+                    @if (currentFolder.Type == CandyRepository.Models.FolderType.Private && currentFolder.OwnerId == userId)
+                    {
+                        <button type="button" class="btn btn-warning" onclick="moveToPublic(@currentFolder.Id)">
+                            <i class="fas fa-globe"></i> 移动到公开区
+                        </button>
+                    }
+                    else if (currentFolder.Type == CandyRepository.Models.FolderType.Public && currentFolder.OwnerId == userId)
+                    {
+                        <button type="button" class="btn btn-secondary" onclick="moveToPrivate(@currentFolder.Id)">
+                            <i class="fas fa-lock"></i> 移动到私有区
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- 批量操作栏 -->
+    <div class="row mt-2" id="batchActions" style="display:none;">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <i class="fas fa-check-circle"></i> 已选择 <span id="selectedCount">0</span> 个文件
+                <button type="button" class="btn btn-sm btn-success ml-2" onclick="batchDownload()">
+                    <i class="fas fa-download"></i> 批量下载
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" onclick="batchDelete()">
+                    <i class="fas fa-trash"></i> 批量删除
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文件夹列表 -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-folder"></i> 文件夹</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @if (folders != null && folders.Any())
+                        {
+                            @foreach (var folder in folders)
+                            {
+                                <div class="col-md-3 col-sm-4 col-6 mb-3">
+                                    <div class="folder-item" style="cursor: pointer; padding: 15px; border-radius: 10px; transition: all 0.3s;"
+                                         onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.transform='translateY(-5px)'"
+                                         onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateY(0)'">
+                                        <div class="text-center" onclick="location.href='@Url.Action("Index", new { folderId = folder.Id })'">
+                                            <i class="fas fa-folder fa-3x text-warning"></i>
+                                            <p class="mt-2 mb-1">@folder.Name</p>
+                                            <small class="text-muted">@folder.Type</small>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <!-- 权限管理按钮 - 只有所有者或管理员可见 -->
+                                            @if (folder.OwnerId == userId || isAdmin)
+                                            {
+                                                <button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); manageFolderPermissions(@folder.Id)" title="权限管理">
+                                                    <i class="fas fa-lock"></i>
+                                                </button>
+                                            }
+                                            <button class="btn btn-sm btn-outline-warning" onclick="event.stopPropagation(); renameFolder(@folder.Id, '@folder.Name')" title="重命名">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteFolder(@folder.Id)" title="删除">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            @if (folder.Type == CandyRepository.Models.FolderType.Public && folder.OwnerId == userId)
+                                            {
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation(); moveToPrivate(@folder.Id)" title="移动到私有区">
+                                                    <i class="fas fa-lock"></i>
+                                                </button>
+                                            }
+                                            @if (folder.Type == CandyRepository.Models.FolderType.Private && folder.OwnerId == userId)
+                                            {
+                                                <button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); moveToPublic(@folder.Id)" title="移动到公开区">
+                                                    <i class="fas fa-globe"></i>
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <p class="text-muted text-center">暂无文件夹</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文件列表 -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-file"></i> 文件</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <input type="checkbox" id="selectAllCheckbox" onclick="selectAll(this)">
+                                    </th>
+                                    <th>文件名</th>
+                                    <th style="width: 100px;">大小</th>
+                                    <th style="width: 100px;">上传者</th>
+                                    <th style="width: 150px;">上传时间</th>
+                                    <th style="width: 250px;">操作</th>
+                            </thead>
+                            <tbody>
+                                @if (files != null && files.Any())
+                                {
+                                    @foreach (var file in files)
+                                    {
+                                        var canEdit = file.UploadedById == userId || isAdmin;
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="file-checkbox" data-fileid="@file.Id" onchange="toggleSelectFile(@file.Id, this)">
+                                            </td>
+                                            <td>
+                                                <i class="fas fa-file"></i>
+                                                @file.Name
+                                            </td>
+                                            <td>@FormatFileSize(file.Size)</td>
+                                            <td>@file.UploadedBy?.Username</td>
+                                            <td>@file.UploadedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="#" onclick="downloadFile(@file.Id)" class="btn btn-info">
+                                                        <i class="fas fa-download"></i>
+                                                    </a>
+                                                    @if (canEdit)
+                                                    {
+                                                        <button onclick="renameFile(@file.Id, '@file.Name')" class="btn btn-warning">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button onclick="deleteFile(@file.Id)" class="btn btn-danger">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                        <button onclick="moveFile(@file.Id)" class="btn btn-secondary">
+                                                            <i class="fas fa-arrows-alt"></i>
+                                                        </button>
+                                                        <!-- 文件权限管理按钮 -->
+                                                        <button onclick="manageFilePermissions(@file.Id)" class="btn btn-outline-info" title="权限管理">
+                                                            <i class="fas fa-lock"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">暂无文件</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 创建文件夹模态框 -->
+<div class="modal fade" id="createFolderModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-folder-plus"></i> 新建文件夹</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createFolderForm">
+                    <div class="form-group">
+                        <label>文件夹名称</label>
+                        <input type="text" id="folderName" class="form-control" placeholder="请输入文件夹名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label>文件夹类型</label>
+                        <select id="folderType" class="form-control">
+                            <option value="0">私有文件夹（仅自己可见）</option>
+                            <option value="1">公开文件夹（所有人可见）</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="createFolder()">创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 上传文件模态框 -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-upload"></i> 上传文件</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>选择文件</label>
+                        <input type="file" id="uploadFiles" name="files" class="form-control-file" multiple accept="*/*">
+                        <small class="form-text text-muted">支持批量上传，单个文件最大100MB</small>
+                    </div>
+                    <div class="form-group">
+                        <div id="uploadProgress" class="progress" style="display:none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div id="uploadResult" class="alert" style="display:none;"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="uploadFiles()">上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
+    }
+}
+
+@section Scripts {
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 获取当前文件夹ID，0表示根目录
+        var currentFolderId = @(ViewBag.CurrentFolder?.Id ?? 0);
+        var selectedFiles = [];
+
+        // 管理文件夹权限
+        function manageFolderPermissions(folderId) {
+            window.location.href = '/Permission/FolderPermissions?folderId=' + folderId;
+        }
+
+        // 管理文件权限
+        function manageFilePermissions(fileId) {
+            window.location.href = '/Permission/FilePermissions?fileId=' + fileId;
+        }
+
+        // 创建文件夹
+        function createFolder() {
+            var folderName = $('#folderName').val().trim();
+            var folderType = $('#folderType').val();
+
+            if (!folderName) {
+                alert('请输入文件夹名称');
+                return;
+            }
+
+            var parentId = currentFolderId === 0 ? null : currentFolderId;
+
+            $.ajax({
+                url: '/Folder/Create',
+                type: 'POST',
+                data: {
+                    name: folderName,
+                    type: parseInt(folderType),
+                    parentFolderId: parentId
+                },
+                success: function(result) {
+                    if (result.success) {
+                        $('#createFolderModal').modal('hide');
+                        $('#folderName').val('');
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', xhr.responseText);
+                    alert('创建失败：' + error);
+                }
+            });
+        }
+
+        // 上传文件
+        function uploadFiles() {
+            var files = $('#uploadFiles')[0].files;
+            if (files.length === 0) {
+                alert('请选择要上传的文件');
+                return;
+            }
+
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+            formData.append('folderId', currentFolderId);
+
+            $('#uploadProgress').show();
+            $('#uploadResult').hide();
+
+            $.ajax({
+                url: '/File/UploadMultiple',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                xhr: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            var percentComplete = (e.loaded / e.total) * 100;
+                            $('.progress-bar').css('width', percentComplete + '%');
+                            $('.progress-bar').text(Math.round(percentComplete) + '%');
+                        }
+                    });
+                    return xhr;
+                },
+                success: function(result) {
+                    $('#uploadProgress').hide();
+                    if (result.success) {
+                        $('#uploadResult').removeClass('alert-danger').addClass('alert-success');
+                        $('#uploadResult').html('<i class="fas fa-check-circle"></i> 上传成功！成功：' + result.successCount + ' 个，失败：' + result.failCount + ' 个');
+                        $('#uploadResult').show();
+                        setTimeout(function() {
+                            $('#uploadModal').modal('hide');
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        $('#uploadResult').removeClass('alert-success').addClass('alert-danger');
+                        $('#uploadResult').html('<i class="fas fa-exclamation-circle"></i> ' + result.message);
+                        $('#uploadResult').show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#uploadProgress').hide();
+                    $('#uploadResult').removeClass('alert-success').addClass('alert-danger');
+                    $('#uploadResult').html('<i class="fas fa-exclamation-circle"></i> 上传失败：' + error);
+                    $('#uploadResult').show();
+                }
+            });
+        }
+
+        // 下载文件
+        function downloadFile(fileId) {
+            window.location.href = '/File/Download/' + fileId;
+        }
+
+        // 重命名文件
+        function renameFile(fileId, currentName) {
+            var newName = prompt("请输入新文件名:", currentName);
+            if (newName && newName !== currentName) {
+                $.post('/File/Rename', { id: fileId, newName: newName }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 删除文件
+        function deleteFile(fileId) {
+            if (confirm("确定要删除此文件吗？")) {
+                $.post('/File/Delete', { id: fileId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 移动文件
+        function moveFile(fileId) {
+            var targetFolderId = prompt("请输入目标文件夹ID:");
+            if (targetFolderId && !isNaN(targetFolderId)) {
+                $.post('/File/Move', { id: fileId, targetFolderId: parseInt(targetFolderId) }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            } else if (targetFolderId) {
+                alert("请输入有效的文件夹ID");
+            }
+        }
+
+        // 重命名文件夹
+        function renameFolder(folderId, currentName) {
+            var newName = prompt("请输入新文件夹名:", currentName);
+            if (newName && newName !== currentName) {
+                $.post('/Folder/Rename', { folderId: folderId, newName: newName }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 删除文件夹
+        function deleteFolder(folderId) {
+            if (confirm("确定要删除此文件夹吗？")) {
+                $.post('/Folder/Delete', { folderId: folderId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else if (result.needConfirm) {
+                        if (confirm(result.message)) {
+                            $.post('/Folder/Delete', { folderId: folderId, confirm: true }, function(result2) {
+                                if (result2.success) {
+                                    location.reload();
+                                } else {
+                                    alert(result2.message);
+                                }
+                            });
+                        }
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 移动文件夹到公开区
+        function moveToPublic(folderId) {
+            if (confirm("确定要将此文件夹移动到公开区吗？其他用户将可以访问此文件夹。")) {
+                $.post('/Folder/MoveToPublic', { folderId: folderId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 移动文件夹到私有区
+        function moveToPrivate(folderId) {
+            if (confirm("确定要将此文件夹移动到私有区吗？移动到私有区后，其他用户将无法访问此文件夹及其内容。")) {
+                $.post('/Folder/MoveToPrivate', { folderId: folderId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else if (result.needConfirm) {
+                        if (confirm(result.message)) {
+                            $.post('/Folder/MoveToPrivate', { folderId: folderId, confirm: true }, function(result2) {
+                                if (result2.success) {
+                                    location.reload();
+                                } else {
+                                    alert(result2.message);
+                                }
+                            });
+                        }
+                    } else {
+                        alert(result.message);
+                    }
+                });
+            }
+        }
+
+        // 选择文件
+        function toggleSelectFile(fileId, checkbox) {
+            if (checkbox.checked) {
+                if (selectedFiles.indexOf(fileId) === -1) {
+                    selectedFiles.push(fileId);
+                }
+            } else {
+                var index = selectedFiles.indexOf(fileId);
+                if (index > -1) {
+                    selectedFiles.splice(index, 1);
+                }
+            }
+            updateBatchButtons();
+        }
+
+        // 全选/取消全选
+        function selectAll(checkbox) {
+            $('.file-checkbox').each(function() {
+                this.checked = checkbox.checked;
+                var fileId = parseInt($(this).data('fileid'));
+                if (checkbox.checked) {
+                    if (selectedFiles.indexOf(fileId) === -1) {
+                        selectedFiles.push(fileId);
+                    }
+                } else {
+                    var index = selectedFiles.indexOf(fileId);
+                    if (index > -1) {
+                        selectedFiles.splice(index, 1);
+                    }
+                }
+            });
+            updateBatchButtons();
+        }
+
+        // 更新批量操作按钮状态
+        function updateBatchButtons() {
+            if (selectedFiles.length > 0) {
+                $('#batchActions').show();
+                $('#selectedCount').text(selectedFiles.length);
+            } else {
+                $('#batchActions').hide();
+            }
+            $('#selectAllCheckbox').prop('checked', selectedFiles.length === $('.file-checkbox').length && $('.file-checkbox').length > 0);
+        }
+
+        // 批量下载
+        function batchDownload() {
+            if (selectedFiles.length === 0) {
+                alert("请先选择文件");
+                return;
+            }
+
+            $.ajax({
+                url: '/File/BatchDownload',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(selectedFiles),
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(data) {
+                    var blob = new Blob([data]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'files_' + new Date().getTime() + '.zip';
+                    link.click();
+                    window.URL.revokeObjectURL(link.href);
+                },
+                error: function() {
+                    alert("下载失败");
+                }
+            });
+        }
+
+        // 批量删除
+        function batchDelete() {
+            if (selectedFiles.length === 0) {
+                alert("请先选择文件");
+                return;
+            }
+
+            if (confirm("确定要删除选中的 " + selectedFiles.length + " 个文件吗？")) {
+                $.ajax({
+                    url: '/File/BatchDelete',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(selectedFiles),
+                    success: function(result) {
+                        if (result.success) {
+                            alert("已删除 " + result.successCount + " 个文件");
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function() {
+                        alert("批量删除失败");
+                    }
+                });
+            }
+        }
+
+        // 模态框关闭时重置表单
+        $('#createFolderModal').on('hidden.bs.modal', function () {
+            $('#folderName').val('');
+            $('#folderType').val('0');
+        });
+
+        $('#uploadModal').on('hidden.bs.modal', function () {
+            $('#uploadFiles').val('');
+            $('#uploadProgress').hide();
+            $('#uploadResult').hide();
+            $('.progress-bar').css('width', '0%');
+            $('.progress-bar').text('0%');
+        });
+
+        // 页面加载完成后初始化
+        $(document).ready(function() {
+            updateBatchButtons();
+        });
+    </script>
+}

@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CandyRepository</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            background: white;
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .nav-link {
+            color: #333 !important;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px 10px;
+        }
+
+            .nav-link:hover, .nav-link.active {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white !important;
+            }
+
+            .nav-link i {
+                margin-right: 10px;
+                width: 20px;
+            }
+
+        main {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+            }
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+        .table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .folder-item {
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+            .folder-item:hover {
+                background: #f8f9fa;
+                transform: translateY(-5px);
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Home/Index">
+                <i class="fas fa-folder-open"></i> CandyRepository
+            </a>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="fas fa-user"></i> @Context.Session.GetString("Username")
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" onclick="changePassword()">
+                        <i class="fas fa-key"></i> 修改密码
+                    </a>
+                    @if (Context.Session.GetString("IsAdmin") == "True")
+                    {
+                        <a class="dropdown-item" href="/Admin/Dashboard">
+                            <i class="fas fa-cog"></i> 管理后台
+                        </a>
+                    }
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/Account/Logout" onclick="return confirm('确定要退出吗？')">
+                        <i class="fas fa-sign-out-alt"></i> 退出登录
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sidebar">
+        <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" href="/Home/Index">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Folder" ? "active" : "")" href="/Folder/Index">
+                        <i class="fas fa-folder"></i> 我的文件
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "RecycleBin" ? "active" : "")" href="/RecycleBin/Index">
+                        <i class="fas fa-trash"></i> 回收站
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Search" ? "active" : "")" href="/Home/Search">
+                        <i class="fas fa-search"></i> 搜索
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </main>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function changePassword() {
+            var userId = @Context.Session.GetInt32("UserId");
+            var oldPassword = prompt("请输入原密码:");
+            if (!oldPassword) return;
+
+            var newPassword = prompt("请输入新密码:");
+            if (!newPassword) return;
+
+            var confirmPassword = prompt("请确认新密码:");
+            if (newPassword !== confirmPassword) {
+                alert("两次输入的新密码不一致");
+                return;
+            }
+
+            $.post('/Account/ChangePassword', {
+                userId: userId,
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            }, function(result) {
+                if (result.success) {
+                    alert(result.message);
+                } else {
+                    alert(result.message);
+                }
+            });
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
