@@ -1,0 +1,261 @@
+﻿@model CandyNote.Models.Note
+@{
+    ViewData["Title"] = Model.Title;
+    var isOwner = User.FindFirst(ClaimTypes.NameIdentifier)?.Value == Model.UserId.ToString();
+    var isAdmin = User.IsInRole("Admin");
+    var canEdit = isOwner || isAdmin;
+}
+
+<div class="note-view">
+    <div class="note-view-header">
+        <h1>@Model.Title</h1>
+        <div class="note-meta">
+            <span class="badge @(Model.Permission == CandyNote.Models.NotePermission.Public ? "public" : "private")">
+                @(Model.Permission == CandyNote.Models.NotePermission.Public ? "🌍 公开" : "🔒 私有")
+            </span>
+            <span><i class="fas fa-user"></i> @(Model.User?.Username ?? "已删除用户")</span>
+            <span><i class="fas fa-calendar-plus"></i> 创建: @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+            <span><i class="fas fa-edit"></i> 更新: @Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+        </div>
+        @if (canEdit)
+        {
+            <div class="note-actions">
+                <button class="btn-primary" onclick="editNote()">
+                    <i class="fas fa-edit"></i> 编辑笔记
+                </button>
+                <button class="btn-danger" onclick="deleteNote()">
+                    <i class="fas fa-trash"></i> 删除笔记
+                </button>
+                <button class="btn-secondary" onclick="togglePermission()">
+                    <i class="fas fa-lock"></i>
+                    @(Model.Permission == CandyNote.Models.NotePermission.Public ? "设为私有" : "设为公开")
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="note-view-content">
+        @if (!string.IsNullOrEmpty(Model.Content))
+        {
+            @Html.Raw(Model.Content)
+        }
+        else
+        {
+            <div class="empty-content">
+                <i class="fas fa-file-alt"></i>
+                <p>笔记内容为空</p>
+                @if (canEdit)
+                {
+                    <button class="btn-primary" onclick="editNote()" style="margin-top: 20px;">
+                        <i class="fas fa-edit"></i> 编辑笔记
+                    </button>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .note-view {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .note-view-header {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+        .note-view-header h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+    .note-meta {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        color: #999;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+        .badge.public {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge.private {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+    .note-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .btn-primary, .btn-danger, .btn-secondary {
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+    .btn-danger {
+        background: #f56565;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+            transform: translateY(-1px);
+        }
+
+    .btn-secondary {
+        background: #f5f7fa;
+        border: 1px solid #e1e5e9;
+    }
+
+        .btn-secondary:hover {
+            background: #e5e9f0;
+        }
+
+    .note-view-content {
+        line-height: 1.8;
+        color: #444;
+    }
+
+        .note-view-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .note-view-content video {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .note-view-content a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+            .note-view-content a:hover {
+                text-decoration: underline;
+            }
+
+    .empty-content {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+        .empty-content i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+</style>
+
+<script>
+    function editNote() {
+        window.location.href = `/Note/Edit/@Model.Id`;
+    }
+
+    function deleteNote() {
+        if (confirm('确定要删除这篇笔记吗？删除后无法恢复。')) {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            fetch(`/Note/Delete/@Model.Id`, {
+                method: 'POST',
+                headers: { 'RequestVerificationToken': token }
+            }).then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    window.location.href = '/Home/Index';
+                } else {
+                    alert('删除失败：' + result.message);
+                }
+            });
+        }
+    }
+
+    async function togglePermission() {
+        const newPermission = '@Model.Permission' === 'Public' ? 0 : 1;
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+        const response = await fetch(`/Note/ChangePermission/@Model.Id`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': token
+            },
+            body: JSON.stringify(newPermission)
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            location.reload();
+        } else {
+            alert('操作失败：' + result.message);
+        }
+    }
+
+    // 图片点击放大
+    document.querySelectorAll('.note-view-content img').forEach(img => {
+        img.onclick = () => {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+            modal.style.zIndex = '10000';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.cursor = 'pointer';
+
+            const modalImg = document.createElement('img');
+            modalImg.src = img.src;
+            modalImg.style.maxWidth = '90%';
+            modalImg.style.maxHeight = '90%';
+            modalImg.style.objectFit = 'contain';
+
+            modal.appendChild(modalImg);
+            document.body.appendChild(modal);
+
+            modal.onclick = () => modal.remove();
+        };
+    });
+</script>

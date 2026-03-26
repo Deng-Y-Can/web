@@ -1,0 +1,163 @@
+﻿@model CandyNote.Models.Note
+@{
+    ViewData["Title"] = "新建笔记";
+    var collectionId = ViewBag.CollectionId;
+}
+
+<div class="note-editor">
+    <form id="noteForm" method="post" onsubmit="return prepareSubmit()">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="CollectionId" value="@collectionId" />
+
+        <div class="editor-header">
+            <input type="text" name="Title" id="Title" class="title-input" placeholder="输入笔记标题..." required autofocus />
+            <div class="editor-actions">
+                <select name="Permission" class="permission-select">
+                    <option value="0">🔒 私有</option>
+                    <option value="1">🌍 公开</option>
+                </select>
+                <button type="submit" class="btn-primary">💾 保存笔记</button>
+                <button type="button" class="btn-secondary" onclick="history.back()">❌ 取消</button>
+            </div>
+        </div>
+
+        <!-- 富文本编辑器 - 直接绑定 Content -->
+        <textarea id="noteContent" name="Content" class="rich-editor-textarea" data-placeholder="在这里输入笔记内容...支持图片、视频、文件拖拽上传" data-height="500"></textarea>
+    </form>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="~/js/rich-editor.js"></script>
+
+<style>
+    .note-editor {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .title-input {
+        width: 100%;
+        font-size: 28px;
+        border: none;
+        padding: 10px 0;
+        margin-bottom: 20px;
+        outline: none;
+        font-weight: 600;
+        border-bottom: 2px solid #e1e5e9;
+    }
+
+        .title-input:focus {
+            border-bottom-color: #667eea;
+        }
+
+    .editor-header {
+        margin-bottom: 30px;
+    }
+
+    .editor-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .permission-select {
+        padding: 8px 15px;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+    .btn-secondary {
+        background: #f5f7fa;
+        border: 1px solid #e1e5e9;
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .rich-editor-container {
+        margin-top: 10px;
+    }
+
+    .rich-editor-content {
+        min-height: 500px;
+    }
+
+        .rich-editor-content.empty:before {
+            content: attr(data-placeholder);
+            color: #999;
+            position: absolute;
+        }
+
+    .rich-editor-content {
+        position: relative;
+    }
+</style>
+
+<script>
+    let currentEditor = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const textarea = document.getElementById('noteContent');
+            if (textarea && !textarea.hasAttribute('data-editor-initialized')) {
+                currentEditor = new RichEditor(textarea, {
+                    placeholder: '在这里输入笔记内容...支持图片、视频、文件拖拽上传',
+                    height: 500,
+                    onContentChange: (content) => {
+                        console.log('内容已更新，长度:', content.length);
+                    }
+                });
+            } else if (textarea && textarea.hasAttribute('data-editor-initialized')) {
+                // 获取已初始化的编辑器
+                for (let id in window.editorInstances) {
+                    if (window.editorInstances[id].element === textarea) {
+                        currentEditor = window.editorInstances[id];
+                        break;
+                    }
+                }
+            }
+        }, 100);
+    });
+
+    function prepareSubmit() {
+        if (!currentEditor) {
+            console.error('编辑器未初始化');
+            alert('编辑器未就绪，请稍后再试');
+            return false;
+        }
+
+        const title = document.getElementById('Title').value;
+        if (!title) {
+            alert('请输入笔记标题');
+            return false;
+        }
+
+        const content = currentEditor.getContent();
+        console.log('保存内容长度:', content.length);
+
+        // 直接赋值给 textarea
+        document.getElementById('noteContent').value = content;
+
+        return true;
+    }
+</script>

@@ -1,0 +1,404 @@
+﻿@model List<CandyNote.Models.User>
+@{
+    ViewData["Title"] = "用户管理";
+}
+
+<div class="admin-container">
+    <h1>用户管理</h1>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>创建新用户</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="CreateUser" class="create-user-form">
+                @Html.AntiForgeryToken()
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" name="username" required />
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" name="password" required />
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="isAdmin" value="true" />
+                            管理员权限
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-primary">创建用户</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>用户列表</h3>
+        </div>
+        <div class="card-body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert-error">@TempData["Error"]</div>
+            }
+
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>角色</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>
+                                <span class="editable-username" data-id="@user.Id" data-name="@user.Username">
+                                    @user.Username
+                                </span>
+                            </td>
+                            <td>@(user.IsAdmin ? "管理员" : "普通用户")</td>
+                            <td>@user.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td class="actions">
+                                <button class="btn-sm" onclick="editUser(@user.Id, '@user.Username')">
+                                    <i class="fas fa-edit"></i> 编辑
+                                </button>
+                                <button class="btn-sm btn-danger" onclick="resetPassword(@user.Id)">
+                                    <i class="fas fa-key"></i> 重置密码
+                                </button>
+                                @if (user.Id != 1)
+                                {
+                                    <button class="btn-sm btn-danger" onclick="deleteUser(@user.Id)">
+                                        <i class="fas fa-trash"></i> 删除
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="editUserModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>编辑用户</h3>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="editUserForm" method="post" asp-action="UpdateUser">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="editUserId" />
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" name="username" id="editUsername" required />
+                </div>
+                <div class="form-group">
+                    <label>新密码（留空则不修改）</label>
+                    <input type="password" name="password" />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">保存</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+        .admin-container h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        overflow: hidden;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .card-header {
+        padding: 20px 25px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e1e5e9;
+    }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .create-user-form .form-row {
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        flex: 1;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+    .btn-secondary {
+        background: #f5f7fa;
+        border: 1px solid #e1e5e9;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-sm {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 5px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        margin: 0 2px;
+    }
+
+    .btn-danger {
+        background: #f56565;
+    }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .user-table th,
+        .user-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .user-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .user-table tr:hover {
+            background: #fafafa;
+        }
+
+    .actions {
+        white-space: nowrap;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 400px;
+        max-width: 90%;
+        animation: slideInModal 0.3s ease-out;
+    }
+
+    .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #e1e5e9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .modal-header h3 {
+            margin: 0;
+        }
+
+    .close {
+        font-size: 28px;
+        cursor: pointer;
+        color: #999;
+    }
+
+        .close:hover {
+            color: #333;
+        }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes slideInModal {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    function editUser(id, username) {
+        document.getElementById('editUserId').value = id;
+        document.getElementById('editUsername').value = username;
+        document.getElementById('editUserModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('editUserModal').style.display = 'none';
+    }
+
+    function resetPassword(id) {
+        const newPassword = prompt('请输入新密码：');
+        if (newPassword && newPassword.length >= 6) {
+            fetch('/Admin/UpdateUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: `id=${id}&username=${encodeURIComponent('keep')}&password=${encodeURIComponent(newPassword)}`
+            }).then(() => {
+                location.reload();
+            });
+        } else if (newPassword) {
+            alert('密码长度至少6位');
+        }
+    }
+
+    function deleteUser(id) {
+        if (confirm('确定要删除这个用户吗？删除后该用户的所有私有笔记将被彻底删除，公开笔记将保留。')) {
+            fetch('/Admin/DeleteUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: `id=${id}`
+            }).then(() => {
+                location.reload();
+            });
+        }
+    }
+
+    // 点击模态框外部关闭
+    window.onclick = function(event) {
+        const modal = document.getElementById('editUserModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>

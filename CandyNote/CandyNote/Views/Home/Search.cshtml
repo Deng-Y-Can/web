@@ -1,0 +1,345 @@
+﻿@model List<CandyNote.Models.Note>
+@{
+    ViewData["Title"] = "搜索结果";
+}
+
+<div class="search-results">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-error">@TempData["Error"]</div>
+    }
+
+    <div class="search-header">
+        <button class="btn-primary" onclick="backToHome()">
+            <i class="fas fa-arrow-left"></i> 返回所有笔记
+        </button>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索笔记..." value="@ViewBag.Keyword" onkeypress="if(event.keyCode==13) searchNotes()" />
+            <button class="btn-primary" onclick="searchNotes()">
+                <i class="fas fa-search"></i> 搜索
+            </button>
+        </div>
+    </div>
+
+    <div class="search-info">
+        <i class="fas fa-search"></i> 搜索 "<strong>@ViewBag.Keyword</strong>" 找到 <strong>@Model.Count</strong> 条结果
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="notes-grid">
+            @foreach (var note in Model)
+            {
+                <div class="note-card">
+                    <div class="note-card-header">
+                        <h4 onclick="viewNote(@note.Id)">@note.Title</h4>
+                        <div class="note-badge @(note.Permission == CandyNote.Models.NotePermission.Public ? "public" : "private")">
+                            @(note.Permission == CandyNote.Models.NotePermission.Public ? "公开" : "私有")
+                        </div>
+                    </div>
+                    <div class="note-card-content" onclick="viewNote(@note.Id)">
+                        @{
+                            var plainText = System.Text.RegularExpressions.Regex.Replace(note.Content ?? "", "<[^>]*>", "");
+                            var preview = plainText.Length > 200 ? plainText.Substring(0, 200) + "..." : plainText;
+                            var keyword = ViewBag.Keyword as string;
+
+                            // 高亮关键词 - 使用 Replace 方法，不使用 lambda
+                            if (!string.IsNullOrEmpty(keyword))
+                            {
+                                preview = System.Text.RegularExpressions.Regex.Replace(preview, keyword, "<mark>$0</mark>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                            }
+                        }
+                        <p>@Html.Raw(preview)</p>
+                    </div>
+                    <div class="note-card-footer">
+                        <span class="note-author">
+                            <i class="fas fa-user"></i> @(note.User?.Username ?? "已删除用户")
+                        </span>
+                        <span class="note-date">
+                            <i class="fas fa-calendar-alt"></i> @note.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+                        </span>
+                        <div class="note-actions">
+                            <button class="btn-icon-sm" onclick="viewNote(@note.Id)" title="查看">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            @if (User.FindFirst(ClaimTypes.NameIdentifier)?.Value == note.UserId.ToString() || User.IsInRole("Admin"))
+                            {
+                                <button class="btn-icon-sm" onclick="editNote(@note.Id)" title="编辑">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-icon-sm" onclick="deleteNote(@note.Id)" title="删除">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <p>未找到与 "@ViewBag.Keyword" 相关的笔记</p>
+            <button class="btn-primary" onclick="backToHome()" style="margin-top: 20px;">
+                <i class="fas fa-arrow-left"></i> 返回所有笔记
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    .search-results {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .search-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+    }
+
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid #e1e5e9;
+            border-radius: 20px;
+            width: 300px;
+            outline: none;
+            font-size: 14px;
+        }
+
+            .search-box input:focus {
+                border-color: #667eea;
+            }
+
+    .search-info {
+        background: #e3f2fd;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        font-size: 14px;
+        color: #1976d2;
+    }
+
+        .search-info i {
+            margin-right: 8px;
+        }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+    .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+    }
+
+    .note-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+    }
+
+        .note-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+    .note-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 12px;
+    }
+
+        .note-card-header h4 {
+            font-size: 18px;
+            color: #333;
+            flex: 1;
+            margin-right: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+            .note-card-header h4:hover {
+                color: #667eea;
+            }
+
+    .note-badge {
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+        .note-badge.public {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .note-badge.private {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+    .note-card-content {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+
+        .note-card-content p {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .note-card-content mark {
+            background: #ffeb3b;
+            padding: 0 2px;
+            border-radius: 3px;
+            color: #333;
+        }
+
+    .note-card-footer {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 12px;
+        color: #999;
+        padding-top: 12px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .note-author i, .note-date i {
+        margin-right: 4px;
+    }
+
+    .note-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-icon-sm {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        color: #999;
+        transition: color 0.2s;
+    }
+
+        .btn-icon-sm:hover {
+            color: #667eea;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: #999;
+    }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #28a745;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #dc3545;
+    }
+</style>
+
+<script>
+    function backToHome() {
+        window.location.href = '/Home/Index';
+    }
+
+    function searchNotes() {
+        const keyword = document.getElementById('searchInput').value.trim();
+        if (keyword) {
+            window.location.href = `/Home/Search?keyword=${encodeURIComponent(keyword)}`;
+        }
+    }
+
+    function viewNote(id) {
+        window.location.href = `/Note/View/${id}`;
+    }
+
+    function editNote(id) {
+        window.location.href = `/Note/Edit/${id}`;
+    }
+
+    function deleteNote(id) {
+        if (confirm('确定要删除这篇笔记吗？删除后无法恢复。')) {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            fetch(`/Note/Delete/${id}`, {
+                method: 'POST',
+                headers: { 'RequestVerificationToken': token }
+            }).then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert('删除失败：' + result.message);
+                }
+            });
+        }
+    }
+
+    // 按回车搜索
+    document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchNotes();
+        }
+    });
+</script>
