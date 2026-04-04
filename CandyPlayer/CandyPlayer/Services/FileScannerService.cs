@@ -31,7 +31,7 @@ namespace CandyPlayer.Services
 
         public async Task ScanAllFilesAsync()
         {
-            var mediaPath = _configuration["AppSettings:MediaPath"] ?? "D:\\CandyPlayer";
+            var mediaPath = _configuration["AppSettings:MediaPath"] ?? "E:\\CandyPlayer";
             if (!Directory.Exists(mediaPath))
             {
                 _logger.LogWarning($"媒体文件夹不存在: {mediaPath}");

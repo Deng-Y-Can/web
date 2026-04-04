@@ -83,22 +83,22 @@ namespace CandyPlayer.Services
 
         public string GetMediaPath()
         {
-            return _configuration["AppSettings:MediaPath"] ?? "D:\\CandyPlayer";
+            return _configuration["AppSettings:MediaPath"] ?? "E:\\CandyPlayer";
         }
 
         public string GetBooksPath()
         {
-            return _configuration["AppSettings:BooksPath"] ?? "D:\\CandyPlayer\\Books";
+            return _configuration["AppSettings:BooksPath"] ?? "E:\\CandyPlayer\\Books";
         }
 
         public string GetMusicPath()
         {
-            return _configuration["AppSettings:MusicPath"] ?? "D:\\CandyPlayer\\Music";
+            return _configuration["AppSettings:MusicPath"] ?? "E:\\CandyPlayer\\Music";
         }
 
         public string GetVideosPath()
         {
-            return _configuration["AppSettings:VideosPath"] ?? "D:\\CandyPlayer\\Videos";
+            return _configuration["AppSettings:VideosPath"] ?? "E:\\CandyPlayer\\Videos";
         }
 
         public string GetContentType(string extension)

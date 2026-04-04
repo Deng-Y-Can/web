@@ -82,10 +82,10 @@ var app = builder.Build();
 // 确保必要的目录存在
 try
 {
-    var mediaPath = builder.Configuration["AppSettings:MediaPath"] ?? "D:\\CandyPlayer";
-    var booksPath = builder.Configuration["AppSettings:BooksPath"] ?? "D:\\CandyPlayer\\Books";
-    var musicPath = builder.Configuration["AppSettings:MusicPath"] ?? "D:\\CandyPlayer\\Music";
-    var videosPath = builder.Configuration["AppSettings:VideosPath"] ?? "D:\\CandyPlayer\\Videos";
+    var mediaPath = builder.Configuration["AppSettings:MediaPath"] ?? "E:\\CandyPlayer";
+    var booksPath = builder.Configuration["AppSettings:BooksPath"] ?? "E:\\CandyPlayer\\Books";
+    var musicPath = builder.Configuration["AppSettings:MusicPath"] ?? "E:\\CandyPlayer\\Music";
+    var videosPath = builder.Configuration["AppSettings:VideosPath"] ?? "E:\\CandyPlayer\\Videos";
 
     if (!Directory.Exists(mediaPath)) Directory.CreateDirectory(mediaPath);
     if (!Directory.Exists(booksPath)) Directory.CreateDirectory(booksPath);
