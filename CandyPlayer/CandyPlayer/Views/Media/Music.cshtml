@@ -1,0 +1,507 @@
+﻿@model List<CandyPlayer.Models.MediaFile>
+
+@{
+    ViewData["Title"] = "音乐库";
+    var currentPage = ViewBag.CurrentPage as int? ?? 1;
+    var totalPages = ViewBag.TotalPages as int? ?? 1;
+    var searchKeyword = ViewBag.SearchKeyword as string ?? "";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-music"></i> 音乐库</h2>
+        <p class="text-muted">欣赏您的音乐收藏</p>
+    </div>
+    @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+    {
+        <div class="col text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                <i class="fas fa-upload"></i> 上传音乐
+            </button>
+        </div>
+    }
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="搜索音乐..." value="@searchKeyword" />
+            <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 当前播放器 -->
+<div class="card mb-4 bg-dark text-white">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div id="currentSong" class="mb-2">
+                    <i class="fas fa-music me-2"></i>
+                    <span id="currentSongTitle">未选择歌曲</span>
+                </div>
+                <audio id="audioPlayer" controls style="width: 100%;" class="bg-dark">
+                    <source src="" type="audio/mpeg">
+                    您的浏览器不支持音频播放
+                </audio>
+            </div>
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('order')">顺序</button>
+                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('loop')">循环</button>
+                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('single')">单曲</button>
+                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('random')">随机</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var music in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-music text-primary fa-4x mb-3"></i>
+                    <h6 class="card-title text-truncate" title="@music.FileName">@music.FileName</h6>
+                    <p class="card-text small text-muted">
+                        格式: @music.FileExtension.ToUpper()<br />
+                        大小: @((music.FileSize / 1024 / 1024).ToString("F2")) MB<br />
+                        播放: @music.PlayCount 次
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-sm btn-primary" onclick="playSong(@music.FileId, '@music.FileName.Replace("'", "\\'")')">
+                                <i class="fas fa-play"></i> 播放
+                            </button>
+                            <a href="@Url.Action("Download", "Media", new { id = music.FileId })" class="btn btn-sm btn-success">
+                                <i class="fas fa-download"></i> 下载
+                            </a>
+                        </div>
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-sm btn-info favorite-btn" data-fileid="@music.FileId" onclick="toggleFavorite(@music.FileId, this)">
+                                <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@music.FileId, 1)">
+                                <i class="fas fa-plus"></i> 加入播放列表
+                            </button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button class="btn btn-sm btn-danger" onclick="deleteFile(@music.FileId)">
+                                    <i class="fas fa-trash"></i> 删除
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fas fa-music fa-4x text-muted mb-3"></i>
+        <p class="text-muted">暂无音乐文件</p>
+        @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+        {
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                <i class="fas fa-upload"></i> 上传第一首音乐
+            </button>
+        }
+    </div>
+}
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= totalPages && i <= 10; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Music", new { page = i, search = searchKeyword })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+<!-- 添加到列表模态框 -->
+<div class="modal fade" id="addToListModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title">添加到播放列表</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">选择已有列表</label>
+                    <select id="existingPlaylistSelect" class="form-select">
+                        <option value="">-- 请选择 --</option>
+                    </select>
+                </div>
+                <div class="text-center">或</div>
+                <div class="mb-3 mt-2">
+                    <label class="form-label">创建新列表</label>
+                    <input type="text" id="newPlaylistName" class="form-control" placeholder="输入新列表名称" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">备注（可选）</label>
+                    <textarea id="itemNote" class="form-control" rows="2" placeholder="添加备注信息..."></textarea>
+                </div>
+                <input type="hidden" id="currentFileId" />
+                <input type="hidden" id="currentListType" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">确定添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 多文件上传模态框 -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="fas fa-upload"></i> 上传音乐</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">选择文件（支持多选）</label>
+                        <input type="file" id="fileInput" class="form-control" accept=".mp3,.wav,.flac,.m4a" multiple />
+                        <div class="form-text mt-2">
+                            <i class="fas fa-info-circle"></i> 支持格式: MP3, WAV, FLAC, M4A<br />
+                            <i class="fas fa-weight-hanging"></i> 单个文件不超过500MB<br />
+                            <i class="fas fa-layer-group"></i> 支持同时选择多个文件上传
+                        </div>
+                    </div>
+                    <div id="fileList" class="mb-3 d-none">
+                        <label class="form-label">已选择文件：</label>
+                        <ul id="selectedFiles" class="list-group"></ul>
+                    </div>
+                    <div id="progressContainer" class="d-none">
+                        <div class="progress mb-2">
+                            <div id="uploadProgress" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">0%</div>
+                        </div>
+                        <div id="uploadStatus" class="small text-muted">正在上传...</div>
+                    </div>
+                    <div id="uploadResult" class="mt-3 d-none">
+                        <div class="alert alert-info"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="uploadBtn">
+                    <i class="fas fa-cloud-upload-alt"></i> 上传
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var audioPlayer = document.getElementById('audioPlayer');
+        var currentPlayMode = 'order';
+        var saveInterval;
+
+        // 页面加载时检查所有收藏状态
+        $(document).ready(function() {
+            $('.favorite-btn').each(function() {
+                var fileId = $(this).data('fileid');
+                checkFavoriteStatus(fileId, $(this));
+            });
+        });
+
+        function checkFavoriteStatus(fileId, btn) {
+            $.get('/Favorite/Check', { fileId: fileId }, function(result) {
+                if (result.isFavorited) {
+                    updateFavoriteButton(btn, true);
+                } else {
+                    updateFavoriteButton(btn, false);
+                }
+            });
+        }
+
+        function updateFavoriteButton(btn, isFavorited) {
+            if (isFavorited) {
+                btn.html('<i class="fas fa-heart"></i> <span class="favorite-text">取消收藏</span>');
+                btn.removeClass('btn-info').addClass('btn-danger');
+            } else {
+                btn.html('<i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>');
+                btn.removeClass('btn-danger').addClass('btn-info');
+            }
+            btn.data('favorited', isFavorited);
+        }
+
+        function toggleFavorite(fileId, btnElement) {
+            var $btn = $(btnElement);
+            var isFavorited = $btn.data('favorited');
+
+            if (isFavorited) {
+                $.ajax({
+                    url: '/Favorite/Remove',
+                    type: 'POST',
+                    data: { fileId: fileId },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            updateFavoriteButton($btn, false);
+                            alert('已取消收藏');
+                        } else {
+                            alert('操作失败：' + result.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/Favorite/Add',
+                    type: 'POST',
+                    data: { fileId: fileId },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            updateFavoriteButton($btn, true);
+                            alert('已添加到收藏');
+                        } else {
+                            alert('操作失败：' + result.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    }
+                });
+            }
+        }
+
+        function playSong(fileId, fileName) {
+            document.getElementById('currentSongTitle').innerText = fileName;
+            audioPlayer.src = '/Media/Stream/' + fileId;
+            audioPlayer.play();
+        }
+
+        function setPlayMode(mode) {
+            currentPlayMode = mode;
+            var modeName = mode === 'order' ? '顺序播放' : (mode === 'loop' ? '列表循环' : (mode === 'single' ? '单曲循环' : '随机播放'));
+            alert('播放模式已切换为：' + modeName);
+        }
+
+        function deleteFile(fileId) {
+            if (confirm('确定要删除这个音乐文件吗？')) {
+                $.post('/Media/Delete', { id: fileId }, function(result) {
+                    if (result.success) location.reload();
+                    else alert('删除失败：' + result.message);
+                }).fail(function(xhr) {
+                    alert('删除失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                });
+            }
+        }
+
+        function showAddToListModal(fileId, type) {
+            $('#currentFileId').val(fileId);
+            $('#currentListType').val(type);
+            $('#newPlaylistName').val('');
+            $('#itemNote').val('');
+
+            $.get('/Playlist/GetUserPlaylists', { type: type }, function(playlists) {
+                var select = $('#existingPlaylistSelect');
+                select.empty();
+                select.append('<option value="">-- 请选择 --</option>');
+                if (playlists && playlists.length > 0) {
+                    for (var i = 0; i < playlists.length; i++) {
+                        select.append('<option value="' + playlists[i].playlistId + '">' + playlists[i].playlistName + '</option>');
+                    }
+                }
+            });
+
+            new bootstrap.Modal(document.getElementById('addToListModal')).show();
+        }
+
+        function addToSelectedList() {
+            var fileId = $('#currentFileId').val();
+            var type = $('#currentListType').val();
+            var existingPlaylistId = $('#existingPlaylistSelect').val();
+            var newPlaylistName = $('#newPlaylistName').val().trim();
+            var note = $('#itemNote').val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+
+            if (existingPlaylistId) {
+                $.ajax({
+                    url: '/Playlist/AddItem',
+                    type: 'POST',
+                    data: { playlistId: existingPlaylistId, fileId: fileId, note: note },
+                    headers: { 'RequestVerificationToken': token },
+                    success: function(result) {
+                        if (result.success) {
+                            alert('添加成功');
+                            bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
+                        } else {
+                            alert('添加失败：' + result.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    }
+                });
+            } else if (newPlaylistName) {
+                $.ajax({
+                    url: '/Playlist/Create',
+                    type: 'POST',
+                    data: { name: newPlaylistName, description: '', type: type },
+                    headers: { 'RequestVerificationToken': token },
+                    success: function(result) {
+                        if (result.success) {
+                            $.ajax({
+                                url: '/Playlist/AddItem',
+                                type: 'POST',
+                                data: { playlistId: result.playlistId, fileId: fileId, note: note },
+                                headers: { 'RequestVerificationToken': token },
+                                success: function(addResult) {
+                                    if (addResult.success) {
+                                        alert('已添加到新列表：' + newPlaylistName);
+                                        bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
+                                    } else {
+                                        alert('添加失败：' + addResult.message);
+                                    }
+                                },
+                                error: function(xhr) {
+                                    alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                                }
+                            });
+                        } else {
+                            alert('创建列表失败：' + result.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    }
+                });
+            } else {
+                alert('请选择已有列表或输入新列表名称');
+            }
+        }
+
+        // 文件选择显示
+        $('#fileInput').on('change', function() {
+            var files = $(this)[0].files;
+            var fileList = $('#selectedFiles');
+            fileList.empty();
+
+            if (files.length > 0) {
+                $('#fileList').removeClass('d-none');
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var fileSize = (file.size / 1024 / 1024).toFixed(2);
+                    fileList.append('<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                        '<span><i class="fas fa-music me-2"></i>' + file.name + '</span>' +
+                        '<span class="badge bg-secondary rounded-pill">' + fileSize + ' MB</span>' +
+                        '</li>');
+                }
+            } else {
+                $('#fileList').addClass('d-none');
+            }
+        });
+
+        // 上传功能
+        $('#uploadBtn').on('click', function() {
+            var files = $('#fileInput')[0].files;
+            if (files.length === 0) {
+                alert('请选择文件');
+                return;
+            }
+
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+            formData.append('mediaType', '1');
+
+            $('#uploadResult').addClass('d-none');
+            $('#progressContainer').removeClass('d-none');
+            $('#uploadProgress').css('width', '0%').text('0%');
+            $('#uploadStatus').text('正在上传...');
+
+            $.ajax({
+                url: '/Media/Upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                xhr: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            var percent = Math.round((e.loaded / e.total) * 100);
+                            $('#uploadProgress').css('width', percent + '%').text(percent + '%');
+                            $('#uploadStatus').text('上传进度: ' + percent + '%');
+                        }
+                    });
+                    return xhr;
+                },
+                success: function(result) {
+                    $('#progressContainer').addClass('d-none');
+                    $('#uploadResult').removeClass('d-none');
+
+                    if (result.success) {
+                        $('#uploadResult .alert').removeClass('alert-danger').addClass('alert-success')
+                            .html('<i class="fas fa-check-circle me-2"></i>' + result.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        $('#uploadResult .alert').removeClass('alert-success').addClass('alert-danger')
+                            .html('<i class="fas fa-exclamation-circle me-2"></i>' + result.message);
+                    }
+                },
+                error: function(xhr) {
+                    $('#progressContainer').addClass('d-none');
+                    $('#uploadResult').removeClass('d-none');
+                    var errorMsg = xhr.responseJSON?.message || '上传失败，请稍后重试';
+                    $('#uploadResult .alert').removeClass('alert-success').addClass('alert-danger')
+                        .html('<i class="fas fa-exclamation-circle me-2"></i>' + errorMsg);
+                }
+            });
+        });
+
+        audioPlayer.addEventListener('ended', function() {
+            if (currentPlayMode === 'single') {
+                audioPlayer.play();
+            } else if (currentPlayMode === 'loop') {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            }
+        });
+
+        $('#searchBtn').click(function() {
+            var keyword = $('#searchInput').val();
+            location.href = '/Media/Music?search=' + encodeURIComponent(keyword);
+        });
+
+        $('#searchInput').keypress(function(e) {
+            if (e.which === 13) $('#searchBtn').click();
+        });
+    </script>
+}

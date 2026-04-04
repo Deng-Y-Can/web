@@ -1,0 +1,141 @@
+﻿@model List<CandyPlayer.Models.MediaFile>
+
+@{
+    ViewData["Title"] = "我的收藏";
+    var selectedType = ViewBag.SelectedType as int?;
+    var bookCount = ViewBag.BookCount as int? ?? 0;
+    var musicCount = ViewBag.MusicCount as int? ?? 0;
+    var videoCount = ViewBag.VideoCount as int? ?? 0;
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-heart"></i> 我的收藏</h2>
+        <p class="text-muted">您收藏的所有媒体文件</p>
+    </div>
+</div>
+
+<!-- 类型筛选标签 -->
+<div class="row mb-3">
+    <div class="col">
+        <div class="btn-group" role="group">
+            <a href="@Url.Action("Index", new { mediaType = (int?)null })" class="btn @(selectedType == null ? "btn-primary" : "btn-outline-primary")">
+                全部 (@(bookCount + musicCount + videoCount))
+            </a>
+            <a href="@Url.Action("Index", new { mediaType = 0 })" class="btn @(selectedType == 0 ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-book"></i> 书籍 (@bookCount)
+            </a>
+            <a href="@Url.Action("Index", new { mediaType = 1 })" class="btn @(selectedType == 1 ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-music"></i> 音乐 (@musicCount)
+            </a>
+            <a href="@Url.Action("Index", new { mediaType = 2 })" class="btn @(selectedType == 2 ? "btn-primary" : "btn-outline-primary")">
+                <i class="fas fa-video"></i> 视频 (@videoCount)
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var file in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                    {
+                        <i class="fas fa-music text-primary fa-4x mb-3"></i>
+                    }
+                    else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                    {
+                        <i class="fas fa-video text-danger fa-4x mb-3"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-book text-success fa-4x mb-3"></i>
+                    }
+                    <h6 class="card-title text-truncate" title="@file.FileName">@file.FileName</h6>
+                    <p class="card-text small text-muted">
+                        格式: @file.FileExtension.ToUpper()<br />
+                        大小: @(file.FileSize / 1024 / 1024) MB<br />
+                        添加: @file.AddedTime.ToString("yyyy-MM-dd")
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group w-100" role="group">
+                            <a href="@Url.Action("Play", "Media", new { id = file.FileId })" class="btn btn-sm btn-primary">
+                                @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                                {
+                                    <text><i class="fas fa-play"></i> 播放</text>
+                                }
+                                else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                                {
+                                    <text><i class="fas fa-play"></i> 观看</text>
+                                }
+                                else
+                                {
+                                    <text><i class="fas fa-book-open"></i> 阅读</text>
+                                }
+                            </a>
+                            <button class="btn btn-sm btn-danger" onclick="removeFavorite(@file.FileId)">
+                                <i class="fas fa-trash"></i> 取消收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fas fa-heart fa-4x text-muted mb-3"></i>
+        <p class="text-muted">暂无收藏，快去收藏您喜欢的媒体吧！</p>
+        <div class="btn-group">
+            <a href="@Url.Action("Books", "Media")" class="btn btn-primary">
+                <i class="fas fa-book"></i> 去发现书籍
+            </a>
+            <a href="@Url.Action("Music", "Media")" class="btn btn-primary">
+                <i class="fas fa-music"></i> 去听音乐
+            </a>
+            <a href="@Url.Action("Videos", "Media")" class="btn btn-primary">
+                <i class="fas fa-video"></i> 去看视频
+            </a>
+        </div>
+    </div>
+}
+
+<script>
+    // 确保函数在全局作用域中定义
+    function removeFavorite(fileId) {
+        if (confirm('确定要取消收藏吗？')) {
+            // 获取防伪令牌
+            var token = document.querySelector('input[name="__RequestVerificationToken"]');
+            var tokenValue = token ? token.value : '';
+            
+            fetch('/Favorite/Remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': tokenValue
+                },
+                body: 'fileId=' + fileId
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('已取消收藏');
+                    location.reload();
+                } else {
+                    alert('操作失败：' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('操作失败，请稍后重试');
+            });
+        }
+    }
+</script>

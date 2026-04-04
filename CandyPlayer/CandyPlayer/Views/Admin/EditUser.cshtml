@@ -1,0 +1,73 @@
+﻿@model CandyPlayer.Models.User
+
+@{
+    ViewData["Title"] = "编辑用户";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-edit"></i> 编辑用户</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="EditUser" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.UserId" />
+
+                    <div class="mb-3">
+                        <label class="form-label">用户名</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" name="username" class="form-control" value="@Model.Username" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">新密码</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" name="password" class="form-control" placeholder="留空则不修改密码" />
+                        </div>
+                        <div class="form-text">密码长度至少6位，留空则不修改</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">角色</label>
+                        <select name="role" class="form-select">
+                            @if (Model.Role == CandyPlayer.Models.UserRole.NormalUser)
+                            {
+                                <option value="NormalUser" selected>普通用户</option>
+                                <option value="AdvancedUser">高级用户</option>
+                                <option value="Admin">管理员</option>
+                            }
+                            else if (Model.Role == CandyPlayer.Models.UserRole.AdvancedUser)
+                            {
+                                <option value="NormalUser">普通用户</option>
+                                <option value="AdvancedUser" selected>高级用户</option>
+                                <option value="Admin">管理员</option>
+                            }
+                            else
+                            {
+                                <option value="NormalUser">普通用户</option>
+                                <option value="AdvancedUser">高级用户</option>
+                                <option value="Admin" selected>管理员</option>
+                            }
+                        </select>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 保存修改
+                        </button>
+                        <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> 返回列表
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

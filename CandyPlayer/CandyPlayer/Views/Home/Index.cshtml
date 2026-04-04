@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "首页";
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas fa-tachometer-alt"></i> 欢迎回来，@User.Identity?.Name！</h2>
+        <p class="text-muted">这是您的个人媒体中心</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">总文件数</h5>
+                <h2 class="mb-0">@ViewBag.TotalFiles</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">书籍</h5>
+                <h2 class="mb-0">@ViewBag.BookCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">音乐</h5>
+                <h2 class="mb-0">@ViewBag.MusicCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">视频</h5>
+                <h2 class="mb-0">@ViewBag.VideoCount</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-line"></i> 热门文件</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.TopFiles != null && ((List<CandyPlayer.Models.MediaFile>)ViewBag.TopFiles).Any())
+                {
+                    <div class="list-group">
+                        @foreach (var file in ViewBag.TopFiles as List<CandyPlayer.Models.MediaFile>)
+                        {
+                            <a href="@Url.Action("Play", "Media", new { id = file.FileId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                                        {
+                                            <i class="fas fa-music text-primary me-2"></i>
+                                        }
+                                        else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                                        {
+                                            <i class="fas fa-video text-danger me-2"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-book text-success me-2"></i>
+                                        }
+                                        @file.FileName
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">@file.PlayCount 次</span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted text-center py-3">暂无数据</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-clock"></i> 最近添加</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.RecentFiles != null && ((List<CandyPlayer.Models.MediaFile>)ViewBag.RecentFiles).Any())
+                {
+                    <div class="list-group">
+                        @foreach (var file in ViewBag.RecentFiles as List<CandyPlayer.Models.MediaFile>)
+                        {
+                            <a href="@Url.Action("Play", "Media", new { id = file.FileId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                                        {
+                                            <i class="fas fa-music text-primary me-2"></i>
+                                        }
+                                        else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                                        {
+                                            <i class="fas fa-video text-danger me-2"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-book text-success me-2"></i>
+                                        }
+                                        @file.FileName
+                                    </div>
+                                    <small class="text-muted">@file.AddedTime.ToString("yyyy-MM-dd")</small>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted text-center py-3">暂无数据</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

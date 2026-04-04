@@ -1,0 +1,166 @@
+﻿@model CandyPlayer.Models.MediaFile
+
+@{
+    ViewData["Title"] = "视频播放器 - " + Model.FileName;
+}
+
+<div class="container-fluid px-0">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-video"></i> @Model.FileName
+                        </h5>
+                        <div>
+                            <a href="@Url.Action("Videos", "Media")" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-arrow-left"></i> 返回列表
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <video id="videoPlayer" controls style="width: 100%; height: auto; background: #000;" autoplay>
+                        <source src="@Url.Action("Stream", "Media", new { id = Model.FileId })" type="@GetMimeType(Model.FileExtension)">
+                        您的浏览器不支持视频播放
+                    </video>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-file-video"></i> 格式: @Model.FileExtension.ToUpper()
+                            </p>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-hdd"></i> 大小: @(Model.FileSize / 1024 / 1024) MB
+                            </p>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-chart-line"></i> 播放次数: @Model.PlayCount
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(0.5)">0.5x</button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(0.75)">0.75x</button>
+                                <button class="btn btn-primary btn-sm" onclick="setPlaybackRate(1)">1x</button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(1.25)">1.25x</button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(1.5)">1.5x</button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(2)">2x</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="btn-group w-100">
+                        <a href="@Url.Action("Download", "Media", new { id = Model.FileId })" class="btn btn-success">
+                            <i class="fas fa-download"></i> 下载
+                        </a>
+                        <button class="btn btn-info" onclick="addToFavorites(@Model.FileId)">
+                            <i class="fas fa-heart"></i> 收藏
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetMimeType(string extension)
+    {
+        return extension.ToLower() switch
+        {
+            "mp4" => "video/mp4",
+            "avi" => "video/x-msvideo",
+            "mkv" => "video/x-matroska",
+            "mov" => "video/quicktime",
+            "webm" => "video/webm",
+            _ => "video/mp4"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        var videoPlayer = document.getElementById('videoPlayer');
+        var saveInterval;
+
+        function setPlaybackRate(rate) {
+            videoPlayer.playbackRate = rate;
+        }
+
+        function addToFavorites(fileId) {
+            $.ajax({
+                url: '/Favorite/Add',
+                type: 'POST',
+                data: { fileId: fileId },
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(result) {
+                    if (result.success) {
+                        alert('已添加到收藏');
+                    } else {
+                        alert('添加失败：' + result.message);
+                    }
+                },
+                error: function() {
+                    alert('添加失败，请稍后重试');
+                }
+            });
+        }
+
+        function savePlaybackProgress(fileId, position, progress) {
+            $.ajax({
+                url: '/Media/SavePlaybackProgress',
+                type: 'POST',
+                data: JSON.stringify({ fileId: fileId, position: position, progress: progress }),
+                contentType: 'application/json',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() }
+            });
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            var mins = Math.floor(seconds / 60);
+            var secs = Math.floor(seconds % 60);
+            return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+        }
+
+        function checkResumePlayback() {
+            var videoId = @Model.FileId;
+            $.get('/Media/GetPlaybackProgress/' + videoId, function(data) {
+                if (data && data.progress > 0 && data.progress < 0.95) {
+                    var resumeTime = data.progress * videoPlayer.duration;
+                    if (confirm('上次观看到 ' + formatTime(resumeTime) + '，是否继续播放？')) {
+                        videoPlayer.currentTime = resumeTime;
+                        videoPlayer.play();
+                    }
+                }
+            });
+        }
+
+        videoPlayer.addEventListener('play', function() {
+            saveInterval = setInterval(function() {
+                var currentTime = videoPlayer.currentTime;
+                var duration = videoPlayer.duration;
+                if (currentTime > 0 && duration > 0) {
+                    var progress = (currentTime / duration);
+                    savePlaybackProgress(@Model.FileId, currentTime, progress);
+                }
+            }, 5000);
+        });
+
+        videoPlayer.addEventListener('pause', function() {
+            if (saveInterval) clearInterval(saveInterval);
+        });
+
+        videoPlayer.addEventListener('ended', function() {
+            if (saveInterval) clearInterval(saveInterval);
+        });
+
+        videoPlayer.addEventListener('loadedmetadata', function() {
+            setTimeout(checkResumePlayback, 500);
+        });
+    </script>
+}

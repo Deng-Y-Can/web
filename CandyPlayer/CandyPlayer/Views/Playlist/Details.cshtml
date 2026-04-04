@@ -1,0 +1,263 @@
+﻿@model CandyPlayer.Models.Playlist
+
+@{
+    ViewData["Title"] = Model.PlaylistName + " - 详情";
+    var typeName = Model.Type == CandyPlayer.Models.PlaylistType.Book ? "阅读列表" : (Model.Type == CandyPlayer.Models.PlaylistType.Music ? "播放列表" : "观看列表");
+    var typeIcon = Model.Type == CandyPlayer.Models.PlaylistType.Book ? "fa-book" : (Model.Type == CandyPlayer.Models.PlaylistType.Music ? "fa-music" : "fa-video");
+    var returnUrl = Model.Type == CandyPlayer.Models.PlaylistType.Book ? "/Playlist/Books" : (Model.Type == CandyPlayer.Models.PlaylistType.Music ? "/Playlist/Music" : "/Playlist/Videos");
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas @typeIcon"></i> @Model.PlaylistName</h2>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p class="text-muted">@Model.Description</p>
+        }
+        <p class="text-muted small">
+            <i class="fas fa-calendar"></i> 创建于 @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+            @if (Model.UpdatedAt.HasValue)
+            {
+                <span class="ms-3"><i class="fas fa-edit"></i> 更新于 @Model.UpdatedAt.Value.ToString("yyyy-MM-dd HH:mm")</span>
+            }
+            <span class="ms-3"><i class="fas fa-list"></i> 共 @Model.PlaylistItems.Count 个项目</span>
+        </p>
+    </div>
+    <div class="col text-end">
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="playAll()">
+                <i class="fas fa-play"></i> 播放全部
+            </button>
+            <button class="btn btn-success" onclick="showAddItemModal()">
+                <i class="fas fa-plus"></i> 添加项目
+            </button>
+            <a href="@returnUrl" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> 返回
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>名称</th>
+                        <th style="width: 200px;">备注</th>
+                        <th style="width: 100px;">格式</th>
+                        <th style="width: 100px;">大小</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int index = 1;
+                    }
+                    @foreach (var item in Model.PlaylistItems.OrderBy(i => i.SortOrder))
+                    {
+                        var file = item.MediaFile;
+                        if (file == null) continue;
+
+                        <tr>
+                            <td>@index</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                                    {
+                                        <i class="fas fa-music text-primary me-2"></i>
+                                    }
+                                    else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                                    {
+                                        <i class="fas fa-video text-danger me-2"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-book text-success me-2"></i>
+                                    }
+                                    @file.FileName
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span id="note_@item.MediaFileId" class="text-muted small flex-grow-1">@(item.Note ?? "无备注")</span>
+                                    <button class="btn btn-sm btn-outline-secondary ms-2" onclick="editNote(@item.MediaFileId, '@(item.Note?.Replace("'", "\\'") ?? "")')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>@file.FileExtension.ToUpper()</td>
+                            <td>@(file.FileSize / 1024 / 1024) MB</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="@Url.Action("Play", "Media", new { id = file.FileId })" class="btn btn-primary">
+                                        @if (file.MediaType == CandyPlayer.Models.MediaType.Music)
+                                        {
+                                            <text><i class="fas fa-play"></i> 播放</text>
+                                        }
+                                        else if (file.MediaType == CandyPlayer.Models.MediaType.Video)
+                                        {
+                                            <text><i class="fas fa-play"></i> 观看</text>
+                                        }
+                                        else
+                                        {
+                                            <text><i class="fas fa-book-open"></i> 阅读</text>
+                                        }
+                                    </a>
+                                    <button onclick="removeItem(@item.MediaFileId)" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@if (!Model.PlaylistItems.Any())
+{
+    <div class="text-center py-5">
+        <i class="fas @typeIcon fa-4x text-muted mb-3"></i>
+        <p class="text-muted">列表为空，点击"添加项目"开始添加内容吧！</p>
+    </div>
+}
+
+<!-- 添加项目模态框 -->
+<div class="modal fade" id="addItemModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">添加项目到 @Model.PlaylistName</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addItemForm">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">选择文件</label>
+                        <select id="fileSelect" class="form-select" required>
+                            <option value="">请选择...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">备注（可选）</label>
+                        <textarea id="itemNote" class="form-control" rows="2" placeholder="添加备注信息..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" onclick="addItem()">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑备注模态框 -->
+<div class="modal fade" id="editNoteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">编辑备注</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="editNoteContent" class="form-control" rows="3"></textarea>
+                <input type="hidden" id="editFileId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="saveNote()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var playlistId = @Model.PlaylistId;
+        var playlistType = @((int)Model.Type);
+
+        function showAddItemModal() {
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            $.get('/Media/GetAvailableFiles', { type: playlistType, excludePlaylistId: playlistId }, function(files) {
+                var select = $('#fileSelect');
+                select.empty();
+                select.append('<option value="">请选择...</option>');
+                if (files && files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        select.append('<option value="' + file.fileId + '">' + file.fileName + ' (' + (file.fileSize / 1024 / 1024).toFixed(2) + ' MB)</option>');
+                    }
+                } else {
+                    select.append('<option value="" disabled>没有可添加的文件</option>');
+                }
+                new bootstrap.Modal(document.getElementById('addItemModal')).show();
+            });
+        }
+
+        function addItem() {
+            var fileId = $('#fileSelect').val();
+            var note = $('#itemNote').val();
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            if (!fileId) {
+                alert('请选择文件');
+                return;
+            }
+
+            $.post('/Playlist/AddItem', { playlistId: playlistId, fileId: fileId, note: note }, function(result) {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert('添加失败：' + result.message);
+                }
+            }).fail(function(xhr) {
+                alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+            });
+        }
+
+        function removeItem(fileId) {
+            if (confirm('确定要从列表中移除这个项目吗？')) {
+                var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                $.post('/Playlist/RemoveItem', { playlistId: playlistId, fileId: fileId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert('移除失败：' + result.message);
+                    }
+                });
+            }
+        }
+
+        function editNote(fileId, currentNote) {
+            $('#editFileId').val(fileId);
+            $('#editNoteContent').val(currentNote);
+            new bootstrap.Modal(document.getElementById('editNoteModal')).show();
+        }
+
+        function saveNote() {
+            var fileId = $('#editFileId').val();
+            var note = $('#editNoteContent').val();
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            $.post('/Playlist/UpdateItemNote', { playlistId: playlistId, fileId: fileId, note: note }, function(result) {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert('更新失败：' + result.message);
+                }
+            });
+        }
+
+        function playAll() {
+            window.location.href = '/Playlist/PlayAll/' + playlistId;
+        }
+    </script>
+}

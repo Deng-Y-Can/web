@@ -1,0 +1,72 @@
+﻿@model CandyPlayer.Models.ViewModel.AddUserViewModel
+
+@{
+    ViewData["Title"] = "添加用户";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user-plus"></i> 添加新用户</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="AddUser" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">用户名</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input asp-for="Username" class="form-control" placeholder="请输入用户名" />
+                        </div>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                        <div class="form-text">用户名长度3-50个字符</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">密码</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="请输入密码" />
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="form-text">密码长度至少6位</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label">用户角色</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="NormalUser">普通用户</option>
+                            <option value="AdvancedUser">高级用户</option>
+                            <option value="Admin">管理员</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                        <div class="form-text">
+                            <strong>普通用户：</strong>只能浏览和播放<br />
+                            <strong>高级用户：</strong>可以上传文件<br />
+                            <strong>管理员：</strong>拥有所有权限
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 添加用户
+                        </button>
+                        <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> 返回列表
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

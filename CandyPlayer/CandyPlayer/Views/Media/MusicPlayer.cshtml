@@ -1,0 +1,216 @@
+﻿@model CandyPlayer.Models.MediaFile
+
+@{
+    ViewData["Title"] = "音乐播放器 - " + Model.FileName;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-music"></i> @Model.FileName
+                        </h5>
+                        <a href="@Url.Action("Music", "Media")" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-arrow-left"></i> 返回列表
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-music fa-5x text-primary"></i>
+                    </div>
+                    <h3 class="card-title mb-3">@Model.FileName</h3>
+                    <p class="text-muted mb-4">
+                        <i class="fas fa-file-alt"></i> 格式: @Model.FileExtension.ToUpper() |
+                        <i class="fas fa-hdd"></i> 大小: @(Model.FileSize / 1024 / 1024) MB
+                    </p>
+
+                    <div class="mb-4">
+                        <audio id="audioPlayer" controls style="width: 100%;" autoplay>
+                            <source src="@Url.Action("Stream", "Media", new { id = Model.FileId })" type="audio/mpeg">
+                            您的浏览器不支持音频播放
+                        </audio>
+                    </div>
+
+                    <div class="btn-group mb-4">
+                        <button class="btn btn-outline-primary" onclick="setPlayMode('order')">
+                            <i class="fas fa-list"></i> 顺序
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="setPlayMode('loop')">
+                            <i class="fas fa-redo-alt"></i> 循环
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="setPlayMode('single')">
+                            <i class="fas fa-repeat"></i> 单曲
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="setPlayMode('random')">
+                            <i class="fas fa-random"></i> 随机
+                        </button>
+                    </div>
+
+                    <hr />
+
+                    <div class="btn-group w-100">
+                        <a href="@Url.Action("Download", "Media", new { id = Model.FileId })" class="btn btn-success">
+                            <i class="fas fa-download"></i> 下载
+                        </a>
+                        <button class="btn btn-info" onclick="addToFavorites(@Model.FileId)">
+                            <i class="fas fa-heart"></i> 收藏
+                        </button>
+                        <button class="btn btn-primary" onclick="addToPlaylist(@Model.FileId)">
+                            <i class="fas fa-plus"></i> 添加到歌单
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var audioPlayer = document.getElementById('audioPlayer');
+        var currentPlayMode = 'order';
+        var saveInterval;
+
+        function setPlayMode(mode) {
+            currentPlayMode = mode;
+            var modeName = mode === 'order' ? '顺序播放' : (mode === 'loop' ? '列表循环' : (mode === 'single' ? '单曲循环' : '随机播放'));
+            alert('播放模式已切换为：' + modeName);
+        }
+
+        function addToFavorites(fileId) {
+            $.ajax({
+                url: '/Favorite/Add',
+                type: 'POST',
+                data: { fileId: fileId },
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(result) {
+                    if (result.success) {
+                        alert('已添加到收藏');
+                    } else {
+                        alert('添加失败：' + result.message);
+                    }
+                },
+                error: function() {
+                    alert('添加失败，请稍后重试');
+                }
+            });
+        }
+
+        function addToPlaylist(fileId) {
+            var playlistName = prompt('请输入歌单名称（留空则添加到当前播放列表）：');
+            if (playlistName === null) return;
+
+            if (playlistName.trim() === '') {
+                $.ajax({
+                    url: '/Playlist/AddToCurrentPlaylist',
+                    type: 'POST',
+                    data: { fileId: fileId },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            alert('已添加到当前播放列表');
+                        } else {
+                            alert('添加失败：' + result.message);
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/Playlist/Create',
+                    type: 'POST',
+                    data: { name: playlistName },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            $.ajax({
+                                url: '/Playlist/AddSong',
+                                type: 'POST',
+                                data: { playlistId: result.playlistId, songId: fileId },
+                                headers: {
+                                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                                },
+                                success: function(addResult) {
+                                    if (addResult.success) {
+                                        alert('已添加到歌单：' + playlistName);
+                                    } else {
+                                        alert('添加失败：' + addResult.message);
+                                    }
+                                }
+                            });
+                        } else {
+                            alert('创建歌单失败：' + result.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        function savePlaybackProgress(fileId, position, progress) {
+            $.ajax({
+                url: '/Media/SavePlaybackProgress',
+                type: 'POST',
+                data: JSON.stringify({ fileId: fileId, position: position, progress: progress }),
+                contentType: 'application/json',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() }
+            });
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '00:00';
+            var mins = Math.floor(seconds / 60);
+            var secs = Math.floor(seconds % 60);
+            return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+        }
+
+        function checkResumePlayback() {
+            var musicId = @Model.FileId;
+            $.get('/Media/GetPlaybackProgress/' + musicId, function(data) {
+                if (data && data.progress > 0 && data.progress < 0.95) {
+                    var resumeTime = data.progress * audioPlayer.duration;
+                    if (confirm('上次播放到 ' + formatTime(resumeTime) + '，是否继续播放？')) {
+                        audioPlayer.currentTime = resumeTime;
+                        audioPlayer.play();
+                    }
+                }
+            });
+        }
+
+        audioPlayer.addEventListener('ended', function() {
+            if (currentPlayMode === 'single') {
+                audioPlayer.play();
+            } else if (currentPlayMode === 'loop') {
+                audioPlayer.currentTime = 0;
+                audioPlayer.play();
+            }
+        });
+
+        audioPlayer.addEventListener('play', function() {
+            saveInterval = setInterval(function() {
+                var currentTime = audioPlayer.currentTime;
+                var duration = audioPlayer.duration;
+                if (currentTime > 0 && duration > 0) {
+                    var progress = (currentTime / duration);
+                    savePlaybackProgress(@Model.FileId, currentTime, progress);
+                }
+            }, 5000);
+        });
+
+        audioPlayer.addEventListener('pause', function() {
+            if (saveInterval) clearInterval(saveInterval);
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', function() {
+            setTimeout(checkResumePlayback, 500);
+        });
+    </script>
+}

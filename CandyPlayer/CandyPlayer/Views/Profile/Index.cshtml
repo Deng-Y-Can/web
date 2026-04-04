@@ -1,0 +1,223 @@
+﻿@model CandyPlayer.Models.ViewModel.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "个人中心";
+}
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user-circle"></i> 个人信息</h5>
+            </div>
+            <div class="card-body text-center">
+                <i class="fas fa-user-circle fa-5x text-primary mb-3"></i>
+                <h5>@Model.Username</h5>
+                <p class="text-muted">
+                    @if (Model.Role == "Admin")
+                    {
+                        <span class="badge bg-danger">管理员</span>
+                    }
+                    else if (Model.Role == "AdvancedUser")
+                    {
+                        <span class="badge bg-warning">高级用户</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">普通用户</span>
+                    }
+                </p>
+                <hr />
+                <div class="text-start">
+                    <p><strong>注册时间：</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                    <p><strong>最后登录：</strong> @(Model.LastLoginTime?.ToString("yyyy-MM-dd HH:mm") ?? "未登录")</p>
+                </div>
+                <div class="d-grid">
+                    <a href="@Url.Action("ChangePassword", "Profile")" class="btn btn-primary">
+                        <i class="fas fa-key"></i> 修改密码
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-history"></i> 最近播放</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    @if (Model.RecentPlayHistory != null && Model.RecentPlayHistory.Any())
+                    {
+                        @foreach (var history in Model.RecentPlayHistory.Take(10))
+                        {
+                            <a href="@Url.Action("Play", "Media", new { id = history.MediaFileId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (history.MediaFile?.MediaType == CandyPlayer.Models.MediaType.Music)
+                                        {
+                                            <i class="fas fa-music text-primary me-2"></i>
+                                        }
+                                        else if (history.MediaFile?.MediaType == CandyPlayer.Models.MediaType.Video)
+                                        {
+                                            <i class="fas fa-video text-danger me-2"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-book text-success me-2"></i>
+                                        }
+                                        @(history.MediaFile?.FileName ?? "未知文件")
+                                    </div>
+                                    <small class="text-muted">@history.PlayTime.ToString("yyyy-MM-dd HH:mm")</small>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">暂无播放记录</p>
+                    }
+                </div>
+                @if (Model.RecentPlayHistory != null && Model.RecentPlayHistory.Any())
+                {
+                    <div class="mt-3 text-end">
+                        <a href="@Url.Action("History", "Profile")" class="btn btn-sm btn-link">查看更多 >></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-heart"></i> 我的收藏</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    @if (Model.Favorites != null && Model.Favorites.Any())
+                    {
+                        @foreach (var favorite in Model.Favorites.Take(10))
+                        {
+                            <a href="@Url.Action("Play", "Media", new { id = favorite.FileId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        @if (favorite.MediaType == CandyPlayer.Models.MediaType.Music)
+                                        {
+                                            <i class="fas fa-music text-primary me-2"></i>
+                                        }
+                                        else if (favorite.MediaType == CandyPlayer.Models.MediaType.Video)
+                                        {
+                                            <i class="fas fa-video text-danger me-2"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-book text-success me-2"></i>
+                                        }
+                                        @favorite.FileName
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="removeFavorite(@favorite.FileId, event)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">暂无收藏</p>
+                    }
+                </div>
+                @if (Model.Favorites != null && Model.Favorites.Any())
+                {
+                    <div class="mt-3 text-end">
+                        <a href="@Url.Action("Index", "Favorite")" class="btn btn-sm btn-link">查看全部 >></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0"><i class="fas fa-list"></i> 我的歌单</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    @if (Model.Playlists != null && Model.Playlists.Any())
+                    {
+                        @foreach (var playlist in Model.Playlists.Take(10))
+                        {
+                            <a href="@Url.Action("Details", "Playlist", new { id = playlist.PlaylistId })" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fas fa-music text-warning me-2"></i>
+                                        @playlist.PlaylistName
+                                    </div>
+                                    <span class="badge bg-secondary rounded-pill">@playlist.PlaylistItems.Count 首</span>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">暂无歌单</p>
+                    }
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-success w-100" onclick="createPlaylist()">
+                        <i class="fas fa-plus"></i> 创建新歌单
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function removeFavorite(fileId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (confirm('确定要取消收藏吗？')) {
+                $.post('@Url.Action("Remove", "Favorite")', { fileId: fileId }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert('操作失败：' + result.message);
+                    }
+                });
+            }
+        }
+
+        function createPlaylist() {
+            var name = prompt('请输入歌单名称：');
+            if (name && name.trim()) {
+                $.ajax({
+                    url: '@Url.Action("Create", "Playlist")',
+                    type: 'POST',
+                    data: { name: name },
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            alert('歌单创建成功');
+                            location.reload();
+                        } else {
+                            alert('创建失败：' + result.message);
+                        }
+                    },
+                    error: function() {
+                        alert('创建失败，请稍后重试');
+                    }
+                });
+            }
+        }
+    </script>
+}

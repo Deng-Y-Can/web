@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CandyPlayer</title>
+    <!-- 使用国内CDN -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: #f8f9fa;
+        }
+
+        #sidebar-wrapper {
+            min-height: 100vh;
+            margin-left: -15rem;
+            transition: margin 0.25s ease-out;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+            #sidebar-wrapper .sidebar-heading {
+                padding: 0.875rem 1.25rem;
+                font-size: 1.2rem;
+                background: rgba(0, 0, 0, 0.2);
+            }
+
+            #sidebar-wrapper .list-group {
+                width: 15rem;
+            }
+
+            #sidebar-wrapper .list-group-item {
+                border: none;
+                padding: 0.75rem 1.25rem;
+                margin-bottom: 0.25rem;
+                border-radius: 8px;
+            }
+
+                #sidebar-wrapper .list-group-item:hover {
+                    background-color: rgba(255, 255, 255, 0.1) !important;
+                }
+
+        #page-content-wrapper {
+            min-width: 100vw;
+        }
+
+        #wrapper.toggled #sidebar-wrapper {
+            margin-left: 0;
+        }
+
+        @@media (min-width: 768px) {
+            #sidebar-wrapper {
+                margin-left: 0;
+            }
+
+            #page-content-wrapper {
+                min-width: 0;
+                width: 100%;
+            }
+
+            #wrapper.toggled #sidebar-wrapper {
+                margin-left: -15rem;
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+
+        .progress {
+            height: 5px;
+            border-radius: 5px;
+        }
+
+        .alert {
+            animation: slideDown 0.3s ease;
+            border-radius: 10px;
+        }
+
+        @@keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th {
+            border-top: none;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            font-weight: 500;
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="text-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold">
+                <i class="fas fa-headphones me-2"></i>CandyPlayer
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-3">
+                <a href="@Url.Action("Index", "Home")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-home me-2"></i>首页
+                </a>
+                <a href="@Url.Action("Books", "Media")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-book me-2"></i>书籍
+                </a>
+                <a href="@Url.Action("Music", "Media")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-music me-2"></i>音乐
+                </a>
+                <a href="@Url.Action("Videos", "Media")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-video me-2"></i>视频
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <hr class="bg-secondary my-2" />
+                    <div class="text-muted small px-3 mt-2">管理功能</div>
+                    <a href="@Url.Action("Users", "Admin")" class="list-group-item list-group-item-action bg-transparent text-white">
+                        <i class="fas fa-users me-2"></i>用户管理
+                    </a>
+                    <a href="@Url.Action("Logs", "Admin")" class="list-group-item list-group-item-action bg-transparent text-white">
+                        <i class="fas fa-history me-2"></i>操作日志
+                    </a>
+                }
+
+                <hr class="bg-secondary my-2" />
+                <div class="text-muted small px-3 mt-2">我的列表</div>
+                <a href="@Url.Action("Books", "Playlist")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-book me-2"></i>阅读列表
+                </a>
+                <a href="@Url.Action("Music", "Playlist")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-music me-2"></i>播放列表
+                </a>
+                <a href="@Url.Action("Videos", "Playlist")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-video me-2"></i>观看列表
+                </a>
+
+                <hr class="bg-secondary my-2" />
+                <div class="text-muted small px-3 mt-2">个人功能</div>
+                <a href="@Url.Action("Index", "Profile")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-user me-2"></i>个人中心
+                </a>
+                <a href="@Url.Action("Index", "Favorite")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-heart me-2"></i>我的收藏
+                </a>
+                <a href="@Url.Action("History", "Profile")" class="list-group-item list-group-item-action bg-transparent text-white">
+                    <i class="fas fa-history me-2"></i>播放历史
+                </a>
+
+                <hr class="bg-secondary my-2" />
+                <form asp-action="Logout" asp-controller="Account" method="post" id="logoutForm">
+                    @Html.AntiForgeryToken()
+                    <a href="#" onclick="document.getElementById('logoutForm').submit();" class="list-group-item list-group-item-action bg-transparent text-white">
+                        <i class="fas fa-sign-out-alt me-2"></i>退出登录
+                    </a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="w-100">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary rounded-circle" id="menu-toggle" style="width: 40px; height: 40px; padding: 0;">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="me-3">
+                            <i class="fas fa-user-circle me-1 text-primary"></i>
+                            <strong>@User.Identity?.Name</strong>
+                        </span>
+                        <span class="badge bg-secondary">
+                            @{
+                                var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+                                if (role == "Admin")
+                                {
+                                    <text>管理员</text>
+                                }
+                                else if (role == "AdvancedUser")
+                                {
+                                    <text>高级用户</text>
+                                }
+                                else
+                                {
+                                    <text>普通用户</text>
+                                }
+                            }
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i> @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,118 @@
+﻿@model CandyPlayer.Models.MediaFile
+
+@{
+    ViewData["Title"] = "阅读器 - " + Model.FileName;
+    var isPdf = Model.FileExtension.ToLower() == "pdf";
+}
+
+<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+<style>
+    .reader-container {
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .reader-controls {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .reader-controls .btn-outline-secondary {
+            color: white;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+            .reader-controls .btn-outline-secondary:hover {
+                background: rgba(255,255,255,0.2);
+                color: white;
+            }
+
+        .reader-controls .form-select {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+            .reader-controls .form-select option {
+                color: #333;
+            }
+
+    #readerContent {
+        transition: all 0.3s ease;
+        min-height: 70vh;
+    }
+
+    .txt-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: justify;
+    }
+
+    .progress {
+        background-color: #e9ecef;
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        transition: width 0.3s ease;
+    }
+
+    #bookmarkPanel button {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+    }
+
+        #bookmarkPanel button:hover {
+            transform: scale(1.1);
+        }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-book"></i> @Model.FileName
+                        </h5>
+                        <div>
+                            <a href="@Url.Action("Download", "Media", new { id = Model.FileId })" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-download"></i> 下载
+                            </a>
+                            <a href="@Url.Action("Books", "Media")" class="btn btn-sm btn-outline-light ms-2">
+                                <i class="fas fa-arrow-left"></i> 返回列表
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div id="bookReaderContainer" class="reader-container" style="min-height: 70vh;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isPdf)
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+}
+
+<script src="~/js/bookReader.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var fileUrl = '@Url.Action("Stream", "Media", new { id = Model.FileId })';
+        var fileType = '@(isPdf ? "pdf" : "txt")';
+        var fileName = '@Model.FileName';
+        var fileId = @Model.FileId;
+
+        if (!window.bookReader || window.bookReader.fileName !== fileName) {
+            window.bookReader = new BookReader('bookReaderContainer', fileUrl, fileType, fileName, fileId);
+        }
+    });
+</script>

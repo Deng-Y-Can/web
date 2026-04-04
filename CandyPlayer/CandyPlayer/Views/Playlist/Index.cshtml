@@ -1,0 +1,188 @@
+﻿@model List<CandyPlayer.Models.Playlist>
+
+@{
+    ViewData["Title"] = ViewBag.Title ?? "我的列表";
+    var type = ViewBag.Type as string ?? "Music";
+    var typeIcon = ViewBag.TypeIcon as string ?? "fa-list";
+    var typeValue = type == "Book" ? 0 : (type == "Music" ? 1 : 2);
+    var typeName = type == "Book" ? "阅读列表" : (type == "Music" ? "播放列表" : "观看列表");
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="fas @typeIcon"></i> @ViewBag.Title</h2>
+        <p class="text-muted">管理您的@(type == "Book" ? "阅读" : (type == "Music" ? "播放" : "观看"))列表</p>
+    </div>
+    <div class="col text-end">
+        <button class="btn btn-primary" onclick="showCreateModal()">
+            <i class="fas fa-plus"></i> 创建新列表
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var playlist in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title">
+                            <i class="fas @typeIcon text-primary me-2"></i>
+                            @playlist.PlaylistName
+                        </h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="editPlaylist(@playlist.PlaylistId, '@playlist.PlaylistName', '@(playlist.Description?.Replace("'", "\\'") ?? "")')">
+                                        <i class="fas fa-edit"></i> 编辑
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="deletePlaylist(@playlist.PlaylistId)">
+                                        <i class="fas fa-trash"></i> 删除
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(playlist.Description))
+                    {
+                        <p class="card-text text-muted small mt-2">@playlist.Description</p>
+                    }
+                    <p class="card-text text-muted small">
+                        <i class="fas fa-calendar"></i> 创建: @playlist.CreatedAt.ToString("yyyy-MM-dd")<br />
+                        <i class="fas fa-list"></i> 项目数: @playlist.PlaylistItems.Count
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="btn-group w-100">
+                        <a href="@Url.Action("Details", new { id = playlist.PlaylistId })" class="btn btn-sm btn-primary">
+                            <i class="fas fa-eye"></i> 查看详情
+                        </a>
+                        <button class="btn btn-sm btn-success" onclick="playAll(@playlist.PlaylistId)">
+                            <i class="fas fa-play"></i> 播放全部
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <i class="fas @typeIcon fa-4x text-muted mb-3"></i>
+        <p class="text-muted">暂无@typeName</p>
+        <button class="btn btn-primary" onclick="showCreateModal()">
+            <i class="fas fa-plus"></i> 创建第一个列表
+        </button>
+    </div>
+}
+
+<!-- 创建/编辑模态框 -->
+<div class="modal fade" id="playlistModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalTitle">创建新列表</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="playlistForm">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="playlistId" value="0" />
+                    <input type="hidden" id="playlistType" value="@typeValue" />
+                    <div class="mb-3">
+                        <label class="form-label">列表名称 <span class="text-danger">*</span></label>
+                        <input type="text" id="playlistName" class="form-control" placeholder="请输入列表名称" maxlength="100" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">备注/描述</label>
+                        <textarea id="playlistDescription" class="form-control" rows="3" placeholder="请输入备注信息（可选）" maxlength="500"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="savePlaylist()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showCreateModal() {
+            document.getElementById('modalTitle').innerText = '创建新列表';
+            document.getElementById('playlistId').value = '0';
+            document.getElementById('playlistName').value = '';
+            document.getElementById('playlistDescription').value = '';
+            new bootstrap.Modal(document.getElementById('playlistModal')).show();
+        }
+
+        function editPlaylist(id, name, description) {
+            document.getElementById('modalTitle').innerText = '编辑列表';
+            document.getElementById('playlistId').value = id;
+            document.getElementById('playlistName').value = name;
+            document.getElementById('playlistDescription').value = description || '';
+            new bootstrap.Modal(document.getElementById('playlistModal')).show();
+        }
+
+        function savePlaylist() {
+            var id = document.getElementById('playlistId').value;
+            var name = document.getElementById('playlistName').value.trim();
+            var description = document.getElementById('playlistDescription').value;
+            var type = document.getElementById('playlistType').value;
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            if (!name) {
+                alert('请输入列表名称');
+                return;
+            }
+
+            var url = id == '0' ? '/Playlist/Create' : '/Playlist/Update';
+            var data = id == '0' ? { name: name, description: description, type: type } : { playlistId: id, name: name, description: description };
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                headers: { 'RequestVerificationToken': token },
+                success: function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert('操作失败：' + result.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                }
+            });
+        }
+
+        function deletePlaylist(id) {
+            if (confirm('确定要删除这个列表吗？列表中的所有项目也会被移除。')) {
+                var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                $.post('/Playlist/Delete', { playlistId: id }, function(result) {
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert('删除失败：' + result.message);
+                    }
+                }).fail(function() {
+                    alert('删除失败，请稍后重试');
+                });
+            }
+        }
+
+        function playAll(playlistId) {
+            window.location.href = '/Playlist/PlayAll/' + playlistId;
+        }
+    </script>
+}

@@ -1,0 +1,3 @@
+<p class="mb-0"><strong>管理员:</strong> zoe / candy</p>
+<p class="mb-0"><strong>普通用户:</strong> user1 / 123456</p>
+<p class="mb-0"><strong>高级用户:</strong> huser1 / 654321</p>
