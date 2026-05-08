@@ -2,17 +2,28 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>@ViewData["Title"] - CandyPlayer</title>
     <!-- 使用国内CDN -->
     <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+        /* ========== 基础样式 ========== */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
         body {
             overflow-x: hidden;
             background-color: #f8f9fa;
+            -webkit-overflow-scrolling: touch;
         }
 
+        /* ========== 侧边栏样式 ========== */
         #sidebar-wrapper {
             min-height: 100vh;
             margin-left: -15rem;
@@ -20,26 +31,26 @@
             background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
         }
 
-            #sidebar-wrapper .sidebar-heading {
-                padding: 0.875rem 1.25rem;
-                font-size: 1.2rem;
-                background: rgba(0, 0, 0, 0.2);
-            }
+        #sidebar-wrapper .sidebar-heading {
+            padding: 0.875rem 1.25rem;
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
 
-            #sidebar-wrapper .list-group {
-                width: 15rem;
-            }
+        #sidebar-wrapper .list-group {
+            width: 15rem;
+        }
 
-            #sidebar-wrapper .list-group-item {
-                border: none;
-                padding: 0.75rem 1.25rem;
-                margin-bottom: 0.25rem;
-                border-radius: 8px;
-            }
+        #sidebar-wrapper .list-group-item {
+            border: none;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.25rem;
+            border-radius: 8px;
+        }
 
-                #sidebar-wrapper .list-group-item:hover {
-                    background-color: rgba(255, 255, 255, 0.1) !important;
-                }
+        #sidebar-wrapper .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
 
         #page-content-wrapper {
             min-width: 100vw;
@@ -49,31 +60,144 @@
             margin-left: 0;
         }
 
+        /* ========== 桌面端响应式 ========== */
         @@media (min-width: 768px) {
             #sidebar-wrapper {
                 margin-left: 0;
             }
-
             #page-content-wrapper {
                 min-width: 0;
                 width: 100%;
             }
-
             #wrapper.toggled #sidebar-wrapper {
                 margin-left: -15rem;
             }
         }
 
+        /* ========== 移动端优化 ========== */
+        @@media (max-width: 768px) {
+            /* 触摸优化 - 所有可点击元素增大触摸区域 */
+            button,
+            .btn,
+            [role="button"],
+            .list-group-item,
+            .navbar-toggler,
+            #menu-toggle,
+            .card,
+            a:not(.card) {
+                min-height: 44px;
+                min-width: 44px;
+                cursor: pointer;
+            }
+
+            /* 防止iOS输入框自动缩放 */
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+
+            /* 优化容器内边距 */
+            .container-fluid {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            /* 侧边栏移动端优化 */
+            #sidebar-wrapper .list-group {
+                width: 13rem;
+            }
+
+            #sidebar-wrapper .list-group-item {
+                padding: 0.7rem 1rem;
+                font-size: 14px;
+            }
+
+            /* 顶部导航栏优化 */
+            .navbar {
+                padding: 8px 12px;
+            }
+
+            .navbar .btn-primary {
+                width: 44px !important;
+                height: 44px !important;
+            }
+
+            /* 卡片移动端优化 */
+            .card {
+                margin-bottom: 15px;
+                border-radius: 12px;
+            }
+
+            /* 表格移动端优化 - 允许横向滚动 */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* 调整字体大小 */
+            body {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            /* 优化面包屑导航 */
+            .breadcrumb {
+                font-size: 13px;
+            }
+
+            /* 模态框移动端优化 */
+            .modal-dialog {
+                margin: 10px;
+            }
+
+            /* 优化阅读区域 */
+            #readerContent {
+                padding: 15px 12px !important;
+            }
+        }
+
+        /* ========== iPad 优化 ========== */
+        @@media (min-width: 769px) and (max-width: 1024px) {
+            .container-fluid {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            button, .btn {
+                min-height: 40px;
+            }
+        }
+
+        /* ========== 卡片样式 ========== */
         .card {
             border: none;
             border-radius: 15px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 移动端禁用悬停效果 */
+        @@media (max-width: 768px) {
             .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transform: none;
             }
+        }
 
         .progress {
             height: 5px;
@@ -90,7 +214,6 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -100,15 +223,38 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
+            transition: all 0.3s ease;
         }
 
-            .btn-primary:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 移动端按钮点击优化 */
+        @@media (max-width: 768px) {
+            .btn-primary:active {
+                transform: scale(0.98);
             }
+        }
 
         .navbar {
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 移动端导航栏优化 */
+        @@media (max-width: 768px) {
+            .navbar {
+                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar .ms-auto {
+                font-size: 13px;
+            }
+
+            .navbar .badge {
+                font-size: 11px;
+            }
         }
 
         .table th {
@@ -118,6 +264,71 @@
         .badge {
             padding: 5px 10px;
             font-weight: 500;
+        }
+
+        /* ========== 滚动条美化 ========== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* 移动端滚动条更细 */
+        @@media (max-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 3px;
+                height: 3px;
+            }
+        }
+
+        /* ========== 加载动画 ========== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0,0,0,.1);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== 工具类 ========== */
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* 移动端隐藏某些元素（如果需要） */
+        @@media (max-width: 768px) {
+            .hide-on-mobile {
+                display: none !important;
+            }
+        }
+
+        /* 桌面端隐藏某些元素（如果需要） */
+        @@media (min-width: 769px) {
+            .hide-on-desktop {
+                display: none !important;
+            }
         }
     </style>
     @await RenderSectionAsync("Styles", required: false)
@@ -245,14 +456,39 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
+        // 侧边栏切换
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
 
+        // 自动关闭提示消息
         setTimeout(function() {
             $('.alert').fadeOut('slow');
         }, 5000);
+
+        // 移动端优化：点击菜单外区域关闭侧边栏（仅移动端）
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            $(document).on('click', function(event) {
+                var isSidebar = $(event.target).closest('#sidebar-wrapper').length > 0;
+                var isMenuBtn = $(event.target).closest('#menu-toggle').length > 0;
+                var wrapper = $('#wrapper');
+
+                if (!isSidebar && !isMenuBtn && wrapper.hasClass('toggled')) {
+                    wrapper.removeClass('toggled');
+                }
+            });
+        }
+
+        // 防止 iOS 双击缩放（可选）
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

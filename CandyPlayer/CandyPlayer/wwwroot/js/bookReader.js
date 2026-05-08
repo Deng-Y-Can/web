@@ -1,36 +1,43 @@
-﻿// 增强版书籍阅读器 JavaScript 类
+﻿// 移动端优化的书籍阅读器
 class BookReader {
     constructor(containerId, fileUrl, fileType, fileName, fileId) {
         this.container = document.getElementById(containerId);
         this.fileUrl = fileUrl;
-        this.fileType = fileType; // 'pdf' or 'txt'
+        this.fileType = fileType;
         this.fileName = fileName;
         this.fileId = fileId;
         this.currentPage = 1;
         this.totalPages = 1;
 
-        // 阅读设置
+        // 检测是否为移动端
+        this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // 移动端优化的默认设置
         this.settings = {
-            fontSize: 16,
+            fontSize: this.isMobile ? 18 : 16,
             lineHeight: 1.8,
             fontFamily: 'Microsoft YaHei',
             theme: 'day',
             letterSpacing: 0,
             paragraphMargin: 10,
-            pageWidth: 800,
+            pageWidth: this.isMobile ? '100%' : 800,
             showPageNumbers: true,
             autoSave: true
         };
 
-        this.charsPerPage = 3000;
+        // 移动端每页显示更少的字符
+        this.charsPerPage = this.isMobile ? 1800 : 3000;
         this.fullContent = '';
         this.pdfDoc = null;
-        this.scale = 1.5;
+        this.scale = this.isMobile ? 1.2 : 1.5;
         this.readingProgress = 0;
         this.readingTime = 0;
         this.timer = null;
 
-        // 加载保存的设置
+        // 触摸滑动相关
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+
         this.loadSettings();
         this.init();
     }
@@ -57,6 +64,36 @@ class BookReader {
         }
         this.createControls();
         this.startReadingTimer();
+        this.initTouchSwipe();
+    }
+
+    initTouchSwipe() {
+        if (!this.isMobile) return;
+
+        const content = document.getElementById('readerContent');
+        if (!content) return;
+
+        content.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        content.addEventListener('touchend', (e) => {
+            this.touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+        }, false);
+    }
+
+    handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = this.touchEndX - this.touchStartX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                this.previousPage();
+            } else {
+                this.nextPage();
+            }
+        }
     }
 
     startReadingTimer() {
@@ -77,88 +114,165 @@ class BookReader {
     }
 
     createControls() {
-        const controlsHtml = `
-            <div class="reader-controls" style="position: sticky; top: 0; background: #2c3e50; padding: 12px 20px; border-bottom: 1px solid #34495e; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                <div class="row align-items-center">
-                    <div class="col-md-2 mb-2 mb-md-0">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-light" id="fontMinusBtn" title="减小字体" style="background: #ecf0f1; color: #2c3e50;">A-</button>
-                            <span class="px-2 text-white" id="fontSizeDisplay">${this.settings.fontSize}px</span>
-                            <button class="btn btn-sm btn-light" id="fontPlusBtn" title="增大字体" style="background: #ecf0f1; color: #2c3e50;">A+</button>
+        let controlsHtml = '';
+
+        if (this.isMobile) {
+            // 移动端布局
+            controlsHtml = `
+                <div class="reader-controls" style="position: sticky; top: 0; background: #2c3e50; padding: 10px; border-bottom: 1px solid #34495e; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div class="d-flex justify-content-around mb-2">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-light" id="fontMinusBtn" style="font-size: 1.2rem; padding: 8px 12px;">A-</button>
+                            <span class="px-2 text-white align-self-center" id="fontSizeDisplay" style="min-width: 50px;">${this.settings.fontSize}px</span>
+                            <button class="btn btn-sm btn-light" id="fontPlusBtn" style="font-size: 1.2rem; padding: 8px 12px;">A+</button>
+                        </div>
+                        
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-light" id="lineHeightMinusBtn" style="padding: 8px 12px;">行距-</button>
+                            <span class="px-2 text-white align-self-center" id="lineHeightDisplay" style="min-width: 40px;">${this.settings.lineHeight.toFixed(1)}</span>
+                            <button class="btn btn-sm btn-light" id="lineHeightPlusBtn" style="padding: 8px 12px;">行距+</button>
                         </div>
                     </div>
-                    <div class="col-md-2 mb-2 mb-md-0">
-                        <select id="fontFamilySelect" class="form-select form-select-sm" style="background: #ecf0f1; color: #2c3e50; border: none;">
+                    
+                    <div class="d-flex justify-content-around mb-2">
+                        <select id="fontFamilySelect" class="form-select form-select-sm" style="background: #ecf0f1; color: #2c3e50; border: none; font-size: 0.9rem; width: auto;">
                             <option value="Microsoft YaHei" ${this.settings.fontFamily === 'Microsoft YaHei' ? 'selected' : ''}>微软雅黑</option>
                             <option value="SimSun" ${this.settings.fontFamily === 'SimSun' ? 'selected' : ''}>宋体</option>
                             <option value="SimHei" ${this.settings.fontFamily === 'SimHei' ? 'selected' : ''}>黑体</option>
                             <option value="KaiTi" ${this.settings.fontFamily === 'KaiTi' ? 'selected' : ''}>楷体</option>
-                            <option value="Arial" ${this.settings.fontFamily === 'Arial' ? 'selected' : ''}>Arial</option>
                         </select>
-                    </div>
-                    <div class="col-md-2 mb-2 mb-md-0">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-light" data-theme="day" title="白天模式" style="background: #ecf0f1; color: #2c3e50;">☀️</button>
-                            <button class="btn btn-sm btn-light" data-theme="night" title="夜间模式" style="background: #ecf0f1; color: #2c3e50;">🌙</button>
-                            <button class="btn btn-sm btn-light" data-theme="eye" title="护眼模式" style="background: #ecf0f1; color: #2c3e50;">👁️</button>
-                            <button class="btn btn-sm btn-light" data-theme="sepia" title="复古模式" style="background: #ecf0f1; color: #2c3e50;">📜</button>
+                        
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-light" data-theme="day" style="padding: 8px 10px;">☀️</button>
+                            <button class="btn btn-sm btn-light" data-theme="night" style="padding: 8px 10px;">🌙</button>
+                            <button class="btn btn-sm btn-light" data-theme="eye" style="padding: 8px 10px;">👁️</button>
+                            <button class="btn btn-sm btn-light" data-theme="sepia" style="padding: 8px 10px;">📜</button>
                         </div>
                     </div>
-                    <div class="col-md-2 mb-2 mb-md-0">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-light" id="lineHeightMinusBtn" title="减小行距" style="background: #ecf0f1; color: #2c3e50;">行距-</button>
-                            <span class="px-2 text-white" id="lineHeightDisplay">${this.settings.lineHeight.toFixed(1)}</span>
-                            <button class="btn btn-sm btn-light" id="lineHeightPlusBtn" title="增大行距" style="background: #ecf0f1; color: #2c3e50;">行距+</button>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-primary" id="prevPageBtn" style="padding: 6px 12px;">◀</button>
+                            <span class="mx-2 text-white" id="pageInfo" style="font-size: 0.9rem;">${this.currentPage}/${this.totalPages}</span>
+                            <button class="btn btn-sm btn-primary" id="nextPageBtn" style="padding: 6px 12px;">▶</button>
                         </div>
-                    </div>
-                    <div class="col-md-2 mb-2 mb-md-0">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-light" id="letterSpacingMinusBtn" title="减小字间距" style="background: #ecf0f1; color: #2c3e50;">字距-</button>
-                            <span class="px-2 text-white" id="letterSpacingDisplay">${this.settings.letterSpacing}px</span>
-                            <button class="btn btn-sm btn-light" id="letterSpacingPlusBtn" title="增大字间距" style="background: #ecf0f1; color: #2c3e50;">字距+</button>
+                        
+                        <button class="btn btn-sm btn-primary" id="resetSettingsBtn" style="padding: 6px 12px;">重置</button>
+                        
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock text-white me-1" style="font-size: 0.8rem;"></i>
+                            <span class="text-white small" id="readingTime">00:00</span>
                         </div>
-                    </div>
-                    <div class="col-md-2 text-md-end">
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-light" id="fullscreenBtn" title="全屏模式" style="background: #ecf0f1; color: #2c3e50;">📺 全屏</button>
-                            <button class="btn btn-sm btn-light" id="resetSettingsBtn" title="重置设置" style="background: #ecf0f1; color: #2c3e50;">↺ 重置</button>
-                        </div>
-                        <span class="ms-2 text-white small">
-                            <i class="fas fa-clock"></i> <span id="readingTime">00:00</span>
-                        </span>
                     </div>
                 </div>
-            </div>
-            <div id="readerContent" style="padding: 30px; min-height: 600px; transition: all 0.3s ease;"></div>
-            <div id="paginationControls" class="text-center mt-3 pb-4" style="display: none;">
-                <div class="btn-group">
-                    <button class="btn btn-sm btn-primary" id="firstPageBtn" title="首页">⏮ 首页</button>
-                    <button class="btn btn-sm btn-primary" id="prevPageBtn" title="上一页">◀ 上一页</button>
-                    <span class="mx-3 align-self-center" id="pageInfo">第1页 / 共1页</span>
-                    <button class="btn btn-sm btn-primary" id="nextPageBtn" title="下一页">下一页 ▶</button>
-                    <button class="btn btn-sm btn-primary" id="lastPageBtn" title="尾页">尾页 ⏭</button>
-                </div>
-                <div class="mt-2">
-                    <div class="d-inline-block">
-                        <input type="number" id="pageInput" class="form-control d-inline-block" style="width: 80px;" min="1" />
+                <div id="readerContent" style="padding: 20px 15px; min-height: 60vh; transition: all 0.3s ease;"></div>
+                <div id="paginationControls" class="text-center mt-3 pb-4" style="display: none;">
+                    <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                        <button class="btn btn-sm btn-primary" id="firstPageBtn">首页</button>
+                        <button class="btn btn-sm btn-primary" id="lastPageBtn">尾页</button>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                        <input type="number" id="pageInput" class="form-control" style="width: 80px; text-align: center;" min="1" />
                         <button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <div class="progress" style="height: 8px; max-width: 400px; margin: 0 auto;">
-                        <div id="readingProgress" class="progress-bar bg-primary" style="width: 0%"></div>
+                    <div class="mt-3 px-3">
+                        <div class="progress" style="height: 6px;">
+                            <div id="readingProgress" class="progress-bar bg-primary" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted" id="progressText">阅读进度: 0%</small>
                     </div>
-                    <small class="text-muted" id="progressText">阅读进度: 0%</small>
                 </div>
-            </div>
-            <div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1000;">
-                <button class="btn btn-sm btn-warning rounded-circle shadow" id="addBookmarkBtn" title="添加书签" style="width: 45px; height: 45px;">
-                    <i class="fas fa-bookmark"></i>
-                </button>
-            </div>
-        `;
-        this.container.innerHTML = controlsHtml;
+                <div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1000;">
+                    <button class="btn btn-warning rounded-circle shadow" id="addBookmarkBtn" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+            `;
+        } else {
+            // 桌面版布局
+            controlsHtml = `
+                <div class="reader-controls" style="position: sticky; top: 0; background: #2c3e50; padding: 12px 20px; border-bottom: 1px solid #34495e; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 mb-2 mb-md-0">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" id="fontMinusBtn" title="减小字体" style="background: #ecf0f1; color: #2c3e50;">A-</button>
+                                <span class="px-2 text-white" id="fontSizeDisplay">${this.settings.fontSize}px</span>
+                                <button class="btn btn-sm btn-light" id="fontPlusBtn" title="增大字体" style="background: #ecf0f1; color: #2c3e50;">A+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-2 mb-md-0">
+                            <select id="fontFamilySelect" class="form-select form-select-sm" style="background: #ecf0f1; color: #2c3e50; border: none;">
+                                <option value="Microsoft YaHei" ${this.settings.fontFamily === 'Microsoft YaHei' ? 'selected' : ''}>微软雅黑</option>
+                                <option value="SimSun" ${this.settings.fontFamily === 'SimSun' ? 'selected' : ''}>宋体</option>
+                                <option value="SimHei" ${this.settings.fontFamily === 'SimHei' ? 'selected' : ''}>黑体</option>
+                                <option value="KaiTi" ${this.settings.fontFamily === 'KaiTi' ? 'selected' : ''}>楷体</option>
+                                <option value="Arial" ${this.settings.fontFamily === 'Arial' ? 'selected' : ''}>Arial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-2 mb-md-0">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" data-theme="day" title="白天模式" style="background: #ecf0f1; color: #2c3e50;">☀️</button>
+                                <button class="btn btn-sm btn-light" data-theme="night" title="夜间模式" style="background: #ecf0f1; color: #2c3e50;">🌙</button>
+                                <button class="btn btn-sm btn-light" data-theme="eye" title="护眼模式" style="background: #ecf0f1; color: #2c3e50;">👁️</button>
+                                <button class="btn btn-sm btn-light" data-theme="sepia" title="复古模式" style="background: #ecf0f1; color: #2c3e50;">📜</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-2 mb-md-0">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" id="lineHeightMinusBtn" title="减小行距" style="background: #ecf0f1; color: #2c3e50;">行距-</button>
+                                <span class="px-2 text-white" id="lineHeightDisplay">${this.settings.lineHeight.toFixed(1)}</span>
+                                <button class="btn btn-sm btn-light" id="lineHeightPlusBtn" title="增大行距" style="background: #ecf0f1; color: #2c3e50;">行距+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-2 mb-md-0">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" id="letterSpacingMinusBtn" title="减小字间距" style="background: #ecf0f1; color: #2c3e50;">字距-</button>
+                                <span class="px-2 text-white" id="letterSpacingDisplay">${this.settings.letterSpacing}px</span>
+                                <button class="btn btn-sm btn-light" id="letterSpacingPlusBtn" title="增大字间距" style="background: #ecf0f1; color: #2c3e50;">字距+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-md-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light" id="fullscreenBtn" title="全屏模式" style="background: #ecf0f1; color: #2c3e50;">📺 全屏</button>
+                                <button class="btn btn-sm btn-light" id="resetSettingsBtn" title="重置设置" style="background: #ecf0f1; color: #2c3e50;">↺ 重置</button>
+                            </div>
+                            <span class="ms-2 text-white small">
+                                <i class="fas fa-clock"></i> <span id="readingTime">00:00</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div id="readerContent" style="padding: 30px; min-height: 600px; transition: all 0.3s ease;"></div>
+                <div id="paginationControls" class="text-center mt-3 pb-4" style="display: none;">
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" id="firstPageBtn" title="首页">⏮ 首页</button>
+                        <button class="btn btn-sm btn-primary" id="prevPageBtn" title="上一页">◀ 上一页</button>
+                        <span class="mx-3 align-self-center" id="pageInfo">第1页 / 共1页</span>
+                        <button class="btn btn-sm btn-primary" id="nextPageBtn" title="下一页">下一页 ▶</button>
+                        <button class="btn btn-sm btn-primary" id="lastPageBtn" title="尾页">尾页 ⏭</button>
+                    </div>
+                    <div class="mt-2">
+                        <div class="d-inline-block">
+                            <input type="number" id="pageInput" class="form-control d-inline-block" style="width: 80px;" min="1" />
+                            <button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="progress" style="height: 8px; max-width: 400px; margin: 0 auto;">
+                            <div id="readingProgress" class="progress-bar bg-primary" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted" id="progressText">阅读进度: 0%</small>
+                    </div>
+                </div>
+                <div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1000;">
+                    <button class="btn btn-sm btn-warning rounded-circle shadow" id="addBookmarkBtn" title="添加书签" style="width: 45px; height: 45px;">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+            `;
+        }
 
+        this.container.innerHTML = controlsHtml;
         this.bindEvents();
     }
 
@@ -172,9 +286,12 @@ class BookReader {
         document.getElementById('lineHeightMinusBtn')?.addEventListener('click', () => this.changeLineHeight(-0.1));
         document.getElementById('lineHeightPlusBtn')?.addEventListener('click', () => this.changeLineHeight(0.1));
 
-        // 字间距控制
-        document.getElementById('letterSpacingMinusBtn')?.addEventListener('click', () => this.changeLetterSpacing(-0.5));
-        document.getElementById('letterSpacingPlusBtn')?.addEventListener('click', () => this.changeLetterSpacing(0.5));
+        // 字间距控制（仅桌面版）
+        if (!this.isMobile) {
+            document.getElementById('letterSpacingMinusBtn')?.addEventListener('click', () => this.changeLetterSpacing(-0.5));
+            document.getElementById('letterSpacingPlusBtn')?.addEventListener('click', () => this.changeLetterSpacing(0.5));
+            document.getElementById('fullscreenBtn')?.addEventListener('click', () => this.toggleFullscreen());
+        }
 
         // 主题切换
         document.querySelectorAll('[data-theme]').forEach(btn => {
@@ -182,7 +299,6 @@ class BookReader {
         });
 
         // 其他控制
-        document.getElementById('fullscreenBtn')?.addEventListener('click', () => this.toggleFullscreen());
         document.getElementById('resetSettingsBtn')?.addEventListener('click', () => this.resetSettings());
         document.getElementById('addBookmarkBtn')?.addEventListener('click', () => this.addBookmark());
 
@@ -193,14 +309,28 @@ class BookReader {
         document.getElementById('lastPageBtn')?.addEventListener('click', () => this.lastPage());
         document.getElementById('jumpPageBtn')?.addEventListener('click', () => this.jumpToPage());
 
-        // 更新显示
+        // 页面输入框键盘支持
+        const pageInput = document.getElementById('pageInput');
+        if (pageInput) {
+            pageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') this.jumpToPage();
+            });
+        }
+
         this.updateDisplays();
     }
 
     updateDisplays() {
-        document.getElementById('fontSizeDisplay').textContent = this.settings.fontSize + 'px';
-        document.getElementById('lineHeightDisplay').textContent = this.settings.lineHeight.toFixed(1);
-        document.getElementById('letterSpacingDisplay').textContent = this.settings.letterSpacing + 'px';
+        const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+        const lineHeightDisplay = document.getElementById('lineHeightDisplay');
+
+        if (fontSizeDisplay) fontSizeDisplay.textContent = this.settings.fontSize + 'px';
+        if (lineHeightDisplay) lineHeightDisplay.textContent = this.settings.lineHeight.toFixed(1);
+
+        if (!this.isMobile) {
+            const letterSpacingDisplay = document.getElementById('letterSpacingDisplay');
+            if (letterSpacingDisplay) letterSpacingDisplay.textContent = this.settings.letterSpacing + 'px';
+        }
     }
 
     loadPDF() {
@@ -215,6 +345,11 @@ class BookReader {
             this.pdfDoc = pdf;
             this.totalPages = pdf.numPages;
             document.getElementById('paginationControls').style.display = 'block';
+
+            // 移动端调整PDF缩放比例
+            if (this.isMobile) {
+                this.scale = 1.0;
+            }
 
             const savedPage = localStorage.getItem(`bookmark_page_${this.fileName}`);
             if (savedPage && parseInt(savedPage) > 0 && parseInt(savedPage) <= this.totalPages) {
@@ -241,6 +376,12 @@ class BookReader {
             canvas.width = viewport.width;
             canvas.style.maxWidth = '100%';
             canvas.style.height = 'auto';
+
+            // 移动端优化canvas显示
+            if (this.isMobile) {
+                canvas.style.width = '100%';
+                canvas.style.height = 'auto';
+            }
 
             const renderContext = {
                 canvasContext: context,
@@ -290,7 +431,10 @@ class BookReader {
         pageContent = pageContent.replace(/\n/g, '<br>');
 
         const readerContent = document.getElementById('readerContent');
-        readerContent.innerHTML = `<div class="txt-content" style="max-width: 800px; margin: 0 auto; text-align: justify;">${pageContent}</div>`;
+        const maxWidth = this.isMobile ? '100%' : '800px';
+        const padding = this.isMobile ? '0' : '0 20px';
+
+        readerContent.innerHTML = `<div class="txt-content" style="max-width: ${maxWidth}; margin: 0 auto; text-align: justify; padding: ${padding};">${pageContent}</div>`;
 
         this.updatePaginationDisplay();
         this.updateProgress();
@@ -306,11 +450,11 @@ class BookReader {
             content.style.fontFamily = this.settings.fontFamily;
             content.style.letterSpacing = this.settings.letterSpacing + 'px';
 
-            // 段落样式
-            const paragraphs = content.querySelectorAll('.txt-content');
-            paragraphs.forEach(p => {
-                p.style.marginBottom = this.settings.paragraphMargin + 'px';
-            });
+            // 移动端增加触摸区域优化
+            if (this.isMobile) {
+                content.style.padding = '20px 15px';
+                content.style.touchAction = 'pan-y pinch-zoom';
+            }
 
             // 主题样式
             const themes = {
@@ -320,14 +464,25 @@ class BookReader {
                 sepia: { background: '#f4ecd8', color: '#5b4636', border: '#d4c5a8' }
             };
             const theme = themes[this.settings.theme];
-            content.style.backgroundColor = theme.background;
-            content.style.color = theme.color;
+            if (theme) {
+                content.style.backgroundColor = theme.background;
+                content.style.color = theme.color;
+            }
         }
     }
 
     updatePaginationDisplay() {
-        document.getElementById('pageInfo').innerHTML = `第${this.currentPage}页 / 共${this.totalPages}页`;
-        document.getElementById('pageInput').value = this.currentPage;
+        const pageInfo = document.getElementById('pageInfo');
+        const pageInput = document.getElementById('pageInput');
+
+        if (pageInfo) {
+            if (this.isMobile) {
+                pageInfo.textContent = `${this.currentPage}/${this.totalPages}`;
+            } else {
+                pageInfo.innerHTML = `第${this.currentPage}页 / 共${this.totalPages}页`;
+            }
+        }
+        if (pageInput) pageInput.value = this.currentPage;
     }
 
     updateProgress() {
@@ -336,7 +491,7 @@ class BookReader {
         const progressText = document.getElementById('progressText');
         if (progressBar) {
             progressBar.style.width = progress + '%';
-            progressBar.textContent = Math.round(progress) + '%';
+            if (!this.isMobile) progressBar.textContent = Math.round(progress) + '%';
         }
         if (progressText) {
             progressText.textContent = `阅读进度: ${Math.round(progress)}%`;
@@ -372,7 +527,18 @@ class BookReader {
 
         marks.push(bookmark);
         localStorage.setItem(`bookmarks_${this.fileName}`, JSON.stringify(marks));
-        alert(`书签已添加！第${this.currentPage}页`);
+
+        if (this.isMobile) {
+            const toast = document.createElement('div');
+            toast.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow';
+            toast.style.zIndex = '2000';
+            toast.innerHTML = `✅ 已添加书签：第${bookmark.page}页`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        } else {
+            alert(`书签已添加！第${this.currentPage}页`);
+        }
+
         this.showBookmarks(marks);
     }
 
@@ -381,9 +547,12 @@ class BookReader {
     }
 
     changeFontSize(delta) {
+        const minSize = this.isMobile ? 14 : 12;
+        const maxSize = this.isMobile ? 48 : 36;
+
         this.settings.fontSize += delta;
-        if (this.settings.fontSize < 12) this.settings.fontSize = 12;
-        if (this.settings.fontSize > 36) this.settings.fontSize = 36;
+        if (this.settings.fontSize < minSize) this.settings.fontSize = minSize;
+        if (this.settings.fontSize > maxSize) this.settings.fontSize = maxSize;
         this.applyStyles();
         this.updateDisplays();
         this.saveSettings();
@@ -429,13 +598,13 @@ class BookReader {
 
     resetSettings() {
         this.settings = {
-            fontSize: 16,
+            fontSize: this.isMobile ? 18 : 16,
             lineHeight: 1.8,
             fontFamily: 'Microsoft YaHei',
             theme: 'day',
             letterSpacing: 0,
             paragraphMargin: 10,
-            pageWidth: 800,
+            pageWidth: this.isMobile ? '100%' : 800,
             showPageNumbers: true,
             autoSave: true
         };
@@ -464,6 +633,8 @@ class BookReader {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
+        } else if (this.isMobile && window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(100);
         }
     }
 
@@ -476,6 +647,8 @@ class BookReader {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
+        } else if (this.isMobile && window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(100);
         }
     }
 
@@ -499,6 +672,8 @@ class BookReader {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
+        } else {
+            alert(`页码必须在1-${this.totalPages}之间`);
         }
     }
 
