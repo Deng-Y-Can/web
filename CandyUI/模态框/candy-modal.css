@@ -1,0 +1,642 @@
+/* CandyUI - 模态框样式 */
+
+/* CSS变量定义 */
+:root {
+    --modal-primary: #667eea;
+    --modal-secondary: #764ba2;
+    --modal-success: #10b981;
+    --modal-danger: #ef4444;
+    --modal-warning: #f59e0b;
+    --modal-info: #3b82f6;
+    --modal-glow: rgba(102, 126, 234, 0.5);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* 模态框基础样式 */
+.candy-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.candy-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.candy-modal {
+    background: linear-gradient(145deg, #1e1e2f, #2a2a4a);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: perspective(1000px) rotateX(0deg);
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+.candy-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candy-modal-close:hover {
+    background: var(--modal-danger);
+    transform: rotate(90deg);
+}
+
+.candy-modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.candy-modal-body {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.candy-modal-footer {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.candy-modal-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+/* 模态框样式 1-10: 3D翻转效果 */
+
+/* 样式1: 全息效果 */
+.candy-modal.modal-1 {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.1) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 0 30px rgba(102, 126, 234, 0.3),
+        inset 0 0 60px rgba(102, 126, 234, 0.1);
+    transform: perspective(1000px) rotateX(10deg) scale(0.9);
+}
+
+.candy-modal.modal-1.active {
+    transform: perspective(1000px) rotateX(0deg) scale(1);
+}
+
+.candy-modal.modal-1 .candy-modal-header {
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+/* 样式2: 透视悬浮 */
+.candy-modal.modal-2 {
+    background: linear-gradient(180deg, #1a1a3e, #0d0d1f);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    box-shadow: 
+        0 30px 60px -15px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(102, 126, 234, 0.2);
+    transform: perspective(1500px) rotateY(-15deg) translateZ(-50px);
+}
+
+.candy-modal.modal-2.active {
+    transform: perspective(1500px) rotateY(0deg) translateZ(0);
+}
+
+/* 样式3: 悬浮效果 */
+.candy-modal.modal-3 {
+    background: linear-gradient(145deg, #252545, #1a1a35);
+    border-radius: 25px;
+    box-shadow: 
+        0 50px 100px -20px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateY(100px) scale(0.9);
+}
+
+.candy-modal.modal-3.active {
+    transform: translateY(0) scale(1);
+    animation: modal3Float 2s ease-in-out infinite;
+}
+
+@keyframes modal3Float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1); }
+}
+
+/* 样式4: 旋转进入 */
+.candy-modal.modal-4 {
+    background: linear-gradient(135deg, #2d1f4e, #1a1235);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    transform: perspective(1000px) rotateX(90deg) rotateZ(-45deg);
+}
+
+.candy-modal.modal-4::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+    border-radius: 22px;
+    z-index: -1;
+    animation: modal4Border 3s linear infinite;
+}
+
+.candy-modal.modal-4.active {
+    transform: perspective(1000px) rotateX(0deg) rotateZ(0deg);
+}
+
+@keyframes modal4Border {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* 样式5: 折叠效果 */
+.candy-modal.modal-5 {
+    background: linear-gradient(180deg, #1e1e3f, #151530);
+    transform: perspective(1000px) scaleY(0);
+    transform-origin: top center;
+}
+
+.candy-modal.modal-5.active {
+    transform: perspective(1000px) scaleY(1);
+    animation: modal5Expand 0.5s ease-out;
+}
+
+@keyframes modal5Expand {
+    0% { transform: perspective(1000px) scaleY(0); }
+    100% { transform: perspective(1000px) scaleY(1); }
+}
+
+/* 样式6: 倾斜滑入 */
+.candy-modal.modal-6 {
+    background: linear-gradient(135deg, #2a2a5a, #1a1a3a);
+    border-left: 5px solid #667eea;
+    transform: translateX(-200%) skewX(-20deg);
+}
+
+.candy-modal.modal-6.active {
+    transform: translateX(0) skewX(0);
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 样式7: 3D翻转卡片 */
+.candy-modal.modal-7 {
+    background: linear-gradient(145deg, #252560, #1a1a45);
+    box-shadow: 
+        -10px 10px 30px rgba(0, 0, 0, 0.5),
+        10px -10px 30px rgba(102, 126, 234, 0.1);
+    transform: perspective(1000px) rotateY(180deg);
+}
+
+.candy-modal.modal-7.active {
+    transform: perspective(1000px) rotateY(0deg);
+}
+
+/* 样式8: 翻页效果 */
+.candy-modal.modal-8 {
+    background: linear-gradient(180deg, #1f1f45, #151535);
+    transform-origin: left center;
+    transform: perspective(1500px) rotateY(-90deg);
+    box-shadow: 
+        20px 0 40px rgba(0, 0, 0, 0.3),
+        inset 0 0 50px rgba(102, 126, 234, 0.05);
+}
+
+.candy-modal.modal-8.active {
+    transform: perspective(1500px) rotateY(0deg);
+}
+
+/* 样式9: 深度透视 */
+.candy-modal.modal-9 {
+    background: linear-gradient(135deg, #1a1a40, #0f0f25);
+    transform: perspective(2000px) translateZ(-500px) scale(0.5);
+    box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(102, 126, 234, 0.2);
+}
+
+.candy-modal.modal-9.active {
+    transform: perspective(2000px) translateZ(0) scale(1);
+    animation: modal9Pulse 0.5s ease-out;
+}
+
+@keyframes modal9Pulse {
+    0% { transform: perspective(2000px) translateZ(-500px) scale(0.5); }
+    50% { transform: perspective(2000px) translateZ(50px) scale(1.05); }
+    100% { transform: perspective(2000px) translateZ(0) scale(1); }
+}
+
+/* 样式10: 扭曲进入 */
+.candy-modal.modal-10 {
+    background: linear-gradient(145deg, #202050, #151540);
+    transform: perspective(1000px) rotateX(30deg) translateY(-100px);
+    filter: blur(10px);
+}
+
+.candy-modal.modal-10.active {
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+    filter: blur(0);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* 模态框样式 11-20: 发光效果 */
+
+/* 样式11: 霓虹发光 */
+.candy-modal.modal-11 {
+    background: #0a0a1a;
+    border: 2px solid #667eea;
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.5),
+        0 0 40px rgba(102, 126, 234, 0.3),
+        0 0 60px rgba(102, 126, 234, 0.1),
+        inset 0 0 30px rgba(102, 126, 234, 0.1);
+    animation: modal11Glow 2s ease-in-out infinite;
+}
+
+@keyframes modal11Glow {
+    0%, 100% { 
+        box-shadow: 
+            0 0 20px rgba(102, 126, 234, 0.5),
+            0 0 40px rgba(102, 126, 234, 0.3),
+            0 0 60px rgba(102, 126, 234, 0.1);
+    }
+    50% { 
+        box-shadow: 
+            0 0 30px rgba(102, 126, 234, 0.7),
+            0 0 60px rgba(102, 126, 234, 0.5),
+            0 0 90px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式12: 脉冲光晕 */
+.candy-modal.modal-12 {
+    background: linear-gradient(135deg, #1a1a40, #0d0d25);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.candy-modal.modal-12::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 23px;
+    z-index: -1;
+    animation: modal12Pulse 1.5s ease-in-out infinite;
+}
+
+.candy-modal.modal-12::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    background: linear-gradient(90deg, #764ba2, #f093fb);
+    border-radius: 26px;
+    z-index: -2;
+    animation: modal12Pulse 1.5s ease-in-out infinite 0.3s;
+}
+
+@keyframes modal12Pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* 样式13: 渐变光 */
+.candy-modal.modal-13 {
+    background: linear-gradient(180deg, #2a1a50, #1a1035);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    box-shadow: 
+        0 0 30px rgba(102, 126, 234, 0.3),
+        inset 0 0 50px rgba(102, 126, 234, 0.1);
+}
+
+.candy-modal.modal-13 .candy-modal-header {
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+}
+
+/* 样式14: 彩色边框 */
+.candy-modal.modal-14 {
+    background: #0f0f25;
+    border: 4px solid;
+    border-image: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea) 1;
+    box-shadow: 
+        0 0 30px rgba(102, 126, 234, 0.4),
+        inset 0 0 40px rgba(102, 126, 234, 0.1);
+}
+
+/* 样式15: 霓虹管效果 */
+.candy-modal.modal-15 {
+    background: #0a0a1f;
+    border: none;
+    box-shadow: 
+        inset 0 0 20px rgba(102, 126, 234, 0.2),
+        0 0 0 2px #667eea,
+        0 0 0 4px #764ba2,
+        0 0 30px rgba(102, 126, 234, 0.5);
+}
+
+/* 样式16: 呼吸光效 */
+.candy-modal.modal-16 {
+    background: linear-gradient(135deg, #1a1a40, #151535);
+    box-shadow: 
+        0 0 40px rgba(102, 126, 234, 0.3),
+        0 0 80px rgba(102, 126, 234, 0.2);
+    animation: modal16Breathe 3s ease-in-out infinite;
+}
+
+@keyframes modal16Breathe {
+    0%, 100% { 
+        box-shadow: 
+            0 0 40px rgba(102, 126, 234, 0.3),
+            0 0 80px rgba(102, 126, 234, 0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 0 60px rgba(102, 126, 234, 0.5),
+            0 0 120px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式17: 外发光 */
+.candy-modal.modal-17 {
+    background: linear-gradient(145deg, #252555, #1a1a40);
+    box-shadow: 
+        0 0 50px rgba(118, 75, 162, 0.4),
+        0 0 100px rgba(118, 75, 162, 0.2),
+        inset 0 0 30px rgba(118, 75, 162, 0.1);
+    border: 1px solid rgba(118, 75, 162, 0.3);
+}
+
+/* 样式18: 内发光 */
+.candy-modal.modal-18 {
+    background: linear-gradient(135deg, #1a1a35, #101025);
+    box-shadow: inset 0 0 50px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* 样式19: 双层光晕 */
+.candy-modal.modal-19 {
+    background: linear-gradient(180deg, #202050, #151540);
+    box-shadow: 
+        0 0 30px rgba(102, 126, 234, 0.3),
+        0 0 60px rgba(118, 75, 162, 0.2),
+        0 0 90px rgba(240, 147, 251, 0.1);
+}
+
+/* 样式20: 动态光效 */
+.candy-modal.modal-20 {
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-modal.modal-20::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, #667eea, transparent, #764ba2, transparent);
+    animation: modal20Rotate 4s linear infinite;
+}
+
+.candy-modal.modal-20::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    border-radius: 18px;
+    z-index: 1;
+}
+
+.candy-modal.modal-20 > * {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes modal20Rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 模态框样式 21-30: 动画效果 */
+
+/* 样式21: 缩放弹跳 */
+.candy-modal.modal-21 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: scale(0);
+}
+
+.candy-modal.modal-21.active {
+    transform: scale(1);
+    animation: modal21Bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes modal21Bounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* 样式22: 滑入效果 */
+.candy-modal.modal-22 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: translateY(-100vh);
+}
+
+.candy-modal.modal-22.active {
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式23: 弹性效果 */
+.candy-modal.modal-23 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scale(2);
+    opacity: 0;
+}
+
+.candy-modal.modal-23.active {
+    transform: scale(1);
+    opacity: 1;
+    animation: modal23Elastic 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes modal23Elastic {
+    0% { transform: scale(2); opacity: 0; }
+    60% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 样式24: 旋转缩放 */
+.candy-modal.modal-24 {
+    background: linear-gradient(145deg, #252555, #1a1a45);
+    transform: perspective(1000px) rotateY(180deg) scale(0.5);
+}
+
+.candy-modal.modal-24.active {
+    transform: perspective(1000px) rotateY(0deg) scale(1);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式25: 淡入缩放 */
+.candy-modal.modal-25 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+.candy-modal.modal-25.active {
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.4s ease-out;
+}
+
+/* 样式26: 左右展开 */
+.candy-modal.modal-26 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.candy-modal.modal-26.active {
+    transform: scaleX(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式27: 上下展开 */
+.candy-modal.modal-27 {
+    background: linear-gradient(180deg, #252550, #1a1a40);
+    transform: scaleY(0);
+    transform-origin: top center;
+}
+
+.candy-modal.modal-27.active {
+    transform: scaleY(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式28: 组合动画 */
+.candy-modal.modal-28 {
+    background: linear-gradient(145deg, #202050, #151540);
+    transform: translateY(50px) scale(0.8);
+    opacity: 0;
+}
+
+.candy-modal.modal-28.active {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    animation: modal28Slide 0.6s ease-out;
+}
+
+@keyframes modal28Slide {
+    0% { transform: translateY(50px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* 样式29: 弹性摇晃 */
+.candy-modal.modal-29 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: translateX(-100%);
+}
+
+.candy-modal.modal-29.active {
+    transform: translateX(0);
+    animation: modal29Shake 0.6s ease-out;
+}
+
+@keyframes modal29Shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(10px); }
+    40% { transform: translateX(-10px); }
+    60% { transform: translateX(5px); }
+    80% { transform: translateX(-5px); }
+}
+
+/* 样式30: 终极3D效果 */
+.candy-modal.modal-30 {
+    background: linear-gradient(180deg, #252555, #1a1a45);
+    transform: perspective(1500px) rotateX(45deg) translateY(-200px) translateZ(-200px);
+    opacity: 0;
+}
+
+.candy-modal.modal-30.active {
+    transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+    opacity: 1;
+    animation: modal30Final 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modal30Final {
+    0% { 
+        transform: perspective(1500px) rotateX(45deg) translateY(-200px) translateZ(-200px);
+        opacity: 0;
+    }
+    50% { opacity: 1; }
+    100% { 
+        transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+        opacity: 1;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .candy-modal {
+        padding: 20px;
+        border-radius: 15px;
+        max-width: 95%;
+    }
+    
+    .candy-modal-header {
+        font-size: 1.2rem;
+    }
+    
+    .candy-modal-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}

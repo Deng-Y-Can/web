@@ -1,0 +1,1245 @@
+/* ============================================
+   CandyUI - 图片上传组件样式
+   30种精美样式：3D效果 + 发光效果 + 动画效果
+   ============================================ */
+
+:root {
+    /* 图片上传主题变量 */
+    --candy-upload-primary: #667eea;
+    --candy-upload-success: #10b981;
+    --candy-upload-warning: #f59e0b;
+    --candy-upload-danger: #ef4444;
+    --candy-upload-info: #3b82f6;
+    --candy-upload-purple: #8b5cf6;
+    --candy-upload-pink: #ec4899;
+    --candy-upload-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --candy-upload-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --candy-upload-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --candy-upload-gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --candy-upload-gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ============================================
+   基础样式 - 样式1-5
+   ============================================ */
+
+/* 样式1：简洁基础 */
+.candy-upload-1 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candy-upload-1:hover {
+    border-color: var(--candy-upload-primary);
+    background: #fff;
+}
+
+.candy-upload-1 .upload-icon {
+    font-size: 48px;
+    color: #9ca3af;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-1:hover .upload-icon {
+    color: var(--candy-upload-primary);
+    transform: scale(1.1);
+}
+
+.candy-upload-1 .upload-text {
+    font-size: 16px;
+    color: #6b7280;
+    text-align: center;
+}
+
+.candy-upload-1 .upload-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 8px;
+}
+
+/* 样式2：卡片式 */
+.candy-upload-2 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candy-upload-2:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-2 .upload-icon {
+    font-size: 56px;
+    background: var(--candy-upload-gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+}
+
+.candy-upload-2 .upload-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    text-align: center;
+}
+
+/* 样式3：玻璃态 */
+.candy-upload-3 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candy-upload-3:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: var(--candy-upload-primary);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-3 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+    animation: uploadFloat 2s ease-in-out infinite;
+}
+
+@keyframes uploadFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 样式4：边框动画 */
+.candy-upload-4 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-4::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.candy-upload-4:hover::before {
+    left: 100%;
+}
+
+.candy-upload-4:hover {
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-4 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-4:hover .upload-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* 样式5：渐变背景 */
+.candy-upload-5 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: var(--candy-upload-gradient-1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candy-upload-5:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+}
+
+.candy-upload-5 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.candy-upload-5 .upload-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+
+/* ============================================
+   3D效果样式 - 样式6-10
+   ============================================ */
+
+/* 样式6：3D突出 */
+.candy-upload-6 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        10px 10px 20px rgba(0, 0, 0, 0.1),
+        -10px -10px 20px rgba(255, 255, 255, 0.8);
+    transform: perspective(1000px) rotateX(5deg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.candy-upload-6:hover {
+    transform: perspective(1000px) rotateX(0deg) translateZ(20px);
+    box-shadow: 
+        20px 20px 40px rgba(0, 0, 0, 0.15),
+        -10px -10px 30px rgba(255, 255, 255, 0.9);
+}
+
+.candy-upload-6 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-info);
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+/* 样式7：3D翻转 */
+.candy-upload-7 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        8px 8px 16px rgba(0, 0, 0, 0.1),
+        -8px -8px 16px rgba(255, 255, 255, 0.8);
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.candy-upload-7:hover {
+    transform: perspective(1000px) rotateY(15deg) rotateX(-5deg);
+    box-shadow: 
+        15px 15px 30px rgba(0, 0, 0, 0.2),
+        -10px -10px 25px rgba(255, 255, 255, 0.9);
+}
+
+.candy-upload-7 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-success);
+    margin-bottom: 16px;
+}
+
+/* 样式8：3D悬浮卡片 */
+.candy-upload-8 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f5);
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.1),
+        -20px -20px 60px rgba(255, 255, 255, 0.8);
+    transform: perspective(1000px) translateZ(-50px);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.candy-upload-8:hover {
+    transform: perspective(1000px) translateZ(50px);
+    box-shadow: 
+        30px 30px 80px rgba(102, 126, 234, 0.3),
+        -20px -20px 60px rgba(255, 255, 255, 0.9);
+}
+
+.candy-upload-8 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-purple);
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+/* 样式9：3D倾斜 */
+.candy-upload-9 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: perspective(1000px) rotate(-3deg);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.candy-upload-9:hover {
+    transform: perspective(1000px) rotate(0deg) scale(1.05);
+    box-shadow: 30px 30px 60px rgba(102, 126, 234, 0.5);
+}
+
+.candy-upload-9 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+    transform: perspective(1000px) rotate(3deg);
+}
+
+.candy-upload-9:hover .upload-icon {
+    transform: perspective(1000px) rotate(0deg) scale(1.2);
+}
+
+/* 样式10：3D折叠 */
+.candy-upload-10 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.1),
+        -5px -5px 15px rgba(255, 255, 255, 0.8);
+    transform: perspective(1000px) rotateX(10deg);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.candy-upload-10:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+    box-shadow: 
+        15px 15px 40px rgba(0, 0, 0, 0.15),
+        -5px -5px 20px rgba(255, 255, 255, 0.9);
+}
+
+.candy-upload-10 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-pink);
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   发光效果样式 - 样式11-15
+   ============================================ */
+
+/* 样式11：霓虹发光 */
+.candy-upload-11 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 16px;
+    background: #1a1a2e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-11::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00d9ff, #00ff88, #00d9ff);
+    border-radius: 18px;
+    z-index: -1;
+    animation: neonGlow 3s linear infinite;
+    filter: blur(5px);
+}
+
+@keyframes neonGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.candy-upload-11:hover::before {
+    filter: blur(10px);
+    animation: neonGlow 1s linear infinite;
+}
+
+.candy-upload-11 .upload-icon {
+    font-size: 56px;
+    color: #00d9ff;
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px #00d9ff;
+}
+
+/* 样式12：紫色光晕 */
+.candy-upload-12 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: radial-gradient(circle at center, #2d1b4e 0%, #1a1a2e 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-12::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.candy-upload-12:hover::before {
+    width: 120%;
+    height: 120%;
+}
+
+.candy-upload-12 .upload-icon {
+    font-size: 56px;
+    color: #a78bfa;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8));
+}
+
+/* 样式13：粉色光晕 */
+.candy-upload-13 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-13:hover {
+    box-shadow: 
+        0 0 30px rgba(236, 72, 153, 0.3),
+        0 0 60px rgba(236, 72, 153, 0.2),
+        0 0 90px rgba(236, 72, 153, 0.1);
+}
+
+.candy-upload-13 .upload-icon {
+    font-size: 56px;
+    color: #ec4899;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-13:hover .upload-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.8));
+}
+
+/* 样式14：金色发光 */
+.candy-upload-14 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #fffbeb, #fef3c7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-14:hover {
+    box-shadow: 
+        0 0 40px rgba(245, 158, 11, 0.4),
+        0 0 80px rgba(245, 158, 11, 0.2);
+}
+
+.candy-upload-14 .upload-icon {
+    font-size: 56px;
+    color: #f59e0b;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.6));
+}
+
+/* 样式15：彩虹光晕 */
+.candy-upload-15 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.candy-upload-15::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(239, 68, 68, 0.1),
+        rgba(245, 158, 11, 0.1),
+        rgba(16, 185, 129, 0.1),
+        rgba(59, 130, 246, 0.1),
+        rgba(139, 92, 246, 0.1),
+        rgba(239, 68, 68, 0.1)
+    );
+    animation: rainbowRotate 4s linear infinite;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-15:hover::before {
+    animation: rainbowRotate 2s linear infinite;
+}
+
+@keyframes rainbowRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.candy-upload-15 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   动画效果样式 - 样式16-20
+   ============================================ */
+
+/* 样式16：脉冲动画 */
+.candy-upload-16 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
+}
+
+.candy-upload-16:hover {
+    animation: none;
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-16 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+}
+
+/* 样式17：弹跳动画 */
+.candy-upload-17 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: var(--candy-upload-gradient-2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.candy-upload-17:hover {
+    animation: none;
+    transform: scale(1.05);
+}
+
+.candy-upload-17 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+/* 样式18：旋转动画 */
+.candy-upload-18 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: var(--candy-upload-gradient-3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-18 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+    transition: all 0.5s ease;
+}
+
+.candy-upload-18:hover .upload-icon {
+    transform: rotate(360deg);
+}
+
+.candy-upload-18:hover {
+    transform: rotate(-5deg) scale(1.02);
+}
+
+/* 样式19：闪烁动画 */
+.candy-upload-19 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: #0f172a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-19 .upload-icon {
+    font-size: 56px;
+    color: #fbbf24;
+    margin-bottom: 16px;
+    animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.7; filter: brightness(1.5); }
+}
+
+.candy-upload-19:hover .upload-icon {
+    animation: sparkle 0.5s ease-in-out infinite;
+}
+
+/* 样式20：波浪动画 */
+.candy-upload-20 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: var(--candy-upload-gradient-4);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-20::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(50px, 50px) rotate(360deg); }
+}
+
+.candy-upload-20:hover {
+    transform: scale(1.02);
+}
+
+.candy-upload-20 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   复杂组合样式 - 样式21-25
+   ============================================ */
+
+/* 样式21：3D+发光组合 */
+.candy-upload-21 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        15px 15px 30px rgba(0, 0, 0, 0.1),
+        -15px -15px 30px rgba(255, 255, 255, 0.8);
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.candy-upload-21:hover {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(30px);
+    box-shadow: 
+        25px 25px 50px rgba(102, 126, 234, 0.3),
+        -15px -15px 40px rgba(255, 255, 255, 0.9);
+}
+
+.candy-upload-21::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-21:hover::after {
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: inset 0 0 30px rgba(102, 126, 234, 0.1);
+}
+
+.candy-upload-21 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
+}
+
+/* 样式22：科技风格 */
+.candy-upload-22 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.candy-upload-22::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+    animation: techLine 2s linear infinite;
+}
+
+@keyframes techLine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.candy-upload-22::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -100%;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #00d9ff, transparent);
+    animation: techLineV 2s linear infinite 1s;
+}
+
+@keyframes techLineV {
+    0% { bottom: -100%; }
+    100% { bottom: 100%; }
+}
+
+.candy-upload-22:hover {
+    box-shadow: 0 0 40px rgba(0, 217, 255, 0.3);
+}
+
+.candy-upload-22 .upload-icon {
+    font-size: 56px;
+    color: #00d9ff;
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px #00d9ff;
+}
+
+/* 样式23：玻璃拟态 */
+.candy-upload-23 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.candy-upload-23:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        inset 0 0 60px rgba(255, 255, 255, 0.1);
+}
+
+.candy-upload-23 .upload-icon {
+    font-size: 56px;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+}
+
+/* 样式24：柔和渐变 */
+.candy-upload-24 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 100px;
+    background: var(--candy-upload-gradient-5);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.candy-upload-24:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 20px 40px rgba(250, 112, 154, 0.4),
+        0 0 60px rgba(254, 225, 64, 0.3);
+}
+
+.candy-upload-24 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+/* 样式25：复古风格 */
+.candy-upload-25 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 8px;
+    background: #fef3c7;
+    border: 3px solid #92400e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-25:hover {
+    background: #fffbeb;
+    transform: rotate(-1deg) scale(1.02);
+    box-shadow: 5px 5px 0 #92400e;
+}
+
+.candy-upload-25 .upload-icon {
+    font-size: 56px;
+    color: #92400e;
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   高级3D样式 - 样式26-30
+   ============================================ */
+
+/* 样式26：悬停翻转 */
+.candy-upload-26 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 250px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.candy-upload-26-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.candy-upload-26:hover .candy-upload-26-inner {
+    transform: rotateY(180deg);
+}
+
+.candy-upload-26-front,
+.candy-upload-26-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.candy-upload-26-front {
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-26-back {
+    background: linear-gradient(145deg, #10b981, #059669);
+    transform: rotateY(180deg);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+}
+
+.candy-upload-26 .upload-icon {
+    font-size: 56px;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+/* 样式27：折叠效果 */
+.candy-upload-27 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 0;
+    background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+
+.candy-upload-27:hover {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+}
+
+.candy-upload-27 .upload-icon {
+    font-size: 56px;
+    color: #a78bfa;
+    margin-bottom: 16px;
+}
+
+/* 样式28：光泽流动 */
+.candy-upload-28 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #1a1a2e, #2d2d44);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.candy-upload-28::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(102, 126, 234, 0.1) 50%,
+        transparent 70%
+    );
+    animation: glossyFlow 3s linear infinite;
+}
+
+@keyframes glossyFlow {
+    0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+
+.candy-upload-28:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+}
+
+.candy-upload-28 .upload-icon {
+    font-size: 56px;
+    color: #667eea;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 样式29：星尘效果 */
+.candy-upload-29 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: radial-gradient(circle at 30% 30%, #1e1e3f, #0f0f1a);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.candy-upload-29::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1px 1px at 160px 120px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: starTwinkle 4s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes starTwinkle {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.3; }
+}
+
+.candy-upload-29:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.5);
+}
+
+.candy-upload-29 .upload-icon {
+    font-size: 56px;
+    color: #a78bfa;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(167, 139, 250, 0.8);
+}
+
+/* 样式30：终极3D效果 */
+.candy-upload-30 {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.15),
+        -20px -20px 60px rgba(255, 255, 255, 0.9),
+        inset 0 0 60px rgba(102, 126, 234, 0.05);
+    transform: perspective(1000px) rotateX(10deg) rotateY(-10deg) translateZ(0);
+    transition: all 0.5s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.candy-upload-30::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 300% 100%;
+    animation: ultimateGradient 3s ease infinite;
+}
+
+@keyframes ultimateGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.candy-upload-30:hover {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(50px);
+    box-shadow: 
+        30px 30px 80px rgba(102, 126, 234, 0.3),
+        -20px -20px 60px rgba(255, 255, 255, 0.9),
+        inset 0 0 100px rgba(102, 126, 234, 0.1);
+}
+
+.candy-upload-30::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+.candy-upload-30:hover::after {
+    width: 150%;
+    height: 150%;
+}
+
+.candy-upload-30 .upload-icon {
+    font-size: 56px;
+    color: var(--candy-upload-primary);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.5));
+}
+
+/* ============================================
+   预览图片列表样式
+   ============================================ */
+
+.candy-upload-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.candy-upload-preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f3f4f6;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-preview-item:hover {
+    transform: scale(1.05);
+    border-color: var(--candy-upload-primary);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+.candy-upload-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.candy-upload-preview-delete {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.9);
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.candy-upload-preview-item:hover .candy-upload-preview-delete {
+    opacity: 1;
+}
+
+.candy-upload-preview-delete:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+@media (max-width: 768px) {
+    .candy-upload-1,
+    .candy-upload-2,
+    .candy-upload-3,
+    .candy-upload-4,
+    .candy-upload-5,
+    .candy-upload-6,
+    .candy-upload-7,
+    .candy-upload-8,
+    .candy-upload-9,
+    .candy-upload-10,
+    .candy-upload-11,
+    .candy-upload-12,
+    .candy-upload-13,
+    .candy-upload-14,
+    .candy-upload-15,
+    .candy-upload-16,
+    .candy-upload-17,
+    .candy-upload-18,
+    .candy-upload-19,
+    .candy-upload-20,
+    .candy-upload-21,
+    .candy-upload-22,
+    .candy-upload-23,
+    .candy-upload-24,
+    .candy-upload-25,
+    .candy-upload-28,
+    .candy-upload-29,
+    .candy-upload-30 {
+        max-width: 100%;
+        padding: 30px;
+    }
+}

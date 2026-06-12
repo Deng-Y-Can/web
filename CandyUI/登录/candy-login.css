@@ -1,0 +1,270 @@
+:root {
+    --login-bg-color: #0d0d1a;
+    --login-card-bg: rgba(20, 20, 35, 0.88);
+    --login-border-color: rgba(100, 150, 255, 0.15);
+    --login-accent-color: #6496ff;
+    --login-text-color: #e0e0e0;
+    --login-label-color: #bbb;
+    --login-success-color: #4ade80;
+    --login-error-color: #f87171;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--login-bg-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--login-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#webgl-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.login-card {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 400px;
+    padding: 40px 30px;
+    background-color: var(--login-card-bg);
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(100, 150, 255, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--login-border-color);
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 10px 20px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(100, 150, 255, 0.2);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #f8f8ff;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 8px rgba(100, 150, 255, 0.5);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--login-label-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.candy-login-input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #3a3a5a;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--login-text-color);
+    background-color: rgba(30, 30, 50, 0.75);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.candy-login-input:focus {
+    outline: none;
+    border-color: var(--login-accent-color);
+    box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.3), inset 0 0 5px rgba(100, 150, 255, 0.2);
+    background-color: rgba(40, 40, 60, 0.85);
+}
+
+.candy-login-input::placeholder {
+    color: #888;
+}
+
+.candy-login-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #6496ff, #bd4dff);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(100, 150, 255, 0.3);
+}
+
+.candy-login-btn:hover {
+    background: linear-gradient(135deg, #5a8be6, #aa45e6);
+    box-shadow: 0 6px 15px rgba(100, 150, 255, 0.4), 0 0 15px rgba(100, 150, 255, 0.2);
+}
+
+.candy-login-btn:active {
+    transform: scale(0.98);
+}
+
+.candy-login-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    margin: 20px auto;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: candy-login-spin 0.8s linear infinite;
+}
+
+@keyframes candy-login-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.login-message {
+    margin-top: 25px;
+    min-height: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+    text-align: center;
+}
+
+.login-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.login-success {
+    color: var(--login-success-color);
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.login-error {
+    color: var(--login-error-color);
+    text-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
+}
+
+.candy-login-input:focus {
+    background-image: linear-gradient(90deg, transparent 50%, rgba(100, 150, 255, 0.1) 50%);
+    background-size: 200% 100%;
+    animation: candy-login-focus-in 0.6s ease;
+}
+
+@keyframes candy-login-focus-in {
+    from { background-position: 100% 0; }
+    to { background-position: 0 0; }
+}
+
+#webgl-error {
+    display: none;
+    color: var(--login-error-color);
+    font-size: 18px;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    font-family: sans-serif;
+    z-index: 10;
+    position: relative;
+    background-color: rgba(20, 20, 35, 0.95);
+    border: 1px solid #555;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.login-card-2 {
+    background: linear-gradient(145deg, rgba(30, 30, 50, 0.95), rgba(20, 20, 40, 0.95));
+    border: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.login-card-2 .candy-login-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a9b);
+}
+
+.login-card-2 .candy-login-btn:hover {
+    background: linear-gradient(135deg, #ee5a5a, #dd4a8b);
+}
+
+.login-card-3 {
+    background: rgba(10, 10, 20, 0.92);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1), inset 0 0 30px rgba(0, 255, 255, 0.05);
+}
+
+.login-card-3 .card-header {
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+.login-card-3 .candy-login-input:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+}
+
+.login-card-4 {
+    background: linear-gradient(180deg, rgba(40, 30, 60, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%);
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00) 1;
+}
+
+.login-card-4 .candy-login-btn {
+    background: linear-gradient(135deg, #ff00ff, #00ffff);
+}
+
+.login-card-5 {
+    background: radial-gradient(ellipse at center, rgba(30, 30, 50, 0.98) 0%, rgba(10, 10, 20, 0.98) 100%);
+    border: none;
+}
+
+.login-card-5::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(100, 150, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.login-card-6 {
+    background: rgba(20, 20, 35, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-card-7 {
+    background: linear-gradient(45deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border: none;
+}
+
+.login-card-7 .candy-login-btn {
+    background: linear-gradient(135deg, #e94560, #ff6b6b);
+}

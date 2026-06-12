@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 多选框样式展示</title>
+    <!-- 引入多选框样式表 -->
+    <link rel="stylesheet" href="candy-checkbox.css">
+    <style>
+        /* ========== 全局样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e0e0ff;
+        }
+
+        /* ========== 页面头部 ========== */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #9b59b6, #ff00cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #8888aa;
+            font-size: 1.1rem;
+        }
+
+        /* ========== 分类标题 ========== */
+        .category-title {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid;
+            border-image: linear-gradient(to bottom, #00d4ff, #9b59b6) 1;
+        }
+
+        /* ========== 卡片网格布局 ========== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== 单个卡片样式 ========== */
+        .style-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #9b59b6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .style-card:hover::before {
+            opacity: 1;
+        }
+
+        /* ========== 多选框容器 ========== */
+        .checkbox-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        /* ========== 样式编号 ========== */
+        .style-number {
+            font-size: 0.9rem;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* ========== 样式名称 ========== */
+        .style-name {
+            font-size: 1rem;
+            color: #ccccdd;
+            font-weight: 500;
+        }
+
+        /* ========== 响应式布局 ========== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .style-card {
+                padding: 20px 15px;
+            }
+        }
+
+        /* ========== 底部信息 ========== */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #666688;
+        }
+
+        .footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <h1>✨ CandyUI 多选框样式展示 ✨</h1>
+        <p>50种精美的多选框样式，涵盖基础、动画、特殊效果和颜色变体</p>
+    </header>
+
+    <!-- 分类1: 基础样式 (1-10) -->
+    <h2 class="category-title">📦 基础样式 (1-10)</h2>
+    <div class="card-grid">
+        <!-- 1: 方形选中 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-1">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-1</div>
+            <div class="style-name">方形选中</div>
+        </div>
+
+        <!-- 2: 圆形选中 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-2">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-2</div>
+            <div class="style-name">圆形选中</div>
+        </div>
+
+        <!-- 3: 3D翻转 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-3">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-3</div>
+            <div class="style-name">3D翻转</div>
+        </div>
+
+        <!-- 4: 脉冲 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-4">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-4</div>
+            <div class="style-name">脉冲</div>
+        </div>
+
+        <!-- 5: 霓虹灯 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-5">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-5</div>
+            <div class="style-name">霓虹灯</div>
+        </div>
+
+        <!-- 6: 水下效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-6">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-6</div>
+            <div class="style-name">水下效果</div>
+        </div>
+
+        <!-- 7: 波点 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-7">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-7</div>
+            <div class="style-name">波点</div>
+        </div>
+
+        <!-- 8: 默认样式 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-8">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-8</div>
+            <div class="style-name">默认样式</div>
+        </div>
+
+        <!-- 9: 赛博朋克 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-9">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-9</div>
+            <div class="style-name">赛博朋克</div>
+        </div>
+
+        <!-- 10: 全息效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-10">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-10</div>
+            <div class="style-name">全息效果</div>
+        </div>
+    </div>
+
+    <!-- 分类2: 渐变和动画 (11-20) -->
+    <h2 class="category-title">🎨 渐变和动画 (11-20)</h2>
+    <div class="card-grid">
+        <!-- 11: 彩虹边框 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-11">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-11</div>
+            <div class="style-name">彩虹边框</div>
+        </div>
+
+        <!-- 12: 阴影效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-12">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-12</div>
+            <div class="style-name">阴影效果</div>
+        </div>
+
+        <!-- 13: 涟漪效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-13">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-13</div>
+            <div class="style-name">涟漪效果</div>
+        </div>
+
+        <!-- 14: 滑块样式 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-14">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-14</div>
+            <div class="style-name">滑块样式</div>
+        </div>
+
+        <!-- 15: 复古风格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-15">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-15</div>
+            <div class="style-name">复古风格</div>
+        </div>
+
+        <!-- 16: 玻璃态 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-16">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-16</div>
+            <div class="style-name">玻璃态</div>
+        </div>
+
+        <!-- 17: 火焰脉冲 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-17">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-17</div>
+            <div class="style-name">火焰脉冲</div>
+        </div>
+
+        <!-- 18: 冰霜效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-18">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-18</div>
+            <div class="style-name">冰霜效果</div>
+        </div>
+
+        <!-- 19: 金属质感 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-19">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-19</div>
+            <div class="style-name">金属质感</div>
+        </div>
+
+        <!-- 20: 棕色方块 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-20">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-20</div>
+            <div class="style-name">棕色方块</div>
+        </div>
+    </div>
+
+    <!-- 分类3: 特殊效果 (21-30) -->
+    <h2 class="category-title">🌟 特殊效果 (21-30)</h2>
+    <div class="card-grid">
+        <!-- 21: 水波动画 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-21">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-21</div>
+            <div class="style-name">水波动画</div>
+        </div>
+
+        <!-- 22: 虚线边框 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-22">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-22</div>
+            <div class="style-name">虚线边框</div>
+        </div>
+
+        <!-- 23: 矩阵风格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-23">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-23</div>
+            <div class="style-name">矩阵风格</div>
+        </div>
+
+        <!-- 24: 金色方块 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-24">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-24</div>
+            <div class="style-name">金色方块</div>
+        </div>
+
+        <!-- 25: 方格图案 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-25">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-25</div>
+            <div class="style-name">方格图案</div>
+        </div>
+
+        <!-- 26: 旋转渐变 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-26">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-26</div>
+            <div class="style-name">旋转渐变</div>
+        </div>
+
+        <!-- 27: 像素风格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-27">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-27</div>
+            <div class="style-name">像素风格</div>
+        </div>
+
+        <!-- 28: 卡通风格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-28">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-28</div>
+            <div class="style-name">卡通风格</div>
+        </div>
+
+        <!-- 29: 彩虹渐变边框 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-29">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-29</div>
+            <div class="style-name">彩虹渐变边框</div>
+        </div>
+
+        <!-- 30: 内凹效果 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-30">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-30</div>
+            <div class="style-name">内凹效果</div>
+        </div>
+    </div>
+
+    <!-- 分类4: 颜色和符号变化 (31-50) -->
+    <h2 class="category-title">🎭 颜色和符号变化 (31-50)</h2>
+    <div class="card-grid">
+        <!-- 31: 绿色对勾 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-31">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-31</div>
+            <div class="style-name">绿色对勾</div>
+        </div>
+
+        <!-- 32: 蓝色圆点 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-32">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-32</div>
+            <div class="style-name">蓝色圆点</div>
+        </div>
+
+        <!-- 33: 红色叉号 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-33">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-33</div>
+            <div class="style-name">红色叉号</div>
+        </div>
+
+        <!-- 34: 黄色星星 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-34">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-34</div>
+            <div class="style-name">黄色星星</div>
+        </div>
+
+        <!-- 35: 红色爱心 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-35">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-35</div>
+            <div class="style-name">红色爱心</div>
+        </div>
+
+        <!-- 36: 紫色音符 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-36">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-36</div>
+            <div class="style-name">紫色音符</div>
+        </div>
+
+        <!-- 37: 蓝绿无限 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-37">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-37</div>
+            <div class="style-name">蓝绿无限</div>
+        </div>
+
+        <!-- 38: DNA旋转 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-38">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-38</div>
+            <div class="style-name">DNA旋转</div>
+        </div>
+
+        <!-- 39: 矩阵雨 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-39">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-39</div>
+            <div class="style-name">矩阵雨</div>
+        </div>
+
+        <!-- 40: 终端风格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-40">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-40</div>
+            <div class="style-name">终端风格</div>
+        </div>
+
+        <!-- 41: 条纹图案 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-41">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-41</div>
+            <div class="style-name">条纹图案</div>
+        </div>
+
+        <!-- 42: 棋盘格 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-42">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-42</div>
+            <div class="style-name">棋盘格</div>
+        </div>
+
+        <!-- 43: 同心圆 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-43">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-43</div>
+            <div class="style-name">同心圆</div>
+        </div>
+
+        <!-- 44: 菱形 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-44">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-44</div>
+            <div class="style-name">菱形</div>
+        </div>
+
+        <!-- 45: 渐变粉 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-45">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-45</div>
+            <div class="style-name">渐变粉</div>
+        </div>
+
+        <!-- 46: 滑动光效 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-46">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-46</div>
+            <div class="style-name">滑动光效</div>
+        </div>
+
+        <!-- 47: 底部反光 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-47">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-47</div>
+            <div class="style-name">底部反光</div>
+        </div>
+
+        <!-- 48: 彩虹条纹 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-48">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-48</div>
+            <div class="style-name">彩虹条纹</div>
+        </div>
+
+        <!-- 49: 斜体旋转 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-49">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-49</div>
+            <div class="style-name">斜体旋转</div>
+        </div>
+
+        <!-- 50: 嵌套边框 -->
+        <div class="style-card">
+            <div class="checkbox-wrapper">
+                <label class="candy-checkbox candy-checkbox-50">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="style-number">candy-checkbox-50</div>
+            <div class="style-name">嵌套边框</div>
+        </div>
+    </div>
+
+    <!-- 页面底部 -->
+    <footer class="footer">
+        <p>CandyUI 多选框样式展示 | 共 50 种样式</p>
+        <p>基于 CSS3 动画和渐变效果构建</p>
+    </footer>
+</body>
+</html>

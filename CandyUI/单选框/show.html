@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 单选框样式展示</title>
+    <!-- 引入单选框样式表 -->
+    <link rel="stylesheet" href="candy-radio.css">
+    <style>
+        /* ========== 全局样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e0e0ff;
+        }
+
+        /* ========== 页面头部 ========== */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #8888aa;
+            font-size: 1.1rem;
+        }
+
+        /* ========== 分类标题 ========== */
+        .category-title {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid;
+            border-image: linear-gradient(to bottom, #ff6b6b, #feca57) 1;
+        }
+
+        /* ========== 卡片网格布局 ========== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== 单个卡片样式 ========== */
+        .style-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .style-card:hover::before {
+            opacity: 1;
+        }
+
+        /* ========== 单选框容器 ========== */
+        .radio-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            margin-bottom: 15px;
+        }
+
+        /* ========== 样式编号 ========== */
+        .style-number {
+            font-size: 0.9rem;
+            color: #feca57;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* ========== 样式名称 ========== */
+        .style-name {
+            font-size: 1rem;
+            color: #ccccdd;
+            font-weight: 500;
+        }
+
+        /* ========== 响应式布局 ========== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+
+            .style-card {
+                padding: 20px 15px;
+            }
+        }
+
+        /* ========== 底部信息 ========== */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #666688;
+        }
+
+        .footer a {
+            color: #feca57;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <h1>✨ CandyUI 单选框样式展示 ✨</h1>
+        <p>50种精美的单选框样式，涵盖基础、3D效果、开关、动画和颜色变体</p>
+    </header>
+
+    <!-- 分类1: 基础和3D效果 (1-10) -->
+    <h2 class="category-title">📦 基础和3D效果 (1-10)</h2>
+    <div class="card-grid">
+        <!-- 1: 绿色圆形 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-1">
+                    <input type="radio" name="radio-1" id="radio-1-a" checked>
+                    <label for="radio-1-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-1</div>
+            <div class="style-name">绿色圆形</div>
+        </div>
+
+        <!-- 2: 蓝色方形 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-2">
+                    <input type="radio" name="radio-2" id="radio-2-a" checked>
+                    <label for="radio-2-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-2</div>
+            <div class="style-name">蓝色方形</div>
+        </div>
+
+        <!-- 3: 3D旋转方块 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-3">
+                    <input type="radio" name="radio-3" id="radio-3-a" checked>
+                    <label for="radio-3-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-3</div>
+            <div class="style-name">3D旋转方块</div>
+        </div>
+
+        <!-- 4: 紫色滑块 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-4">
+                    <input type="radio" name="radio-4" id="radio-4-a" checked>
+                    <label for="radio-4-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-4</div>
+            <div class="style-name">紫色滑块</div>
+        </div>
+
+        <!-- 5: 金色星形 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-5">
+                    <input type="radio" name="radio-5" id="radio-5-a" checked>
+                    <label for="radio-5-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-5</div>
+            <div class="style-name">金色星形</div>
+        </div>
+
+        <!-- 6: 心形跳动 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-6">
+                    <input type="radio" name="radio-6" id="radio-6-a" checked>
+                    <label for="radio-6-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-6</div>
+            <div class="style-name">心形跳动</div>
+        </div>
+
+        <!-- 7: 水涨效果 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-7">
+                    <input type="radio" name="radio-7" id="radio-7-a" checked>
+                    <label for="radio-7-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-7</div>
+            <div class="style-name">水涨效果</div>
+        </div>
+
+        <!-- 8: 霓虹灯效果 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-8">
+                    <input type="radio" name="radio-8" id="radio-8-a" checked>
+                    <label for="radio-8-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-8</div>
+            <div class="style-name">霓虹灯效果</div>
+        </div>
+
+        <!-- 9: 彩虹旋转 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-9">
+                    <input type="radio" name="radio-9" id="radio-9-a" checked>
+                    <label for="radio-9-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-9</div>
+            <div class="style-name">彩虹旋转</div>
+        </div>
+
+        <!-- 10: 胶片风格 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-10">
+                    <input type="radio" name="radio-10" id="radio-10-a" checked>
+                    <label for="radio-10-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-10</div>
+            <div class="style-name">胶片风格</div>
+        </div>
+    </div>
+
+    <!-- 分类2: 开关和滑动样式 (11-20) -->
+    <h2 class="category-title">🎛️ 开关和滑动样式 (11-20)</h2>
+    <div class="card-grid">
+        <!-- 11: 电视雪花 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-11">
+                    <input type="radio" name="radio-11" id="radio-11-a" checked>
+                    <label for="radio-11-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-11</div>
+            <div class="style-name">电视雪花</div>
+        </div>
+
+        <!-- 12: 全息旋转 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-12">
+                    <input type="radio" name="radio-12" id="radio-12-a" checked>
+                    <label for="radio-12-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-12</div>
+            <div class="style-name">全息旋转</div>
+        </div>
+
+        <!-- 13: 荧光边框 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-13">
+                    <input type="radio" name="radio-13" id="radio-13-a" checked>
+                    <label for="radio-13-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-13</div>
+            <div class="style-name">荧光边框</div>
+        </div>
+
+        <!-- 14: 白色边框 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-14">
+                    <input type="radio" name="radio-14" id="radio-14-a" checked>
+                    <label for="radio-14-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-14</div>
+            <div class="style-name">白色边框</div>
+        </div>
+
+        <!-- 15: 发光效果 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-15">
+                    <input type="radio" name="radio-15" id="radio-15-a" checked>
+                    <label for="radio-15-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-15</div>
+            <div class="style-name">发光效果</div>
+        </div>
+
+        <!-- 16: 金属质感 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-16">
+                    <input type="radio" name="radio-16" id="radio-16-a" checked>
+                    <label for="radio-16-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-16</div>
+            <div class="style-name">金属质感</div>
+        </div>
+
+        <!-- 17: 毛玻璃效果 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-17">
+                    <input type="radio" name="radio-17" id="radio-17-a" checked>
+                    <label for="radio-17-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-17</div>
+            <div class="style-name">毛玻璃效果</div>
+        </div>
+
+        <!-- 18: 粒子旋转 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-18">
+                    <input type="radio" name="radio-18" id="radio-18-a" checked>
+                    <label for="radio-18-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-18</div>
+            <div class="style-name">粒子旋转</div>
+        </div>
+
+        <!-- 19: 磁性流体 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-19">
+                    <input type="radio" name="radio-19" id="radio-19-a" checked>
+                    <label for="radio-19-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-19</div>
+            <div class="style-name">磁性流体</div>
+        </div>
+
+        <!-- 20: 墨水扩散 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-20">
+                    <input type="radio" name="radio-20" id="radio-20-a" checked>
+                    <label for="radio-20-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-20</div>
+            <div class="style-name">墨水扩散</div>
+        </div>
+    </div>
+
+    <!-- 分类3: 动画和脉冲效果 (21-30) -->
+    <h2 class="category-title">🌟 动画和脉冲效果 (21-30)</h2>
+    <div class="card-grid">
+        <!-- 21: 粉红色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-21">
+                    <input type="radio" name="radio-21" id="radio-21-a" checked>
+                    <label for="radio-21-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-21</div>
+            <div class="style-name">粉红色</div>
+        </div>
+
+        <!-- 22: 紫色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-22">
+                    <input type="radio" name="radio-22" id="radio-22-a" checked>
+                    <label for="radio-22-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-22</div>
+            <div class="style-name">紫色</div>
+        </div>
+
+        <!-- 23: 深紫色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-23">
+                    <input type="radio" name="radio-23" id="radio-23-a" checked>
+                    <label for="radio-23-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-23</div>
+            <div class="style-name">深紫色</div>
+        </div>
+
+        <!-- 24: 靛蓝色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-24">
+                    <input type="radio" name="radio-24" id="radio-24-a" checked>
+                    <label for="radio-24-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-24</div>
+            <div class="style-name">靛蓝色</div>
+        </div>
+
+        <!-- 25: 蓝色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-25">
+                    <input type="radio" name="radio-25" id="radio-25-a" checked>
+                    <label for="radio-25-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-25</div>
+            <div class="style-name">蓝色</div>
+        </div>
+
+        <!-- 26: 浅蓝色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-26">
+                    <input type="radio" name="radio-26" id="radio-26-a" checked>
+                    <label for="radio-26-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-26</div>
+            <div class="style-name">浅蓝色</div>
+        </div>
+
+        <!-- 27: 青色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-27">
+                    <input type="radio" name="radio-27" id="radio-27-a" checked>
+                    <label for="radio-27-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-27</div>
+            <div class="style-name">青色</div>
+        </div>
+
+        <!-- 28: 蓝绿色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-28">
+                    <input type="radio" name="radio-28" id="radio-28-a" checked>
+                    <label for="radio-28-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-28</div>
+            <div class="style-name">蓝绿色</div>
+        </div>
+
+        <!-- 29: 绿色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-29">
+                    <input type="radio" name="radio-29" id="radio-29-a" checked>
+                    <label for="radio-29-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-29</div>
+            <div class="style-name">绿色</div>
+        </div>
+
+        <!-- 30: 浅绿色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-30">
+                    <input type="radio" name="radio-30" id="radio-30-a" checked>
+                    <label for="radio-30-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-30</div>
+            <div class="style-name">浅绿色</div>
+        </div>
+    </div>
+
+    <!-- 分类4: 50种颜色变体 (31-50) -->
+    <h2 class="category-title">🎨 颜色变体 (31-50)</h2>
+    <div class="card-grid">
+        <!-- 31: 黄绿色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-31">
+                    <input type="radio" name="radio-31" id="radio-31-a" checked>
+                    <label for="radio-31-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-31</div>
+            <div class="style-name">黄绿色</div>
+        </div>
+
+        <!-- 32: 黄色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-32">
+                    <input type="radio" name="radio-32" id="radio-32-a" checked>
+                    <label for="radio-32-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-32</div>
+            <div class="style-name">黄色</div>
+        </div>
+
+        <!-- 33: 琥珀色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-33">
+                    <input type="radio" name="radio-33" id="radio-33-a" checked>
+                    <label for="radio-33-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-33</div>
+            <div class="style-name">琥珀色</div>
+        </div>
+
+        <!-- 34: 橙色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-34">
+                    <input type="radio" name="radio-34" id="radio-34-a" checked>
+                    <label for="radio-34-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-34</div>
+            <div class="style-name">橙色</div>
+        </div>
+
+        <!-- 35: 深橙色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-35">
+                    <input type="radio" name="radio-35" id="radio-35-a" checked>
+                    <label for="radio-35-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-35</div>
+            <div class="style-name">深橙色</div>
+        </div>
+
+        <!-- 36: 棕色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-36">
+                    <input type="radio" name="radio-36" id="radio-36-a" checked>
+                    <label for="radio-36-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-36</div>
+            <div class="style-name">棕色</div>
+        </div>
+
+        <!-- 37: 灰色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-37">
+                    <input type="radio" name="radio-37" id="radio-37-a" checked>
+                    <label for="radio-37-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-37</div>
+            <div class="style-name">灰色</div>
+        </div>
+
+        <!-- 38: 蓝灰色 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-38">
+                    <input type="radio" name="radio-38" id="radio-38-a" checked>
+                    <label for="radio-38-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-38</div>
+            <div class="style-name">蓝灰色</div>
+        </div>
+
+        <!-- 39: 粉红渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-39">
+                    <input type="radio" name="radio-39" id="radio-39-a" checked>
+                    <label for="radio-39-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-39</div>
+            <div class="style-name">粉红渐变</div>
+        </div>
+
+        <!-- 40: 蓝色渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-40">
+                    <input type="radio" name="radio-40" id="radio-40-a" checked>
+                    <label for="radio-40-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-40</div>
+            <div class="style-name">蓝色渐变</div>
+        </div>
+
+        <!-- 41: 绿色渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-41">
+                    <input type="radio" name="radio-41" id="radio-41-a" checked>
+                    <label for="radio-41-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-41</div>
+            <div class="style-name">绿色渐变</div>
+        </div>
+
+        <!-- 42: 橙色渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-42">
+                    <input type="radio" name="radio-42" id="radio-42-a" checked>
+                    <label for="radio-42-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-42</div>
+            <div class="style-name">橙色渐变</div>
+        </div>
+
+        <!-- 43: 粉紫渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-43">
+                    <input type="radio" name="radio-43" id="radio-43-a" checked>
+                    <label for="radio-43-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-43</div>
+            <div class="style-name">粉紫渐变</div>
+        </div>
+
+        <!-- 44: 玫红渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-44">
+                    <input type="radio" name="radio-44" id="radio-44-a" checked>
+                    <label for="radio-44-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-44</div>
+            <div class="style-name">玫红渐变</div>
+        </div>
+
+        <!-- 45: 青绿渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-45">
+                    <input type="radio" name="radio-45" id="radio-45-a" checked>
+                    <label for="radio-45-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-45</div>
+            <div class="style-name">青绿渐变</div>
+        </div>
+
+        <!-- 46: 奶昔渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-46">
+                    <input type="radio" name="radio-46" id="radio-46-a" checked>
+                    <label for="radio-46-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-46</div>
+            <div class="style-name">奶昔渐变</div>
+        </div>
+
+        <!-- 47: 橙紫渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-47">
+                    <input type="radio" name="radio-47" id="radio-47-a" checked>
+                    <label for="radio-47-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-47</div>
+            <div class="style-name">橙紫渐变</div>
+        </div>
+
+        <!-- 48: 蓝紫渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-48">
+                    <input type="radio" name="radio-48" id="radio-48-a" checked>
+                    <label for="radio-48-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-48</div>
+            <div class="style-name">蓝紫渐变</div>
+        </div>
+
+        <!-- 49: 粉蓝渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-49">
+                    <input type="radio" name="radio-49" id="radio-49-a" checked>
+                    <label for="radio-49-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-49</div>
+            <div class="style-name">粉蓝渐变</div>
+        </div>
+
+        <!-- 50: 翠绿渐变 -->
+        <div class="style-card">
+            <div class="radio-wrapper">
+                <div class="candy-radio-item candy-radio-50">
+                    <input type="radio" name="radio-50" id="radio-50-a" checked>
+                    <label for="radio-50-a">选项 A</label>
+                    <span class="candy-radio-custom"></span>
+                </div>
+            </div>
+            <div class="style-number">candy-radio-50</div>
+            <div class="style-name">翠绿渐变</div>
+        </div>
+    </div>
+
+    <!-- 页面底部 -->
+    <footer class="footer">
+        <p>CandyUI 单选框样式展示 | 共 50 种样式</p>
+        <p>基于 CSS3 动画和渐变效果构建</p>
+    </footer>
+</body>
+</html>

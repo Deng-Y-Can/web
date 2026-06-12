@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 7种登录卡片样式展示</title>
+    <!-- 引用登录卡片样式文件 -->
+    <link rel="stylesheet" href="candy-login.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* 深色主题背景 */
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* 页面头部样式 */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+        }
+        
+        /* 区域样式 */
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, transparent, #667eea, #764ba2, #f093fb, transparent) 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 8px;
+            height: 30px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+        
+        /* 登录卡片网格布局 */
+        .login-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
+            justify-items: center;
+        }
+        
+        /* 登录卡片容器样式 */
+        .login-card-wrapper {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        /* 卡片标签样式 */
+        .card-label {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .card-class {
+            color: #667eea;
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        /* 登录卡片展示容器 */
+        .login-showcase {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+        
+        /* 隐藏WebGL背景 canvas */
+        #webgl-bg {
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .login-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-card-wrapper {
+                max-width: 100%;
+            }
+            
+            .login-showcase {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面头部 -->
+        <header>
+            <h1>CandyUI 登录卡片样式</h1>
+            <p class="subtitle">7种独特的CSS登录卡片样式，支持各种视觉效果和动画</p>
+            <span class="badge">✨ 纯CSS实现 · 无需JavaScript</span>
+        </header>
+        
+        <!-- 登录卡片样式展示区域 -->
+        <section class="section">
+            <h2 class="section-title">登录卡片样式 (1-7)</h2>
+            <div class="login-grid">
+                <!-- 样式1：默认渐变登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">默认渐变登录卡片</div>
+                    <div class="card-class">login-card-1</div>
+                </div>
+                
+                <!-- 样式2：深色渐变登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-2">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">深色渐变登录卡片</div>
+                    <div class="card-class">login-card-2</div>
+                </div>
+                
+                <!-- 样式3：青色霓虹登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-3">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">青色霓虹登录卡片</div>
+                    <div class="card-class">login-card-3</div>
+                </div>
+                
+                <!-- 样式4：渐变边框登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-4">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">渐变边框登录卡片</div>
+                    <div class="card-class">login-card-4</div>
+                </div>
+                
+                <!-- 样式5：径向渐变登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-5">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">径向渐变登录卡片</div>
+                    <div class="card-class">login-card-5</div>
+                </div>
+                
+                <!-- 样式6：毛玻璃效果登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-6">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">毛玻璃效果登录卡片</div>
+                    <div class="card-class">login-card-6</div>
+                </div>
+                
+                <!-- 样式7：蓝色渐变登录卡片 -->
+                <div class="login-card-wrapper">
+                    <div class="login-showcase">
+                        <div class="login-card login-card-7">
+                            <div class="card-header">登录</div>
+                            <div class="input-group">
+                                <label class="input-label">用户名</label>
+                                <input type="text" class="candy-login-input" placeholder="请输入用户名">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">密码</label>
+                                <input type="password" class="candy-login-input" placeholder="请输入密码">
+                            </div>
+                            <button class="candy-login-btn">登录</button>
+                            <div class="login-message"></div>
+                        </div>
+                    </div>
+                    <div class="card-label">蓝色渐变登录卡片</div>
+                    <div class="card-class">login-card-7</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面底部 -->
+        <footer>
+            <p>Made with ♥ by CandyUI · 7 CSS Login Card Styles</p>
+        </footer>
+    </div>
+</body>
+</html>

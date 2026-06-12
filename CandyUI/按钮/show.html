@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 100种按钮样式展示</title>
+    <link rel="stylesheet" href="candy-buttons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            min-height: 100vh;
+        }
+        h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+            letter-spacing: 2px;
+        }
+        .btn-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+        .btn-name {
+            margin-top: 12px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .btn-number {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CandyUI 100种按钮样式展示</h1>
+    
+    <!-- ========== index.html 样式 (1-50) ========== -->
+    <div class="btn-card">
+        <span class="btn-number">#1</span>
+        <button class="candy-btn candy-btn-extrude">Extruded Plastic</button>
+        <div class="btn-name">挤出塑料效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#2</span>
+        <button class="candy-btn candy-btn-holo-foil">Hologram Foil</button>
+        <div class="btn-name">全息箔效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#3</span>
+        <button class="candy-btn candy-btn-cube">
+            <span class="cube-top"></span>
+            Isometric Cube
+        </button>
+        <div class="btn-name">等距立方体</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#4</span>
+        <button class="candy-btn candy-btn-levitate">Levitating Glow</button>
+        <div class="btn-name">悬浮发光</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#5</span>
+        <button class="candy-btn candy-btn-chrome">Cyber Chrome</button>
+        <div class="btn-name">铬金属效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#6</span>
+        <button class="candy-btn candy-btn-matrix">Matrix Rain</button>
+        <div class="btn-name">矩阵雨效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#7</span>
+        <button class="candy-btn candy-btn-glass">Glassmorphism</button>
+        <div class="btn-name">玻璃态效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#8</span>
+        <button class="candy-btn candy-btn-anaglyph"><span>Anaglyph 3D</span></button>
+        <div class="btn-name">立体红蓝效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#9</span>
+        <button class="candy-btn candy-btn-voxel">Voxel Art</button>
+        <div class="btn-name">像素体素效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#10</span>
+        <button class="candy-btn candy-btn-projector">Hologram Projector</button>
+        <div class="btn-name">全息投影</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#11</span>
+        <button class="candy-btn candy-btn-sticker">Pop Out Sticker</button>
+        <div class="btn-name">弹出贴纸</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#12</span>
+        <button class="candy-btn candy-btn-wireframe">Wireframe</button>
+        <div class="btn-name">线框效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#13</span>
+        <button class="candy-btn candy-btn-origami">Origami Crane</button>
+        <div class="btn-name">折纸鹤</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#14</span>
+        <button class="candy-btn candy-btn-candy">Candy Stripe</button>
+        <div class="btn-name">糖果条纹</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#15</span>
+        <button class="candy-btn candy-btn-lava"><span>Lava Lamp</span></button>
+        <div class="btn-name">熔岩灯效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#16</span>
+        <button class="candy-btn candy-btn-pixel-explosion">Pixel Explosion</button>
+        <div class="btn-name">像素爆炸</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#17</span>
+        <button class="candy-btn candy-btn-aurora"><span>Aurora Borealis</span></button>
+        <div class="btn-name">极光效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#18</span>
+        <button class="candy-btn candy-btn-diamond">Diamond Facet</button>
+        <div class="btn-name">钻石切面</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#19</span>
+        <button class="candy-btn candy-btn-crt">Retro CRT</button>
+        <div class="btn-name">复古显示器</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#20</span>
+        <button class="candy-btn candy-btn-quantum">Quantum Entanglement</button>
+        <div class="btn-name">量子纠缠</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#21</span>
+        <button class="candy-btn candy-btn-ink"><span>Ink Bleed</span></button>
+        <div class="btn-name">墨水晕染</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#22</span>
+        <button class="candy-btn candy-btn-fractal">Fractal Zoom</button>
+        <div class="btn-name">分形缩放</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#23</span>
+        <button class="candy-btn candy-btn-kaleido">Kaleidoscope</button>
+        <div class="btn-name">万花筒</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#24</span>
+        <button class="candy-btn candy-btn-plasma" id="plasmaBtn">Plasma Globe</button>
+        <div class="btn-name">等离子球</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#25</span>
+        <button class="candy-btn candy-btn-solar" id="solarBtn">Solar Flare</button>
+        <div class="btn-name">太阳耀斑</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#26</span>
+        <button class="candy-btn candy-btn-tron">Tron Disc</button>
+        <div class="btn-name">创战纪圆盘</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#27</span>
+        <button class="candy-btn candy-btn-holo-sticker">Hologram Sticker</button>
+        <div class="btn-name">全息贴纸</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#28</span>
+        <button class="candy-btn candy-btn-neumorphic">Neumorphic</button>
+        <div class="btn-name">新拟态</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#29</span>
+        <button class="candy-btn candy-btn-ascii">/\   /\<br>(  . .)<br>)   (<br>(  v  )</button>
+        <div class="btn-name">ASCII艺术</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#30</span>
+        <button class="candy-btn candy-btn-lightsword">Light Sword</button>
+        <div class="btn-name">光剑效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#31</span>
+        <button class="candy-btn candy-btn-dataglobe" id="dataglobeBtn">Dataglobe</button>
+        <div class="btn-name">数据球</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#32</span>
+        <button class="candy-btn candy-btn-tessellate">Geometric Tessellation</button>
+        <div class="btn-name">几何镶嵌</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#33</span>
+        <button class="candy-btn candy-btn-bio">Bioluminescent</button>
+        <div class="btn-name">生物发光</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#34</span>
+        <button class="candy-btn candy-btn-time-warp">Time Warp</button>
+        <div class="btn-name">时间扭曲</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#35</span>
+        <button class="candy-btn candy-btn-nano"><span>Nanotech</span></button>
+        <div class="btn-name">纳米科技</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#36</span>
+        <button class="candy-btn candy-btn-crystal">Crystal Shard</button>
+        <div class="btn-name">水晶碎片</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#37</span>
+        <button class="candy-btn candy-btn-tape">Hologram Tape</button>
+        <div class="btn-name">全息胶带</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#38</span>
+        <button class="candy-btn candy-btn-glitch-realm">Glitch Realm</button>
+        <div class="btn-name">故障领域</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#39</span>
+        <button class="candy-btn candy-btn-vaporwave">Vaporwave Sunset</button>
+        <div class="btn-name">蒸汽波日落</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#40</span>
+        <button class="candy-btn candy-btn-iso-tile">Isometric Tile</button>
+        <div class="btn-name">等距瓦片</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#41</span>
+        <button class="candy-btn candy-btn-laser-grid" id="laserGridBtn">Laser Grid</button>
+        <div class="btn-name">激光网格</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#42</span>
+        <button class="candy-btn candy-btn-pyramid">Hologram Pyramid</button>
+        <div class="btn-name">全息金字塔</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#43</span>
+        <button class="candy-btn candy-btn-implant"><span>Cybernetic Implant</span></button>
+        <div class="btn-name">神经植入</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#44</span>
+        <button class="candy-btn candy-btn-quantum-tunnel" id="quantumTunnelBtn">Quantum Tunnel</button>
+        <div class="btn-name">量子隧道</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#45</span>
+        <button class="candy-btn candy-btn-prism">Hologram Prism</button>
+        <div class="btn-name">全息棱镜</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#46</span>
+        <button class="candy-btn candy-btn-digital-rain" id="digitalRainBtn">Digital Rain</button>
+        <div class="btn-name">数字雨</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#47</span>
+        <button class="candy-btn candy-btn-iso-gem">Isometric Gem</button>
+        <div class="btn-name">等距宝石</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#48</span>
+        <button class="candy-btn candy-btn-circuit" id="circuitBtn">Hologram Circuit</button>
+        <div class="btn-name">全息电路</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#49</span>
+        <button class="candy-btn candy-btn-cyber-glitch-text"><span class="glitch-text" data-text="Cyber Glitch Text">Cyber Glitch Text</span></button>
+        <div class="btn-name">电子故障文字</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#50</span>
+        <button class="candy-btn candy-btn-waveform"><div class="wave"></div></button>
+        <div class="btn-name">全息波形</div>
+    </div>
+    
+    <!-- ========== index2.html 样式 (51-100) ========== -->
+    <div class="btn-card">
+        <span class="btn-number">#51</span>
+        <button class="candy-btn candy-btn-simple-gradient">Simple Gradient</button>
+        <div class="btn-name">简单渐变</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#52</span>
+        <button class="candy-btn candy-btn-animated-border">Animated Border</button>
+        <div class="btn-name">动画边框</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#53</span>
+        <button class="candy-btn candy-btn-fill">Fill Effect</button>
+        <div class="btn-name">填充效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#54</span>
+        <button class="candy-btn candy-btn-shimmer">Shimmer</button>
+        <div class="btn-name">闪光效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#55</span>
+        <button class="candy-btn candy-btn-icon-transform"><i class="fas fa-star"></i> Icon Transform</button>
+        <div class="btn-name">图标旋转</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#56</span>
+        <button class="candy-btn candy-btn-shadow-lift">Shadow Lift</button>
+        <div class="btn-name">阴影提升</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#57</span>
+        <button class="candy-btn candy-btn-corner-folded">Corner Folded</button>
+        <div class="btn-name">角落折叠</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#58</span>
+        <button class="candy-btn candy-btn-pulse">Pulse</button>
+        <div class="btn-name">脉冲效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#59</span>
+        <button class="candy-btn candy-btn-flip-text"><span>Flip Text</span></button>
+        <div class="btn-name">文字翻转</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#60</span>
+        <button class="candy-btn candy-btn-jelly">Jelly Bounce</button>
+        <div class="btn-name">果冻弹跳</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#61</span>
+        <button class="candy-btn candy-btn-underline-reveal">Underline Reveal</button>
+        <div class="btn-name">下划线显示</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#62</span>
+        <button class="candy-btn candy-btn-diagonal-slide"><span>Diagonal Slide</span></button>
+        <div class="btn-name">对角滑动</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#63</span>
+        <button class="candy-btn candy-btn-glitch">Glitch</button>
+        <div class="btn-name">故障效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#64</span>
+        <button class="candy-btn candy-btn-liquid">Liquid Fill</button>
+        <div class="btn-name">液体填充</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#65</span>
+        <button class="candy-btn candy-btn-neon-glow">Neon Glow</button>
+        <div class="btn-name">霓虹发光</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#66</span>
+        <button class="candy-btn candy-btn-morph">Morph Shape</button>
+        <div class="btn-name">形状变形</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#67</span>
+        <button class="candy-btn candy-btn-expand-border">Expand Border</button>
+        <div class="btn-name">边框扩展</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#68</span>
+        <button class="candy-btn candy-btn-text-swap">
+            <span class="default">Default</span>
+            <span class="hover">Hover</span>
+        </button>
+        <div class="btn-name">文字切换</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#69</span>
+        <button class="candy-btn candy-btn-split-line">Split Line</button>
+        <div class="btn-name">分割线</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#70</span>
+        <button class="candy-btn candy-btn-holo">Holographic</button>
+        <div class="btn-name">全息效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#71</span>
+        <button class="candy-btn candy-btn-dot-trail" id="dotTrailBtn">Dot Trail</button>
+        <div class="btn-name">点轨迹</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#72</span>
+        <button class="candy-btn candy-btn-inset-shadow">Inset Shadow</button>
+        <div class="btn-name">内阴影</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#73</span>
+        <button class="candy-btn candy-btn-fade-bg">Fade Background</button>
+        <div class="btn-name">背景渐隐</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#74</span>
+        <button class="candy-btn candy-btn-rotate-icon"><i class="fas fa-sync-alt"></i> Rotate Icon</button>
+        <div class="btn-name">图标旋转</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#75</span>
+        <button class="candy-btn candy-btn-elastic">Elastic Stretch</button>
+        <div class="btn-name">弹性拉伸</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#76</span>
+        <button class="candy-btn candy-btn-floating-letters"><span>F</span><span>l</span><span>o</span><span>a</span><span>t</span></button>
+        <div class="btn-name">浮动字母</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#77</span>
+        <button class="candy-btn candy-btn-gradient-border">Gradient Border</button>
+        <div class="btn-name">渐变边框</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#78</span>
+        <button class="candy-btn candy-btn-spotlight">Spotlight</button>
+        <div class="btn-name">聚光灯</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#79</span>
+        <button class="candy-btn candy-btn-pixelate">Pixelate</button>
+        <div class="btn-name">像素化</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#80</span>
+        <button class="candy-btn candy-btn-origami-fold">Origami Fold</button>
+        <div class="btn-name">折纸折叠</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#81</span>
+        <button class="candy-btn candy-btn-magnetic" id="magneticBtn">Magnetic Pull</button>
+        <div class="btn-name">磁性吸引</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#82</span>
+        <button class="candy-btn candy-btn-blur-in">Blur In</button>
+        <div class="btn-name">模糊进入</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#83</span>
+        <button class="candy-btn candy-btn-layered-shadow">Layered Shadow</button>
+        <div class="btn-name">分层阴影</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#84</span>
+        <button class="candy-btn candy-btn-skew-hover">Skew Hover</button>
+        <div class="btn-name">斜切悬停</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#85</span>
+        <button class="candy-btn candy-btn-color-shift">Color Shift</button>
+        <div class="btn-name">颜色变换</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#86</span>
+        <button class="candy-btn candy-btn-heartbeat">Heartbeat</button>
+        <div class="btn-name">心跳效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#87</span>
+        <button class="candy-btn candy-btn-text-outline">Text Outline</button>
+        <div class="btn-name">文字描边</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#88</span>
+        <button class="candy-btn candy-btn-dashed">Dashed Border</button>
+        <div class="btn-name">虚线边框</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#89</span>
+        <button class="candy-btn candy-btn-inner-glow">Inner Glow</button>
+        <div class="btn-name">内部发光</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#90</span>
+        <button class="candy-btn candy-btn-retro">Retro Scanlines</button>
+        <div class="btn-name">复古扫描线</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#91</span>
+        <button class="candy-btn candy-btn-rainbow-text">Rainbow Text</button>
+        <div class="btn-name">彩虹文字</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#92</span>
+        <div class="candy-btn candy-btn-flip-card">
+            <div class="candy-btn-flip-card-inner">
+                <div class="candy-btn-flip-card-front">Front</div>
+                <div class="candy-btn-flip-card-back">Back</div>
+            </div>
+        </div>
+        <div class="btn-name">翻转卡片</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#93</span>
+        <button class="candy-btn candy-btn-flash">Flashing</button>
+        <div class="btn-name">闪烁效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#94</span>
+        <button class="candy-btn candy-btn-wobble">Wobble</button>
+        <div class="btn-name">摇晃效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#95</span>
+        <button class="candy-btn candy-btn-typewriter">Typewriter</button>
+        <div class="btn-name">打字机效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#96</span>
+        <button class="candy-btn candy-btn-vibrate">Vibrate</button>
+        <div class="btn-name">震动效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#97</span>
+        <button class="candy-btn candy-btn-squeeze">Squeeze</button>
+        <div class="btn-name">挤压效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#98</span>
+        <button class="candy-btn candy-btn-grow-shadow">Grow Shadow</button>
+        <div class="btn-name">阴影增长</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#99</span>
+        <button class="candy-btn candy-btn-door-close">Door Close</button>
+        <div class="btn-name">门关闭效果</div>
+    </div>
+    
+    <div class="btn-card">
+        <span class="btn-number">#100</span>
+        <button class="candy-btn candy-btn-curtain">Curtain Reveal</button>
+        <div class="btn-name">幕布效果</div>
+    </div>
+
+    <script src="candy-buttons.js"></script>
+</body>
+</html>

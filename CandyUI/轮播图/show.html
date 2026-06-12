@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 轮播图组件</title>
+    <link rel="stylesheet" href="candy-carousel.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .demo-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .demo-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+        }
+
+        .demo-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* 轮播图内容样式 */
+        .carousel-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .carousel-slide:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .carousel-slide:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .carousel-slide:nth-child(4) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .carousel-slide:nth-child(5) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎠 CandyUI 轮播图组件</h1>
+            <p class="subtitle">30种精美样式 · 3D效果 · 发光效果 · 动画效果</p>
+        </header>
+
+        <!-- 基础样式 -->
+        <section class="section">
+            <h2 class="section-title">基础样式 (1-5)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式1：简洁基础</div>
+                    <div id="carousel-1" class="candy-carousel-1">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎨 设计</div>
+                            <div class="carousel-slide">🚀 开发</div>
+                            <div class="carousel-slide">✨ 创新</div>
+                            <div class="carousel-slide">💡 灵感</div>
+                            <div class="carousel-slide">🌟 未来</div>
+                        </div>
+                        <div class="carousel-dots"></div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式2：带箭头</div>
+                    <div id="carousel-2" class="candy-carousel-2">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">📱 移动端</div>
+                            <div class="carousel-slide">💻 桌面端</div>
+                            <div class="carousel-slide">🌐 Web端</div>
+                            <div class="carousel-slide">☁️ 云端</div>
+                        </div>
+                        <div class="carousel-arrow prev">❮</div>
+                        <div class="carousel-arrow next">❯</div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式3：淡入淡出</div>
+                    <div id="carousel-3" class="candy-carousel-3">
+                        <div class="carousel-track">
+                            <div class="carousel-slide active">🌙 夜晚</div>
+                            <div class="carousel-slide">☀️ 白天</div>
+                            <div class="carousel-slide">🌅 日出</div>
+                            <div class="carousel-slide">🌃 星空</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式4：缩放效果</div>
+                    <div id="carousel-4" class="candy-carousel-4">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎯 目标</div>
+                            <div class="carousel-slide">🏆 成就</div>
+                            <div class="carousel-slide">🎉 庆祝</div>
+                            <div class="carousel-slide">💪 努力</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式5：进度条指示器</div>
+                    <div id="carousel-5" class="candy-carousel-5">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">📊 数据</div>
+                            <div class="carousel-slide">📈 分析</div>
+                            <div class="carousel-slide">📉 趋势</div>
+                            <div class="carousel-slide">📋 报告</div>
+                        </div>
+                        <div class="carousel-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D效果样式 -->
+        <section class="section">
+            <h2 class="section-title">3D效果样式 (6-10)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式6：3D翻转</div>
+                    <div id="carousel-6" class="candy-carousel-6" data-carousel='{"effect": "flip", "autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🔄 翻转</div>
+                            <div class="carousel-slide">🎴 卡片</div>
+                            <div class="carousel-slide">📖 故事</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式7：3D立方体</div>
+                    <div id="carousel-7" class="candy-carousel-7" data-carousel='{"effect": "cube", "autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🧊 立方</div>
+                            <div class="carousel-slide">🎲 方块</div>
+                            <div class="carousel-slide">📦 箱子</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式8：3D视差</div>
+                    <div id="carousel-8" class="candy-carousel-8">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🏔️ 山峰</div>
+                            <div class="carousel-slide">🌊 海洋</div>
+                            <div class="carousel-slide">🌲 森林</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式9：3D悬浮卡片</div>
+                    <div id="carousel-9" class="candy-carousel-9">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎁 礼物</div>
+                            <div class="carousel-slide">💝 惊喜</div>
+                            <div class="carousel-slide">🎊 欢乐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式10：3D堆叠</div>
+                    <div id="carousel-10" class="candy-carousel-10">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">📚 书籍</div>
+                            <div class="carousel-slide">📖 知识</div>
+                            <div class="carousel-slide">🎓 学习</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 发光效果样式 -->
+        <section class="section">
+            <h2 class="section-title">发光效果样式 (11-15)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式11：霓虹发光</div>
+                    <div id="carousel-11" class="candy-carousel-11">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">💡 创意</div>
+                            <div class="carousel-slide">💡 灵感</div>
+                            <div class="carousel-slide">💡 思想</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式12：紫色光晕</div>
+                    <div id="carousel-12" class="candy-carousel-12">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🔮 神秘</div>
+                            <div class="carousel-slide">✨ 魔法</div>
+                            <div class="carousel-slide">🌟 奇迹</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式13：粉色光晕</div>
+                    <div id="carousel-13" class="candy-carousel-13">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">💖 爱</div>
+                            <div class="carousel-slide">💕 温馨</div>
+                            <div class="carousel-slide">💗 甜蜜</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式14：金色发光</div>
+                    <div id="carousel-14" class="candy-carousel-14">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">👑 皇室</div>
+                            <div class="carousel-slide">🏅 荣耀</div>
+                            <div class="carousel-slide">⭐ 璀璨</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式15：彩虹边框</div>
+                    <div id="carousel-15" class="candy-carousel-15">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🌈 彩虹</div>
+                            <div class="carousel-slide">🎨 多彩</div>
+                            <div class="carousel-slide">🌤️ 光辉</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 动画效果样式 -->
+        <section class="section">
+            <h2 class="section-title">动画效果样式 (16-20)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式16：脉冲动画</div>
+                    <div id="carousel-16" class="candy-carousel-16">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">📡 信号</div>
+                            <div class="carousel-slide">📶 连接</div>
+                            <div class="carousel-slide">📤 传输</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式17：弹跳动画</div>
+                    <div id="carousel-17" class="candy-carousel-17">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎾 弹性</div>
+                            <div class="carousel-slide">🎱 活力</div>
+                            <div class="carousel-slide">⚽ 动感</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式18：旋转动画</div>
+                    <div id="carousel-18" class="candy-carousel-18">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🔄 循环</div>
+                            <div class="carousel-slide">🔃 轮转</div>
+                            <div class="carousel-slide">🔁 重复</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式19：闪烁指示器</div>
+                    <div id="carousel-19" class="candy-carousel-19">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">⭐ 闪烁</div>
+                            <div class="carousel-slide">✨ 闪耀</div>
+                            <div class="carousel-slide">🌟 璀璨</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式20：波浪动画</div>
+                    <div id="carousel-20" class="candy-carousel-20">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🌊 波浪</div>
+                            <div class="carousel-slide">🌊 海浪</div>
+                            <div class="carousel-slide">🌊 潮汐</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 复杂组合样式 -->
+        <section class="section">
+            <h2 class="section-title">复杂组合样式 (21-25)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式21：毛玻璃效果</div>
+                    <div id="carousel-21" class="candy-carousel-21">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🪟 朦胧</div>
+                            <div class="carousel-slide">🌫️ 模糊</div>
+                            <div class="carousel-slide">💨 轻盈</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式22：科技风格</div>
+                    <div id="carousel-22" class="candy-carousel-22">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🤖 科技</div>
+                            <div class="carousel-slide">🚀 进步</div>
+                            <div class="carousel-slide">💻 数字</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式23：阴影深度</div>
+                    <div id="carousel-23" class="candy-carousel-23">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🖤 深沉</div>
+                            <div class="carousel-slide">⬛ 厚重</div>
+                            <div class="carousel-slide">🌑 神秘</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式24：柔和阴影</div>
+                    <div id="carousel-24" class="candy-carousel-24">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎀 柔和</div>
+                            <div class="carousel-slide">🎀 温馨</div>
+                            <div class="carousel-slide">🎀 浪漫</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式25：扁平化</div>
+                    <div id="carousel-25" class="candy-carousel-25">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">▢ 简洁</div>
+                            <div class="carousel-slide">▢ 干净</div>
+                            <div class="carousel-slide">▢ 明了</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 高级3D样式 -->
+        <section class="section">
+            <h2 class="section-title">高级3D样式 (26-30)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式26：全屏3D翻转</div>
+                    <div id="carousel-26" class="candy-carousel-26" data-carousel='{"autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🔃 翻转</div>
+                            <div class="carousel-slide">🔄 转动</div>
+                            <div class="carousel-slide">🔂 循环</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式27：卡片堆叠</div>
+                    <div id="carousel-27" class="candy-carousel-27" data-carousel='{"autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">📚 堆叠</div>
+                            <div class="carousel-slide">📚 积累</div>
+                            <div class="carousel-slide">📚 成长</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式28：隧道效果</div>
+                    <div id="carousel-28" class="candy-carousel-28" data-carousel='{"autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🚇 隧道</div>
+                            <div class="carousel-slide">🚤 穿梭</div>
+                            <div class="carousel-slide">🚀 穿越</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式29：旋转木马</div>
+                    <div id="carousel-29" class="candy-carousel-29" data-carousel='{"autoplay": false}'>
+                        <div class="carousel-track">
+                            <div class="carousel-slide">🎠 转马</div>
+                            <div class="carousel-slide">🎠 旋转</div>
+                            <div class="carousel-slide">🎠 快乐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式30：终极3D效果</div>
+                    <div id="carousel-30" class="candy-carousel-30">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">💎 终极</div>
+                            <div class="carousel-slide">💎 完美</div>
+                            <div class="carousel-slide">💎 极致</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>CandyUI 轮播图组件 · 30种精美样式 · 强大的交互功能</p>
+        </footer>
+    </div>
+
+    <script src="candy-carousel.js"></script>
+    <script>
+        // 初始化所有轮播组件
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化所有30种样式
+            for (let i = 1; i <= 30; i++) {
+                const element = document.getElementById(`carousel-${i}`);
+                if (element) {
+                    const options = {
+                        autoplay: true,
+                        autoplayInterval: 3000,
+                        arrows: element.querySelector('.carousel-arrow'),
+                        dots: element.querySelector('.carousel-dots')
+                    };
+                    
+                    // 某些样式禁用自动播放
+                    if ([6, 7, 26, 27, 28, 29].includes(i)) {
+                        options.autoplay = false;
+                    }
+                    
+                    new CandyCarousel(element, options);
+                }
+            }
+
+            // 进度条指示器更新
+            const carousel5 = document.getElementById('carousel-5');
+            if (carousel5) {
+                const progress = carousel5.querySelector('.carousel-progress');
+                const carousel = carousel5._carousel;
+                
+                carousel5.addEventListener('candy-carousel-change', (e) => {
+                    const percent = ((e.detail.index + 1) / carousel.slideCount) * 100;
+                    progress.style.width = percent + '%';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

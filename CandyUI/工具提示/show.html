@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 工具提示样式展示</title>
+    <link rel="stylesheet" href="candy-tooltip.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+            color: #667eea;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .demo-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .trigger-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .trigger-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .style-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        
+        .style-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #667eea;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CandyUI 工具提示样式展示</h1>
+        <p class="subtitle">共30种独特的工具提示样式，支持3D效果和动画</p>
+        
+        <div class="info-box">
+            <h3>使用方法</h3>
+            <p>将鼠标悬停在按钮上查看效果。工具提示会自动显示和隐藏。</p>
+            <div class="code-block">
+                &lt;button class="trigger-btn" data-tooltip="提示内容"&gt;悬停查看&lt;/button&gt;
+            </div>
+            <div class="code-block">
+                CandyTooltip.bind(element, '提示内容', { position: 'top' });
+            </div>
+        </div>
+        
+        <h2 class="section-title">3D立体效果 (1-10)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是斜角3D效果提示" data-position="top">斜角3D #1</button>
+                <div class="style-label"><span class="style-number">#1</span> 斜角3D</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是浮雕效果提示" data-position="top">浮雕效果 #2</button>
+                <div class="style-label"><span class="style-number">#2</span> 浮雕效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是凹陷效果提示" data-position="top">凹陷效果 #3</button>
+                <div class="style-label"><span class="style-number">#3</span> 凹陷效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是光晕效果提示" data-position="top">光晕效果 #4</button>
+                <div class="style-label"><span class="style-number">#4</span> 光晕效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是3D翻转效果提示" data-position="top">3D翻转 #5</button>
+                <div class="style-label"><span class="style-number">#5</span> 3D翻转</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是透视悬浮效果提示" data-position="top">透视悬浮 #6</button>
+                <div class="style-label"><span class="style-number">#6</span> 透视悬浮</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是折叠效果提示" data-position="top">折叠效果 #7</button>
+                <div class="style-label"><span class="style-number">#7</span> 折叠效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是翻页效果提示" data-position="top">翻页效果 #8</button>
+                <div class="style-label"><span class="style-number">#8</span> 翻页效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是深度效果提示" data-position="top">深度效果 #9</button>
+                <div class="style-label"><span class="style-number">#9</span> 深度效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是扭曲效果提示" data-position="top">扭曲效果 #10</button>
+                <div class="style-label"><span class="style-number">#10</span> 扭曲效果</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">发光效果 (11-20)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是霓虹发光提示" data-position="top">霓虹发光 #11</button>
+                <div class="style-label"><span class="style-number">#11</span> 霓虹发光</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是脉冲光晕提示" data-position="top">脉冲光晕 #12</button>
+                <div class="style-label"><span class="style-number">#12</span> 脉冲光晕</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是渐变光提示" data-position="top">渐变光 #13</button>
+                <div class="style-label"><span class="style-number">#13</span> 渐变光</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是彩色边框提示" data-position="top">彩色边框 #14</button>
+                <div class="style-label"><span class="style-number">#14</span> 彩色边框</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是霓虹管效果提示" data-position="top">霓虹管 #15</button>
+                <div class="style-label"><span class="style-number">#15</span> 霓虹管</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是呼吸光效提示" data-position="top">呼吸光效 #16</button>
+                <div class="style-label"><span class="style-number">#16</span> 呼吸光效</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是外发光提示" data-position="top">外发光 #17</button>
+                <div class="style-label"><span class="style-number">#17</span> 外发光</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是内发光提示" data-position="top">内发光 #18</button>
+                <div class="style-label"><span class="style-number">#18</span> 内发光</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是双层光晕提示" data-position="top">双层光晕 #19</button>
+                <div class="style-label"><span class="style-number">#19</span> 双层光晕</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是动态光效提示" data-position="top">动态光效 #20</button>
+                <div class="style-label"><span class="style-number">#20</span> 动态光效</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">动画效果 (21-30)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是缩放弹跳提示" data-position="top">缩放弹跳 #21</button>
+                <div class="style-label"><span class="style-number">#21</span> 缩放弹跳</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是滑入效果提示" data-position="top">滑入效果 #22</button>
+                <div class="style-label"><span class="style-number">#22</span> 滑入效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是弹性效果提示" data-position="top">弹性效果 #23</button>
+                <div class="style-label"><span class="style-number">#23</span> 弹性效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是旋转缩放提示" data-position="top">旋转缩放 #24</button>
+                <div class="style-label"><span class="style-number">#24</span> 旋转缩放</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是淡入缩放提示" data-position="top">淡入缩放 #25</button>
+                <div class="style-label"><span class="style-number">#25</span> 淡入缩放</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是左右展开提示" data-position="top">左右展开 #26</button>
+                <div class="style-label"><span class="style-number">#26</span> 左右展开</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是上下展开提示" data-position="top">上下展开 #27</button>
+                <div class="style-label"><span class="style-number">#27</span> 上下展开</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是组合动画提示" data-position="top">组合动画 #28</button>
+                <div class="style-label"><span class="style-number">#28</span> 组合动画</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是摇晃效果提示" data-position="top">摇晃效果 #29</button>
+                <div class="style-label"><span class="style-number">#29</span> 摇晃效果</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="这是终极3D效果提示" data-position="top">终极3D #30</button>
+                <div class="style-label"><span class="style-number">#30</span> 终极3D</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">不同位置效果</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="显示在上方" data-position="top">顶部 #1</button>
+                <div class="style-label">顶部提示</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="显示在下方" data-position="bottom">底部 #2</button>
+                <div class="style-label">底部提示</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="显示在左侧" data-position="left">左侧 #3</button>
+                <div class="style-label">左侧提示</div>
+            </div>
+            <div class="demo-item">
+                <button class="trigger-btn" data-tooltip="显示在右侧" data-position="right">右侧 #4</button>
+                <div class="style-label">右侧提示</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">API 示例</h2>
+        <div class="info-box">
+            <h3>JavaScript API</h3>
+            <div class="code-block">
+                // 显示提示
+                CandyTooltip.show(element);
+            </div>
+            <div class="code-block">
+                // 隐藏提示
+                CandyTooltip.hide(element);
+            </div>
+            <div class="code-block">
+                // 切换提示
+                CandyTooltip.toggle(element, '新内容');
+            </div>
+            <div class="code-block">
+                // 创建提示
+                CandyTooltip.create({
+                    content: '提示内容',
+                    position: 'top',
+                    theme: 'default',
+                    delay: 0,
+                    duration: 3000
+                });
+            </div>
+            <div class="code-block">
+                // 全局配置
+                CandyTooltip.config({
+                    position: 'top',
+                    delay: 200,
+                    duration: 3000
+                });
+            </div>
+        </div>
+    </div>
+    
+    <script src="candy-tooltip.js"></script>
+    <script>
+        // 初始化所有工具提示
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            const content = element.getAttribute('data-tooltip');
+            const position = element.getAttribute('data-position') || 'top';
+            
+            CandyTooltip.bind(element, content, {
+                position: position,
+                duration: 5000
+            });
+        });
+        
+        // API 示例
+        function showTooltip(id, content, theme) {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            
+            const tooltip = CandyTooltip.create({
+                content: content,
+                position: 'top',
+                theme: theme,
+                duration: 3000
+            });
+            
+            // 临时绑定到按钮
+            setTimeout(() => {
+                CandyTooltip.bind(btn, content, {
+                    position: 'top',
+                    theme: theme
+                });
+                CandyTooltip.show(btn);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

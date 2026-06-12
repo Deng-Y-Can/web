@@ -1,0 +1,626 @@
+/* CandyUI - 消息提示样式 */
+
+/* CSS变量定义 */
+:root {
+    --toast-primary: #667eea;
+    --toast-success: #10b981;
+    --toast-warning: #f59e0b;
+    --toast-danger: #ef4444;
+    --toast-info: #3b82f6;
+    --toast-bg: rgba(30, 30, 50, 0.95);
+    --toast-text: #fff;
+}
+
+/* 消息提示容器 */
+.candy-toast-container {
+    position: fixed;
+    z-index: 99999;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 位置 */
+.candy-toast-container.position-top-left { top: 20px; left: 20px; }
+.candy-toast-container.position-top-center { top: 20px; left: 50%; transform: translateX(-50%); }
+.candy-toast-container.position-top-right { top: 20px; right: 20px; }
+.candy-toast-container.position-bottom-left { bottom: 20px; left: 20px; }
+.candy-toast-container.position-bottom-center { bottom: 20px; left: 50%; transform: translateX(-50%); }
+.candy-toast-container.position-bottom-right { bottom: 20px; right: 20px; }
+
+/* 基础消息提示样式 */
+.candy-toast {
+    background: var(--toast-bg);
+    color: var(--toast-text);
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 0.3s ease;
+}
+
+/* 显示状态 */
+.candy-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 图标 */
+.candy-toast-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* 内容 */
+.candy-toast-content {
+    flex: 1;
+}
+
+/* 关闭按钮 */
+.candy-toast-close {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.candy-toast-close:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 进度条 */
+.candy-toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--toast-primary);
+    border-radius: 0 0 12px 12px;
+    transition: width linear;
+}
+
+/* 类型样式 - 成功 */
+.candy-toast.toast-success {
+    border-left: 4px solid var(--toast-success);
+}
+
+.candy-toast.toast-success .candy-toast-progress {
+    background: var(--toast-success);
+}
+
+.candy-toast.toast-success .candy-toast-icon {
+    color: var(--toast-success);
+}
+
+/* 类型样式 - 警告 */
+.candy-toast.toast-warning {
+    border-left: 4px solid var(--toast-warning);
+}
+
+.candy-toast.toast-warning .candy-toast-progress {
+    background: var(--toast-warning);
+}
+
+.candy-toast.toast-warning .candy-toast-icon {
+    color: var(--toast-warning);
+}
+
+/* 类型样式 - 错误 */
+.candy-toast.toast-error {
+    border-left: 4px solid var(--toast-danger);
+}
+
+.candy-toast.toast-error .candy-toast-progress {
+    background: var(--toast-danger);
+}
+
+.candy-toast.toast-error .candy-toast-icon {
+    color: var(--toast-danger);
+}
+
+/* 类型样式 - 信息 */
+.candy-toast.toast-info {
+    border-left: 4px solid var(--toast-info);
+}
+
+.candy-toast.toast-info .candy-toast-progress {
+    background: var(--toast-info);
+}
+
+.candy-toast.toast-info .candy-toast-icon {
+    color: var(--toast-info);
+}
+
+/* 类型样式 - 加载 */
+.candy-toast.toast-loading {
+    border-left: 4px solid var(--toast-primary);
+}
+
+.candy-toast.toast-loading .candy-toast-progress {
+    background: var(--toast-primary);
+}
+
+.candy-toast.toast-loading .candy-toast-icon {
+    color: var(--toast-primary);
+    animation: toastLoadingSpin 1s linear infinite;
+}
+
+@keyframes toastLoadingSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 样式1-10: 3D卡片效果 */
+
+/* 样式1: 斜角效果 */
+.candy-toast.toast-1 {
+    background: linear-gradient(135deg, #2a2a50, #1a1a35);
+    transform: perspective(500px) rotateX(10deg) translateX(-100%);
+    box-shadow: 
+        5px 5px 0 rgba(102, 126, 234, 0.3),
+        10px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.candy-toast.toast-1.show {
+    transform: perspective(500px) rotateX(0deg) translateX(0);
+}
+
+/* 样式2: 浮雕效果 */
+.candy-toast.toast-2 {
+    background: linear-gradient(180deg, #1a1a35, #0f0f25);
+    box-shadow: 
+        inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 样式3: 凹陷效果 */
+.candy-toast.toast-3 {
+    background: linear-gradient(180deg, #0f0f25, #1a1a35);
+    box-shadow: 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.5),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.05);
+}
+
+/* 样式4: 翻页效果 */
+.candy-toast.toast-4 {
+    background: linear-gradient(135deg, #1f1f45, #141430);
+    transform-origin: left center;
+    transform: perspective(800px) rotateY(-90deg);
+}
+
+.candy-toast.toast-4.show {
+    transform: perspective(800px) rotateY(0deg);
+}
+
+/* 样式5: 折叠效果 */
+.candy-toast.toast-5 {
+    background: linear-gradient(180deg, #202045, #151535);
+    transform-origin: top center;
+    transform: perspective(500px) scaleY(0);
+}
+
+.candy-toast.toast-5.show {
+    transform: perspective(500px) scaleY(1);
+}
+
+/* 样式6: 透视悬浮 */
+.candy-toast.toast-6 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: perspective(1000px) translateZ(-50px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.2);
+}
+
+.candy-toast.toast-6.show {
+    transform: perspective(1000px) translateZ(0);
+}
+
+/* 样式7: 深度效果 */
+.candy-toast.toast-7 {
+    background: linear-gradient(180deg, #252560, #1a1a45);
+    transform: perspective(1500px) translateZ(-200px) scale(0.8);
+    box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.5);
+}
+
+.candy-toast.toast-7.show {
+    transform: perspective(1500px) translateZ(0) scale(1);
+}
+
+/* 样式8: 3D翻转 */
+.candy-toast.toast-8 {
+    background: linear-gradient(135deg, #2a2a55, #1a1a40);
+    transform: perspective(800px) rotateY(-15deg) scale(0.9);
+    box-shadow: 
+        10px 0 20px rgba(102, 126, 234, 0.2),
+        -10px 0 20px rgba(102, 126, 234, 0.2);
+}
+
+.candy-toast.toast-8.show {
+    transform: perspective(800px) rotateY(0deg) scale(1);
+}
+
+/* 样式9: 扭曲效果 */
+.candy-toast.toast-9 {
+    background: linear-gradient(145deg, #2a2a55, #1a1a40);
+    transform: perspective(500px) rotateX(30deg);
+    filter: blur(5px);
+}
+
+.candy-toast.toast-9.show {
+    transform: perspective(500px) rotateX(0deg);
+    filter: blur(0);
+}
+
+/* 样式10: 旋转进入 */
+.candy-toast.toast-10 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: perspective(1000px) rotateY(180deg) rotateX(10deg);
+}
+
+.candy-toast.toast-10.show {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+}
+
+/* 样式11-20: 发光效果 */
+
+/* 样式11: 霓虹发光 */
+.candy-toast.toast-11 {
+    background: #0a0a1a;
+    border: 2px solid #667eea;
+    box-shadow: 
+        0 0 10px rgba(102, 126, 234, 0.5),
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 30px rgba(102, 126, 234, 0.1);
+    animation: toast11Glow 2s ease-in-out infinite;
+}
+
+@keyframes toast11Glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 10px rgba(102, 126, 234, 0.5),
+            0 0 20px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px rgba(102, 126, 234, 0.7),
+            0 0 30px rgba(102, 126, 234, 0.5);
+    }
+}
+
+/* 样式12: 脉冲光晕 */
+.candy-toast.toast-12 {
+    background: linear-gradient(135deg, #1a1a40, #0d0d25);
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.candy-toast.toast-12::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 14px;
+    z-index: -1;
+    animation: toast12Pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes toast12Pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* 样式13: 渐变光 */
+.candy-toast.toast-13 {
+    background: linear-gradient(180deg, #2a1a50, #1a1035);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        inset 0 0 30px rgba(102, 126, 234, 0.1);
+}
+
+/* 样式14: 彩色边框 */
+.candy-toast.toast-14 {
+    background: #0f0f25;
+    border: 3px solid;
+    border-image: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea) 1;
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.4),
+        inset 0 0 20px rgba(102, 126, 234, 0.1);
+}
+
+/* 样式15: 呼吸光效 */
+.candy-toast.toast-15 {
+    background: linear-gradient(135deg, #1a1a40, #151535);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 40px rgba(102, 126, 234, 0.2);
+    animation: toast15Breathe 3s ease-in-out infinite;
+}
+
+@keyframes toast15Breathe {
+    0%, 100% { 
+        box-shadow: 
+            0 0 20px rgba(102, 126, 234, 0.3),
+            0 0 40px rgba(102, 126, 234, 0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 0 30px rgba(102, 126, 234, 0.5),
+            0 0 60px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式16: 外发光 */
+.candy-toast.toast-16 {
+    background: linear-gradient(145deg, #252555, #1a1a40);
+    box-shadow: 
+        0 0 30px rgba(118, 75, 162, 0.4),
+        0 0 60px rgba(118, 75, 162, 0.2),
+        inset 0 0 20px rgba(118, 75, 162, 0.1);
+    border: 1px solid rgba(118, 75, 162, 0.3);
+}
+
+/* 样式17: 内发光 */
+.candy-toast.toast-17 {
+    background: linear-gradient(135deg, #1a1a35, #101025);
+    box-shadow: inset 0 0 30px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* 样式18: 双层光晕 */
+.candy-toast.toast-18 {
+    background: linear-gradient(180deg, #202050, #151540);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 40px rgba(118, 75, 162, 0.2),
+        0 0 60px rgba(240, 147, 251, 0.1);
+}
+
+/* 样式19: 动态光效 */
+.candy-toast.toast-19 {
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-toast.toast-19::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, #667eea, transparent, #764ba2, transparent);
+    animation: toast19Rotate 4s linear infinite;
+}
+
+.candy-toast.toast-19::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    border-radius: 11px;
+    z-index: 1;
+}
+
+.candy-toast.toast-19 .candy-toast-content,
+.candy-toast.toast-19 .candy-toast-icon,
+.candy-toast.toast-19 .candy-toast-close {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes toast19Rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 样式20: 霓虹管效果 */
+.candy-toast.toast-20 {
+    background: #0a0a1f;
+    border: none;
+    box-shadow: 
+        inset 0 0 10px rgba(102, 126, 234, 0.2),
+        0 0 0 2px #667eea,
+        0 0 0 4px #764ba2,
+        0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+/* 样式21-30: 动画效果 */
+
+/* 样式21: 缩放弹跳 */
+.candy-toast.toast-21 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: scale(0);
+}
+
+.candy-toast.toast-21.show {
+    transform: scale(1);
+    animation: toast21Bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes toast21Bounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* 样式22: 滑入效果 */
+.candy-toast.toast-22 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: translateY(-30px);
+    opacity: 0;
+}
+
+.candy-toast.toast-22.show {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式23: 弹性效果 */
+.candy-toast.toast-23 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scale(2);
+    opacity: 0;
+}
+
+.candy-toast.toast-23.show {
+    transform: scale(1);
+    opacity: 1;
+    animation: toast23Elastic 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes toast23Elastic {
+    0% { transform: scale(2); opacity: 0; }
+    60% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 样式24: 旋转缩放 */
+.candy-toast.toast-24 {
+    background: linear-gradient(145deg, #252555, #1a1a45);
+    transform: perspective(1000px) rotateY(180deg) scale(0.5);
+}
+
+.candy-toast.toast-24.show {
+    transform: perspective(1000px) rotateY(0deg) scale(1);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式25: 淡入缩放 */
+.candy-toast.toast-25 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+.candy-toast.toast-25.show {
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.4s ease-out;
+}
+
+/* 样式26: 左右展开 */
+.candy-toast.toast-26 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.candy-toast.toast-26.show {
+    transform: scaleX(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式27: 上下展开 */
+.candy-toast.toast-27 {
+    background: linear-gradient(180deg, #252550, #1a1a40);
+    transform: scaleY(0);
+    transform-origin: top center;
+}
+
+.candy-toast.toast-27.show {
+    transform: scaleY(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式28: 组合动画 */
+.candy-toast.toast-28 {
+    background: linear-gradient(145deg, #202050, #151540);
+    transform: translateY(30px) scale(0.8);
+    opacity: 0;
+}
+
+.candy-toast.toast-28.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    animation: toast28Slide 0.6s ease-out;
+}
+
+@keyframes toast28Slide {
+    0% { transform: translateY(30px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* 样式29: 摇晃效果 */
+.candy-toast.toast-29 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: translateX(-30px);
+    opacity: 0;
+}
+
+.candy-toast.toast-29.show {
+    transform: translateX(0);
+    opacity: 1;
+    animation: toast29Shake 0.6s ease-out;
+}
+
+@keyframes toast29Shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(10px); }
+    40% { transform: translateX(-10px); }
+    60% { transform: translateX(5px); }
+    80% { transform: translateX(-5px); }
+}
+
+/* 样式30: 终极3D效果 */
+.candy-toast.toast-30 {
+    background: linear-gradient(180deg, #252555, #1a1a45);
+    transform: perspective(1500px) rotateX(45deg) translateY(-50px) translateZ(-100px);
+    opacity: 0;
+}
+
+.candy-toast.toast-30.show {
+    transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+    opacity: 1;
+    animation: toast30Final 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toast30Final {
+    0% { 
+        transform: perspective(1500px) rotateX(45deg) translateY(-50px) translateZ(-100px);
+        opacity: 0;
+    }
+    50% { opacity: 1; }
+    100% { 
+        transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+        opacity: 1;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .candy-toast {
+        max-width: calc(100vw - 40px);
+        padding: 12px 16px;
+        font-size: 12px;
+    }
+    
+    .candy-toast-container {
+        padding: 0 20px;
+    }
+}

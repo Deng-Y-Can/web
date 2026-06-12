@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 模态框样式展示</title>
+    <link rel="stylesheet" href="candy-modal.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+            color: #667eea;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .button-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .button-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .trigger-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .trigger-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .style-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .style-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        /* 示例模态框样式 */
+        .example-modal-1 .candy-modal-header {
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 按钮样式 */
+        .candy-modal-btn-primary,
+        .candy-modal-btn-success,
+        .candy-modal-btn-warning,
+        .candy-modal-btn-danger,
+        .candy-modal-btn-info {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .candy-modal-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .candy-modal-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .candy-modal-btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .candy-modal-btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .candy-modal-btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .candy-modal-btn-info {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .candy-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CandyUI 模态框样式展示</h1>
+        <p class="subtitle">共30种独特的模态框样式，支持3D效果和动画</p>
+        
+        <h2 class="section-title">3D翻转效果 (1-10)</h2>
+        <div class="button-grid">
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-1')">全息效果</button>
+                <div class="style-label"><span class="style-number">#1</span> 全息翻转</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-2')">透视悬浮</button>
+                <div class="style-label"><span class="style-number">#2</span> 透视3D</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-3')">悬浮效果</button>
+                <div class="style-label"><span class="style-number">#3</span> 悬浮浮动</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-4')">旋转进入</button>
+                <div class="style-label"><span class="style-number">#4</span> 旋转3D</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-5')">折叠效果</button>
+                <div class="style-label"><span class="style-number">#5</span> 垂直折叠</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-6')">倾斜滑入</button>
+                <div class="style-label"><span class="style-number">#6</span> 斜向滑入</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-7')">3D翻转卡片</button>
+                <div class="style-label"><span class="style-number">#7</span> 卡片翻转</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-8')">翻页效果</button>
+                <div class="style-label"><span class="style-number">#8</span> 翻页动画</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-9')">深度透视</button>
+                <div class="style-label"><span class="style-number">#9</span> 景深效果</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-10')">扭曲进入</button>
+                <div class="style-label"><span class="style-number">#10</span> 扭曲动画</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">发光效果 (11-20)</h2>
+        <div class="button-grid">
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-11')">霓虹发光</button>
+                <div class="style-label"><span class="style-number">#11</span> 霓虹脉冲</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-12')">脉冲光晕</button>
+                <div class="style-label"><span class="style-number">#12</span> 双层脉冲</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-13')">渐变光</button>
+                <div class="style-label"><span class="style-number">#13</span> 内发光</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-14')">彩色边框</button>
+                <div class="style-label"><span class="style-number">#14</span> 彩虹边框</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-15')">霓虹管效果</button>
+                <div class="style-label"><span class="style-number">#15</span> 双层霓虹</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-16')">呼吸光效</button>
+                <div class="style-label"><span class="style-number">#16</span> 呼吸动画</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-17')">外发光</button>
+                <div class="style-label"><span class="style-number">#17</span> 外发光效</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-18')">内发光</button>
+                <div class="style-label"><span class="style-number">#18</span> 内发光效</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-19')">双层光晕</button>
+                <div class="style-label"><span class="style-number">#19</span> 多层光晕</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-20')">动态光效</button>
+                <div class="style-label"><span class="style-number">#20</span> 旋转光效</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">动画效果 (21-30)</h2>
+        <div class="button-grid">
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-21')">缩放弹跳</button>
+                <div class="style-label"><span class="style-number">#21</span> 弹性缩放</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-22')">滑入效果</button>
+                <div class="style-label"><span class="style-number">#22</span> 顶部滑入</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-23')">弹性效果</button>
+                <div class="style-label"><span class="style-number">#23</span> 弹性放大</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-24')">旋转缩放</button>
+                <div class="style-label"><span class="style-number">#24</span> 旋转缩放</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-25')">淡入缩放</button>
+                <div class="style-label"><span class="style-number">#25</span> 渐变缩放</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-26')">左右展开</button>
+                <div class="style-label"><span class="style-number">#26</span> 水平展开</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-27')">上下展开</button>
+                <div class="style-label"><span class="style-number">#27</span> 垂直展开</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-28')">组合动画</button>
+                <div class="style-label"><span class="style-number">#28</span> 组合效果</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-29')">弹性摇晃</button>
+                <div class="style-label"><span class="style-number">#29</span> 左右摇晃</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="CandyModal.open('modal-30')">终极3D</button>
+                <div class="style-label"><span class="style-number">#30</span> 终极3D效果</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">API 示例</h2>
+        <div class="button-grid">
+            <div class="button-item">
+                <button class="trigger-btn" onclick="showConfirm()">确认对话框</button>
+                <div class="style-label">CandyModal.confirm()</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="showAlert()">警告框</button>
+                <div class="style-label">CandyModal.alert()</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="showPrompt()">输入对话框</button>
+                <div class="style-label">CandyModal.prompt()</div>
+            </div>
+            <div class="button-item">
+                <button class="trigger-btn" onclick="showDynamic()">动态创建</button>
+                <div class="style-label">CandyModal.create()</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 模态框 1-10 -->
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-1" id="modal-1">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">全息效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有全息3D翻转效果的模态框。使用了透视变换和渐变背景，营造出科幻感的视觉效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-2" id="modal-2">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">透视悬浮</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有透视悬浮效果的模态框。3D变换让模态框看起来像是悬浮在页面上方。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-3" id="modal-3">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">悬浮效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有悬浮动画效果的模态框。打开后会有轻微的上下浮动效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-4" id="modal-4">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">旋转进入</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有3D旋转效果的模态框。从斜角方向旋转进入视线。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-5" id="modal-5">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">折叠效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有垂直折叠动画效果的模态框。从顶部向下展开。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-6" id="modal-6">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">倾斜滑入</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有倾斜滑入效果的模态框。从左向右倾斜滑入。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-7" id="modal-7">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">3D翻转卡片</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有卡片翻转效果的模态框。3D翻转动画。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-8" id="modal-8">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">翻页效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有翻页动画效果的模态框。从左侧像翻书一样翻开。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-9" id="modal-9">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">深度透视</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有深度透视效果的模态框。强烈的3D景深效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-10" id="modal-10">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">扭曲进入</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有扭曲动画效果的模态框。模糊到清晰的过渡。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 模态框 11-20 -->
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-11" id="modal-11">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">霓虹发光</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有霓虹发光脉冲效果的模态框。边框会有呼吸般的发光动画。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-12" id="modal-12">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">脉冲光晕</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有双层脉冲光晕效果的模态框。两层光晕交替脉冲。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-13" id="modal-13">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">渐变光</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有渐变内发光效果的模态框。标题有发光效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-14" id="modal-14">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">彩色边框</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有彩虹渐变边框效果的模态框。边框颜色会动态变化。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-15" id="modal-15">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">霓虹管效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有霓虹管发光效果的模态框。多层发光边框。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-16" id="modal-16">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">呼吸光效</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有呼吸光效的模态框。阴影会像呼吸一样变化。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-17" id="modal-17">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">外发光</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有外发光效果的模态框。紫罗兰色的外发光。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-18" id="modal-18">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">内发光</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有内发光效果的模态框。内部渐变发光。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-19" id="modal-19">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">双层光晕</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有多层光晕的模态框。多种颜色叠加。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-20" id="modal-20">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">动态光效</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有动态旋转光效的模态框。背景有旋转的渐变光。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 模态框 21-30 -->
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-21" id="modal-21">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">缩放弹跳</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有弹跳缩放动画的模态框。打开时会有弹性效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-22" id="modal-22">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">滑入效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有顶部滑入动画的模态框。从上方滑入。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-23" id="modal-23">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">弹性效果</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有弹性放大动画的模态框。打开时从大变小。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-24" id="modal-24">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">旋转缩放</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有3D旋转缩放动画的模态框。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-25" id="modal-25">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">淡入缩放</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有淡入缩放动画的模态框。透明度变化。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-26" id="modal-26">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">左右展开</div>
+            <div class="candy-modal-body">
+                <p>这是一个从左向右展开的模态框。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-27" id="modal-27">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">上下展开</div>
+            <div class="candy-modal-body">
+                <p>这是一个从上向下展开的模态框。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-28" id="modal-28">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">组合动画</div>
+            <div class="candy-modal-body">
+                <p>这是一个组合动画的模态框。多个动画效果组合。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-29" id="modal-29">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">弹性摇晃</div>
+            <div class="candy-modal-body">
+                <p>这是一个带有弹性摇晃动画的模态框。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="candy-modal-overlay">
+        <div class="candy-modal modal-30" id="modal-30">
+            <button class="candy-modal-close">×</button>
+            <div class="candy-modal-header">终极3D</div>
+            <div class="candy-modal-body">
+                <p>这是一个终极3D动画效果的模态框。综合了透视、旋转和缩放效果。</p>
+            </div>
+            <div class="candy-modal-footer">
+                <button class="candy-modal-btn-primary">确定</button>
+                <button class="candy-modal-btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="candy-modal.js"></script>
+    <script>
+        // API 示例函数
+        function showConfirm() {
+            CandyModal.confirm({
+                title: '确认操作',
+                message: '确定要删除这个项目吗？此操作无法撤销。',
+                confirmText: '删除',
+                cancelText: '取消',
+                onConfirm: () => {
+                    console.log('用户确认删除');
+                },
+                onCancel: () => {
+                    console.log('用户取消操作');
+                }
+            });
+        }
+        
+        function showAlert() {
+            CandyModal.alert({
+                title: '操作成功',
+                message: '您的操作已成功完成！',
+                buttonText: '好的',
+                type: 'success'
+            });
+        }
+        
+        function showPrompt() {
+            CandyModal.prompt({
+                title: '请输入',
+                message: '请输入您的用户名：',
+                placeholder: '用户名',
+                defaultValue: '',
+                confirmText: '提交',
+                cancelText: '取消',
+                onConfirm: (value) => {
+                    console.log('用户输入:', value);
+                }
+            });
+        }
+        
+        function showDynamic() {
+            const modal = CandyModal.create({
+                title: '动态创建的模态框',
+                content: '<p>这是一个通过JavaScript动态创建的模态框！</p><p>可以自定义各种内容和样式。</p>',
+                footer: '<button class="candy-modal-btn-primary" onclick="CandyModal.close(this.closest(\'.candy-modal-overlay\').querySelector(\'.candy-modal\'))">关闭</button>',
+                style: 'modal-21',
+                onOpen: () => {
+                    console.log('模态框已打开');
+                },
+                onClose: () => {
+                    console.log('模态框已关闭');
+                }
+            });
+        }
+        
+        // 初始化所有模态框
+        document.querySelectorAll('.candy-modal').forEach(modal => {
+            CandyModal.init(modal);
+        });
+    </script>
+</body>
+</html>

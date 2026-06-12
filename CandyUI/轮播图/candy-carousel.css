@@ -1,0 +1,1350 @@
+/* ============================================
+   CandyUI - 轮播图组件样式
+   30种精美样式：3D效果 + 发光效果 + 动画效果
+   ============================================ */
+
+:root {
+    /* 轮播图主题变量 */
+    --candy-carousel-primary: #667eea;
+    --candy-carousel-success: #10b981;
+    --candy-carousel-warning: #f59e0b;
+    --candy-carousel-danger: #ef4444;
+    --candy-carousel-info: #3b82f6;
+    --candy-carousel-purple: #8b5cf6;
+    --candy-carousel-pink: #ec4899;
+    --candy-carousel-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --candy-carousel-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --candy-carousel-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --candy-carousel-gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --candy-carousel-gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ============================================
+   基础样式 - 样式1-5
+   ============================================ */
+
+/* 样式1：简洁基础 */
+.candy-carousel-1 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-1 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-1 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+.candy-carousel-1 .carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.candy-carousel-1 .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.candy-carousel-1 .carousel-dot.active {
+    background: #fff;
+    transform: scale(1.2);
+}
+
+/* 样式2：带箭头 */
+.candy-carousel-2 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #1a1a2e;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.candy-carousel-2 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-2 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+.candy-carousel-2 .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 24px;
+    color: #fff;
+}
+
+.candy-carousel-2 .carousel-arrow:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.candy-carousel-2 .carousel-arrow.prev {
+    left: 20px;
+}
+
+.candy-carousel-2 .carousel-arrow.next {
+    right: 20px;
+}
+
+/* 样式3：淡入淡出 */
+.candy-carousel-3 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-3 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.candy-carousel-3 .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.candy-carousel-3 .carousel-slide.active {
+    opacity: 1;
+}
+
+/* 样式4：缩放效果 */
+.candy-carousel-4 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-4 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.candy-carousel-4 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    transform: scale(0.9);
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-4 .carousel-slide.active {
+    transform: scale(1);
+}
+
+/* 样式5：进度条指示器 */
+.candy-carousel-5 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-5 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-5 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+.candy-carousel-5 .carousel-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: var(--candy-carousel-primary);
+    transition: width 0.3s ease;
+}
+
+/* ============================================
+   3D效果样式 - 样式6-10
+   ============================================ */
+
+/* 样式6：3D翻转 */
+.candy-carousel-6 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    perspective: 1000px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-6 .carousel-track {
+    display: flex;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+.candy-carousel-6 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    transform: rotateY(0deg);
+}
+
+.candy-carousel-6 .carousel-slide.active {
+    animation: flipSlide 0.8s ease forwards;
+}
+
+@keyframes flipSlide {
+    0% { transform: rotateY(-90deg) scale(0.8); opacity: 0; }
+    100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+/* 样式7：3D立方体 */
+.candy-carousel-7 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    perspective: 1000px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-7 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+.candy-carousel-7 .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    backface-visibility: hidden;
+}
+
+.candy-carousel-7 .carousel-slide:nth-child(1) { transform: translateZ(200px); }
+.candy-carousel-7 .carousel-slide:nth-child(2) { transform: rotateY(90deg) translateZ(200px); }
+.candy-carousel-7 .carousel-slide:nth-child(3) { transform: rotateY(180deg) translateZ(200px); }
+
+/* 样式8：3D视差 */
+.candy-carousel-8 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    perspective: 1000px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-8 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s ease;
+}
+
+.candy-carousel-8 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    position: relative;
+}
+
+.candy-carousel-8 .carousel-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, transparent 50%);
+    transform: translateZ(-100px);
+    transition: transform 0.7s ease;
+}
+
+.candy-carousel-8 .carousel-slide.active::before {
+    transform: translateZ(0);
+}
+
+/* 样式9：3D悬浮卡片 */
+.candy-carousel-9 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: transparent;
+    perspective: 1000px;
+}
+
+.candy-carousel-9 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-9 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    background: var(--candy-carousel-gradient-1);
+    border-radius: 20px;
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.3),
+        -10px -10px 30px rgba(255, 255, 255, 0.1);
+    transform: translateZ(-50px) rotateX(10deg);
+    transition: all 0.6s ease;
+}
+
+.candy-carousel-9 .carousel-slide.active {
+    transform: translateZ(0) rotateX(0deg);
+}
+
+/* 样式10：3D堆叠 */
+.candy-carousel-10 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    perspective: 1000px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-10 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.candy-carousel-10 .carousel-slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    margin: -40% 0 0 -40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    border-radius: 16px;
+    opacity: 0;
+    transform: translateZ(-200px) rotateX(20deg);
+    transition: all 0.6s ease;
+}
+
+.candy-carousel-10 .carousel-slide.active {
+    opacity: 1;
+    transform: translateZ(0) rotateX(0deg);
+}
+
+/* ============================================
+   发光效果样式 - 样式11-15
+   ============================================ */
+
+/* 样式11：霓虹发光 */
+.candy-carousel-11 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #0f0f1a;
+}
+
+.candy-carousel-11::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00d9ff, #00ff88, #00d9ff, #00ff88);
+    border-radius: 22px;
+    z-index: -1;
+    animation: neonCarousel 3s linear infinite;
+    filter: blur(5px);
+}
+
+@keyframes neonCarousel {
+    0% { filter: blur(5px) hue-rotate(0deg); }
+    100% { filter: blur(5px) hue-rotate(360deg); }
+}
+
+.candy-carousel-11 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-11 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #00d9ff;
+    text-shadow: 0 0 20px #00d9ff;
+}
+
+/* 样式12：紫色光晕 */
+.candy-carousel-12 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: radial-gradient(circle at center, #2d1b4e 0%, #0f0f1a 100%);
+}
+
+.candy-carousel-12::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.8s ease;
+}
+
+.candy-carousel-12:hover::before {
+    width: 150%;
+    height: 150%;
+}
+
+.candy-carousel-12 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-12 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #a78bfa;
+    text-shadow: 0 0 30px rgba(139, 92, 246, 0.8);
+}
+
+/* 样式13：粉色光晕 */
+.candy-carousel-13 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 
+        0 0 30px rgba(236, 72, 153, 0.2),
+        0 0 60px rgba(236, 72, 153, 0.1);
+    transition: all 0.5s ease;
+}
+
+.candy-carousel-13:hover {
+    box-shadow: 
+        0 0 50px rgba(236, 72, 153, 0.4),
+        0 0 100px rgba(236, 72, 153, 0.2);
+}
+
+.candy-carousel-13 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-13 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #ec4899;
+    background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+}
+
+/* 样式14：金色发光 */
+.candy-carousel-14 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: linear-gradient(145deg, #fffbeb, #fef3c7);
+}
+
+.candy-carousel-14 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-14 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #f59e0b;
+    text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+}
+
+.candy-carousel-14 .carousel-dot {
+    background: #f59e0b;
+}
+
+/* 样式15：彩虹边框 */
+.candy-carousel-15 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-15::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 3px;
+    background: linear-gradient(45deg, 
+        #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b);
+    background-size: 400% 400%;
+    animation: rainbowBorder 4s linear infinite;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+@keyframes rainbowBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.candy-carousel-15 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-15 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+/* ============================================
+   动画效果样式 - 样式16-20
+   ============================================ */
+
+/* 样式16：脉冲动画 */
+.candy-carousel-16 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--candy-carousel-gradient-1);
+    animation: carouselPulse 3s ease-in-out infinite;
+}
+
+@keyframes carouselPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 0 0 30px rgba(102, 126, 234, 0); }
+}
+
+.candy-carousel-16 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-16 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+/* 样式17：弹跳动画 */
+.candy-carousel-17 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--candy-carousel-gradient-2);
+}
+
+.candy-carousel-17 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.candy-carousel-17 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    animation: slideBounce 0.8s ease;
+}
+
+@keyframes slideBounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 样式18：旋转动画 */
+.candy-carousel-18 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--candy-carousel-gradient-3);
+}
+
+.candy-carousel-18 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-18 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+/* 样式19：闪烁指示器 */
+.candy-carousel-19 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #0f172a;
+}
+
+.candy-carousel-19 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-19 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fbbf24;
+    text-shadow: 0 0 20px #fbbf24;
+}
+
+.candy-carousel-19 .carousel-dot {
+    background: #fbbf24;
+    animation: dotSparkle 1.5s ease-in-out infinite;
+}
+
+.candy-carousel-19 .carousel-dot.active {
+    animation: dotSparkle 0.5s ease-in-out infinite;
+}
+
+@keyframes dotSparkle {
+    0%, 100% { opacity: 0.5; box-shadow: 0 0 5px currentColor; }
+    50% { opacity: 1; box-shadow: 0 0 15px currentColor; }
+}
+
+/* 样式20：波浪动画 */
+.candy-carousel-20 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: var(--candy-carousel-gradient-4);
+}
+
+.candy-carousel-20::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,160L48,144C96,128,192,96,288,90.7C384,85,480,107,576,122.7C672,139,768,149,864,138.7C960,128,1056,96,1152,85.3C1248,75,1344,85,1392,90.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+    animation: waveMove 5s linear infinite;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(50%); }
+}
+
+.candy-carousel-20 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-20 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   复杂组合样式 - 样式21-25
+   ============================================ */
+
+/* 样式21：毛玻璃效果 */
+.candy-carousel-21 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.candy-carousel-21 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-21 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+}
+
+/* 样式22：科技风格 */
+.candy-carousel-22 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.candy-carousel-22::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+    animation: techScan 2s linear infinite;
+    z-index: 10;
+}
+
+@keyframes techScan {
+    0% { top: 0; opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { top: 100%; opacity: 1; }
+}
+
+.candy-carousel-22 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-22 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #00d9ff;
+    text-shadow: 0 0 20px #00d9ff;
+}
+
+/* 样式23：阴影深度 */
+.candy-carousel-23 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #1a1a2e;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(102, 126, 234, 0.2);
+}
+
+.candy-carousel-23 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-23 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+/* 样式24：柔和阴影 */
+.candy-carousel-24 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 40px;
+    background: var(--candy-carousel-gradient-5);
+}
+
+.candy-carousel-24 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.6s ease;
+}
+
+.candy-carousel-24 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+}
+
+/* 样式25：扁平化 */
+.candy-carousel-25 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 0;
+    background: #f8fafc;
+}
+
+.candy-carousel-25 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.candy-carousel-25 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #1e293b;
+}
+
+/* ============================================
+   高级3D样式 - 样式26-30
+   ============================================ */
+
+/* 样式26：全屏3D翻转 */
+.candy-carousel-26 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    perspective: 1500px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-26 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.candy-carousel-26 .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    backface-visibility: hidden;
+}
+
+.candy-carousel-26 .carousel-slide.active {
+    animation: fullFlip 1s ease forwards;
+}
+
+@keyframes fullFlip {
+    0% { transform: rotateX(-90deg) scale(0.8); opacity: 0; }
+    100% { transform: rotateX(0deg) scale(1); opacity: 1; }
+}
+
+/* 样式27：卡片堆叠 */
+.candy-carousel-27 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    perspective: 1000px;
+    background: #1a1a2e;
+}
+
+.candy-carousel-27 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.candy-carousel-27 .carousel-slide {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: translateZ(-100px) scale(0.8);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.candy-carousel-27 .carousel-slide.active {
+    transform: translateZ(0) scale(1);
+    opacity: 1;
+}
+
+/* 样式28：隧道效果 */
+.candy-carousel-28 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    perspective: 1000px;
+    background: #0f0f1a;
+}
+
+.candy-carousel-28 .carousel-track {
+    display: flex;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+.candy-carousel-28 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    transform: translateZ(-300px) scale(0.5);
+    transition: transform 0.8s ease;
+}
+
+.candy-carousel-28 .carousel-slide.active {
+    transform: translateZ(0) scale(1);
+}
+
+/* 样式29：旋转木马 */
+.candy-carousel-29 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 24px;
+    perspective: 1200px;
+    background: linear-gradient(145deg, #1a1a2e, #2d2d44);
+}
+
+.candy-carousel-29 .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+.candy-carousel-29 .carousel-slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 70%;
+    margin: -35% 0 0 -30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    opacity: 0.4;
+    transform: translateZ(-400px) rotateY(45deg);
+    transition: all 0.6s ease;
+}
+
+.candy-carousel-29 .carousel-slide.active {
+    opacity: 1;
+    transform: translateZ(0) rotateY(0deg);
+    box-shadow: 0 30px 80px rgba(102, 126, 234, 0.4);
+}
+
+/* 样式30：终极3D效果 */
+.candy-carousel-30 {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 32px;
+    perspective: 2000px;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        30px 30px 60px rgba(0, 0, 0, 0.2),
+        -30px -30px 60px rgba(255, 255, 255, 0.9);
+    transform: rotateX(5deg);
+    transition: all 0.6s ease;
+}
+
+.candy-carousel-30:hover {
+    transform: rotateX(0deg) scale(1.02);
+    box-shadow: 
+        40px 40px 80px rgba(102, 126, 234, 0.3),
+        -30px -30px 60px rgba(255, 255, 255, 0.9);
+}
+
+.candy-carousel-30 .carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.candy-carousel-30 .carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #fff;
+    background: var(--candy-carousel-gradient-1);
+}
+
+.candy-carousel-30 .carousel-slide:nth-child(2) {
+    background: var(--candy-carousel-gradient-2);
+}
+
+.candy-carousel-30 .carousel-slide:nth-child(3) {
+    background: var(--candy-carousel-gradient-3);
+}
+
+/* ============================================
+   通用指示器样式
+   ============================================ */
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.carousel-dot.active {
+    background: #fff;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    color: #fff;
+    z-index: 10;
+}
+
+.carousel-arrow:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.prev {
+    left: 20px;
+}
+
+.carousel-arrow.next {
+    right: 20px;
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+@media (max-width: 768px) {
+    .candy-carousel-1,
+    .candy-carousel-2,
+    .candy-carousel-3,
+    .candy-carousel-4,
+    .candy-carousel-5,
+    .candy-carousel-6,
+    .candy-carousel-7,
+    .candy-carousel-8,
+    .candy-carousel-9,
+    .candy-carousel-10,
+    .candy-carousel-11,
+    .candy-carousel-12,
+    .candy-carousel-13,
+    .candy-carousel-14,
+    .candy-carousel-15,
+    .candy-carousel-16,
+    .candy-carousel-17,
+    .candy-carousel-18,
+    .candy-carousel-19,
+    .candy-carousel-20,
+    .candy-carousel-21,
+    .candy-carousel-22,
+    .candy-carousel-23,
+    .candy-carousel-24,
+    .candy-carousel-25,
+    .candy-carousel-26,
+    .candy-carousel-27,
+    .candy-carousel-28,
+    .candy-carousel-29,
+    .candy-carousel-30 {
+        height: 250px;
+    }
+
+    .carousel-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .carousel-arrow.prev {
+        left: 10px;
+    }
+
+    .carousel-arrow.next {
+        right: 10px;
+    }
+}

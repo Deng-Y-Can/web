@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 图片上传组件</title>
+    <link rel="stylesheet" href="candy-image-upload.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(102, 126, 234, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .demo-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .demo-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+        }
+
+        .demo-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .upload-wrapper {
+            position: relative;
+        }
+
+        /* 添加拖拽高亮样式 */
+        .drag-over {
+            border-color: #667eea !important;
+            background: rgba(102, 126, 234, 0.1) !important;
+        }
+
+        /* 3D卡片样式 */
+        .demo-3d {
+            perspective: 1000px;
+        }
+
+        .demo-3d-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .demo-3d:hover .demo-3d-inner {
+            transform: rotateY(10deg) rotateX(5deg);
+        }
+
+        /* 发光效果 */
+        .glow-border {
+            position: relative;
+        }
+
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow-border:hover::after {
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📤 CandyUI 图片上传组件</h1>
+            <p class="subtitle">30种精美样式 · 3D效果 · 发光效果 · 动画效果</p>
+        </header>
+
+        <!-- 基础样式 -->
+        <section class="section">
+            <h2 class="section-title">基础样式 (1-5)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式1：简洁基础</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-1" class="candy-upload-1">
+                            <div class="upload-icon">📤</div>
+                            <div class="upload-text">点击或拖拽上传图片</div>
+                            <div class="upload-hint">支持 JPG, PNG, GIF, WebP 格式</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式2：卡片式</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-2" class="candy-upload-2">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">选择文件上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式3：玻璃态</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-3" class="candy-upload-3">
+                            <div class="upload-icon">☁️</div>
+                            <div class="upload-text">拖拽文件到此处</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式4：边框动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-4" class="candy-upload-4">
+                            <div class="upload-icon">🚀</div>
+                            <div class="upload-text">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式5：渐变背景</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-5" class="candy-upload-5">
+                            <div class="upload-icon">⚡</div>
+                            <div class="upload-text">快速上传</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D效果样式 -->
+        <section class="section">
+            <h2 class="section-title">3D效果样式 (6-10)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式6：3D突出</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-6" class="candy-upload-6">
+                            <div class="upload-icon">🎯</div>
+                            <div class="upload-text">点击上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式7：3D翻转</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-7" class="candy-upload-7">
+                            <div class="upload-icon">🔄</div>
+                            <div class="upload-text">拖拽上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式8：3D悬浮</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-8" class="candy-upload-8">
+                            <div class="upload-icon">🎪</div>
+                            <div class="upload-text">选择图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式9：3D倾斜</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-9" class="candy-upload-9">
+                            <div class="upload-icon">✨</div>
+                            <div class="upload-text">上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式10：3D折叠</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-10" class="candy-upload-10">
+                            <div class="upload-icon">📑</div>
+                            <div class="upload-text">选择文件</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 发光效果样式 -->
+        <section class="section">
+            <h2 class="section-title">发光效果样式 (11-15)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式11：霓虹发光</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-11" class="candy-upload-11">
+                            <div class="upload-icon">💡</div>
+                            <div class="upload-text">上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式12：紫色光晕</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-12" class="candy-upload-12">
+                            <div class="upload-icon">🔮</div>
+                            <div class="upload-text">拖拽上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式13：粉色光晕</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-13" class="candy-upload-13">
+                            <div class="upload-icon">💖</div>
+                            <div class="upload-text">选择图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式14：金色发光</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-14" class="candy-upload-14">
+                            <div class="upload-icon">👑</div>
+                            <div class="upload-text">上传文件</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式15：彩虹光晕</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-15" class="candy-upload-15">
+                            <div class="upload-icon">🌈</div>
+                            <div class="upload-text">选择文件</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 动画效果样式 -->
+        <section class="section">
+            <h2 class="section-title">动画效果样式 (16-20)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式16：脉冲动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-16" class="candy-upload-16">
+                            <div class="upload-icon">📡</div>
+                            <div class="upload-text">上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式17：弹跳动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-17" class="candy-upload-17">
+                            <div class="upload-icon">🎾</div>
+                            <div class="upload-text">开始上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式18：旋转动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-18" class="candy-upload-18">
+                            <div class="upload-icon">🔁</div>
+                            <div class="upload-text">拖拽上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式19：闪烁动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-19" class="candy-upload-19">
+                            <div class="upload-icon">⭐</div>
+                            <div class="upload-text">选择文件</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式20：波浪动画</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-20" class="candy-upload-20">
+                            <div class="upload-icon">🌊</div>
+                            <div class="upload-text">上传文件</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 复杂组合样式 -->
+        <section class="section">
+            <h2 class="section-title">复杂组合样式 (21-25)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式21：3D+发光组合</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-21" class="candy-upload-21">
+                            <div class="upload-icon">🎨</div>
+                            <div class="upload-text">上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式22：科技风格</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-22" class="candy-upload-22">
+                            <div class="upload-icon">🤖</div>
+                            <div class="upload-text">智能上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式23：玻璃拟态</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-23" class="candy-upload-23">
+                            <div class="upload-icon">🪟</div>
+                            <div class="upload-text">拖拽上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式24：柔和渐变</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-24" class="candy-upload-24">
+                            <div class="upload-icon">🎀</div>
+                            <div class="upload-text">选择图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式25：复古风格</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-25" class="candy-upload-25">
+                            <div class="upload-icon">📜</div>
+                            <div class="upload-text">上传文件</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 高级3D样式 -->
+        <section class="section">
+            <h2 class="section-title">高级3D样式 (26-30)</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-title">样式26：悬停翻转</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-26" class="candy-upload-26">
+                            <div class="candy-upload-26-inner">
+                                <div class="candy-upload-26-front">
+                                    <div class="upload-icon">🔃</div>
+                                    <div class="upload-text">悬停查看背面</div>
+                                </div>
+                                <div class="candy-upload-26-back">
+                                    <div class="upload-icon">✅</div>
+                                    <div class="upload-text">点击上传</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式27：折叠效果</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-27" class="candy-upload-27">
+                            <div class="upload-icon">📐</div>
+                            <div class="upload-text">上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式28：光泽流动</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-28" class="candy-upload-28">
+                            <div class="upload-icon">🌟</div>
+                            <div class="upload-text">拖拽上传</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式29：星尘效果</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-29" class="candy-upload-29">
+                            <div class="upload-icon">✨</div>
+                            <div class="upload-text">选择图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-item">
+                    <div class="demo-title">样式30：终极3D效果</div>
+                    <div class="upload-wrapper">
+                        <div id="upload-30" class="candy-upload-30">
+                            <div class="upload-icon">💎</div>
+                            <div class="upload-text">上传文件</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>CandyUI 图片上传组件 · 30种精美样式 · 强大的交互功能</p>
+        </footer>
+    </div>
+
+    <script src="candy-image-upload.js"></script>
+    <script>
+        // 初始化所有图片上传组件
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化所有30种样式
+            for (let i = 1; i <= 30; i++) {
+                const element = document.getElementById(`upload-${i}`);
+                if (element) {
+                    new CandyImageUpload(element, {
+                        multiple: true,
+                        maxFiles: 10,
+                        preview: true,
+                        dragAndDrop: true
+                    });
+                }
+            }
+
+            // 样式26的特殊处理（翻转卡片）
+            const upload26 = document.getElementById('upload-26');
+            if (upload26) {
+                const inner = upload26.querySelector('.candy-upload-26-inner');
+                upload26.addEventListener('click', () => {
+                    inner.style.transform = inner.style.transform === 'rotateY(180deg)' 
+                        ? 'rotateY(0deg)' 
+                        : 'rotateY(180deg)';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

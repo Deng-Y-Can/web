@@ -1,0 +1,1639 @@
+/* ============================================
+   CandyUI - 日期选择器组件样式
+   30种精美样式：3D效果 + 发光效果 + 动画效果
+   ============================================ */
+
+:root {
+    /* 日期选择器主题变量 */
+    --candy-datepicker-primary: #667eea;
+    --candy-datepicker-success: #10b981;
+    --candy-datepicker-warning: #f59e0b;
+    --candy-datepicker-danger: #ef4444;
+    --candy-datepicker-info: #3b82f6;
+    --candy-datepicker-purple: #8b5cf6;
+    --candy-datepicker-pink: #ec4899;
+    --candy-datepicker-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --candy-datepicker-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --candy-datepicker-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --candy-datepicker-gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --candy-datepicker-gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ============================================
+   基础样式 - 样式1-5
+   ============================================ */
+
+/* 样式1：简洁基础 */
+.candy-datepicker-1 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-1 .datepicker-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.candy-datepicker-1 .datepicker-input:focus {
+    outline: none;
+    border-color: var(--candy-datepicker-primary);
+}
+
+.candy-datepicker-1 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-1.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式2：卡片式 */
+.candy-datepicker-2 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-2 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-2 .datepicker-input:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.candy-datepicker-2 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-2.open .datepicker-dropdown {
+    display: block;
+    animation: dropdownSlide 0.3s ease;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 样式3：玻璃态 */
+.candy-datepicker-3 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-3 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-3 .datepicker-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.candy-datepicker-3 .datepicker-input:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.candy-datepicker-3 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-3.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式4：边框动画 */
+.candy-datepicker-4 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-4 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-4 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--candy-datepicker-primary);
+    transition: width 0.3s ease;
+}
+
+.candy-datepicker-4 .datepicker-input:focus::before {
+    width: 100%;
+}
+
+.candy-datepicker-4 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+    padding: 20px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-4.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式5：渐变背景 */
+.candy-datepicker-5 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-5 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-1);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-5 .datepicker-input:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.candy-datepicker-5 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-5.open .datepicker-dropdown {
+    display: block;
+}
+
+/* ============================================
+   3D效果样式 - 样式6-10
+   ============================================ */
+
+/* 样式6：3D突出 */
+.candy-datepicker-6 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-6 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        8px 8px 16px rgba(0, 0, 0, 0.1),
+        -8px -8px 16px rgba(255, 255, 255, 0.8);
+    transform: perspective(500px) rotateX(5deg);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-6 .datepicker-input:focus {
+    transform: perspective(500px) rotateX(0deg) translateY(-5px);
+    box-shadow: 
+        12px 12px 24px rgba(0, 0, 0, 0.15),
+        -8px -8px 16px rgba(255, 255, 255, 0.9);
+}
+
+.candy-datepicker-6 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 
+        15px 15px 40px rgba(0, 0, 0, 0.15),
+        -10px -10px 30px rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+    transform: perspective(1000px) rotateX(10deg);
+    transform-origin: top center;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-6.open .datepicker-dropdown {
+    display: block;
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+/* 样式7：3D翻转 */
+.candy-datepicker-7 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+    perspective: 1000px;
+}
+
+.candy-datepicker-7 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        8px 8px 16px rgba(0, 0, 0, 0.1),
+        -8px -8px 16px rgba(255, 255, 255, 0.8);
+    transition: all 0.5s ease;
+}
+
+.candy-datepicker-7.open .datepicker-input {
+    transform: rotateX(-90deg);
+    opacity: 0;
+}
+
+.candy-datepicker-7 .datepicker-dropdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 
+        15px 15px 40px rgba(0, 0, 0, 0.15),
+        -10px -10px 30px rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+    transform: rotateX(90deg);
+    transform-origin: bottom center;
+    transition: all 0.5s ease;
+}
+
+.candy-datepicker-7.open .datepicker-dropdown {
+    display: block;
+    transform: rotateX(0deg);
+}
+
+/* 样式8：3D悬浮 */
+.candy-datepicker-8 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-8 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #f0f0f5);
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.1),
+        -20px -20px 60px rgba(255, 255, 255, 0.8);
+    transform: perspective(1000px) translateZ(-30px);
+    transition: all 0.4s ease;
+}
+
+.candy-datepicker-8 .datepicker-input:hover {
+    transform: perspective(1000px) translateZ(0);
+}
+
+.candy-datepicker-8 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 20px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        30px 30px 80px rgba(0, 0, 0, 0.15),
+        -20px -20px 60px rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-8.open .datepicker-dropdown {
+    display: block;
+    animation: floatDropdown 0.4s ease;
+}
+
+@keyframes floatDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 样式9：3D倾斜 */
+.candy-datepicker-9 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-9 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-1);
+    color: #fff;
+    transform: perspective(500px) rotate(-2deg);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-9 .datepicker-input:hover {
+    transform: perspective(500px) rotate(0deg) scale(1.05);
+}
+
+.candy-datepicker-9 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 
+        15px 15px 40px rgba(102, 126, 234, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-9.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式10：3D折叠 */
+.candy-datepicker-10 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-10 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        4px 4px 12px rgba(0, 0, 0, 0.1),
+        -4px -4px 12px rgba(255, 255, 255, 0.8);
+    transform: perspective(500px) rotateX(15deg);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-10 .datepicker-input:hover {
+    transform: perspective(500px) rotateX(0deg) translateY(-5px);
+}
+
+.candy-datepicker-10 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 
+        10px 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-10.open .datepicker-dropdown {
+    display: block;
+}
+
+/* ============================================
+   发光效果样式 - 样式11-15
+   ============================================ */
+
+/* 样式11：霓虹发光 */
+.candy-datepicker-11 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-11 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #00d9ff;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #0f0f1a;
+    color: #00d9ff;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-11 .datepicker-input:focus {
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+}
+
+.candy-datepicker-11 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #0f0f1a;
+    border: 2px solid #00d9ff;
+    border-radius: 12px;
+    box-shadow: 0 0 40px rgba(0, 217, 255, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-11.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式12：紫色光晕 */
+.candy-datepicker-12 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-12 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: radial-gradient(circle at 30% 30%, #2d1b4e, #0f0f1a);
+    color: #a78bfa;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-12 .datepicker-input:hover {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+}
+
+.candy-datepicker-12 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #1a1a2e;
+    border-radius: 20px;
+    box-shadow: 0 0 60px rgba(139, 92, 246, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-12.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式13：粉色光晕 */
+.candy-datepicker-13 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-13 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-13 .datepicker-input:hover {
+    box-shadow: 
+        0 0 30px rgba(236, 72, 153, 0.3),
+        0 0 60px rgba(236, 72, 153, 0.2);
+}
+
+.candy-datepicker-13 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(236, 72, 153, 0.2);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-13.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式14：金色发光 */
+.candy-datepicker-14 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-14 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #fffbeb, #fef3c7);
+    color: #f59e0b;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-14 .datepicker-input:hover {
+    box-shadow: 
+        0 0 40px rgba(245, 158, 11, 0.4),
+        0 0 80px rgba(245, 158, 11, 0.2);
+}
+
+.candy-datepicker-14 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fffbeb;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(245, 158, 11, 0.2);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-14.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式15：彩虹光晕 */
+.candy-datepicker-15 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-15 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-15 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(
+        from 0deg,
+        #ff6b6b, #feca57, #48dbfb, #ff9ff3, #ff6b6b
+    );
+    border-radius: 22px;
+    z-index: -1;
+    animation: rainbowRotate 4s linear infinite;
+    filter: blur(5px);
+}
+
+@keyframes rainbowRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.candy-datepicker-15 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 16px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(102, 126, 234, 0.2);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-15.open .datepicker-dropdown {
+    display: block;
+}
+
+/* ============================================
+   动画效果样式 - 样式16-20
+   ============================================ */
+
+/* 样式16：脉冲动画 */
+.candy-datepicker-16 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-16 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-1);
+    color: #fff;
+    animation: datepickerPulse 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+@keyframes datepickerPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(102, 126, 234, 0); }
+}
+
+.candy-datepicker-16 .datepicker-input:hover {
+    animation: none;
+    transform: scale(1.02);
+}
+
+.candy-datepicker-16 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(102, 126, 234, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-16.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式17：弹跳动画 */
+.candy-datepicker-17 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-17 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-2);
+    color: #fff;
+    animation: datepickerBounce 1s ease-in-out infinite;
+}
+
+@keyframes datepickerBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.candy-datepicker-17.open .datepicker-input {
+    animation: none;
+}
+
+.candy-datepicker-17 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(240, 147, 251, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-17.open .datepicker-dropdown {
+    display: block;
+    animation: dropdownBounce 0.4s ease;
+}
+
+@keyframes dropdownBounce {
+    0% { transform: scale(0.8) translateY(-20px); opacity: 0; }
+    50% { transform: scale(1.05) translateY(0); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* 样式18：旋转动画 */
+.candy-datepicker-18 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-18 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 50%;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-3);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-18 .datepicker-input:hover {
+    transform: rotate(180deg);
+}
+
+.candy-datepicker-18.open .datepicker-input {
+    border-radius: 16px 16px 0 0;
+}
+
+.candy-datepicker-18 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 50px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(79, 172, 254, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-18.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式19：闪烁动画 */
+.candy-datepicker-19 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-19 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #0f172a;
+    color: #fbbf24;
+    animation: datepickerSparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes datepickerSparkle {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.8; filter: brightness(1.3); }
+}
+
+.candy-datepicker-19.open .datepicker-input {
+    animation: none;
+}
+
+.candy-datepicker-19 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #0f172a;
+    border-radius: 16px;
+    box-shadow: 
+        0 0 40px rgba(251, 191, 36, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-19.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式20：波浪动画 */
+.candy-datepicker-20 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-20 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-4);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-datepicker-20 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    animation: waveAnimation 3s ease-in-out infinite;
+}
+
+@keyframes waveAnimation {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(20px, 20px); }
+    100% { transform: translate(0, 0); }
+}
+
+.candy-datepicker-20 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(67, 233, 123, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-20.open .datepicker-dropdown {
+    display: block;
+}
+
+/* ============================================
+   复杂组合样式 - 样式21-25
+   ============================================ */
+
+/* 样式21：毛玻璃效果 */
+.candy-datepicker-21 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-21 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-21 .datepicker-input:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.candy-datepicker-21 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-21.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式22：科技风格 */
+.candy-datepicker-22 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-22 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #00d9ff;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    background: transparent;
+    color: #00d9ff;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-22 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+    animation: techLineMove 2s linear infinite;
+}
+
+@keyframes techLineMove {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.candy-datepicker-22 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #0f172a;
+    border: 2px solid #00d9ff;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-22.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式23：柔和阴影 */
+.candy-datepicker-23 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-23 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    background: var(--candy-datepicker-gradient-5);
+    color: #fff;
+    box-shadow: 
+        0 10px 30px rgba(250, 112, 154, 0.3);
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-23 .datepicker-input:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 15px 40px rgba(250, 112, 154, 0.4);
+}
+
+.candy-datepicker-23 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 16px);
+    left: 0;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 
+        0 30px 60px rgba(250, 112, 154, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-23.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式24：扁平化 */
+.candy-datepicker-24 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-24 .datepicker-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 0;
+    font-size: 14px;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-24 .datepicker-input:hover {
+    border-color: #cbd5e1;
+}
+
+.candy-datepicker-24 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 0;
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-24.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式25：复古风格 */
+.candy-datepicker-25 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-25 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 3px solid #92400e;
+    border-radius: 0;
+    font-size: 15px;
+    cursor: pointer;
+    background: #fef3c7;
+    color: #92400e;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-25 .datepicker-input:hover {
+    background: #fffbeb;
+    transform: rotate(-1deg);
+}
+
+.candy-datepicker-25 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: #fef3c7;
+    border: 3px solid #92400e;
+    border-radius: 0;
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-25.open .datepicker-dropdown {
+    display: block;
+}
+
+/* ============================================
+   高级3D样式 - 样式26-30
+   ============================================ */
+
+/* 样式26：悬停翻转 */
+.candy-datepicker-26 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+    perspective: 1000px;
+}
+
+.candy-datepicker-26 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: #fff;
+    transition: all 0.5s ease;
+}
+
+.candy-datepicker-26:hover .datepicker-input {
+    transform: rotateX(-90deg);
+}
+
+.candy-datepicker-26.open .datepicker-input {
+    transform: rotateX(-90deg);
+}
+
+.candy-datepicker-26 .datepicker-dropdown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(145deg, #10b981, #059669);
+    border-radius: 12px;
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+    transform: rotateX(90deg);
+    transform-origin: bottom center;
+    transition: all 0.5s ease;
+}
+
+.candy-datepicker-26.open .datepicker-dropdown {
+    display: block;
+    transform: rotateX(0deg);
+}
+
+/* 样式27：折叠效果 */
+.candy-datepicker-27 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-27 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #1e1e2e, #2d2d44);
+    color: #a78bfa;
+    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-27 .datepicker-input:hover {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    box-shadow: 0 10px 40px rgba(167, 139, 250, 0.4);
+}
+
+.candy-datepicker-27 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #1e1e2e;
+    border-radius: 0;
+    clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-27.open .datepicker-dropdown {
+    display: block;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* 样式28：光泽流动 */
+.candy-datepicker-28 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-28 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #1a1a2e, #2d2d44);
+    color: #667eea;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-28 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(102, 126, 234, 0.1) 50%,
+        transparent 70%
+    );
+    animation: glossyFlow 3s linear infinite;
+}
+
+@keyframes glossyFlow {
+    0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+
+.candy-datepicker-28 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 50px rgba(102, 126, 234, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-28.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式29：星尘效果 */
+.candy-datepicker-29 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-29 .datepicker-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 16px;
+    font-size: 15px;
+    cursor: pointer;
+    background: radial-gradient(circle at 30% 30%, #1e1e3f, #0f0f1a);
+    color: #a78bfa;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.candy-datepicker-29 .datepicker-input::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: starTwinkle 4s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes starTwinkle {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.3; }
+}
+
+.candy-datepicker-29 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: #0f0f1a;
+    border-radius: 20px;
+    box-shadow: 
+        0 0 50px rgba(167, 139, 250, 0.3);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-29.open .datepicker-dropdown {
+    display: block;
+}
+
+/* 样式30：终极3D效果 */
+.candy-datepicker-30 {
+    position: relative;
+    width: 300px;
+    font-family: inherit;
+}
+
+.candy-datepicker-30 .datepicker-input {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    box-shadow: 
+        20px 20px 60px rgba(0, 0, 0, 0.15),
+        -20px -20px 60px rgba(255, 255, 255, 0.9),
+        inset 0 0 60px rgba(102, 126, 234, 0.05);
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(0);
+    transition: all 0.5s ease;
+}
+
+.candy-datepicker-30 .datepicker-input:hover {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(20px);
+    box-shadow: 
+        30px 30px 80px rgba(102, 126, 234, 0.25),
+        -20px -20px 60px rgba(255, 255, 255, 0.9),
+        inset 0 0 100px rgba(102, 126, 234, 0.1);
+}
+
+.candy-datepicker-30.open .datepicker-input {
+    border-radius: 24px 24px 0 0;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+}
+
+.candy-datepicker-30 .datepicker-dropdown {
+    position: absolute;
+    top: calc(100% + 40px);
+    left: 0;
+    background: linear-gradient(145deg, #ffffff, #e6e7ec);
+    border-radius: 0 0 24px 24px;
+    box-shadow: 
+        30px 30px 80px rgba(102, 126, 234, 0.25),
+        -20px -20px 60px rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    display: none;
+    z-index: 1000;
+}
+
+.candy-datepicker-30.open .datepicker-dropdown {
+    display: block;
+    animation: ultimateDropdown 0.5s ease;
+}
+
+@keyframes ultimateDropdown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   日历通用样式
+   ============================================ */
+
+.datepicker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.datepicker-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.datepicker-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.datepicker-nav-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.datepicker-nav-btn:hover {
+    background: var(--candy-datepicker-primary);
+    color: #fff;
+}
+
+.datepicker-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.datepicker-weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #9ca3af;
+    padding: 8px 0;
+}
+
+.datepicker-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.datepicker-day {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.datepicker-day:hover {
+    background: #f3f4f6;
+}
+
+.datepicker-day.today {
+    background: var(--candy-datepicker-primary);
+    color: #fff;
+    font-weight: 600;
+}
+
+.datepicker-day.selected {
+    background: var(--candy-datepicker-primary);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.datepicker-day.other-month {
+    color: #d1d5db;
+}
+
+.datepicker-day.disabled {
+    color: #e5e7eb;
+    cursor: not-allowed;
+}
+
+.datepicker-months,
+.datepicker-years {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.datepicker-month,
+.datepicker-year {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #f3f4f6;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.datepicker-month:hover,
+.datepicker-year:hover {
+    background: var(--candy-datepicker-primary);
+    color: #fff;
+}
+
+.datepicker-month.active,
+.datepicker-year.active {
+    background: var(--candy-datepicker-primary);
+    color: #fff;
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+
+@media (max-width: 768px) {
+    .candy-datepicker-1,
+    .candy-datepicker-2,
+    .candy-datepicker-3,
+    .candy-datepicker-4,
+    .candy-datepicker-5,
+    .candy-datepicker-6,
+    .candy-datepicker-7,
+    .candy-datepicker-8,
+    .candy-datepicker-9,
+    .candy-datepicker-10,
+    .candy-datepicker-11,
+    .candy-datepicker-12,
+    .candy-datepicker-13,
+    .candy-datepicker-14,
+    .candy-datepicker-15,
+    .candy-datepicker-16,
+    .candy-datepicker-17,
+    .candy-datepicker-18,
+    .candy-datepicker-19,
+    .candy-datepicker-20,
+    .candy-datepicker-21,
+    .candy-datepicker-22,
+    .candy-datepicker-23,
+    .candy-datepicker-24,
+    .candy-datepicker-25,
+    .candy-datepicker-26,
+    .candy-datepicker-27,
+    .candy-datepicker-28,
+    .candy-datepicker-29,
+    .candy-datepicker-30 {
+        width: 100%;
+    }
+}

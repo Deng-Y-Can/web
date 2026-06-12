@@ -1,0 +1,479 @@
+/* CandyUI - 折叠面板样式 */
+
+/* CSS变量定义 */
+:root {
+    --accordion-primary: #667eea;
+    --accordion-secondary: #764ba2;
+    --accordion-success: #10b981;
+    --accordion-danger: #ef4444;
+    --accordion-warning: #f59e0b;
+    --accordion-info: #3b82f6;
+}
+
+/* 折叠面板容器 */
+.candy-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 折叠面板项 */
+.candy-accordion-item {
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* 折叠面板头部 */
+.candy-accordion-header {
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 折叠面板箭头 */
+.candy-accordion-arrow {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candy-accordion-arrow::before {
+    content: '▼';
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* 展开状态箭头 */
+.candy-accordion-item.active .candy-accordion-arrow {
+    transform: rotate(180deg);
+}
+
+/* 折叠面板内容 */
+.candy-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.candy-accordion-item.active .candy-accordion-content {
+    max-height: 500px;
+}
+
+.candy-accordion-body {
+    padding: 0 20px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
+
+/* 样式1-10: 3D折叠效果 */
+
+/* 样式1: 翻页效果 */
+.candy-accordion.accordion-1 .candy-accordion-item {
+    transform: perspective(500px) rotateX(5deg);
+    transform-origin: top center;
+}
+
+.candy-accordion.accordion-1 .candy-accordion-item.active {
+    transform: perspective(500px) rotateX(0deg);
+}
+
+/* 样式2: 折叠效果 */
+.candy-accordion.accordion-2 .candy-accordion-item {
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+}
+
+.candy-accordion.accordion-2 .candy-accordion-item.active {
+    transform: scale(1.02);
+    background: rgba(102, 126, 234, 0.1);
+}
+
+/* 样式3: 斜角效果 */
+.candy-accordion.accordion-3 .candy-accordion-item {
+    background: linear-gradient(135deg, #2a2a50, #1a1a35);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.candy-accordion.accordion-3 .candy-accordion-item.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* 样式4: 浮雕效果 */
+.candy-accordion.accordion-4 .candy-accordion-item {
+    background: linear-gradient(180deg, #1a1a35, #0f0f25);
+    box-shadow: 
+        inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.candy-accordion.accordion-4 .candy-accordion-item.active {
+    box-shadow: 
+        inset 3px 3px 6px rgba(255, 255, 255, 0.15),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 样式5: 3D翻转 */
+.candy-accordion.accordion-5 .candy-accordion-item {
+    transform: perspective(800px) rotateY(-10deg);
+    transition: transform 0.3s ease;
+}
+
+.candy-accordion.accordion-5 .candy-accordion-item.active {
+    transform: perspective(800px) rotateY(0deg);
+}
+
+/* 样式6: 透视悬浮 */
+.candy-accordion.accordion-6 .candy-accordion-item {
+    transform: perspective(1000px) translateZ(-20px);
+    transition: transform 0.3s ease;
+}
+
+.candy-accordion.accordion-6 .candy-accordion-item.active {
+    transform: perspective(1000px) translateZ(0);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式7: 深度效果 */
+.candy-accordion.accordion-7 .candy-accordion-item {
+    box-shadow: 
+        5px 5px 0 rgba(102, 126, 234, 0.3),
+        10px 10px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-7 .candy-accordion-item.active {
+    box-shadow: 
+        2px 2px 0 rgba(102, 126, 234, 0.5),
+        5px 5px 10px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+/* 样式8: 阴影效果 */
+.candy-accordion.accordion-8 .candy-accordion-item {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-8 .candy-accordion-item:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.candy-accordion.accordion-8 .candy-accordion-item.active {
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    transform: translateY(-5px);
+}
+
+/* 样式9: 边框效果 */
+.candy-accordion.accordion-9 .candy-accordion-item {
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-9 .candy-accordion-item.active {
+    border-color: var(--accordion-primary);
+}
+
+/* 样式10: 组合3D效果 */
+.candy-accordion.accordion-10 .candy-accordion-item {
+    transform: perspective(800px) rotateX(10deg) scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-10 .candy-accordion-item.active {
+    transform: perspective(800px) rotateX(0deg) scale(1);
+}
+
+/* 样式11-20: 发光效果 */
+
+/* 样式11: 霓虹发光 */
+.candy-accordion.accordion-11 .candy-accordion-item {
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-11 .candy-accordion-item.active {
+    border-bottom-color: var(--accordion-primary);
+    box-shadow: 
+        0 0 10px rgba(102, 126, 234, 0.5),
+        0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式12: 脉冲光晕 */
+.candy-accordion.accordion-12 .candy-accordion-item.active {
+    background: rgba(102, 126, 234, 0.2);
+    animation: accordion12Pulse 2s ease-in-out infinite;
+}
+
+@keyframes accordion12Pulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+    }
+}
+
+/* 样式13: 渐变光 */
+.candy-accordion.accordion-13 .candy-accordion-item.active {
+    background: linear-gradient(90deg, 
+        rgba(102, 126, 234, 0.4),
+        rgba(118, 75, 162, 0.4)
+    );
+}
+
+/* 样式14: 彩色边框 */
+.candy-accordion.accordion-14 .candy-accordion-item {
+    border: 2px solid transparent;
+    background: linear-gradient(#1a1a35, #1a1a35) padding-box,
+                linear-gradient(90deg, #667eea, #764ba2, #f093fb) border-box;
+}
+
+.candy-accordion.accordion-14 .candy-accordion-item.active {
+    background: linear-gradient(rgba(102, 126, 234, 0.3), rgba(102, 126, 234, 0.3)) padding-box,
+                linear-gradient(90deg, #667eea, #764ba2, #f093fb) border-box;
+}
+
+/* 样式15: 呼吸光效 */
+.candy-accordion.accordion-15 .candy-accordion-item.active {
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.2);
+    animation: accordion15Breathe 3s ease-in-out infinite;
+}
+
+@keyframes accordion15Breathe {
+    0%, 100% {
+        box-shadow: 
+            0 0 15px rgba(102, 126, 234, 0.4),
+            0 0 30px rgba(102, 126, 234, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 25px rgba(102, 126, 234, 0.6),
+            0 0 50px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式16: 外发光 */
+.candy-accordion.accordion-16 .candy-accordion-item.active {
+    box-shadow: 
+        0 0 20px rgba(118, 75, 162, 0.5),
+        0 0 40px rgba(118, 75, 162, 0.3);
+    border-color: rgba(118, 75, 162, 0.5);
+}
+
+/* 样式17: 内发光 */
+.candy-accordion.accordion-17 .candy-accordion-item.active {
+    background: rgba(102, 126, 234, 0.2);
+    box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式18: 双层光晕 */
+.candy-accordion.accordion-18 .candy-accordion-item.active {
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.4),
+        0 0 30px rgba(118, 75, 162, 0.2),
+        0 0 45px rgba(240, 147, 251, 0.1);
+}
+
+/* 样式19: 动态光效 */
+.candy-accordion.accordion-19 .candy-accordion-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-accordion.accordion-19 .candy-accordion-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(102, 126, 234, 0.4),
+        transparent
+    );
+    animation: accordion19Sweep 2s ease-in-out infinite;
+}
+
+.candy-accordion.accordion-19 .candy-accordion-item.active::before {
+    left: 100%;
+}
+
+@keyframes accordion19Sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 样式20: 渐变背景发光 */
+.candy-accordion.accordion-20 .candy-accordion-item.active {
+    background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.3),
+        rgba(118, 75, 162, 0.3)
+    );
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.3),
+        inset 0 0 15px rgba(102, 126, 234, 0.2);
+}
+
+/* 样式21-30: 动画效果 */
+
+/* 样式21: 缩放弹跳 */
+.candy-accordion.accordion-21 .candy-accordion-item {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.candy-accordion.accordion-21 .candy-accordion-item.active {
+    transform: scale(1.02);
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* 样式22: 滑入效果 */
+.candy-accordion.accordion-22 .candy-accordion-item {
+    transform: translateX(-20px);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-22 .candy-accordion-item.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* 样式23: 弹性效果 */
+.candy-accordion.accordion-23 .candy-accordion-item {
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.candy-accordion.accordion-23 .candy-accordion-item.active {
+    transform: scale(1.05);
+    background: rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* 样式24: 旋转缩放 */
+.candy-accordion.accordion-24 .candy-accordion-item {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.candy-accordion.accordion-24 .candy-accordion-item.active {
+    transform: rotate(2deg) scale(1.03);
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* 样式25: 淡入缩放 */
+.candy-accordion.accordion-25 .candy-accordion-item {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-25 .candy-accordion-item.active {
+    opacity: 1;
+    transform: scale(1.02);
+    background: rgba(102, 126, 234, 0.2);
+}
+
+/* 样式26: 左右展开 */
+.candy-accordion.accordion-26 .candy-accordion-item {
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-26 .candy-accordion-item.active {
+    border-left-color: var(--accordion-primary);
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.3), transparent);
+}
+
+/* 样式27: 上下展开 */
+.candy-accordion.accordion-27 .candy-accordion-item {
+    border-top: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-27 .candy-accordion-item.active {
+    border-top-color: var(--accordion-primary);
+    background: linear-gradient(180deg, rgba(102, 126, 234, 0.3), transparent);
+}
+
+/* 样式28: 组合动画 */
+.candy-accordion.accordion-28 .candy-accordion-item {
+    transform: translateY(10px);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-28 .candy-accordion-item.active {
+    transform: translateY(0);
+    opacity: 1;
+    background: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式29: 摇晃效果 */
+.candy-accordion.accordion-29 .candy-accordion-item {
+    transition: all 0.3s ease;
+}
+
+.candy-accordion.accordion-29 .candy-accordion-item.active {
+    animation: accordion29Shake 0.5s ease-out;
+    background: rgba(102, 126, 234, 0.3);
+}
+
+@keyframes accordion29Shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+/* 样式30: 终极3D效果 */
+.candy-accordion.accordion-30 .candy-accordion-item {
+    transform: perspective(1000px) rotateX(15deg) translateY(10px);
+    opacity: 0.8;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.candy-accordion.accordion-30 .candy-accordion-item.active {
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+    opacity: 1;
+    background: linear-gradient(180deg, 
+        rgba(102, 126, 234, 0.4),
+        rgba(102, 126, 234, 0.1)
+    );
+    box-shadow: 
+        0 10px 30px rgba(102, 126, 234, 0.4),
+        0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .candy-accordion-header {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .candy-accordion-body {
+        padding: 0 16px 16px;
+        font-size: 14px;
+    }
+}

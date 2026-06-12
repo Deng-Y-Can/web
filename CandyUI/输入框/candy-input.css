@@ -1,0 +1,2058 @@
+/* ========================================
+   CandyUI - 输入框样式合集
+   共 150 种精美输入框样式
+   从 index.html / index2.html / index3.html 整合而来
+   所有样式类统一为 .candy-input-N
+   所有动画统一前缀 candy-
+   ======================================== */
+
+/* ============ 公共基础样式 ============ */
+
+.candy-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.candy-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: transparent;
+    color: white;
+    outline: none;
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.candy-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.candy-input:focus {
+    outline: none;
+}
+
+/* 输入框聚焦动画类（双击触发） */
+.candy-focus-animate {
+    animation: candy-focusZoom 0.5s cubic-bezier(0.2, 0.8, 0.3, 1.2);
+}
+
+@keyframes candy-focusZoom {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(0,200,255,0);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0,255,255,0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 增强版聚焦动画 */
+.candy-focus-animate-v2 {
+    animation: candy-focusGlow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes candy-focusGlow {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(0,200,255,0);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 0 25px rgba(0,255,255,0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 第三辑聚焦动画 */
+.candy-focus-animate-v3 {
+    animation: candy-focusZoomGlow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes candy-focusZoomGlow {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(0,200,255,0);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 30px rgba(0,255,255,0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========================================
+   第一辑：样式 1 - 50
+   ======================================== */
+
+/* 1. 霓虹发光 */
+.candy-input-1 {
+    position: relative;
+    background: #0a0a1a;
+    border: 2px solid #0ff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 0 10px #0ff, inset 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.candy-input-1:focus-within {
+    box-shadow: 0 0 20px #0ff, inset 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+/* 2. 故障艺术 (Glitch) */
+.candy-input-2 {
+    position: relative;
+    background: black;
+    color: #0f0;
+    font-family: monospace;
+    padding: 12px;
+    border: 1px solid #0f0;
+}
+
+.candy-input-2::before, .candy-input-2::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    color: red;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.candy-input-2::before {
+    left: 18px;
+    color: #0ff;
+}
+
+.candy-input-2:hover::before {
+    animation: candy-glitch-1 0.3s infinite;
+}
+
+.candy-input-2:hover::after {
+    animation: candy-glitch-2 0.3s infinite;
+}
+
+@keyframes candy-glitch-1 {
+    0% {
+        transform: translateX(-3px);
+    }
+    100% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes candy-glitch-2 {
+    0% {
+        transform: translateY(-2px);
+    }
+    100% {
+        transform: translateY(2px);
+    }
+}
+
+/* 3. 液态金属 */
+.candy-input-3 {
+    background: linear-gradient(90deg, #aaa, #fff, #aaa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: candy-shimmer 3s infinite;
+    padding: 12px;
+    border-bottom: 2px solid #ccc;
+}
+
+@keyframes candy-shimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* 4. 3D 挤出文字效果 */
+.candy-input-4 {
+    transform: translateZ(20px);
+    text-shadow: 0 5px 0 #000, 0 10px 10px rgba(0,0,0,0.5);
+    padding: 12px;
+    background: #222;
+    border: 1px solid #444;
+}
+
+/* 5. 玻璃拟态 (Glassmorphism) */
+.candy-input-5 {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+/* 6. 手绘边框 */
+.candy-input-6 {
+    border: 2px dashed #ff55aa;
+    border-radius: 5px;
+    padding: 12px;
+    background: #111;
+}
+
+/* 7. 磁流体吸附效果 */
+.candy-input-7 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+    overflow: hidden;
+}
+
+.candy-input-7::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,200,255,0.2), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.candy-input-7:focus-within::before {
+    opacity: 1;
+}
+
+/* 8. 赛博朋克条形码边框 */
+.candy-input-8 {
+    background: #000;
+    padding: 12px;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M0 0h2v10H0zm4 0h1v10H4zm3 0h2v10H7z' fill='%23ff00ff'/%3E%3C/svg%3E") 10 repeat;
+    border-width: 10px;
+    border-style: solid;
+}
+
+/* 9. 像素风 */
+.candy-input-9 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    background: #222;
+    border: 3px solid #ff00ff;
+    image-rendering: pixelated;
+    padding: 12px;
+}
+
+/* 10. 全息投影 */
+.candy-input-10 {
+    background: linear-gradient(45deg, #ff00cc, #00eeff, #00ff99);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 300% 300%;
+    animation: candy-rainbow 4s ease infinite;
+    padding: 12px;
+    border-bottom: 2px solid transparent;
+    background-clip: text;
+}
+
+@keyframes candy-rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 11. 黑胶唱片旋涡 */
+.candy-input-11 {
+    background: radial-gradient(circle, #111 40%, #000 100%);
+    border: 2px solid #333;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-11::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 12. 雷达扫描 */
+.candy-input-12 {
+    position: relative;
+    background: #000;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.candy-input-12::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0,255,0,0.3), transparent);
+    animation: candy-radar 3s linear infinite;
+}
+
+@keyframes candy-radar {
+    to {
+        left: 100%;
+    }
+}
+
+/* 13. 荧光笔高亮 */
+.candy-input-13 {
+    background: rgba(255, 255, 0, 0.1);
+    padding: 12px;
+    border-bottom: 2px solid yellow;
+    color: #000;
+}
+
+/* 14. 碳纤维纹理 */
+.candy-input-14 {
+    background: linear-gradient(45deg, transparent 49%, #333 49%, #333 51%, transparent 51%), linear-gradient(-45deg, transparent 49%, #333 49%, #333 51%, transparent 51%);
+    background-size: 20px 20px;
+    padding: 12px;
+    color: white;
+}
+
+/* 15. 火焰边框 */
+.candy-input-15 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+}
+
+.candy-input-15::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: conic-gradient(from 0deg, #ff5500, #ffaa00, #ff5500);
+    z-index: -1;
+    border-radius: 8px;
+    animation: candy-spin 2s linear infinite;
+}
+
+@keyframes candy-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 16. 水墨晕染 */
+.candy-input-16 {
+    background: radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    font-family: cursive;
+}
+
+/* 17. 钢铁机械 */
+.candy-input-17 {
+    background: repeating-linear-gradient(45deg, #222 0px, #222 10px, #333 10px, #333 20px);
+    padding: 12px;
+    border: 2px solid #555;
+}
+
+/* 18. 星空背景 */
+.candy-input-18 {
+    background: #000 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='40' r='1' fill='white'/%3E%3Ccircle cx='120' cy='150' r='1' fill='white'/%3E%3C/svg%3E");
+    padding: 12px;
+    border: 1px solid #444;
+}
+
+/* 19. 胶片边框 */
+.candy-input-19 {
+    border: 8px solid black;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='black'/%3E%3Ccircle cx='4' cy='12' r='2' fill='white'/%3E%3Ccircle cx='20' cy='12' r='2' fill='white'/%3E%3C/svg%3E") 8 repeat;
+    padding: 12px;
+    background: #111;
+}
+
+/* 20. 激光切割 */
+.candy-input-20 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+    color: #ff0055;
+}
+
+.candy-input-20::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #ff0055, #ff55ff);
+    animation: candy-laserCut 2s forwards;
+}
+
+@keyframes candy-laserCut {
+    to {
+        width: 100%;
+    }
+}
+
+/* 21. 左侧高亮 */
+.candy-input-21 {
+    background: #000;
+    border-left: 4px solid #00f0ff;
+    padding: 12px;
+}
+
+/* 22. 紫色渐变 */
+.candy-input-22 {
+    background: linear-gradient(90deg, #ff00cc, #333);
+    padding: 12px;
+    color: white;
+}
+
+/* 23. 斜切 */
+.candy-input-23 {
+    transform: skewX(-10deg);
+    background: #222;
+    padding: 12px;
+    border: 1px dashed #0ff;
+}
+
+/* 24. 像素阴影 */
+.candy-input-24 {
+    background: #000;
+    padding: 12px;
+    text-shadow: 2px 2px 0 #ff00ff;
+}
+
+/* 25. 双边框 */
+.candy-input-25 {
+    background: #111;
+    padding: 12px;
+    border: 2px double #0f0;
+}
+
+/* 26. 字间距 */
+.candy-input-26 {
+    background: #000;
+    padding: 12px;
+    font-family: 'Michroma', sans-serif;
+    letter-spacing: 2px;
+}
+
+/* 27. 命令行 */
+.candy-input-27 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-27::before {
+    content: '>';
+    position: absolute;
+    left: -20px;
+    color: #0f0;
+}
+
+/* 28. 顶部高亮 */
+.candy-input-28 {
+    background: #000;
+    padding: 12px;
+    border-top: 2px solid #ff5500;
+}
+
+/* 29. 脉冲动画 */
+.candy-input-29 {
+    background: #000;
+    padding: 12px;
+    animation: candy-pulse 2s infinite;
+}
+
+@keyframes candy-pulse {
+    0%,100% {
+        box-shadow: 0 0 0 0 rgba(0,200,255,0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(0,200,255,0);
+    }
+}
+
+/* 30. 不规则形状 */
+.candy-input-30 {
+    background: #000;
+    padding: 12px;
+    clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+/* 31. 色相旋转 */
+.candy-input-31 {
+    background: #000;
+    padding: 12px;
+    filter: hue-rotate(180deg);
+}
+
+/* 32. 圆形边框 */
+.candy-input-32 {
+    background: #000;
+    padding: 12px;
+    border-radius: 50px;
+    border: 2px solid #ff00ff;
+}
+
+/* 33. 数据背景 */
+.candy-input-33 {
+    background: #000;
+    padding: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%2300ffaa'/%3E%3C/svg%3E");
+}
+
+/* 34. 锁图标 */
+.candy-input-34 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-34::after {
+    content: '🔒';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+}
+
+/* 35. 大写字母 */
+.candy-input-35 {
+    background: #000;
+    padding: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* 36. 渐变边框 */
+.candy-input-36 {
+    background: #000;
+    padding: 12px;
+    border: 1px solid;
+    border-image: linear-gradient(45deg, gold, red) 1;
+}
+
+/* 37. 悬浮动画 */
+.candy-input-37 {
+    background: #000;
+    padding: 12px;
+    animation: candy-float 3s ease-in-out infinite;
+}
+
+@keyframes candy-float {
+    0%,100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 38. 内发光 */
+.candy-input-38 {
+    background: #000;
+    padding: 12px;
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+/* 39. 发光文字 */
+.candy-input-39 {
+    background: #000;
+    padding: 12px;
+    font-weight: bold;
+    text-shadow: 0 0 5px cyan;
+}
+
+/* 40. 外发光 */
+.candy-input-40 {
+    background: #000;
+    padding: 12px;
+    border: 3px outset #0ff;
+}
+
+/* 41. 径向渐变背景 */
+.candy-input-41 {
+    background: #000;
+    padding: 12px;
+    background: repeating-radial-gradient(circle, #222, #222 5px, #333 5px, #333 10px);
+}
+
+/* 42. 横条纹 */
+.candy-input-42 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-input-42::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 200%;
+    height: 10px;
+    background: #ff00ff;
+    transform: rotate(-5deg);
+}
+
+/* 43. 圆角边框 */
+.candy-input-43 {
+    background: #000;
+    padding: 12px;
+    border: 2px ridge #0f0;
+}
+
+/* 44. 外发光文字 */
+.candy-input-44 {
+    background: #000;
+    padding: 12px;
+    font-style: italic;
+    color: #aaa;
+}
+
+/* 45. 发光渐变背景 */
+.candy-input-45 {
+    background: #000;
+    padding: 12px;
+    background: conic-gradient(from 0deg at 30% 30%, #ff00cc, #00eeff, #00ff99);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 46. 白色边框 */
+.candy-input-46 {
+    background: #000;
+    padding: 12px;
+    border: 1px groove #ff5500;
+}
+
+/* 47. 深色渐变 */
+.candy-input-47 {
+    background: #000;
+    padding: 12px;
+    transform: perspective(500px) rotateY(10deg);
+}
+
+/* 48. 内阴影 */
+.candy-input-48 {
+    background: #000;
+    padding: 12px;
+    box-shadow: inset 0 0 10px rgba(255,0,255,0.5);
+}
+
+/* 49. 底部横线 */
+.candy-input-49 {
+    background: #000;
+    padding: 12px;
+    background-image: linear-gradient(transparent 50%, rgba(0,255,255,0.2) 50%);
+    background-size: 2px 4px;
+}
+
+/* 50. 八边形 */
+.candy-input-50 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-50::after {
+    content: '★';
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: gold;
+    font-size: 14px;
+}
+
+/* ========================================
+   第二辑：样式 51 - 100
+   ======================================== */
+
+/* 51. 水波纹涟漪 */
+.candy-input-51 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-input-51::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 200, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.candy-input-51:focus-within::before {
+    width: 400px;
+    height: 400px;
+}
+
+/* 52. 熔岩流动边框 */
+.candy-input-52 {
+    position: relative;
+    padding: 12px;
+    background: #111;
+}
+
+.candy-input-52::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #ff4500, #ff8c00, #ff4500);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    z-index: -1;
+    animation: candy-lavaFlow 3s infinite linear;
+}
+
+@keyframes candy-lavaFlow {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* 53. 赛博格义体接口 */
+.candy-input-53 {
+    background: #0a0a0a;
+    border: 2px solid #00ffaa;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-53::before {
+    content: "CYBORG";
+    position: absolute;
+    top: -24px;
+    left: 0;
+    font-size: 10px;
+    color: #00ffaa;
+    letter-spacing: 2px;
+}
+
+/* 54. 虚拟终端（绿色 CRT） */
+.candy-input-54 {
+    background: #001a00;
+    color: #00ff00;
+    font-family: 'VT323', monospace;
+    padding: 12px;
+    box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+/* 55. 全息悬浮 */
+.candy-input-55 {
+    background: transparent;
+    padding: 12px;
+    position: relative;
+    color: cyan;
+    text-shadow: 0 0 8px cyan;
+}
+
+.candy-input-55::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, cyan, transparent);
+    filter: blur(1px);
+}
+
+/* 56. 黑客代码雨背景 */
+.candy-input-56 {
+    background: #000 url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='0' y='15' fill='%2300ff00' font-size='12' font-family='monospace'%3E01010101%3C/text%3E%3C/svg%3E") repeat-y;
+    padding: 12px;
+    color: white;
+}
+
+/* 57. 镜面反射 */
+.candy-input-57 {
+    background: #222;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-57::after {
+    content: attr(data-value);
+    position: absolute;
+    bottom: -100%;
+    left: 16px;
+    color: rgba(255, 255, 255, 0.2);
+    transform: scaleY(-1);
+    filter: blur(1px);
+}
+
+/* 58. 量子纠缠线 */
+.candy-input-58 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+}
+
+.candy-input-58::before, .candy-input-58::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background: #ff00ff;
+    top: 0;
+    bottom: 0;
+}
+
+.candy-input-58::before {
+    left: 10px;
+    animation: candy-quantumPulse 2s infinite;
+}
+
+.candy-input-58::after {
+    right: 10px;
+    animation: candy-quantumPulse 2s infinite 0.5s;
+}
+
+@keyframes candy-quantumPulse {
+    0%,100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* 59. 蒸汽朋克齿轮 */
+.candy-input-59 {
+    background: #2b1d0e;
+    padding: 12px;
+    border: 2px solid #c19a6b;
+    position: relative;
+}
+
+.candy-input-59::before {
+    content: "⚙";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    font-size: 16px;
+    color: #c19a6b;
+    animation: candy-gearRotate 8s linear infinite;
+}
+
+@keyframes candy-gearRotate {
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+/* 60. 暗物质漩涡 */
+.candy-input-60 {
+    background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0.8), #000 100%);
+    padding: 12px;
+    border: 1px solid rgba(100, 100, 255, 0.3);
+}
+
+/* 61. 光纤导管 */
+.candy-input-61 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+}
+
+.candy-input-61::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #00f, #0ff, #0f0);
+    animation: candy-fiberGlow 2s infinite alternate;
+}
+
+@keyframes candy-fiberGlow {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 62. 太空舱控制台 */
+.candy-input-62 {
+    background: #000;
+    border: 2px solid #00ffcc;
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.candy-input-62 input {
+    background: transparent;
+    width: 120px;
+    text-align: center;
+    border-bottom: 1px solid #0ff;
+}
+
+/* 63. 生物荧光 */
+.candy-input-63 {
+    background: #001100;
+    padding: 12px;
+    color: #00ffaa;
+    text-shadow: 0 0 6px rgba(0, 255, 170, 0.7);
+}
+
+/* 64. 时间裂缝 */
+.candy-input-64 {
+    position: relative;
+    padding: 12px;
+    background: linear-gradient(90deg, #000, #111, #000);
+    overflow: hidden;
+}
+
+.candy-input-64::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: #ff00ff;
+    left: 50%;
+    animation: candy-timeRift 4s infinite linear;
+}
+
+@keyframes candy-timeRift {
+    0% {
+        left: -10px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 65. 金属蚀刻 */
+.candy-input-65 {
+    background: #333;
+    padding: 12px;
+    background-image: linear-gradient(90deg, transparent 49%, rgba(0,0,0,0.2) 49%, rgba(0,0,0,0.2) 51%, transparent 51%), linear-gradient(transparent 49%, rgba(255,255,255,0.1) 49%, rgba(255,255,255,0.1) 51%, transparent 51%);
+    background-size: 20px 20px;
+}
+
+/* 66. 虚拟现实头盔 HUD */
+.candy-input-66 {
+    background: rgba(0, 10, 20, 0.9);
+    border: 1px solid #00ffff;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-66::after {
+    content: "[VR]";
+    position: absolute;
+    top: -20px;
+    right: 0;
+    color: #0ff;
+    font-size: 10px;
+}
+
+/* 67. 数据流隧道 */
+.candy-input-67 {
+    background: conic-gradient(from 0deg at 40% 40%, #000, #001122, #000);
+    padding: 12px;
+    border: 1px solid #0066ff;
+}
+
+/* 68. 冰晶冻结 */
+.candy-input-68 {
+    background: #e0f7ff;
+    color: #003366;
+    padding: 12px;
+    border: 2px solid #a0d8ff;
+    position: relative;
+}
+
+.candy-input-68::before {
+    content: "❄";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #a0d8ff;
+}
+
+/* 69. 反物质核心 */
+.candy-input-69 {
+    position: relative;
+    padding: 12px;
+    background: #000;
+    color: #ff55ff;
+}
+
+.candy-input-69::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    background: radial-gradient(circle, rgba(255,0,255,0.2), transparent 70%);
+    z-index: -1;
+}
+
+/* 70. 外星象形文字 */
+.candy-input-70 {
+    background: #1a001a;
+    padding: 12px;
+    font-family: 'Audiowide', cursive;
+    color: #00ffcc;
+    letter-spacing: 3px;
+}
+
+/* 71. 渐变边框图像 */
+.candy-input-71 {
+    background: #000;
+    padding: 12px;
+    border-image: linear-gradient(45deg, purple, orange) 1;
+    border-width: 2px;
+    border-style: solid;
+}
+
+/* 72. 多边形裁切 */
+.candy-input-72 {
+    background: #000;
+    padding: 12px;
+    clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+}
+
+/* 73. 对比度增强 */
+.candy-input-73 {
+    background: #000;
+    padding: 12px;
+    filter: contrast(1.5) brightness(1.2);
+}
+
+/* 74. 箭头指示 */
+.candy-input-74 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-74::before {
+    content: "→";
+    position: absolute;
+    left: -20px;
+    color: #ffaa00;
+}
+
+/* 75. 呼吸动画 */
+.candy-input-75 {
+    background: #000;
+    padding: 12px;
+    animation: candy-breathe 4s infinite;
+}
+
+@keyframes candy-breathe {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+}
+
+/* 76. 圆形渐变环 */
+.candy-input-76 {
+    background: #000;
+    padding: 12px;
+    background: repeating-conic-gradient(from 0deg, #222 0 10deg, #333 10deg 20deg);
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candy-input-76 input {
+    width: 100px;
+    text-align: center;
+}
+
+/* 77. 径向渐变蒙版 */
+.candy-input-77 {
+    background: #000;
+    padding: 12px;
+    mask-image: radial-gradient(circle, black 70%, transparent 100%);
+}
+
+/* 78. 双色阴影文字 */
+.candy-input-78 {
+    background: #000;
+    padding: 12px;
+    text-shadow: 2px 2px 0 red, -2px -2px 0 cyan;
+}
+
+/* 79. 外嵌边框 */
+.candy-input-79 {
+    background: #000;
+    padding: 12px;
+    border: 3px inset #0ff;
+}
+
+/* 80. 交叉线背景 */
+.candy-input-80 {
+    background: #000;
+    padding: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0L40 40M40 0L0 40' stroke='%23ff00ff' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* 81. 金色大写 */
+.candy-input-81 {
+    background: #000;
+    padding: 12px;
+    font-variant-caps: small-caps;
+    color: gold;
+}
+
+/* 82. AI 标识 */
+.candy-input-82 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-82::after {
+    content: "AI";
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: #00ff99;
+}
+
+/* 83. 轻微旋转 */
+.candy-input-83 {
+    background: #000;
+    padding: 12px;
+    transform: rotateZ(2deg);
+}
+
+/* 84. 多彩阴影 */
+.candy-input-84 {
+    background: #000;
+    padding: 12px;
+    box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px transparent, 0 0 0 6px #00ffff;
+}
+
+/* 85. 斜条纹背景 */
+.candy-input-85 {
+    background: #000;
+    padding: 12px;
+    background: linear-gradient(45deg, #000 25%, transparent 25%), linear-gradient(-45deg, #000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000 75%), linear-gradient(-45deg, transparent 75%, #000 75%);
+    background-size: 20px 20px;
+}
+
+/* 86. 移动虚线 */
+.candy-input-86 {
+    background: #000;
+    padding: 12px;
+    border: 1px dashed #ff5500;
+    animation: candy-dashMove 2s linear infinite;
+}
+
+@keyframes candy-dashMove {
+    to {
+        background-position: 20px 0;
+    }
+}
+
+/* 87. 毛玻璃边框 */
+.candy-input-87 {
+    background: #000;
+    padding: 12px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* 88. 洋红色粗体 */
+.candy-input-88 {
+    background: #000;
+    padding: 12px;
+    color: #ff0055;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* 89. 斜角条纹 */
+.candy-input-89 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-input-89::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: #00ffaa;
+    transform: rotate(45deg);
+}
+
+/* 90. 双线边框 */
+.candy-input-90 {
+    background: #000;
+    padding: 12px;
+    border: 2px double #ffaa00;
+}
+
+/* 91. 角落渐变 */
+.candy-input-91 {
+    background: #000;
+    padding: 12px;
+    background: radial-gradient(ellipse at top left, rgba(0,200,255,0.1), transparent), radial-gradient(ellipse at bottom right, rgba(255,0,255,0.1), transparent);
+}
+
+/* 92. 圆形裁切 */
+.candy-input-92 {
+    background: #000;
+    padding: 12px;
+    clip-path: circle(45% at 50% 50%);
+}
+
+/* 93. 灰度增强 */
+.candy-input-93 {
+    background: #000;
+    padding: 12px;
+    filter: grayscale(100%) contrast(1.3);
+}
+
+/* 94. 锁图标（内锁 */
+.candy-input-94 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-94::after {
+    content: "🔒";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+}
+
+.candy-input-94 input {
+    padding-left: 30px;
+}
+
+/* 95. 闪烁动画 */
+.candy-input-95 {
+    background: #000;
+    padding: 12px;
+    animation: candy-flicker 0.1s infinite;
+}
+
+@keyframes candy-flicker {
+    0%,100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.95;
+    }
+}
+
+/* 96. 渐变边框图像 */
+.candy-input-96 {
+    background: #000;
+    padding: 12px;
+    border: 1px solid;
+    border-image-source: linear-gradient(135deg, #ff00cc, #00eeff);
+    border-image-slice: 1;
+}
+
+/* 97. 透视旋转 */
+.candy-input-97 {
+    background: #000;
+    padding: 12px;
+    transform: perspective(600px) rotateX(15deg);
+}
+
+/* 98. 内阴影双色 */
+.candy-input-98 {
+    background: #000;
+    padding: 12px;
+    box-shadow: inset 5px 0 0 #ff00ff, inset -5px 0 0 #00ffff;
+}
+
+/* 99. 水平线背景 */
+.candy-input-99 {
+    background: #000;
+    padding: 12px;
+    background-image: linear-gradient(90deg, transparent 50%, rgba(0,255,255,0.1) 50%);
+    background-size: 4px 4px;
+}
+
+/* 100. 无限符号 */
+.candy-input-100 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-100::after {
+    content: "∞";
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff55ff;
+    font-size: 16px;
+}
+
+/* ========================================
+   第三辑：样式 101 - 150
+   ======================================== */
+
+/* 101. 液态变形 */
+.candy-input-101 {
+    background: #0a0a1a;
+    padding: 12px;
+    position: relative;
+    border-radius: 12px;
+    --liquid: 0;
+}
+
+.candy-input-101::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(0,200,255,0.2), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.candy-input-101:hover::before {
+    opacity: 1;
+}
+
+/* 102. 光子轨道 */
+.candy-input-102 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-102::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, cyan, transparent);
+    transform: translateY(-50%);
+    animation: candy-photonOrbit 3s linear infinite;
+}
+
+@keyframes candy-photonOrbit {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* 103. 数字幽灵 */
+.candy-input-103 {
+    background: rgba(0,0,0,0.7);
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-103::before {
+    content: attr(data-ghost);
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    color: rgba(0,255,255,0.2);
+    font-style: italic;
+    pointer-events: none;
+}
+
+/* 104. 虫洞入口 */
+.candy-input-104 {
+    background: radial-gradient(circle, #000 40%, #000033 100%);
+    border: 2px solid #00ffff;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-104::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 8px;
+    animation: candy-wormholePulse 2s infinite alternate;
+}
+
+@keyframes candy-wormholePulse {
+    from {
+        opacity: 0.3;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+/* 105. 像素崩解 */
+.candy-input-105 {
+    background: #111;
+    padding: 12px;
+    image-rendering: pixelated;
+    font-family: 'Space Mono', monospace;
+    position: relative;
+}
+
+.candy-input-105:hover {
+    filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3C/svg%3E#noise");
+}
+
+/* 106. 星云气体 */
+.candy-input-106 {
+    background: radial-gradient(circle at 20% 30%, rgba(128,0,128,0.2), transparent), radial-gradient(circle at 80% 70%, rgba(0,100,255,0.2), transparent);
+    padding: 12px;
+    border: 1px solid rgba(100,100,255,0.3);
+}
+
+/* 107. 脑机接口波形 */
+.candy-input-107 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-107::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 L10 0 L20 10 L30 5 L40 0 L50 10 L60 5 L70 0 L80 10 L90 5 L100 0' stroke='%2300ffaa' fill='none'/%3E%3C/svg%3E") repeat-x;
+    animation: candy-brainwave 5s linear infinite;
+}
+
+@keyframes candy-brainwave {
+    to {
+        background-position: 100px 0;
+    }
+}
+
+/* 108. 虚空之眼 */
+.candy-input-108 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-108::after {
+    content: "👁";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+/* 109. 量子泡沫 */
+.candy-input-109 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-109::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px), radial-gradient(circle, rgba(0,255,255,0.05) 1px, transparent 1px);
+    background-size: 30px 30px, 50px 50px;
+    animation: candy-quantumFoam 10s linear infinite;
+}
+
+@keyframes candy-quantumFoam {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 110. 太阳耀斑 */
+.candy-input-110 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    color: #ffff00;
+    text-shadow: 0 0 8px rgba(255,255,0,0.7);
+}
+
+.candy-input-110::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, transparent, rgba(255,255,0,0.1), transparent);
+    animation: candy-solarFlare 6s infinite linear;
+    z-index: -1;
+}
+
+@keyframes candy-solarFlare {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 111. 混合模式屏幕 */
+.candy-input-111 {
+    background: #000;
+    padding: 12px;
+    mix-blend-mode: screen;
+    color: #ff00ff;
+    position: relative;
+    isolation: isolate;
+}
+
+.candy-input-111::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,0,255,0.1), transparent);
+    z-index: -1;
+}
+
+/* 112. 八边形裁切 */
+.candy-input-112 {
+    background: #000;
+    padding: 12px;
+    clip-path: polygon(0 20%, 20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%);
+}
+
+/* 113. 警告符号 */
+.candy-input-113 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-113::before {
+    content: "⚠";
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: orange;
+}
+
+/* 114. 霓虹闪烁 */
+.candy-input-114 {
+    background: #000;
+    padding: 12px;
+    animation: candy-neonFlicker 1.5s infinite alternate;
+}
+
+@keyframes candy-neonFlicker {
+    0% {
+        text-shadow: 0 0 5px cyan;
+    }
+    100% {
+        text-shadow: 0 0 20px cyan, 0 0 30px cyan;
+    }
+}
+
+/* 115. 圆锥渐变边框 */
+.candy-input-115 {
+    background: #000;
+    padding: 12px;
+    border: 2px solid;
+    border-image: conic-gradient(at 40% 40%, gold, red, purple, cyan) 1;
+}
+
+/* 116. 重复线性渐变 */
+.candy-input-116 {
+    background: #000;
+    padding: 12px;
+    transform: skewY(5deg);
+    background: repeating-linear-gradient(120deg, #111 0px, #111 10px, #222 10px, #222 20px);
+}
+
+/* 117. 卫星图标 */
+.candy-input-117 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-117::after {
+    content: "📡";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+}
+
+/* 118. 反色滤镜 */
+.candy-input-118 {
+    background: #000;
+    padding: 12px;
+    filter: invert(1) hue-rotate(180deg);
+    color: black;
+}
+
+/* 119. 凸起边框 */
+.candy-input-119 {
+    background: #000;
+    padding: 12px;
+    border: 3px outset rgba(0,255,255,0.7);
+}
+
+/* 120. 圆点背景 */
+.candy-input-120 {
+    background: #000;
+    padding: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='2' fill='%23ff00ff'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%2300ffff'/%3E%3C/svg%3E");
+}
+
+/* 121. Monofett 字体 */
+.candy-input-121 {
+    background: #000;
+    padding: 12px;
+    font-family: 'Monofett', cursive;
+    color: #ff5500;
+    letter-spacing: 2px;
+}
+
+/* 122. 顶部渐变条 */
+.candy-input-122 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-input-122::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 200%;
+    height: 10px;
+    background: linear-gradient(90deg, red, orange, yellow);
+    transform: rotate(-3deg);
+}
+
+/* 123. 模糊对比度 */
+.candy-input-123 {
+    background: #000;
+    padding: 12px;
+    backdrop-filter: blur(5px) contrast(1.2);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* 124. 多色阴影 */
+.candy-input-124 {
+    background: #000;
+    padding: 12px;
+    text-shadow: 1px 1px 0 red, 2px 2px 0 orange, 3px 3px 0 yellow;
+}
+
+/* 125. 椭圆裁切 */
+.candy-input-125 {
+    background: #000;
+    padding: 12px;
+    clip-path: ellipse(60% 40% at 50% 50%);
+}
+
+/* 126. 闪电图标 */
+.candy-input-126 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-126::after {
+    content: "⚡";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+}
+
+.candy-input-126 input {
+    padding-left: 30px;
+}
+
+/* 127. 脉冲发光 */
+.candy-input-127 {
+    background: #000;
+    padding: 12px;
+    animation: candy-pulseGlow 2s infinite;
+}
+
+@keyframes candy-pulseGlow {
+    0%,100% {
+        box-shadow: 0 0 0 0 rgba(255,0,255,0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(255,0,255,0);
+    }
+}
+
+/* 128. 金色凸起边框 */
+.candy-input-128 {
+    background: #000;
+    padding: 12px;
+    border: 2px ridge gold;
+}
+
+/* 129. 棋盘格背景 */
+.candy-input-129 {
+    background: #000;
+    padding: 12px;
+    background: linear-gradient(45deg, transparent 49%, rgba(0,255,255,0.1) 49%, rgba(0,255,255,0.1) 51%, transparent 51%), linear-gradient(-45deg, transparent 49%, rgba(255,0,255,0.1) 49%, rgba(255,0,255,0.1) 51%, transparent 51%);
+    background-size: 20px 20px;
+}
+
+/* 130. 分类标识 */
+.candy-input-130 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-130::before {
+    content: "[CLASSIFIED]";
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 10px;
+    color: red;
+}
+
+/* 131. 透视旋转 Y */
+.candy-input-131 {
+    background: #000;
+    padding: 12px;
+    transform: perspective(800px) rotateY(8deg);
+}
+
+/* 132. 绿色发光内阴影 */
+.candy-input-132 {
+    background: #000;
+    padding: 12px;
+    box-shadow: inset 0 0 15px rgba(0,255,0,0.3);
+    color: lime;
+}
+
+/* 133. 网格线背景 */
+.candy-input-133 {
+    background: #000;
+    padding: 12px;
+    background-image: linear-gradient(90deg, #ff00ff 2px, transparent 2px), linear-gradient(transparent 2px, #00ffff 2px);
+    background-size: 4px 4px;
+    background-position: 0 0, 2px 2px;
+}
+
+/* 134. 小型大写字母 */
+.candy-input-134 {
+    background: #000;
+    padding: 12px;
+    font-variant: small-caps;
+    color: #aaa;
+}
+
+/* 135. 扫描线动画 */
+.candy-input-135 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-input-135::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    animation: candy-scanLine 4s linear infinite;
+}
+
+@keyframes candy-scanLine {
+    to {
+        left: 100%;
+    }
+}
+
+/* 136. 流动虚线 */
+.candy-input-136 {
+    background: #000;
+    padding: 12px;
+    border: 1px dashed cyan;
+    animation: candy-dashFlow 1s linear infinite;
+}
+
+@keyframes candy-dashFlow {
+    to {
+        background-position: 10px 0;
+    }
+}
+
+/* 137. 褐色基调 */
+.candy-input-137 {
+    background: #000;
+    padding: 12px;
+    filter: sepia(0.8) contrast(1.3);
+    color: #d2b48c;
+}
+
+/* 138. 卫星标识 */
+.candy-input-138 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-138::after {
+    content: "AI";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #00ff99;
+    color: black;
+    font-size: 10px;
+    padding: 0 4px;
+    border-radius: 3px;
+}
+
+/* 139. 菱形裁切 */
+.candy-input-139 {
+    background: #000;
+    padding: 12px;
+    clip-path: polygon(0 0, 100% 10%, 100% 90%, 0% 100%);
+}
+
+/* 140. 青色双线边框 */
+.candy-input-140 {
+    background: #000;
+    padding: 12px;
+    border: 2px double cyan;
+}
+
+/* 141. 径向渐变角落 */
+.candy-input-141 {
+    background: #000;
+    padding: 12px;
+    background: radial-gradient(ellipse at top right, rgba(255,0,255,0.1), transparent), radial-gradient(ellipse at bottom left, rgba(0,255,255,0.1), transparent);
+}
+
+/* 142. 混合模式覆盖 */
+.candy-input-142 {
+    background: #000;
+    padding: 12px;
+    mix-blend-mode: overlay;
+    color: white;
+    position: relative;
+    isolation: isolate;
+}
+
+.candy-input-142::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, magenta, cyan);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+/* 143. 反向旋转 */
+.candy-input-143 {
+    background: #000;
+    padding: 12px;
+    transform: rotateZ(-3deg);
+}
+
+/* 144. 多彩阴影脉冲 */
+.candy-input-144 {
+    background: #000;
+    padding: 12px;
+    box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px #00ffff, 0 0 0 6px transparent;
+    animation: candy-multiRing 3s infinite alternate;
+}
+
+@keyframes candy-multiRing {
+    from {
+        box-shadow: 0 0 0 2px #ff00ff, 0 0 0 4px #00ffff, 0 0 0 6px transparent;
+    }
+    to {
+        box-shadow: 0 0 0 6px #ff00ff, 0 0 0 10px #00ffff, 0 0 0 14px rgba(0,255,255,0.3);
+    }
+}
+
+/* 145. 圆形渐变环 */
+.candy-input-145 {
+    background: #000;
+    padding: 12px;
+    background: repeating-radial-gradient(circle, #222, #222 5px, #333 5px, #333 10px);
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candy-input-145 input {
+    width: 110px;
+    text-align: center;
+}
+
+/* 146. 渐变蒙版 */
+.candy-input-146 {
+    background: #000;
+    padding: 12px;
+    mask-image: linear-gradient(to right, black 70%, transparent 100%);
+}
+
+/* 147. 金色发光文字 */
+.candy-input-147 {
+    background: #000;
+    padding: 12px;
+    text-shadow: 0 0 6px rgba(255,215,0,0.8);
+    color: gold;
+}
+
+/* 148. 锁图标右侧 */
+.candy-input-148 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-148::before {
+    content: "🔒";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #0f0;
+}
+
+/* 149. 故障文字动画 */
+.candy-input-149 {
+    background: #000;
+    padding: 12px;
+    animation: candy-glitchText 0.3s infinite;
+}
+
+@keyframes candy-glitchText {
+    0% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-2px);
+    }
+    40% {
+        transform: translateX(2px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* 150. 最终符号 Omega */
+.candy-input-150 {
+    background: #000;
+    padding: 12px;
+    position: relative;
+}
+
+.candy-input-150::after {
+    content: "Ω";
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ff55ff;
+    font-size: 18px;
+}
+
+/* ============ 公共聚焦动画类 ============ */
+.candy-focus-animate {
+    animation: candy-focusZoom 0.5s cubic-bezier(0.2, 0.8, 0.3, 1.2);
+}
+
+@keyframes candy-focusZoom {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(0,200,255,0);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0,255,255,0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

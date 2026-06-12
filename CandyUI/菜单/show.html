@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 菜单样式展示</title>
+    <!-- 引入菜单样式表 -->
+    <link rel="stylesheet" href="candy-menu.css">
+    <style>
+        /* ========== 全局样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0ff;
+            padding: 40px 20px;
+        }
+
+        /* ========== 页面标题区域 ========== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b, #6a82fb, #ff7e5f);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 4s ease infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ========== 菜单卡片网格布局 ========== */
+        .menu-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== 单个菜单卡片样式 ========== */
+        .menu-card {
+            background: rgba(30, 30, 50, 0.6);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(100, 100, 150, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(106, 130, 251, 0.2);
+        }
+
+        /* 卡片标题 */
+        .menu-card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(100, 100, 150, 0.2);
+        }
+
+        .menu-card-title .style-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #feb47b;
+            background: rgba(254, 180, 123, 0.15);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .menu-card-title .style-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* 菜单列表容器 */
+        .menu-preview {
+            background: rgba(20, 20, 35, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* 菜单卡片描述 */
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+        }
+
+        /* 响应式布局调整 */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .menu-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题区域 -->
+    <header class="page-header">
+        <h1>🍬 CandyUI 菜单样式展示</h1>
+        <p>20种精美菜单样式，包含霓虹、渐变、动画等多种视觉效果</p>
+    </header>
+
+    <!-- 菜单展示网格 -->
+    <main class="menu-showcase">
+
+        <!-- 样式1：玻璃态悬停 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-1</span>
+                <span class="style-name">玻璃态悬停</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-1">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">半透明背景配合蓝色发光阴影，悬停时呈现玻璃态效果</p>
+        </div>
+
+        <!-- 样式2：3D翻转 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-2</span>
+                <span class="style-name">3D翻转</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-2">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时卡片进行3D翻转动画，展现橙红色渐变背景</p>
+        </div>
+
+        <!-- 样式3：光芒扫过 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-3</span>
+                <span class="style-name">光芒扫过</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-3">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">白色光芒从左到右扫过，营造动感科技感</p>
+        </div>
+
+        <!-- 样式4：霓虹文字 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-4</span>
+                <span class="style-name">霓虹文字</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-4">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">文字具有霓虹灯发光效果，悬停时发光增强</p>
+        </div>
+
+        <!-- 样式5：左侧滑入 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-5</span>
+                <span class="style-name">左侧滑入</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-5">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时橙红色渐变从左侧滑入填充背景</p>
+        </div>
+
+        <!-- 样式6：全息渐变 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-6</span>
+                <span class="style-name">全息渐变</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-6">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">文字颜色随渐变动画不断变化，呈现全息视觉效果</p>
+        </div>
+
+        <!-- 样式7：胶囊按钮 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-7</span>
+                <span class="style-name">胶囊按钮</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-7">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">圆角胶囊造型，悬停时整体放大</p>
+        </div>
+
+        <!-- 样式8：缩放悬停 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-8</span>
+                <span class="style-name">缩放悬停</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-8">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">简洁的缩放动画效果，悬停时放大10%</p>
+        </div>
+
+        <!-- 样式9：立体凸出 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-9</span>
+                <span class="style-name">立体凸出</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-9">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">模拟2D物理凸出效果，悬停时阴影位移</p>
+        </div>
+
+        <!-- 样式10：毛玻璃效果 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-10</span>
+                <span class="style-name">毛玻璃效果</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-10">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">背景模糊滤镜，营造现代毛玻璃视觉</p>
+        </div>
+
+        <!-- 样式11：下划线动画 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-11</span>
+                <span class="style-name">下划线动画</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-11">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">青色下划线从右向左展开，大写字母间距装饰</p>
+        </div>
+
+        <!-- 样式12：箭头指示 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-12</span>
+                <span class="style-name">箭头指示</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-12">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时左侧显示箭头指示，简洁明了</p>
+        </div>
+
+        <!-- 样式13：闪电划过 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-13</span>
+                <span class="style-name">闪电划过</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-13">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">白色光芒从左向右闪电般划过</p>
+        </div>
+
+        <!-- 样式14：渐变填充 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-14</span>
+                <span class="style-name">渐变填充</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-14">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时多彩渐变覆盖背景</p>
+        </div>
+
+        <!-- 样式15：侧边装饰 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-15</span>
+                <span class="style-name">侧边装饰</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-15">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">左侧橙色边框配合圆点装饰</p>
+        </div>
+
+        <!-- 样式16：复古凸起 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-16</span>
+                <span class="style-name">复古凸起</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-16">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">经典按钮凸起效果，带有立体阴影和高光</p>
+        </div>
+
+        <!-- 样式17：渐变边框 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-17</span>
+                <span class="style-name">渐变边框</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-17">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时显示橙红色渐变边框</p>
+        </div>
+
+        <!-- 样式18：网格背景 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-18</span>
+                <span class="style-name">网格背景</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-18">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时显示蓝色网格科技背景</p>
+        </div>
+
+        <!-- 样式19：青色霓虹 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-19</span>
+                <span class="style-name">青色霓虹</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-19">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">青色系霓虹灯光文字效果</p>
+        </div>
+
+        <!-- 样式20：圆点装饰 -->
+        <div class="menu-card">
+            <div class="menu-card-title">
+                <span class="style-number">candy-menu-20</span>
+                <span class="style-name">圆点装饰</span>
+            </div>
+            <div class="menu-preview">
+                <ul class="candy-menu candy-menu-20">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">产品中心</a></li>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <p class="menu-card-desc">悬停时显示彩色圆点装饰背景</p>
+        </div>
+
+    </main>
+
+</body>
+</html>

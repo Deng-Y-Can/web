@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 进度条样式展示</title>
+    <!-- 引入进度条样式表 -->
+    <link rel="stylesheet" href="candy-progress.css">
+    <style>
+        /* ========== 全局样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0ff;
+            padding: 40px 20px;
+        }
+
+        /* ========== 页面标题区域 ========== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 4s ease infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ========== 展示区域布局 ========== */
+        .showcase-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ========== 分类区块样式 ========== */
+        .showcase-section {
+            background: rgba(30, 30, 50, 0.6);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(100, 100, 150, 0.2);
+        }
+
+        .showcase-section h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(100, 100, 150, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .showcase-section h2::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* ========== 进度条网格 ========== */
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .progress-item {
+            background: rgba(20, 20, 35, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .progress-item-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        /* 进度条容器自定义背景 */
+        .progress-dark-bg {
+            --progress-bg: #2a2a40;
+        }
+
+        /* ========== 交互提示 ========== */
+        .interaction-hint {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* ========== 不确定状态说明 ========== */
+        .indeterminate-container {
+            position: relative;
+            height: 50px;
+        }
+
+        .indeterminate-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 12px;
+        }
+
+        /* 单独的不确定状态进度条容器 */
+        .indeterminate-progress {
+            position: relative;
+            height: var(--progress-height);
+            background-color: var(--progress-bg);
+            border-radius: var(--progress-radius);
+            overflow: hidden;
+        }
+
+        .indeterminate-progress .candy-progress-bar {
+            position: absolute;
+            width: 50%;
+            left: -50%;
+        }
+
+        /* ========== 响应式布局 ========== */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .progress-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题区域 -->
+    <header class="page-header">
+        <h1>🍬 CandyUI 进度条样式展示</h1>
+        <p>多种精美进度条样式，支持条纹动画、不同尺寸、多种颜色及交互功能</p>
+    </header>
+
+    <!-- 进度条展示主容器 -->
+    <main class="showcase-container">
+
+        <!-- 基础进度条区域 -->
+        <section class="showcase-section">
+            <h2>基础进度条</h2>
+            <div class="progress-grid">
+                <!-- 默认进度条 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">默认样式</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress" data-value="75">
+                            <div class="candy-progress-bar" style="width: 75%;">
+                                <span class="candy-progress-value">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 隐藏波纹 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">隐藏波纹效果</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress" data-value="60">
+                            <div class="candy-progress-bar" style="width: 60%; padding-right: 0; justify-content: center;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 条纹动画区域 -->
+        <section class="showcase-section">
+            <h2>条纹动画</h2>
+            <div class="progress-grid">
+                <!-- 带条纹 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">带条纹（静态）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress">
+                            <div class="candy-progress-bar candy-progress-striped" style="width: 65%;">
+                                <span class="candy-progress-value">65%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 带动画条纹 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">带动画条纹</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress">
+                            <div class="candy-progress-bar candy-progress-striped candy-progress-animated" style="width: 80%;">
+                                <span class="candy-progress-value">80%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 不同尺寸区域 -->
+        <section class="showcase-section">
+            <h2>不同尺寸</h2>
+            <div class="progress-grid">
+                <!-- 小尺寸 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">小尺寸（高度 10px）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-sm">
+                            <div class="candy-progress-bar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中尺寸 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">中尺寸（高度 20px）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress">
+                            <div class="candy-progress-bar" style="width: 60%;">
+                                <span class="candy-progress-value">60%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 大尺寸 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">大尺寸（高度 30px）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-lg">
+                            <div class="candy-progress-bar" style="width: 70%;">
+                                <span class="candy-progress-value">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 不同颜色区域 -->
+        <section class="showcase-section">
+            <h2>不同颜色</h2>
+            <div class="progress-grid">
+                <!-- 成功色 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">成功色（绿色渐变）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-success">
+                            <div class="candy-progress-bar" style="width: 85%;">
+                                <span class="candy-progress-value">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 警告色 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">警告色（橙色渐变）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-warning">
+                            <div class="candy-progress-bar" style="width: 60%;">
+                                <span class="candy-progress-value">60%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 危险色 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">危险色（粉色渐变）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-danger">
+                            <div class="candy-progress-bar" style="width: 45%;">
+                                <span class="candy-progress-value">45%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 信息色 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">信息色（蓝色渐变）</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress candy-progress-info">
+                            <div class="candy-progress-bar" style="width: 90%;">
+                                <span class="candy-progress-value">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 不确定状态区域 -->
+        <section class="showcase-section">
+            <h2>不确定状态</h2>
+            <div class="indeterminate-container">
+                <div class="indeterminate-label">持续加载动画（用于未知完成时间）</div>
+                <div class="candy-progress-container progress-dark-bg">
+                    <div class="candy-progress">
+                        <div class="candy-progress-bar candy-progress-indeterminate" style="width: 50%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 可交互进度条区域 -->
+        <section class="showcase-section">
+            <h2>可交互进度条</h2>
+            <div class="progress-grid">
+                <!-- 可点击进度条 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">点击改变进度值</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress" id="interactive-progress-1">
+                            <div class="candy-progress-bar" style="width: 30%;">
+                                <span class="candy-progress-value">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="interaction-hint">点击进度条任意位置可改变进度值</p>
+                </div>
+
+                <!-- 带动画的可交互进度条 -->
+                <div class="progress-item">
+                    <div class="progress-item-label">动态渐变进度条</div>
+                    <div class="candy-progress-container progress-dark-bg">
+                        <div class="candy-progress" id="interactive-progress-2">
+                            <div class="candy-progress-bar candy-progress-striped candy-progress-animated" style="width: 50%;">
+                                <span class="candy-progress-value">50%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="interaction-hint">点击进度条切换进度状态</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 引入进度条交互脚本 -->
+    <script src="candy-progress.js"></script>
+    <script>
+        /**
+         * 可交互进度条的点击事件处理
+         * 点击进度条会根据点击位置更新进度值
+         */
+        document.querySelectorAll('.candy-progress').forEach(function(progress) {
+            progress.addEventListener('click', function(e) {
+                // 获取进度条容器的宽度
+                const rect = this.getBoundingClientRect();
+                // 计算点击位置相对于容器的百分比
+                const clickX = e.clientX - rect.left;
+                const percentage = Math.round((clickX / rect.width) * 100);
+
+                // 获取进度条和值显示元素
+                const bar = this.querySelector('.candy-progress-bar');
+                const value = this.querySelector('.candy-progress-value');
+
+                // 更新进度条宽度和显示值
+                bar.style.width = percentage + '%';
+                if (value) {
+                    value.textContent = percentage + '%';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

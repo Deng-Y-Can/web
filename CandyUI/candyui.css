@@ -1,0 +1,2315 @@
+/**
+ * CandyUI - 统一组件样式库 v2.0
+ * 包含: 按钮(5种) + 进度条(25种) + 滑块(50种) + 下拉框(20种)
+ * 可直接在其他项目中引用使用
+ */
+
+/* ==================== CSS变量定义 ==================== */
+:root {
+    --candy-primary: #4e54c8;
+    --candy-secondary: #8e8df0;
+    --candy-gold: #FFD700;
+    --candy-cyber-green: #00ff41;
+    --candy-cyber-pink: #ff00ff;
+    --candy-matrix-green: #00FF41;
+    --candy-deep-blue: #0f0c29;
+    --candy-mid-purple: #302b63;
+    --candy-violet: #24243e;
+    --candy-space-black: #0a0a0a;
+    --candy-glass-white: rgba(255, 255, 255, 0.1);
+    --candy-glass-border: rgba(255, 255, 255, 0.2);
+    --candy-neon-cyan: #00ffff;
+    --candy-neon-pink: #ff00ff;
+    --candy-neon-blue: #00b4ff;
+    --btn-padding: 12px 24px;
+    --btn-radius: 8px;
+    --btn-font-size: 16px;
+    --btn-font-weight: 600;
+    --progress-height: 20px;
+    --progress-radius: 10px;
+    --slider-height: 8px;
+    --slider-thumb-size: 22px;
+    /* 进度条专用变量 */
+    --primary-color: #0ff0fc;
+    --secondary-color: #ff00ff;
+    --accent-color: #ffff00;
+    --bg-dark: #0d0d15;
+}
+
+/* ==================== 按钮样式 (5种) ==================== */
+.candy-btn {
+    padding: var(--btn-padding);
+    border: none;
+    border-radius: var(--btn-radius);
+    font-size: var(--btn-font-size);
+    font-weight: var(--btn-font-weight);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    user-select: none;
+}
+
+.candy-btn:active {
+    transform: scale(0.98);
+}
+
+/* 1. 挤出塑料效果 */
+.candy-btn-extrude {
+    background: #4e54c8;
+    color: white;
+    box-shadow: 0 6px 0 #3a40a0, 0 6px 3px rgba(0,0,0,0.2);
+    transform: translateY(0);
+}
+
+.candy-btn-extrude:hover {
+    background: #5a60d0;
+    box-shadow: 0 4px 0 #3a40a0, 0 4px 3px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+
+.candy-btn-extrude:active {
+    box-shadow: 0 0px 0 #3a40a0, 0 0px 3px rgba(0,0,0,0.2);
+    transform: translateY(6px);
+}
+
+/* 2. 全息箔效果 */
+.candy-btn-holo-foil {
+    background: transparent;
+    color: #fff;
+    border: 2px solid transparent;
+    position: relative;
+    isolation: isolate;
+}
+
+.candy-btn-holo-foil::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 30%, transparent 40%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.3) 100%);
+    border-radius: inherit;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.candy-btn-holo-foil::after {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    border-radius: calc(8px + 2px);
+    z-index: -2;
+    filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: candy-holoShine 3s linear infinite;
+}
+
+.candy-btn-holo-foil:hover::before, .candy-btn-holo-foil:hover::after { opacity: 1; }
+
+@keyframes candy-holoShine {
+    0% { background-position: 0 0; }
+    100% { background-position: 400% 0; }
+}
+
+/* 3. 悬浮发光 */
+.candy-btn-levitate {
+    background: #7400b8;
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #7400b8, 0 0 20px #7400b8, 0 0 30px #7400b8, 0 0 40px #7400b8;
+    animation: candy-levitateFloat 3s ease-in-out infinite;
+}
+
+@keyframes candy-levitateFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.candy-btn-levitate::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 10%;
+    width: 80%;
+    height: 10px;
+    background: radial-gradient(ellipse at center, rgba(116, 0, 184, 0.5) 0%, rgba(116, 0, 184, 0) 70%);
+    border-radius: 50%;
+    filter: blur(5px);
+    z-index: -1;
+    animation: candy-levitateShadow 3s ease-in-out infinite;
+}
+
+@keyframes candy-levitateShadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.7; }
+    50% { transform: scaleX(0.7); opacity: 0.4; }
+}
+
+/* 4. 铬金属效果 */
+.candy-btn-chrome {
+    background: linear-gradient(145deg, #c0c0c0, #808080);
+    color: #000;
+    border: 2px solid #a0a0a0;
+    box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.5), inset -2px -2px 4px rgba(0, 0, 0, 0.2), 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-btn-chrome::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 20px; height: 200%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: rotate(25deg);
+    transition: left 0.5s;
+}
+
+.candy-btn-chrome:hover::before { left: 120%; }
+
+/* 5. 矩阵雨效果 */
+.candy-btn-matrix {
+    background-color: #000;
+    color: var(--candy-matrix-green);
+    font-family: 'Courier New', monospace;
+    border: 1px solid var(--candy-matrix-green);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+/* ==================== 进度条样式 (25种) ==================== */
+
+/* 1. 六边形脉冲 */
+.hex-pulse {
+    width: 120px;
+    height: 104px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    animation: hexSpin 3s linear infinite;
+}
+
+@keyframes hexSpin { to { transform: rotate(360deg); } }
+
+/* 2. 星形填充 */
+.star-fill {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: var(--secondary-color);
+    transition: all 2s ease-in-out;
+}
+
+.star-fill:hover {
+    background: radial-gradient(circle, var(--accent-color) 0%, var(--secondary-color) 70%);
+    filter: drop-shadow(0 0 15px var(--accent-color));
+}
+
+/* 3. 心跳线 */
+.heartbeat-line {
+    width: 150px;
+    height: 4px;
+    margin: 50px auto;
+    background: var(--primary-color);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.heartbeat-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 20%; height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    animation: heartbeatSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeatSlide {
+    0%, 100% { left: -20%; }
+    50% { left: 100%; }
+}
+
+/* 4. 旋转立方体面 */
+.cube-face {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.cube-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cubeRotateY 4s infinite linear;
+}
+
+.cube-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    backface-visibility: hidden;
+}
+
+.cube-side.front { transform: translateZ(50px); }
+.cube-side.back { transform: rotateY(180deg) translateZ(50px); }
+.cube-side.right { transform: rotateY(90deg) translateZ(50px); }
+.cube-side.left { transform: rotateY(-90deg) translateZ(50px); }
+.cube-side.top { transform: rotateX(90deg) translateZ(50px); }
+.cube-side.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+.cube-side.front::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 100%;
+    background: var(--primary-color);
+    animation: fillWidth 3s infinite alternate ease-in-out;
+}
+
+@keyframes cubeRotateY { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+@keyframes fillWidth { to { width: 100%; } }
+
+/* 5. DNA双螺旋 */
+.dna-helix {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.strand {
+    position: absolute;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.strand.left { left: 30px; }
+.strand.right { right: 30px; }
+
+.strand::before, .strand::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    top: 0;
+}
+
+.strand.right::before, .strand.right::after { left: -3px; }
+.strand.left::before, .strand.left::after { right: -3px; }
+.strand.left::before { animation: dnaUp 2s ease-in-out infinite; }
+.strand.left::after { animation: dnaDown 2s ease-in-out infinite 1s; }
+.strand.right::before { animation: dnaDown 2s ease-in-out infinite; }
+.strand.right::after { animation: dnaUp 2s ease-in-out infinite 1s; }
+
+@keyframes dnaUp {
+    0% { top: 0; }
+    100% { top: 100%; transform: translate(0, -100%); }
+}
+
+@keyframes dnaDown {
+    0% { top: 100%; transform: translate(0, -100%); }
+    100% { top: 0; }
+}
+
+/* 6. 环形波浪 */
+.ring-wave {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid var(--primary-color);
+}
+
+.ring-wave::before, .ring-wave::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--accent-color);
+    opacity: 0;
+}
+
+.ring-wave::before { animation: ringPulse 1.5s ease-out infinite; }
+.ring-wave::after { animation: ringPulse 1.5s ease-out 0.75s infinite; }
+
+@keyframes ringPulse {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 100px; height: 100px; opacity: 0; }
+}
+
+/* 7. 无限符号 */
+.infinity-symbol {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.infinity-symbol::before, .infinity-symbol::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--primary-color);
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+.infinity-symbol::after { right: 0; }
+
+.infinity-dot {
+    position: absolute;
+    top: 50%; left: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: infinityMove 3s linear infinite;
+}
+
+@keyframes infinityMove {
+    0% { left: 0; }
+    25% { left: calc(50% - 5px); top: 0; }
+    50% { left: 100%; top: 50%; }
+    75% { left: calc(50% - 5px); top: 100%; }
+    100% { left: 0; }
+}
+
+/* 8. 三角形旋转填充 */
+.tri-rotate-fill {
+    width: 100px;
+    height: 87px;
+    margin: 20px auto;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background: conic-gradient(from 0deg at 50% 100%, transparent 0deg, var(--secondary-color) 120deg, transparent 240deg);
+    animation: triConicSpin 4s linear infinite;
+}
+
+@keyframes triConicSpin { to { transform: rotate(360deg); } }
+
+/* 9. 发光粒子流 */
+.particle-stream {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    top: 5px;
+    box-shadow: 0 0 8px 2px var(--accent-color);
+    animation: streamFlow 3s linear infinite;
+}
+
+.particle:nth-child(1) { left: -10px; animation-delay: 0s; }
+.particle:nth-child(2) { left: -10px; animation-delay: 0.5s; }
+.particle:nth-child(3) { left: -10px; animation-delay: 1s; }
+.particle:nth-child(4) { left: -10px; animation-delay: 1.5s; }
+.particle:nth-child(5) { left: -10px; animation-delay: 2s; }
+
+@keyframes streamFlow {
+    0% { left: -10px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 150px; opacity: 0; }
+}
+
+/* 10. 机械齿轮联动 */
+.gear-linkage {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.gear {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+.gear.small { left: 0; width: 30px; height: 30px; }
+.gear.large { right: 0; }
+
+.gear::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.gear.small::after, .gear.large::after {
+    content: '';
+    position: absolute;
+    top: -5px; left: 50%;
+    width: 6px;
+    height: 15px;
+    background: var(--primary-color);
+    transform-origin: bottom center;
+}
+
+.gear.small::after { transform: translateX(-50%) rotate(0deg); animation: gearSpinSmall 4s linear infinite; }
+.gear.large::after { transform: translateX(-50%) rotate(0deg); animation: gearSpinLarge 4s linear infinite reverse; }
+
+@keyframes gearSpinSmall { to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes gearSpinLarge { to { transform: translateX(-50%) rotate(360deg); } }
+
+/* 11. 液态金属 */
+.liquid-metal {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-metal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+
+/* 12. 极光带 */
+.aurora-band {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aurora-band::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+    animation: auroraShift 5s linear infinite;
+}
+
+@keyframes auroraShift { 0% { background-position: 0 0; } 100% { background-position: 100% 0; } }
+
+/* 13. 数据流矩阵 */
+.matrix-stream {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: black;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--primary-color);
+}
+
+.matrix-col {
+    position: absolute;
+    top: -100%;
+    width: 10px;
+    color: var(--primary-color);
+    font-family: monospace;
+    font-size: 14px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    animation: matrixFall 5s linear infinite;
+}
+
+.matrix-col:nth-child(1) { left: 10px; animation-delay: 0s; }
+.matrix-col:nth-child(2) { left: 30px; animation-delay: 1s; }
+.matrix-col:nth-child(3) { left: 50px; animation-delay: 2s; }
+.matrix-col:nth-child(4) { left: 70px; animation-delay: 3s; }
+.matrix-col:nth-child(5) { left: 90px; animation-delay: 4s; }
+.matrix-col:nth-child(6) { left: 110px; animation-delay: 0.5s; }
+.matrix-col:nth-child(7) { left: 130px; animation-delay: 1.5s; }
+
+@keyframes matrixFall { to { top: 100%; } }
+
+/* 14. 霓虹灯管 */
+.neon-tube {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 5px var(--primary-color), inset 0 0 5px var(--primary-color);
+    animation: neonFlicker 3s infinite alternate;
+}
+
+.neon-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 70%;
+    background: var(--primary-color);
+    border-radius: 8px;
+    filter: blur(1px);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+@keyframes neonFlicker {
+    0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--primary-color), inset 0 0 5px var(--primary-color); }
+    50% { opacity: 0.8; box-shadow: 0 0 2px var(--primary-color), inset 0 0 2px var(--primary-color); }
+}
+
+/* 15. 全息投影 */
+.hologram-projection {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.hologram-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: hologramFloat 6s ease-in-out infinite;
+}
+
+.hologram-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--primary-color));
+    opacity: 0.7;
+    border: 1px solid white;
+}
+
+.hologram-face.front-h { transform: translateZ(50px); }
+.hologram-face.back-h { transform: rotateY(180deg) translateZ(50px); }
+.hologram-face.right-h { transform: rotateY(90deg) translateZ(50px); }
+.hologram-face.left-h { transform: rotateY(-90deg) translateZ(50px); }
+.hologram-face.top-h { transform: rotateX(90deg) translateZ(50px); }
+.hologram-face.bottom-h { transform: rotateX(-90deg) translateZ(50px); }
+
+@keyframes hologramFloat {
+    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
+    50% { transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg); }
+}
+
+/* 16. 磁力场线 */
+.magnetic-field {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.field-line {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0;
+    height: 4px;
+    background: var(--primary-color);
+    transform-origin: left center;
+}
+
+.field-line.l1 { transform: translate(-50%, -50%) rotate(0deg); width: 50px; animation: fieldExtend 2s ease-in-out infinite alternate; }
+.field-line.l2 { transform: translate(-50%, -50%) rotate(45deg); width: 40px; animation: fieldExtend 2s ease-in-out 0.2s infinite alternate; }
+.field-line.l3 { transform: translate(-50%, -50%) rotate(90deg); width: 50px; animation: fieldExtend 2s ease-in-out 0.4s infinite alternate; }
+.field-line.l4 { transform: translate(-50%, -50%) rotate(135deg); width: 40px; animation: fieldExtend 2s ease-in-out 0.6s infinite alternate; }
+
+.field-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+@keyframes fieldExtend { to { width: 60px; } }
+
+/* 17. 能量核心 */
+.energy-core {
+    width: 80px;
+    height: 80px;
+    margin: 30px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-color) 0%, var(--secondary-color) 70%, transparent 100%);
+    position: relative;
+    box-shadow: 0 0 20px var(--accent-color), inset 0 0 10px white;
+    animation: corePulse 2s ease-in-out infinite alternate;
+}
+
+.core-orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.core-orbiter {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: orbit 4s linear infinite;
+}
+
+@keyframes corePulse { to { transform: scale(1.1); box-shadow: 0 0 30px var(--accent-color), inset 0 0 15px white; } }
+@keyframes orbit { to { transform: translateX(-50%) rotate(360deg); top: 0; } }
+
+/* 18. 黑洞吸积盘 */
+.blackhole-disk {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, black 30%, var(--primary-color) 100%);
+    position: relative;
+    overflow: hidden;
+    animation: diskSpin 10s linear infinite;
+}
+
+.disk-streak {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100%;
+    height: 4px;
+    background: var(--secondary-color);
+    transform-origin: left center;
+    opacity: 0.7;
+}
+
+.disk-streak.s1 { transform: translate(0, -50%) rotate(0deg); }
+.disk-streak.s2 { transform: translate(0, -50%) rotate(30deg); }
+.disk-streak.s3 { transform: translate(0, -50%) rotate(60deg); }
+.disk-streak.s4 { transform: translate(0, -50%) rotate(90deg); }
+.disk-streak.s5 { transform: translate(0, -50%) rotate(120deg); }
+.disk-streak.s6 { transform: translate(0, -50%) rotate(150deg); }
+
+.event-horizon {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 40px;
+    height: 40px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+@keyframes diskSpin { to { transform: rotate(360deg); } }
+
+/* 19. 离子推进器 */
+.ion-thruster {
+    width: 40px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.thruster-chamber {
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to right, var(--bg-dark), var(--primary-color));
+    border-radius: 5px 5px 0 0;
+}
+
+.plasma-beam {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 6px;
+    height: 60px;
+    background: linear-gradient(to top, var(--primary-color), var(--accent-color), transparent);
+    border-radius: 3px;
+    transform: translateX(-50%);
+    animation: beamFlicker 0.5s ease-in-out infinite alternate;
+}
+
+.beam-particle {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: particleRise 1s ease-out infinite;
+}
+
+.beam-particle.p1 { left: 0; animation-delay: 0s; }
+.beam-particle.p2 { left: 50%; animation-delay: 0.2s; }
+.beam-particle.p3 { right: 0; animation-delay: 0.4s; }
+
+@keyframes beamFlicker { to { height: 65px; opacity: 0.8; } }
+@keyframes particleRise { to { bottom: 60px; opacity: 0; } }
+
+/* 20. 赛博朋克扫描线 */
+.cyber-scan {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: #111;
+    border: 1px solid var(--primary-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.scan-bar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+    animation: scanMove 2s linear infinite;
+}
+
+.scan-grid {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+@keyframes scanMove { to { top: 100%; } }
+
+/* 21. 光速飞行轨迹 */
+.lightspeed-trail {
+    width: 200px;
+    height: 4px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, transparent, var(--primary-color), var(--accent-color), var(--primary-color), transparent);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.trail-star {
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: starStreak 1s linear infinite;
+}
+
+.trail-star.s1 { left: 0; animation-delay: 0s; }
+.trail-star.s2 { left: 25%; animation-delay: 0.2s; }
+.trail-star.s3 { left: 50%; animation-delay: 0.4s; }
+.trail-star.s4 { left: 75%; animation-delay: 0.6s; }
+
+@keyframes starStreak {
+    0% { left: -10px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* 22. 分形树生长 */
+.fractal-tree {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.tree-trunk {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 4px;
+    height: 60px;
+    background: #5d4037;
+    transform: translateX(-50%);
+}
+
+.tree-branch {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: #4caf50;
+    transform-origin: bottom center;
+}
+
+.tree-branch.branch-l1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-20deg); height: 40px; animation: growBranch 3s forwards; }
+.tree-branch.branch-r1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(20deg); height: 40px; animation: growBranch 3s forwards; }
+.tree-branch.branch-l2 { bottom: 90px; left: 30px; transform: translateX(-50%) rotate(-40deg); animation: growBranch 3s 1s forwards; }
+.tree-branch.branch-r2 { bottom: 90px; right: 30px; transform: translateX(50%) rotate(40deg); animation: growBranch 3s 1s forwards; }
+
+@keyframes growBranch { from { height: 0; } to { height: 100%; } }
+
+/* 23. 量子纠缠粒子 */
+.quantum-entanglement {
+    width: 120px;
+    height: 80px;
+    margin: 30px auto;
+    position: relative;
+}
+
+.entangled-particle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.entangled-particle.p1 { left: 20px; animation: quantumOscillate 2s ease-in-out infinite alternate; }
+.entangled-particle.p2 { right: 20px; animation: quantumOscillate 2s ease-in-out infinite alternate-reverse; }
+
+.entanglement-link {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transform: translate(-50%, -50%);
+    animation: linkPulse 2s ease-in-out infinite;
+}
+
+@keyframes quantumOscillate {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.5); }
+}
+
+@keyframes linkPulse {
+    0%, 100% { width: 0; }
+    50% { width: 60px; }
+}
+
+/* 24. 时间扭曲光环 */
+.time-warp {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    border-radius: 50%;
+    position: relative;
+    animation: timeWarpRotate 20s linear infinite;
+}
+
+.warp-ring {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.warp-ring.ring1 { border-color: var(--primary-color); animation: ringDistort 3s ease-in-out infinite alternate; }
+.warp-ring.ring2 { border-color: var(--secondary-color); width: 80%; height: 80%; top: 10%; left: 10%; animation: ringDistort 3s ease-in-out infinite alternate-reverse; }
+.warp-ring.ring3 { border-color: var(--accent-color); width: 60%; height: 60%; top: 20%; left: 20%; animation: ringDistort 3s ease-in-out infinite alternate; }
+
+@keyframes timeWarpRotate { to { transform: rotate(360deg); } }
+@keyframes ringDistort {
+    0%, 100% { border-radius: 50%; }
+    50% { border-radius: 40% 60% 40% 60%; }
+}
+
+/* 25. 宇宙弦振动 */
+.cosmic-string {
+    width: 150px;
+    height: 2px;
+    margin: 60px auto;
+    background: linear-gradient(90deg, transparent, var(--primary-color), var(--secondary-color), var(--primary-color), transparent);
+    position: relative;
+    animation: stringVibrate 0.05s ease-in-out infinite alternate;
+}
+
+.string-node {
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.string-node.node1 { left: 0; }
+.string-node.node2 { left: 50%; }
+.string-node.node3 { left: 100%; }
+
+@keyframes stringVibrate {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(1.5) scaleX(0.95); }
+}
+
+/* ==================== 滑块样式 (50种) ==================== */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 10px;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 8px;
+    border-radius: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: #ff7e5f;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
+    margin-top: -7px;
+    transition: all 0.2s ease;
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: #ff7e5f;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 126, 95, 0.7);
+}
+
+/* 1. 发光滑块 */
+.glow-slider::-webkit-slider-thumb {
+    background: #00c9ff;
+    box-shadow: 0 0 15px #00c9ff, 0 0 30px #00c9ff;
+}
+
+/* 2. 渐变滑块 */
+.gradient-slider {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+}
+
+/* 3. 3D立体滑块 */
+.slider-3d {
+    perspective: 100px;
+}
+
+.slider-3d input[type="range"] {
+    transform: rotateX(45deg);
+    transform-origin: center;
+}
+
+/* 4. 荧光笔效果 */
+.neon-slider::-webkit-slider-thumb {
+    background: #91eae4;
+    box-shadow: 0 0 0 2px #1a1a2e, 0 0 10px #91eae4, 0 0 20px #91eae4;
+}
+
+/* 5. 赛博朋克 */
+.cyberpunk-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff0058, #00f2ea);
+}
+
+.cyberpunk-slider::-webkit-slider-thumb {
+    background: #000;
+    border: 2px solid #00f2ea;
+    box-shadow: 0 0 10px #00f2ea;
+}
+
+/* 6. 极简主义 */
+.minimal-slider::-webkit-slider-runnable-track {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.minimal-slider::-webkit-slider-thumb {
+    background: white;
+    box-shadow: none;
+    border: 2px solid #1a1a2e;
+}
+
+/* 7. 复古胶片 */
+.film-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #d4af37, #c5b358);
+}
+
+.film-slider::-webkit-slider-thumb {
+    background: #1a1a2e;
+    border: 2px solid #d4af37;
+}
+
+/* 8. 液态金属 */
+.liquid-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #c0c0c0, #a9a9a9);
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(192, 192, 192, 0.8);
+}
+
+/* 9. 霓虹灯 */
+.neon-light-slider::-webkit-slider-runnable-track {
+    background: #1a1a2e;
+}
+
+.neon-light-slider::-webkit-slider-thumb {
+    background: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+/* 10. 玻璃拟态 */
+.glass-slider {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-slider::-webkit-slider-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* 11. 未来科技 */
+.tech-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #00dbde, #fc00ff);
+}
+
+.tech-slider::-webkit-slider-thumb {
+    background: #000;
+    border: 2px solid #00dbde;
+    box-shadow: 0 0 15px #00dbde;
+}
+
+/* 12. 水墨画 */
+.ink-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #0a0a0a, #3a3a3a);
+}
+
+.ink-slider::-webkit-slider-thumb {
+    background: radial-gradient(circle, #ffffff, #0a0a0a);
+    border: 1px solid #ffffff;
+}
+
+/* 13. 星空 */
+.starry-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+}
+
+.starry-slider::-webkit-slider-thumb {
+    background: #ffffff;
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #8a2be2;
+}
+
+/* 14. 火焰 */
+.fire-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
+
+.fire-slider::-webkit-slider-thumb {
+    background: #ff0000;
+    box-shadow: 0 0 15px #ff416c;
+}
+
+/* 15. 冰霜 */
+.frost-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #a8edea, #fed6e3);
+}
+
+.frost-slider::-webkit-slider-thumb {
+    background: #e0f7fa;
+    box-shadow: 0 0 10px #a8edea;
+}
+
+/* 16. 金属质感 */
+.metal-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #d4d4d4, #a0a0a0);
+    border-radius: 50%;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 17. 荧光绿 */
+.toxic-slider::-webkit-slider-runnable-track {
+    background: #0a1929;
+}
+
+.toxic-slider::-webkit-slider-thumb {
+    background: #39ff14;
+    box-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+}
+
+/* 18. 日落 */
+.sunset-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff5e62, #ff9966);
+}
+
+.sunset-slider::-webkit-slider-thumb {
+    background: #ff5e62;
+    box-shadow: 0 0 10px #ff5e62;
+}
+
+/* 19. 深海 */
+.ocean-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+}
+
+.ocean-slider::-webkit-slider-thumb {
+    background: #00c9ff;
+    box-shadow: 0 0 10px #00c9ff;
+}
+
+/* 20. 黑金 */
+.black-gold-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #000000, #2c2c2c);
+}
+
+.black-gold-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #d4af37, #f9f1c7);
+    border: 2px solid #d4af37;
+}
+
+/* 21. 彩虹 */
+.rainbow-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+}
+
+.rainbow-slider::-webkit-slider-thumb {
+    background: white;
+    border: 2px solid black;
+}
+
+/* 22. 虚拟现实 */
+.vr-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #8e2de2, #4a00e0);
+}
+
+.vr-slider::-webkit-slider-thumb {
+    background: #000;
+    border: 2px solid #8e2de2;
+    box-shadow: 0 0 15px #8e2de2;
+}
+
+/* 23. 赛道 */
+.racing-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #000000, #333333);
+}
+
+.racing-slider::-webkit-slider-thumb {
+    background: #ff0000;
+    border: 2px solid #ff0000;
+    box-shadow: 0 0 10px #ff0000;
+}
+
+/* 24. 霓虹紫 */
+.purple-neon-slider::-webkit-slider-runnable-track {
+    background: #1a1a2e;
+}
+
+.purple-neon-slider::-webkit-slider-thumb {
+    background: #da2fe8;
+    box-shadow: 0 0 10px #da2fe8, 0 0 20px #da2fe8;
+}
+
+/* 25. 青柠 */
+.lime-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #32cd32, #7fff00);
+}
+
+.lime-slider::-webkit-slider-thumb {
+    background: #32cd32;
+    box-shadow: 0 0 10px #32cd32;
+}
+
+/* 26. 血色 */
+.blood-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #8b0000, #dc143c);
+}
+
+.blood-slider::-webkit-slider-thumb {
+    background: #8b0000;
+    box-shadow: 0 0 10px #8b0000;
+}
+
+/* 27. 薄荷 */
+.mint-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #98ff98, #b0f2b4);
+}
+
+.mint-slider::-webkit-slider-thumb {
+    background: #98ff98;
+    box-shadow: 0 0 10px #98ff98;
+}
+
+/* 28. 太空黑 */
+.space-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #000000, #1a1a1a);
+}
+
+.space-slider::-webkit-slider-thumb {
+    background: #ffffff;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+/* 29. 霓虹蓝 */
+.blue-neon-slider::-webkit-slider-runnable-track {
+    background: #0a0a2a;
+}
+
+.blue-neon-slider::-webkit-slider-thumb {
+    background: #00b4ff;
+    box-shadow: 0 0 10px #00b4ff, 0 0 20px #00b4ff;
+}
+
+/* 30. 珊瑚 */
+.coral-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff7f50, #ff6b6b);
+}
+
+.coral-slider::-webkit-slider-thumb {
+    background: #ff7f50;
+    box-shadow: 0 0 10px #ff7f50;
+}
+
+/* 31. 翡翠 */
+.emerald-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #50c878, #2e8b57);
+}
+
+.emerald-slider::-webkit-slider-thumb {
+    background: #50c878;
+    box-shadow: 0 0 10px #50c878;
+}
+
+/* 32. 紫罗兰 */
+.violet-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #8a2be2, #9400d3);
+}
+
+.violet-slider::-webkit-slider-thumb {
+    background: #8a2be2;
+    box-shadow: 0 0 10px #8a2be2;
+}
+
+/* 33. 银河 */
+.galaxy-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #141e30, #243b55);
+}
+
+.galaxy-slider::-webkit-slider-thumb {
+    background: #ffffff;
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #4facfe;
+}
+
+/* 34. 烈焰橙 */
+.flame-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+}
+
+.flame-slider::-webkit-slider-thumb {
+    background: #ff416c;
+    box-shadow: 0 0 10px #ff416c;
+}
+
+/* 35. 电光蓝 */
+.electric-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+}
+
+.electric-slider::-webkit-slider-thumb {
+    background: #00c9ff;
+    box-shadow: 0 0 10px #00c9ff, 0 0 20px #00c9ff;
+}
+
+/* 36. 玫瑰金 */
+.rose-gold-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #e0b0ff, #f9a8d4);
+}
+
+.rose-gold-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #e0b0ff, #f9a8d4);
+    border: 2px solid #e0b0ff;
+}
+
+/* 37. 深红 */
+.crimson-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #8b0000, #dc143c);
+}
+
+.crimson-slider::-webkit-slider-thumb {
+    background: #8b0000;
+    box-shadow: 0 0 10px #8b0000;
+}
+
+/* 38. 海军蓝 */
+.navy-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #000080, #0000ff);
+}
+
+.navy-slider::-webkit-slider-thumb {
+    background: #000080;
+    box-shadow: 0 0 10px #000080;
+}
+
+/* 39. 青铜 */
+.bronze-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #cd7f32, #b87333);
+    border: 2px solid #cd7f32;
+}
+
+/* 40. 霓虹粉 */
+.pink-neon-slider::-webkit-slider-runnable-track {
+    background: #1a1a2e;
+}
+
+.pink-neon-slider::-webkit-slider-thumb {
+    background: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+/* 41. 橄榄绿 */
+.olive-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #808000, #9acd32);
+}
+
+.olive-slider::-webkit-slider-thumb {
+    background: #808000;
+    box-shadow: 0 0 10px #808000;
+}
+
+/* 42. 钴蓝 */
+.cobalt-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #0047ab, #0096d6);
+}
+
+.cobalt-slider::-webkit-slider-thumb {
+    background: #0047ab;
+    box-shadow: 0 0 10px #0047ab;
+}
+
+/* 43. 珊瑚红 */
+.coral-red-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ff6b6b, #ff416c);
+}
+
+.coral-red-slider::-webkit-slider-thumb {
+    background: #ff6b6b;
+    box-shadow: 0 0 10px #ff6b6b;
+}
+
+/* 44. 薰衣草 */
+.lavender-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #e6e6fa, #dda0dd);
+}
+
+.lavender-slider::-webkit-slider-thumb {
+    background: #e6e6fa;
+    box-shadow: 0 0 10px #e6e6fa;
+}
+
+/* 45. 深紫 */
+.deep-purple-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #4b0082, #800080);
+}
+
+.deep-purple-slider::-webkit-slider-thumb {
+    background: #4b0082;
+    box-shadow: 0 0 10px #4b0082;
+}
+
+/* 46. 青瓷 */
+.celadon-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #afeeee, #7fffd4);
+}
+
+.celadon-slider::-webkit-slider-thumb {
+    background: #afeeee;
+    box-shadow: 0 0 10px #afeeee;
+}
+
+/* 47. 琥珀 */
+.amber-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ffbf00, #ff7e5f);
+}
+
+.amber-slider::-webkit-slider-thumb {
+    background: #ffbf00;
+    box-shadow: 0 0 10px #ffbf00;
+}
+
+/* 48. 深绿 */
+.forest-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #228b22, #32cd32);
+}
+
+.forest-slider::-webkit-slider-thumb {
+    background: #228b22;
+    box-shadow: 0 0 10px #228b22;
+}
+
+/* 49. 霓虹青 */
+.cyan-neon-slider::-webkit-slider-runnable-track {
+    background: #0a1a1a;
+}
+
+.cyan-neon-slider::-webkit-slider-thumb {
+    background: #00ffff;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+/* 50. 极光 */
+.aurora-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #00c9ff, #92fe9d);
+}
+
+.aurora-slider::-webkit-slider-thumb {
+    background: #00c9ff;
+    box-shadow: 0 0 10px #00c9ff, 0 0 20px #00c9ff;
+}
+
+/* ==================== 下拉框样式 (20种) ==================== */
+
+/* 基础下拉框容器 */
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+.option {
+    padding: 10px 16px;
+    cursor: default;
+    transition: all 0.2s ease;
+}
+
+/* 1. 极简主义 */
+.minimal-trigger {
+    background: transparent;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #555;
+}
+
+.minimal-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #222;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.minimal-options.show { max-height: 180px; }
+
+.minimal-option { color: #ccc; }
+.minimal-option:hover { background: #333; }
+
+/* 2. 霓虹灯牌 */
+.neon-trigger {
+    background: #000;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 5px #00ffff, inset 0 0 5px rgba(0, 255, 255, 0.1), 0 0 10px rgba(0, 255, 255, 0.1);
+    text-shadow: 0 0 5px #00ffff;
+    font-weight: bold;
+}
+
+.neon-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #000;
+    border: 1px solid #00ffff;
+    border-top: none;
+    box-shadow: 0 0 5px #00ffff, inset 0 0 5px rgba(0, 255, 255, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.neon-options.show { max-height: 180px; }
+
+.neon-option { color: #fff; text-shadow: 0 0 5px #00ffff; }
+.neon-option:hover { background: rgba(0, 255, 255, 0.1); box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2); }
+
+/* 3. 玻璃拟态 */
+.glass-trigger {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+.glass-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.glass-options.show { max-height: 180px; }
+
+.glass-option { color: #eee; }
+.glass-option:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* 4. 全息投影 */
+.hologram-trigger {
+    background: #000;
+    color: #0ff;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hologram-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, transparent 50%, rgba(0,255,255,0.1) 50%);
+    background-size: 10px 10px;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.hologram-trigger::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,255,255,0.3), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+    z-index: -1;
+}
+
+.hologram-trigger:hover::after { transform: translateX(100%); }
+
+.hologram-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(2px);
+    border-top: 1px solid #0ff;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.hologram-options.show { max-height: 180px; }
+
+.hologram-option { color: #0ff; text-shadow: 0 0 5px rgba(0,255,255,0.5); }
+.hologram-option:hover { background: rgba(0,255,255,0.05); text-shadow: 0 0 8px #0ff; }
+
+/* 5. 浮雕效果 */
+.emboss-trigger {
+    background: #444;
+    color: #ddd;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(255,255,255,0.1);
+}
+
+.emboss-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #333;
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.5), inset -2px -2px 4px rgba(255,255,255,0.05);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.emboss-options.show { max-height: 180px; }
+
+.emboss-option { color: #ccc; border-top: 1px solid #222; }
+.emboss-option:hover { background: #3a3a3a; box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3); }
+
+/* 6. 磁贴风格 */
+.metro-trigger {
+    background: #00aba9;
+    color: white;
+    padding: 14px;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    border: none;
+}
+
+.metro-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #1aba17;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.metro-options.show { max-height: 180px; }
+
+.metro-option { color: white; font-size: 16px; padding: 12px; border-top: 1px solid rgba(255,255,255,0.2); }
+.metro-option:hover { background: rgba(0,0,0,0.1); }
+
+/* 7. 立体按钮 */
+.button3d-trigger {
+    background: linear-gradient(to bottom, #ff9800, #f57c00);
+    color: white;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 0 #e65100;
+    transition: all 0.1s ease;
+}
+
+.button3d-trigger.pressed {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #e65100;
+}
+
+.button3d-options {
+    position: absolute;
+    top: calc(100% + 4px); left: 0;
+    width: 100%;
+    background: #ffd54f;
+    border-radius: 0 0 4px 4px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.button3d-options.show { max-height: 180px; }
+
+.button3d-option { color: #333; }
+.button3d-option:hover { background: #ffecb3; }
+
+/* 8. 暗黑模式开关 */
+.darkmode-trigger {
+    background: #2d2d2d;
+    color: #ccc;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.darkmode-trigger::before { content: "🌙"; }
+
+.darkmode-trigger.light {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.darkmode-trigger.light::before { content: "☀️"; }
+
+.darkmode-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #1e1e1e;
+    border-radius: 0 0 20px 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.darkmode-options.show { max-height: 180px; }
+
+.darkmode-option { color: #aaa; }
+.darkmode-option:hover { background: #2a2a2a; color: #fff; }
+
+/* 9. 波纹扩散 */
+.ripple-trigger {
+    background: #2196f3;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+}
+
+@keyframes ripple-animation {
+    to { transform: scale(4); opacity: 0; }
+}
+
+.ripple-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #bbdefb;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.ripple-options.show { max-height: 180px; }
+
+.ripple-option { color: #0d47a1; }
+.ripple-option:hover { background: #e3f2fd; }
+
+/* 10. 橡皮筋弹跳 */
+.rubber-trigger {
+    background: #9c27b0;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+}
+
+.rubber-trigger.active { animation: rubberBand 0.6s ease; }
+
+@keyframes rubberBand {
+    0% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(1.25, 0.75, 1); }
+    40% { transform: scale3d(0.75, 1.25, 1); }
+    50% { transform: scale3d(1.15, 0.85, 1); }
+    65% { transform: scale3d(.95, 1.05, 1); }
+    75% { transform: scale3d(1.05, .95, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+}
+
+.rubber-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #ce93d8;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.rubber-options.show { max-height: 180px; }
+
+.rubber-option { color: #4a148c; }
+.rubber-option:hover { background: #e1bee7; }
+
+/* 11. 粒子系统 */
+.particle-trigger {
+    background: #000;
+    color: #fff;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.particle-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+    background-size: 15px 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.particle-trigger:hover::before { opacity: 0.3; }
+
+.particle-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #111;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.particle-options.show { max-height: 180px; }
+
+.particle-option { color: #ddd; }
+.particle-option:hover { background: #222; }
+
+/* 12. 乐高积木 */
+.lego-trigger {
+    background: #d81b60;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid #c11350;
+    border-radius: 0;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.lego-trigger::before {
+    content: "";
+    position: absolute;
+    top: -5px; left: 10px;
+    width: 10px; height: 10px;
+    background: #d81b60;
+    border: 2px solid #c11350;
+    border-radius: 50%;
+    box-shadow: 20px 0 0 #d81b60, 20px 0 0 2px #c11350, 40px 0 0 #d81b60, 40px 0 0 2px #c11350;
+}
+
+.lego-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #f8bbd0;
+    border: 2px solid #c11350;
+    border-top: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.lego-options.show { max-height: 180px; }
+
+.lego-option { color: #880e4f; border-top: 1px solid #f48fb1; }
+.lego-option:hover { background: #f48fb1; }
+
+/* 13. 时间线 */
+.timeline-trigger {
+    background: transparent;
+    color: #4fc3f7;
+    padding: 12px 12px 12px 30px;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.timeline-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: #4fc3f7;
+}
+
+.timeline-trigger::after {
+    content: "●";
+    position: absolute;
+    top: 50%; left: -6px;
+    transform: translateY(-50%);
+    color: #4fc3f7;
+    font-size: 18px;
+}
+
+.timeline-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #0277bd;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    padding-left: 20px;
+}
+
+.timeline-options.show { max-height: 180px; }
+
+.timeline-option {
+    color: #b3e5fc;
+    position: relative;
+    padding-left: 20px;
+    border-left: 1px dashed rgba(179, 229, 252, 0.5);
+}
+
+.timeline-option::before {
+    content: "●";
+    position: absolute;
+    top: 50%; left: -6px;
+    transform: translateY(-50%);
+    color: #81d4fa;
+    font-size: 14px;
+}
+
+.timeline-option:hover { background: rgba(2, 119, 189, 0.7); }
+
+/* 14. 错误/警告 */
+.error-trigger {
+    background: #d32f2f;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.error-trigger::before {
+    content: "⚠";
+    position: absolute;
+    top: 50%; left: 10px;
+    transform: translateY(-50%);
+    font-size: 18px;
+}
+
+.error-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #ffcdd2;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.error-options.show { max-height: 180px; }
+
+.error-option { color: #b71c1c; padding-left: 35px; }
+.error-option:hover { background: #ef9a9a; }
+
+/* 15. 悬浮窗 */
+.floatwin-trigger {
+    background: #3f51b5;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    border-radius: 4px 4px 0 0;
+}
+
+.floatwin-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #c5cae9;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    z-index: 10;
+}
+
+.floatwin-options.show { max-height: 180px; }
+
+.floatwin-option { color: #1a237e; border-top: 1px solid #9fa8da; }
+.floatwin-option:hover { background: #9fa8da; }
+
+/* 16. 信息图 */
+.info-trigger {
+    background: #007acc;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-trigger::before {
+    content: "i";
+    position: absolute;
+    top: 50%; left: 10px;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    background: white;
+    color: #007acc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.info-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #e3f2fd;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.info-options.show { max-height: 180px; }
+
+.info-option { color: #004499; padding-left: 35px; position: relative; }
+.info-option::before { content: "•"; position: absolute; left: 20px; color: #007acc; }
+.info-option:hover { background: #bbdefb; }
+
+/* 17. 手绘涂鸦 */
+.sketch-trigger {
+    background: #fff8dc;
+    color: #333;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid #000;
+    border-radius: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.sketch-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px);
+    background-size: 4px 4px;
+    opacity: 0.2;
+}
+
+.sketch-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #fefefe;
+    border: 2px solid #000;
+    border-top: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.sketch-options.show { max-height: 180px; }
+
+.sketch-option { color: #333; font-family: 'Comic Sans MS', cursive, sans-serif; border-top: 1px dashed #999; }
+.sketch-option:hover { background: #f5f5dc; }
+
+/* 18. 水墨晕染 */
+.inkbleed-trigger {
+    background: #f5f5dc;
+    color: #3e2723;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.inkbleed-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(62,39,35,0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.inkbleed-trigger:hover::before { opacity: 1; }
+
+.inkbleed-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #fcfcf5;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease-out;
+}
+
+.inkbleed-options.show { max-height: 180px; }
+
+.inkbleed-option { color: #5d4037; }
+.inkbleed-option:hover { background: #edebe4; }
+
+/* 19. 像素艺术 */
+.pixel-trigger {
+    background: #6a5acd;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    image-rendering: pixelated;
+    border: 2px solid #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.pixel-trigger::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h2v2H0V0zm2 2h2v2H2V2z' fill='%235645a3'/%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+.pixel-options {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 100%;
+    background: #5645a3;
+    border: 2px solid #000;
+    border-top: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s steps(4);
+}
+
+.pixel-options.show { max-height: 180px; }
+
+.pixel-option { color: #fff; font-family: 'Press Start 2P', cursive; font-size: 10px; padding: 8px; }
+.pixel-option:hover { background: #4b3a8d; }
+
+/* 20. 卡片翻转 */
+.cardflip-container {
+    perspective: 1000px;
+    height: 50px;
+}
+
+.cardflip-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.cardflip-container.flipped .cardflip-inner {
+    transform: rotateX(180deg);
+}
+
+.cardflip-front, .cardflip-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cardflip-front {
+    background: #607d8b;
+    color: white;
+}
+
+.cardflip-back {
+    background: #eceff1;
+    color: #455a64;
+    transform: rotateX(180deg);
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    cursor: default;
+}
+
+.cardflip-back > div {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+
+.cardflip-back > div:hover { background: #cfd8dc; }

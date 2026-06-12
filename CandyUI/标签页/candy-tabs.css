@@ -1,0 +1,501 @@
+/* CandyUI - 标签页样式 */
+
+/* CSS变量定义 */
+:root {
+    --tabs-primary: #667eea;
+    --tabs-secondary: #764ba2;
+    --tabs-success: #10b981;
+    --tabs-danger: #ef4444;
+    --tabs-warning: #f59e0b;
+    --tabs-info: #3b82f6;
+}
+
+/* 标签页容器 */
+.candy-tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 标签页标签 */
+.candy-tabs-nav {
+    display: flex;
+    gap: 5px;
+    position: relative;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 标签页标签项 */
+.candy-tabs-tab {
+    padding: 12px 24px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+}
+
+.candy-tabs-tab:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 激活状态 */
+.candy-tabs-tab.active {
+    color: var(--tabs-primary);
+}
+
+/* 禁用状态 */
+.candy-tabs-tab:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 标签页内容 */
+.candy-tabs-content {
+    position: relative;
+    padding: 20px 0;
+}
+
+.candy-tabs-panel {
+    display: none;
+}
+
+.candy-tabs-panel.active {
+    display: block;
+}
+
+/* 样式1-10: 3D标签效果 */
+
+/* 样式1: 翻页效果 */
+.candy-tabs.tabs-1 .candy-tabs-tab {
+    transform: perspective(500px) rotateX(5deg);
+    transform-origin: bottom center;
+}
+
+.candy-tabs.tabs-1 .candy-tabs-tab.active {
+    transform: perspective(500px) rotateX(0deg);
+    background: rgba(102, 126, 234, 0.2);
+    border-radius: 10px 10px 0 0;
+}
+
+/* 样式2: 折叠效果 */
+.candy-tabs.tabs-2 .candy-tabs-tab {
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+}
+
+.candy-tabs.tabs-2 .candy-tabs-tab.active {
+    transform: scale(1.1);
+    background: linear-gradient(180deg, rgba(102, 126, 234, 0.3), transparent);
+}
+
+/* 样式3: 斜角效果 */
+.candy-tabs.tabs-3 .candy-tabs-tab {
+    background: linear-gradient(135deg, #2a2a50, #1a1a35);
+    border-radius: 0;
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+}
+
+.candy-tabs.tabs-3 .candy-tabs-tab.active {
+    background: linear-gradient(135deg, #3a3a60, #2a2a45);
+    box-shadow: 0 -5px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式4: 浮雕效果 */
+.candy-tabs.tabs-4 .candy-tabs-tab {
+    background: linear-gradient(180deg, #1a1a35, #0f0f25);
+    box-shadow: 
+        inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.candy-tabs.tabs-4 .candy-tabs-tab.active {
+    background: linear-gradient(180deg, #2a2a45, #1a1a35);
+    box-shadow: 
+        inset 2px 2px 4px rgba(255, 255, 255, 0.2),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* 样式5: 3D翻转 */
+.candy-tabs.tabs-5 .candy-tabs-tab {
+    transform: perspective(800px) rotateY(-10deg);
+    transition: transform 0.3s ease;
+}
+
+.candy-tabs.tabs-5 .candy-tabs-tab.active {
+    transform: perspective(800px) rotateY(0deg);
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* 样式6: 透视悬浮 */
+.candy-tabs.tabs-6 .candy-tabs-tab {
+    transform: perspective(1000px) translateZ(-20px);
+    transition: transform 0.3s ease;
+}
+
+.candy-tabs.tabs-6 .candy-tabs-tab.active {
+    transform: perspective(1000px) translateZ(0);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式7: 深度效果 */
+.candy-tabs.tabs-7 .candy-tabs-tab {
+    box-shadow: 
+        5px 5px 0 rgba(102, 126, 234, 0.3),
+        10px 10px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-7 .candy-tabs-tab.active {
+    box-shadow: 
+        2px 2px 0 rgba(102, 126, 234, 0.5),
+        5px 5px 10px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+/* 样式8: 阴影效果 */
+.candy-tabs.tabs-8 .candy-tabs-tab {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-8 .candy-tabs-tab:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.candy-tabs.tabs-8 .candy-tabs-tab.active {
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    transform: translateY(-5px);
+}
+
+/* 样式9: 边框效果 */
+.candy-tabs.tabs-9 .candy-tabs-tab {
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-9 .candy-tabs-tab.active {
+    border-color: var(--tabs-primary);
+    background: rgba(102, 126, 234, 0.2);
+}
+
+/* 样式10: 组合3D效果 */
+.candy-tabs.tabs-10 .candy-tabs-tab {
+    transform: perspective(800px) rotateX(10deg) scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-10 .candy-tabs-tab.active {
+    transform: perspective(800px) rotateX(0deg) scale(1);
+    background: linear-gradient(180deg, rgba(102, 126, 234, 0.4), rgba(102, 126, 234, 0.1));
+}
+
+/* 样式11-20: 发光效果 */
+
+/* 样式11: 霓虹发光 */
+.candy-tabs.tabs-11 .candy-tabs-tab {
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-11 .candy-tabs-tab.active {
+    border-bottom-color: var(--tabs-primary);
+    box-shadow: 
+        0 0 10px rgba(102, 126, 234, 0.5),
+        0 0 20px rgba(102, 126, 234, 0.3);
+    color: var(--tabs-primary);
+}
+
+/* 样式12: 脉冲光晕 */
+.candy-tabs.tabs-12 .candy-tabs-tab.active {
+    background: rgba(102, 126, 234, 0.2);
+    animation: tabs12Pulse 2s ease-in-out infinite;
+}
+
+@keyframes tabs12Pulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+    }
+}
+
+/* 样式13: 渐变光 */
+.candy-tabs.tabs-13 .candy-tabs-tab.active {
+    background: linear-gradient(90deg, 
+        rgba(102, 126, 234, 0.4),
+        rgba(118, 75, 162, 0.4)
+    );
+    color: #fff;
+}
+
+/* 样式14: 彩色边框 */
+.candy-tabs.tabs-14 .candy-tabs-tab {
+    border: 2px solid transparent;
+    background: linear-gradient(#1a1a35, #1a1a35) padding-box,
+                linear-gradient(90deg, #667eea, #764ba2, #f093fb) border-box;
+}
+
+.candy-tabs.tabs-14 .candy-tabs-tab.active {
+    background: linear-gradient(rgba(102, 126, 234, 0.3), rgba(102, 126, 234, 0.3)) padding-box,
+                linear-gradient(90deg, #667eea, #764ba2, #f093fb) border-box;
+}
+
+/* 样式15: 呼吸光效 */
+.candy-tabs.tabs-15 .candy-tabs-tab.active {
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.2);
+    animation: tabs15Breathe 3s ease-in-out infinite;
+}
+
+@keyframes tabs15Breathe {
+    0%, 100% {
+        box-shadow: 
+            0 0 15px rgba(102, 126, 234, 0.4),
+            0 0 30px rgba(102, 126, 234, 0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 25px rgba(102, 126, 234, 0.6),
+            0 0 50px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式16: 外发光 */
+.candy-tabs.tabs-16 .candy-tabs-tab.active {
+    box-shadow: 
+        0 0 20px rgba(118, 75, 162, 0.5),
+        0 0 40px rgba(118, 75, 162, 0.3);
+    border-color: rgba(118, 75, 162, 0.5);
+}
+
+/* 样式17: 内发光 */
+.candy-tabs.tabs-17 .candy-tabs-tab.active {
+    background: rgba(102, 126, 234, 0.2);
+    box-shadow: inset 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式18: 双层光晕 */
+.candy-tabs.tabs-18 .candy-tabs-tab.active {
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.4),
+        0 0 30px rgba(118, 75, 162, 0.2),
+        0 0 45px rgba(240, 147, 251, 0.1);
+}
+
+/* 样式19: 动态光效 */
+.candy-tabs.tabs-19 .candy-tabs-tab.active {
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-tabs.tabs-19 .candy-tabs-tab.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(102, 126, 234, 0.4),
+        transparent
+    );
+    animation: tabs19Sweep 2s ease-in-out infinite;
+}
+
+@keyframes tabs19Sweep {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 样式20: 渐变背景发光 */
+.candy-tabs.tabs-20 .candy-tabs-tab.active {
+    background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.3),
+        rgba(118, 75, 162, 0.3)
+    );
+    box-shadow: 
+        0 0 15px rgba(102, 126, 234, 0.3),
+        inset 0 0 15px rgba(102, 126, 234, 0.2);
+}
+
+/* 样式21-30: 动画效果 */
+
+/* 样式21: 缩放弹跳 */
+.candy-tabs.tabs-21 .candy-tabs-tab {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.candy-tabs.tabs-21 .candy-tabs-tab.active {
+    transform: scale(1.15);
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* 样式22: 滑入效果 */
+.candy-tabs.tabs-22 .candy-tabs-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--tabs-primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.candy-tabs.tabs-22 .candy-tabs-tab.active::after {
+    width: 100%;
+}
+
+/* 样式23: 弹性效果 */
+.candy-tabs.tabs-23 .candy-tabs-tab {
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.candy-tabs.tabs-23 .candy-tabs-tab.active {
+    transform: scale(1.2);
+    background: rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* 样式24: 旋转缩放 */
+.candy-tabs.tabs-24 .candy-tabs-tab {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.candy-tabs.tabs-24 .candy-tabs-tab.active {
+    transform: rotate(5deg) scale(1.1);
+    background: rgba(102, 126, 234, 0.3);
+}
+
+/* 样式25: 淡入缩放 */
+.candy-tabs.tabs-25 .candy-tabs-tab {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-25 .candy-tabs-tab.active {
+    opacity: 1;
+    transform: scale(1.05);
+    background: rgba(102, 126, 234, 0.2);
+}
+
+/* 样式26: 左右展开 */
+.candy-tabs.tabs-26 .candy-tabs-tab {
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-26 .candy-tabs-tab.active {
+    border-left-color: var(--tabs-primary);
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.3), transparent);
+    padding-left: 30px;
+}
+
+/* 样式27: 上下展开 */
+.candy-tabs.tabs-27 .candy-tabs-tab {
+    border-top: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-27 .candy-tabs-tab.active {
+    border-top-color: var(--tabs-primary);
+    background: linear-gradient(180deg, rgba(102, 126, 234, 0.3), transparent);
+    padding-top: 15px;
+}
+
+/* 样式28: 组合动画 */
+.candy-tabs.tabs-28 .candy-tabs-tab {
+    transform: translateY(10px);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-28 .candy-tabs-tab.active {
+    transform: translateY(0);
+    opacity: 1;
+    background: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* 样式29: 摇晃效果 */
+.candy-tabs.tabs-29 .candy-tabs-tab {
+    transition: all 0.3s ease;
+}
+
+.candy-tabs.tabs-29 .candy-tabs-tab.active {
+    animation: tabs29Shake 0.5s ease-out;
+    background: rgba(102, 126, 234, 0.3);
+}
+
+@keyframes tabs29Shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+/* 样式30: 终极3D效果 */
+.candy-tabs.tabs-30 .candy-tabs-tab {
+    transform: perspective(1000px) rotateX(15deg) translateY(10px);
+    opacity: 0.7;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.candy-tabs.tabs-30 .candy-tabs-tab.active {
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+    opacity: 1;
+    background: linear-gradient(180deg, 
+        rgba(102, 126, 234, 0.4),
+        rgba(102, 126, 234, 0.1)
+    );
+    box-shadow: 
+        0 10px 30px rgba(102, 126, 234, 0.4),
+        0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+/* 垂直布局 */
+.candy-tabs.vertical {
+    flex-direction: row;
+}
+
+.candy-tabs.vertical .candy-tabs-nav {
+    flex-direction: column;
+    border-bottom: none;
+    border-right: 2px solid rgba(255, 255, 255, 0.1);
+    padding-right: 10px;
+}
+
+.candy-tabs.vertical .candy-tabs-content {
+    padding: 0 20px;
+}
+
+/* 对齐方式 */
+.candy-tabs.align-left .candy-tabs-nav {
+    justify-content: flex-start;
+}
+
+.candy-tabs.align-center .candy-tabs-nav {
+    justify-content: center;
+}
+
+.candy-tabs.align-right .candy-tabs-nav {
+    justify-content: flex-end;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .candy-tabs-nav {
+        flex-wrap: wrap;
+    }
+    
+    .candy-tabs-tab {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+}

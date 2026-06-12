@@ -1,0 +1,562 @@
+/* CandyUI - 工具提示样式 */
+
+/* CSS变量定义 */
+:root {
+    --tooltip-primary: #667eea;
+    --tooltip-secondary: #764ba2;
+    --tooltip-success: #10b981;
+    --tooltip-danger: #ef4444;
+    --tooltip-warning: #f59e0b;
+    --tooltip-info: #3b82f6;
+    --tooltip-bg: rgba(30, 30, 50, 0.95);
+    --tooltip-text: #fff;
+}
+
+/* 工具提示基础样式 */
+.candy-tooltip {
+    position: absolute;
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+    max-width: 300px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 箭头样式 */
+.candy-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+}
+
+/* 位置样式 - 上 */
+.candy-tooltip.tooltip-top {
+    transform: translateY(10px);
+}
+
+.candy-tooltip.tooltip-top .candy-tooltip-arrow {
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-color: var(--tooltip-bg);
+}
+
+/* 位置样式 - 下 */
+.candy-tooltip.tooltip-bottom {
+    transform: translateY(-10px);
+}
+
+.candy-tooltip.tooltip-bottom .candy-tooltip-arrow {
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--tooltip-bg);
+}
+
+/* 位置样式 - 左 */
+.candy-tooltip.tooltip-left {
+    transform: translateX(10px);
+}
+
+.candy-tooltip.tooltip-left .candy-tooltip-arrow {
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left-color: var(--tooltip-bg);
+}
+
+/* 位置样式 - 右 */
+.candy-tooltip.tooltip-right {
+    transform: translateX(-10px);
+}
+
+.candy-tooltip.tooltip-right .candy-tooltip-arrow {
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-right-color: var(--tooltip-bg);
+}
+
+/* 工具提示显示状态 */
+.candy-tooltip.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.candy-tooltip.tooltip-top.active {
+    transform: translateY(-10px);
+}
+
+.candy-tooltip.tooltip-bottom.active {
+    transform: translateY(10px);
+}
+
+.candy-tooltip.tooltip-left.active {
+    transform: translateX(-10px);
+}
+
+.candy-tooltip.tooltip-right.active {
+    transform: translateX(10px);
+}
+
+/* 样式1-10: 3D立体效果 */
+
+/* 样式1: 斜角3D效果 */
+.candy-tooltip.tooltip-1 {
+    background: linear-gradient(135deg, #2a2a50, #1a1a35);
+    transform: perspective(500px) rotateX(10deg);
+    box-shadow: 
+        5px 5px 0 rgba(102, 126, 234, 0.3),
+        10px 10px 20px rgba(0, 0, 0, 0.4);
+    border-left: 3px solid #667eea;
+}
+
+.candy-tooltip.tooltip-1.active {
+    transform: perspective(500px) rotateX(0deg);
+}
+
+/* 样式2: 浮雕效果 */
+.candy-tooltip.tooltip-2 {
+    background: linear-gradient(180deg, #1a1a35, #0f0f25);
+    box-shadow: 
+        inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+/* 样式3: 凹陷效果 */
+.candy-tooltip.tooltip-3 {
+    background: linear-gradient(180deg, #0f0f25, #1a1a35);
+    box-shadow: 
+        inset -3px -3px 6px rgba(0, 0, 0, 0.5),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+/* 样式4: 光晕效果 */
+.candy-tooltip.tooltip-4 {
+    background: rgba(102, 126, 234, 0.2);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.5),
+        0 0 40px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+}
+
+/* 样式5: 3D翻转 */
+.candy-tooltip.tooltip-5 {
+    background: linear-gradient(135deg, #2a2a55, #1a1a40);
+    transform: perspective(800px) rotateY(-15deg) scale(0.9);
+    box-shadow: 
+        10px 0 20px rgba(102, 126, 234, 0.2),
+        -10px 0 20px rgba(102, 126, 234, 0.2);
+}
+
+.candy-tooltip.tooltip-5.active {
+    transform: perspective(800px) rotateY(0deg) scale(1);
+}
+
+/* 样式6: 透视悬浮 */
+.candy-tooltip.tooltip-6 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: perspective(1000px) translateZ(-50px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(102, 126, 234, 0.2);
+}
+
+.candy-tooltip.tooltip-6.active {
+    transform: perspective(1000px) translateZ(0);
+}
+
+/* 样式7: 折叠效果 */
+.candy-tooltip.tooltip-7 {
+    background: linear-gradient(180deg, #202045, #151535);
+    transform-origin: top center;
+    transform: perspective(500px) scaleY(0);
+}
+
+.candy-tooltip.tooltip-7.active {
+    transform: perspective(500px) scaleY(1);
+}
+
+/* 样式8: 翻页效果 */
+.candy-tooltip.tooltip-8 {
+    background: linear-gradient(135deg, #1f1f45, #141430);
+    transform-origin: left center;
+    transform: perspective(800px) rotateY(-90deg);
+}
+
+.candy-tooltip.tooltip-8.active {
+    transform: perspective(800px) rotateY(0deg);
+}
+
+/* 样式9: 深度效果 */
+.candy-tooltip.tooltip-9 {
+    background: linear-gradient(180deg, #252560, #1a1a45);
+    transform: perspective(1500px) translateZ(-300px) scale(0.7);
+    box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.5);
+}
+
+.candy-tooltip.tooltip-9.active {
+    transform: perspective(1500px) translateZ(0) scale(1);
+}
+
+/* 样式10: 扭曲效果 */
+.candy-tooltip.tooltip-10 {
+    background: linear-gradient(145deg, #2a2a55, #1a1a40);
+    transform: perspective(500px) rotateX(30deg);
+    filter: blur(5px);
+}
+
+.candy-tooltip.tooltip-10.active {
+    transform: perspective(500px) rotateX(0deg);
+    filter: blur(0);
+}
+
+/* 样式11-20: 发光效果 */
+
+/* 样式11: 霓虹发光 */
+.candy-tooltip.tooltip-11 {
+    background: #0a0a1a;
+    border: 2px solid #667eea;
+    box-shadow: 
+        0 0 10px rgba(102, 126, 234, 0.5),
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 30px rgba(102, 126, 234, 0.1);
+    animation: tooltip11Glow 2s ease-in-out infinite;
+}
+
+@keyframes tooltip11Glow {
+    0%, 100% {
+        box-shadow: 
+            0 0 10px rgba(102, 126, 234, 0.5),
+            0 0 20px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 
+            0 0 15px rgba(102, 126, 234, 0.7),
+            0 0 30px rgba(102, 126, 234, 0.5);
+    }
+}
+
+/* 样式12: 脉冲光晕 */
+.candy-tooltip.tooltip-12 {
+    background: linear-gradient(135deg, #1a1a40, #0d0d25);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.candy-tooltip.tooltip-12::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 10px;
+    z-index: -1;
+    animation: tooltip12Pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes tooltip12Pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* 样式13: 渐变光 */
+.candy-tooltip.tooltip-13 {
+    background: linear-gradient(180deg, #2a1a50, #1a1035);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        inset 0 0 30px rgba(102, 126, 234, 0.1);
+}
+
+/* 样式14: 彩色边框 */
+.candy-tooltip.tooltip-14 {
+    background: #0f0f25;
+    border: 3px solid;
+    border-image: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea) 1;
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.4),
+        inset 0 0 20px rgba(102, 126, 234, 0.1);
+}
+
+/* 样式15: 霓虹管效果 */
+.candy-tooltip.tooltip-15 {
+    background: #0a0a1f;
+    border: none;
+    box-shadow: 
+        inset 0 0 10px rgba(102, 126, 234, 0.2),
+        0 0 0 2px #667eea,
+        0 0 0 4px #764ba2,
+        0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+/* 样式16: 呼吸光效 */
+.candy-tooltip.tooltip-16 {
+    background: linear-gradient(135deg, #1a1a40, #151535);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 40px rgba(102, 126, 234, 0.2);
+    animation: tooltip16Breathe 3s ease-in-out infinite;
+}
+
+@keyframes tooltip16Breathe {
+    0%, 100% { 
+        box-shadow: 
+            0 0 20px rgba(102, 126, 234, 0.3),
+            0 0 40px rgba(102, 126, 234, 0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 0 30px rgba(102, 126, 234, 0.5),
+            0 0 60px rgba(102, 126, 234, 0.3);
+    }
+}
+
+/* 样式17: 外发光 */
+.candy-tooltip.tooltip-17 {
+    background: linear-gradient(145deg, #252555, #1a1a40);
+    box-shadow: 
+        0 0 30px rgba(118, 75, 162, 0.4),
+        0 0 60px rgba(118, 75, 162, 0.2),
+        inset 0 0 20px rgba(118, 75, 162, 0.1);
+    border: 1px solid rgba(118, 75, 162, 0.3);
+}
+
+/* 样式18: 内发光 */
+.candy-tooltip.tooltip-18 {
+    background: linear-gradient(135deg, #1a1a35, #101025);
+    box-shadow: inset 0 0 30px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* 样式19: 双层光晕 */
+.candy-tooltip.tooltip-19 {
+    background: linear-gradient(180deg, #202050, #151540);
+    box-shadow: 
+        0 0 20px rgba(102, 126, 234, 0.3),
+        0 0 40px rgba(118, 75, 162, 0.2),
+        0 0 60px rgba(240, 147, 251, 0.1);
+}
+
+/* 样式20: 动态光效 */
+.candy-tooltip.tooltip-20 {
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-tooltip.tooltip-20::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, #667eea, transparent, #764ba2, transparent);
+    animation: tooltip20Rotate 4s linear infinite;
+}
+
+.candy-tooltip.tooltip-20::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: linear-gradient(135deg, #1a1a40, #0f0f2a);
+    border-radius: 7px;
+    z-index: 1;
+}
+
+.candy-tooltip.tooltip-20 > * {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes tooltip20Rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 样式21-30: 动画效果 */
+
+/* 样式21: 缩放弹跳 */
+.candy-tooltip.tooltip-21 {
+    background: linear-gradient(145deg, #252550, #1a1a40);
+    transform: scale(0);
+}
+
+.candy-tooltip.tooltip-21.active {
+    transform: scale(1);
+    animation: tooltip21Bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes tooltip21Bounce {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* 样式22: 滑入效果 */
+.candy-tooltip.tooltip-22 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: translateY(-20px);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-22.active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式23: 弹性效果 */
+.candy-tooltip.tooltip-23 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scale(2);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-23.active {
+    transform: scale(1);
+    opacity: 1;
+    animation: tooltip23Elastic 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes tooltip23Elastic {
+    0% { transform: scale(2); opacity: 0; }
+    60% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 样式24: 旋转缩放 */
+.candy-tooltip.tooltip-24 {
+    background: linear-gradient(145deg, #252555, #1a1a45);
+    transform: perspective(1000px) rotateY(180deg) scale(0.5);
+}
+
+.candy-tooltip.tooltip-24.active {
+    transform: perspective(1000px) rotateY(0deg) scale(1);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式25: 淡入缩放 */
+.candy-tooltip.tooltip-25 {
+    background: linear-gradient(180deg, #202050, #151540);
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-25.active {
+    transform: scale(1);
+    opacity: 1;
+    transition: all 0.4s ease-out;
+}
+
+/* 样式26: 左右展开 */
+.candy-tooltip.tooltip-26 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.candy-tooltip.tooltip-26.active {
+    transform: scaleX(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式27: 上下展开 */
+.candy-tooltip.tooltip-27 {
+    background: linear-gradient(180deg, #252550, #1a1a40);
+    transform: scaleY(0);
+    transform-origin: top center;
+}
+
+.candy-tooltip.tooltip-27.active {
+    transform: scaleY(1);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 样式28: 组合动画 */
+.candy-tooltip.tooltip-28 {
+    background: linear-gradient(145deg, #202050, #151540);
+    transform: translateY(30px) scale(0.8);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-28.active {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    animation: tooltip28Slide 0.6s ease-out;
+}
+
+@keyframes tooltip28Slide {
+    0% { transform: translateY(30px) scale(0.8); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* 样式29: 摇晃效果 */
+.candy-tooltip.tooltip-29 {
+    background: linear-gradient(135deg, #1a1a40, #10102a);
+    transform: translateX(-30px);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-29.active {
+    transform: translateX(0);
+    opacity: 1;
+    animation: tooltip29Shake 0.6s ease-out;
+}
+
+@keyframes tooltip29Shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(10px); }
+    40% { transform: translateX(-10px); }
+    60% { transform: translateX(5px); }
+    80% { transform: translateX(-5px); }
+}
+
+/* 样式30: 终极3D效果 */
+.candy-tooltip.tooltip-30 {
+    background: linear-gradient(180deg, #252555, #1a1a45);
+    transform: perspective(1500px) rotateX(45deg) translateY(-50px) translateZ(-100px);
+    opacity: 0;
+}
+
+.candy-tooltip.tooltip-30.active {
+    transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+    opacity: 1;
+    animation: tooltip30Final 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes tooltip30Final {
+    0% { 
+        transform: perspective(1500px) rotateX(45deg) translateY(-50px) translateZ(-100px);
+        opacity: 0;
+    }
+    50% { opacity: 1; }
+    100% { 
+        transform: perspective(1500px) rotateX(0deg) translateY(0) translateZ(0);
+        opacity: 1;
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .candy-tooltip {
+        font-size: 12px;
+        padding: 6px 12px;
+        max-width: 200px;
+    }
+}

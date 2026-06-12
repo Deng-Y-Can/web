@@ -1,0 +1,282 @@
+.candy-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.candy-menu li {
+    margin: 10px 0;
+}
+
+.candy-menu a {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: #e0e0ff;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+}
+
+.candy-menu-1 a {
+    background: rgba(40, 40, 60, 0.6);
+    border: 1px solid rgba(100, 100, 150, 0.3);
+}
+.candy-menu-1 a:hover {
+    background: rgba(70, 70, 120, 0.8);
+    box-shadow: 0 0 15px rgba(100, 150, 255, 0.6);
+    color: #fff;
+}
+
+.candy-menu-2 a {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+.candy-menu-2 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b);
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+.candy-menu-2 a:hover::before { opacity: 1; }
+.candy-menu-2 a:hover {
+    transform: rotateY(180deg);
+    color: white;
+}
+
+.candy-menu-3 a { position: relative; }
+.candy-menu-3 a::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+.candy-menu-3 a:hover::after { transform: translateX(100%); }
+
+.candy-menu-4 a {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff7e5f, 0 0 20px #ff7e5f;
+    border: 1px solid #ff7e5f;
+    background: rgba(20, 20, 30, 0.7);
+}
+.candy-menu-4 a:hover {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff7e5f, 0 0 40px #ff7e5f;
+    box-shadow: 0 0 20px rgba(255, 126, 95, 0.5);
+}
+
+.candy-menu-5 a { position: relative; z-index: 1; }
+.candy-menu-5 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 100%;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    transition: width 0.5s ease;
+    z-index: -1;
+}
+.candy-menu-5 a:hover::before { width: 100%; }
+
+.candy-menu-6 a {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b, #6a82fb, #ff7e5f);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: candy-hologram 3s ease infinite;
+    text-align: center;
+    font-weight: bold;
+}
+@keyframes candy-hologram {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.candy-menu-7 a {
+    background: rgba(106, 130, 251, 0.2);
+    border-radius: 50px;
+    text-align: center;
+    border: 2px solid rgba(106, 130, 251, 0.3);
+}
+.candy-menu-7 a:hover {
+    background: rgba(106, 130, 251, 0.4);
+    transform: scale(1.05);
+}
+
+.candy-menu-8 a { position: relative; }
+.candy-menu-8 a:hover {
+    transform: scale(1.1);
+    background: rgba(255, 126, 95, 0.3);
+}
+
+.candy-menu-9 a {
+    border: 2px solid #ff7e5f;
+    border-radius: 8px;
+    background: rgba(30, 30, 50, 0.5);
+    box-shadow: 2px 2px 0 #ff7e5f, 4px 4px 0 rgba(0,0,0,0.2);
+}
+.candy-menu-9 a:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 2px 2px 0 #ff7e5f, 4px 4px 0 rgba(0,0,0,0.2), 6px 6px 0 rgba(255, 126, 95, 0.3);
+}
+
+.candy-menu-10 a {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.candy-menu-10 a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.candy-menu-11 a {
+    color: #00f3ff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+.candy-menu-11 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: #00f3ff;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+.candy-menu-11 a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.candy-menu-12 a { position: relative; padding-left: 30px; }
+.candy-menu-12 a::before {
+    content: "→";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-menu-12 a:hover::before { opacity: 1; }
+
+.candy-menu-13 a { position: relative; overflow: hidden; }
+.candy-menu-13 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+.candy-menu-13 a:hover::before { left: 100%; }
+
+.candy-menu-14 a { position: relative; z-index: 1; }
+.candy-menu-14 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #6a82fb);
+    z-index: -1;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-menu-14 a:hover::before { opacity: 1; }
+
+.candy-menu-15 a {
+    position: relative;
+    padding: 15px 20px;
+    border-left: 4px solid #ff7e5f;
+    background: rgba(20, 20, 30, 0.7);
+}
+.candy-menu-15 a::before, .candy-menu-15 a::after {
+    content: "";
+    position: absolute;
+    width: 8px; height: 8px;
+    background: #ff7e5f;
+    border-radius: 50%;
+}
+.candy-menu-15 a::before { top: 10px; left: -12px; }
+.candy-menu-15 a::after { bottom: 10px; left: -12px; }
+
+.candy-menu-16 a {
+    background: linear-gradient(to bottom, #555, #333);
+    color: #ddd;
+    text-shadow: 0 -1px 0 #000;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.5);
+    border: 1px solid #222;
+}
+.candy-menu-16 a:hover { background: linear-gradient(to bottom, #666, #444); }
+
+.candy-menu-17 a {
+    position: relative;
+    background: rgba(40, 40, 60, 0.6);
+    border: 2px solid transparent;
+}
+.candy-menu-17 a::before {
+    content: "";
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b);
+    z-index: -1;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-menu-17 a:hover::before { opacity: 1; }
+
+.candy-menu-18 a { position: relative; background: rgba(30, 30, 50, 0.7); border: 1px solid rgba(100, 100, 150, 0.3); }
+.candy-menu-18 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(106, 130, 251, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(106, 130, 251, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-menu-18 a:hover::before { opacity: 1; }
+
+.candy-menu-19 a {
+    position: relative;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff, 0 0 25px #0ff;
+}
+.candy-menu-19 a::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    color: #0ff;
+    z-index: -1;
+    opacity: 0.7;
+    filter: blur(1px);
+}
+
+.candy-menu-20 a { position: relative; overflow: hidden; background: rgba(30, 30, 50, 0.7); }
+.candy-menu-20 a::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 126, 95, 0.2) 2px, transparent 2px),
+                radial-gradient(circle at 80% 70%, rgba(106, 130, 251, 0.2) 2px, transparent 2px);
+    background-size: 100px 100px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-menu-20 a:hover::before { opacity: 1; }

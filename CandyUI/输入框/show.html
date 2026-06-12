@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 输入框样式展示</title>
+    <!-- 引入输入框样式表 -->
+    <link rel="stylesheet" href="candy-input.css">
+    <style>
+        /* ========== 页面基础样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 深色主题背景 */
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        /* 页面标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(90deg, #ff00de, #00eeff, #ff00de);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: header-shine 3s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes header-shine {
+            to { background-position: 200% center; }
+        }
+
+        .header p {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        /* ========== 卡片网格布局 ========== */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 单个卡片样式 */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 238, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 238, 255, 0.1);
+        }
+
+        /* 输入框包装器 */
+        .input-wrapper {
+            width: 100%;
+        }
+
+        /* 输入框展示区域 */
+        .input-display {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            min-height: 80px;
+            align-items: center;
+        }
+
+        /* 样式编号 */
+        .style-number {
+            font-size: 0.9em;
+            color: #ff00de;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 中文名称 */
+        .style-name {
+            font-size: 1.1em;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* 底部信息 */
+        .card-footer {
+            width: 100%;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .class-name {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        /* ========== 响应式布局 ========== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题区域 -->
+    <header class="header">
+        <h1>🎨 CandyUI 输入框样式展示</h1>
+        <p>50种精美输入框样式，涵盖霓虹、渐变、动画等多种视觉效果</p>
+    </header>
+
+    <!-- 卡片容器 -->
+    <div class="cards-container">
+        <!-- 样式1：青色霓虹 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-1">
+                    <input type="text" class="candy-input" placeholder="青色霓虹">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #1</div>
+                <div class="style-name">青色霓虹</div>
+                <div class="class-name">candy-input-1</div>
+            </div>
+        </div>
+
+        <!-- 样式2：黑客矩阵 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-2" data-text="黑客">
+                    <input type="text" class="candy-input" placeholder="黑客矩阵">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #2</div>
+                <div class="style-name">黑客矩阵</div>
+                <div class="class-name">candy-input-2</div>
+            </div>
+        </div>
+
+        <!-- 样式3：文字倒影 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-3">
+                    <input type="text" class="candy-input" placeholder="文字倒影">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #3</div>
+                <div class="style-name">文字倒影</div>
+                <div class="class-name">candy-input-3</div>
+            </div>
+        </div>
+
+        <!-- 样式4：像素阴影 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-4">
+                    <input type="text" class="candy-input" placeholder="像素阴影">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #4</div>
+                <div class="style-name">像素阴影</div>
+                <div class="class-name">candy-input-4</div>
+            </div>
+        </div>
+
+        <!-- 样式5：毛玻璃 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-5">
+                    <input type="text" class="candy-input" placeholder="毛玻璃">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #5</div>
+                <div class="style-name">毛玻璃</div>
+                <div class="class-name">candy-input-5</div>
+            </div>
+        </div>
+
+        <!-- 样式6：虚线边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-6">
+                    <input type="text" class="candy-input" placeholder="虚线边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #6</div>
+                <div class="style-name">虚线边框</div>
+                <div class="class-name">candy-input-6</div>
+            </div>
+        </div>
+
+        <!-- 样式7：扫描特效 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-7">
+                    <input type="text" class="candy-input" placeholder="扫描特效">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #7</div>
+                <div class="style-name">扫描特效</div>
+                <div class="class-name">candy-input-7</div>
+            </div>
+        </div>
+
+        <!-- 样式8：彩虹条纹边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-8">
+                    <input type="text" class="candy-input" placeholder="彩虹条纹">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #8</div>
+                <div class="style-name">彩虹条纹边框</div>
+                <div class="class-name">candy-input-8</div>
+            </div>
+        </div>
+
+        <!-- 样式9：等宽字体 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-9">
+                    <input type="text" class="candy-input" placeholder="等宽字体">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #9</div>
+                <div class="style-name">等宽字体</div>
+                <div class="class-name">candy-input-9</div>
+            </div>
+        </div>
+
+        <!-- 样式10：彩虹渐变 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-10">
+                    <input type="text" class="candy-input" placeholder="彩虹渐变">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #10</div>
+                <div class="style-name">彩虹渐变</div>
+                <div class="class-name">candy-input-10</div>
+            </div>
+        </div>
+
+        <!-- 样式11：深空圆形 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-11">
+                    <input type="text" class="candy-input" placeholder="深空圆形">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #11</div>
+                <div class="style-name">深空圆形</div>
+                <div class="class-name">candy-input-11</div>
+            </div>
+        </div>
+
+        <!-- 样式12：雷达扫描 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-12">
+                    <input type="text" class="candy-input" placeholder="雷达扫描">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #12</div>
+                <div class="style-name">雷达扫描</div>
+                <div class="class-name">candy-input-12</div>
+            </div>
+        </div>
+
+        <!-- 样式13：黄色光标 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-13">
+                    <input type="text" class="candy-input" placeholder="黄色光标">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #13</div>
+                <div class="style-name">黄色光标</div>
+                <div class="class-name">candy-input-13</div>
+            </div>
+        </div>
+
+        <!-- 样式14：网格背景 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-14">
+                    <input type="text" class="candy-input" placeholder="网格背景">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #14</div>
+                <div class="style-name">网格背景</div>
+                <div class="class-name">candy-input-14</div>
+            </div>
+        </div>
+
+        <!-- 样式15：旋转边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-15">
+                    <input type="text" class="candy-input" placeholder="旋转边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #15</div>
+                <div class="style-name">旋转边框</div>
+                <div class="class-name">candy-input-15</div>
+            </div>
+        </div>
+
+        <!-- 样式16：底部高亮 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-16">
+                    <input type="text" class="candy-input" placeholder="底部高亮">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #16</div>
+                <div class="style-name">底部高亮</div>
+                <div class="class-name">candy-input-16</div>
+            </div>
+        </div>
+
+        <!-- 样式17：斑马条纹 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-17">
+                    <input type="text" class="candy-input" placeholder="斑马条纹">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #17</div>
+                <div class="style-name">斑马条纹</div>
+                <div class="class-name">candy-input-17</div>
+            </div>
+        </div>
+
+        <!-- 样式18：占位符特效 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-18">
+                    <input type="text" class="candy-input" placeholder="占位符特效">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #18</div>
+                <div class="style-name">占位符特效</div>
+                <div class="class-name">candy-input-18</div>
+            </div>
+        </div>
+
+        <!-- 样式19：像素边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-19">
+                    <input type="text" class="candy-input" placeholder="像素边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #19</div>
+                <div class="style-name">像素边框</div>
+                <div class="class-name">candy-input-19</div>
+            </div>
+        </div>
+
+        <!-- 样式20：激光切割 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-20">
+                    <input type="text" class="candy-input" placeholder="激光切割">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #20</div>
+                <div class="style-name">激光切割</div>
+                <div class="class-name">candy-input-20</div>
+            </div>
+        </div>
+
+        <!-- 样式21：左侧高亮 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-21">
+                    <input type="text" class="candy-input" placeholder="左侧高亮">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #21</div>
+                <div class="style-name">左侧高亮</div>
+                <div class="class-name">candy-input-21</div>
+            </div>
+        </div>
+
+        <!-- 样式22：紫色渐变 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-22">
+                    <input type="text" class="candy-input" placeholder="紫色渐变">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #22</div>
+                <div class="style-name">紫色渐变</div>
+                <div class="class-name">candy-input-22</div>
+            </div>
+        </div>
+
+        <!-- 样式23：斜切 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-23">
+                    <input type="text" class="candy-input" placeholder="斜切">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #23</div>
+                <div class="style-name">斜切</div>
+                <div class="class-name">candy-input-23</div>
+            </div>
+        </div>
+
+        <!-- 样式24：像素阴影 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-24">
+                    <input type="text" class="candy-input" placeholder="像素阴影">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #24</div>
+                <div class="style-name">像素阴影</div>
+                <div class="class-name">candy-input-24</div>
+            </div>
+        </div>
+
+        <!-- 样式25：双边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-25">
+                    <input type="text" class="candy-input" placeholder="双边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #25</div>
+                <div class="style-name">双边框</div>
+                <div class="class-name">candy-input-25</div>
+            </div>
+        </div>
+
+        <!-- 样式26：字间距 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-26">
+                    <input type="text" class="candy-input" placeholder="字间距">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #26</div>
+                <div class="style-name">字间距</div>
+                <div class="class-name">candy-input-26</div>
+            </div>
+        </div>
+
+        <!-- 样式27：命令行 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-27">
+                    <input type="text" class="candy-input" placeholder="命令行">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #27</div>
+                <div class="style-name">命令行</div>
+                <div class="class-name">candy-input-27</div>
+            </div>
+        </div>
+
+        <!-- 样式28：顶部高亮 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-28">
+                    <input type="text" class="candy-input" placeholder="顶部高亮">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #28</div>
+                <div class="style-name">顶部高亮</div>
+                <div class="class-name">candy-input-28</div>
+            </div>
+        </div>
+
+        <!-- 样式29：脉冲动画 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-29">
+                    <input type="text" class="candy-input" placeholder="脉冲动画">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #29</div>
+                <div class="style-name">脉冲动画</div>
+                <div class="class-name">candy-input-29</div>
+            </div>
+        </div>
+
+        <!-- 样式30：不规则形状 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-30">
+                    <input type="text" class="candy-input" placeholder="不规则形状">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #30</div>
+                <div class="style-name">不规则形状</div>
+                <div class="class-name">candy-input-30</div>
+            </div>
+        </div>
+
+        <!-- 样式31：色相旋转 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-31">
+                    <input type="text" class="candy-input" placeholder="色相旋转">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #31</div>
+                <div class="style-name">色相旋转</div>
+                <div class="class-name">candy-input-31</div>
+            </div>
+        </div>
+
+        <!-- 样式32：圆形边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-32">
+                    <input type="text" class="candy-input" placeholder="圆形边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #32</div>
+                <div class="style-name">圆形边框</div>
+                <div class="class-name">candy-input-32</div>
+            </div>
+        </div>
+
+        <!-- 样式33：基础样式 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-33">
+                    <input type="text" class="candy-input" placeholder="基础样式">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #33</div>
+                <div class="style-name">基础样式</div>
+                <div class="class-name">candy-input-33</div>
+            </div>
+        </div>
+
+        <!-- 样式34：扫描线 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-34">
+                    <input type="text" class="candy-input" placeholder="扫描线">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #34</div>
+                <div class="style-name">扫描线</div>
+                <div class="class-name">candy-input-34</div>
+            </div>
+        </div>
+
+        <!-- 样式35：大写字母 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-35">
+                    <input type="text" class="candy-input" placeholder="大写字母">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #35</div>
+                <div class="style-name">大写字母</div>
+                <div class="class-name">candy-input-35</div>
+            </div>
+        </div>
+
+        <!-- 样式36：渐变边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-36">
+                    <input type="text" class="candy-input" placeholder="渐变边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #36</div>
+                <div class="style-name">渐变边框</div>
+                <div class="class-name">candy-input-36</div>
+            </div>
+        </div>
+
+        <!-- 样式37：悬浮动画 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-37">
+                    <input type="text" class="candy-input" placeholder="悬浮动画">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #37</div>
+                <div class="style-name">悬浮动画</div>
+                <div class="class-name">candy-input-37</div>
+            </div>
+        </div>
+
+        <!-- 样式38：内发光 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-38">
+                    <input type="text" class="candy-input" placeholder="内发光">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #38</div>
+                <div class="style-name">内发光</div>
+                <div class="class-name">candy-input-38</div>
+            </div>
+        </div>
+
+        <!-- 样式39：渐变背景 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-39">
+                    <input type="text" class="candy-input" placeholder="渐变背景">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #39</div>
+                <div class="style-name">渐变背景</div>
+                <div class="class-name">candy-input-39</div>
+            </div>
+        </div>
+
+        <!-- 样式40：渐变边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-40">
+                    <input type="text" class="candy-input" placeholder="渐变边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #40</div>
+                <div class="style-name">渐变边框</div>
+                <div class="class-name">candy-input-40</div>
+            </div>
+        </div>
+
+        <!-- 样式41：发光文字 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-41">
+                    <input type="text" class="candy-input" placeholder="发光文字">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #41</div>
+                <div class="style-name">发光文字</div>
+                <div class="class-name">candy-input-41</div>
+            </div>
+        </div>
+
+        <!-- 样式42：横条纹 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-42">
+                    <input type="text" class="candy-input" placeholder="横条纹">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #42</div>
+                <div class="style-name">横条纹</div>
+                <div class="class-name">candy-input-42</div>
+            </div>
+        </div>
+
+        <!-- 样式43：圆角 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-43">
+                    <input type="text" class="candy-input" placeholder="圆角">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #43</div>
+                <div class="style-name">圆角</div>
+                <div class="class-name">candy-input-43</div>
+            </div>
+        </div>
+
+        <!-- 样式44：外发光 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-44">
+                    <input type="text" class="candy-input" placeholder="外发光">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #44</div>
+                <div class="style-name">外发光</div>
+                <div class="class-name">candy-input-44</div>
+            </div>
+        </div>
+
+        <!-- 样式45：径向渐变 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-45">
+                    <input type="text" class="candy-input" placeholder="径向渐变">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #45</div>
+                <div class="style-name">径向渐变</div>
+                <div class="class-name">candy-input-45</div>
+            </div>
+        </div>
+
+        <!-- 样式46：白色边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-46">
+                    <input type="text" class="candy-input" placeholder="白色边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #46</div>
+                <div class="style-name">白色边框</div>
+                <div class="class-name">candy-input-46</div>
+            </div>
+        </div>
+
+        <!-- 样式47：深色渐变 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-47">
+                    <input type="text" class="candy-input" placeholder="深色渐变">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #47</div>
+                <div class="style-name">深色渐变</div>
+                <div class="class-name">candy-input-47</div>
+            </div>
+        </div>
+
+        <!-- 样式48：内阴影 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-48">
+                    <input type="text" class="candy-input" placeholder="内阴影">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #48</div>
+                <div class="style-name">内阴影</div>
+                <div class="class-name">candy-input-48</div>
+            </div>
+        </div>
+
+        <!-- 样式49：底部边框 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-49">
+                    <input type="text" class="candy-input" placeholder="底部边框">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #49</div>
+                <div class="style-name">底部边框</div>
+                <div class="class-name">candy-input-49</div>
+            </div>
+        </div>
+
+        <!-- 样式50：八边形 -->
+        <div class="card">
+            <div class="input-display">
+                <div class="candy-input-wrapper candy-input-50">
+                    <input type="text" class="candy-input" placeholder="八边形">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #50</div>
+                <div class="style-name">八边形</div>
+                <div class="class-name">candy-input-50</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 折叠面板样式展示</title>
+    <link rel="stylesheet" href="candy-accordion.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+            color: #667eea;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .style-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .style-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #667eea;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CandyUI 折叠面板样式展示</h1>
+        <p class="subtitle">共30种独特的折叠面板样式，支持3D效果和动画</p>
+        
+        <div class="info-box">
+            <h3>使用方法</h3>
+            <p>点击面板头部查看展开/收起效果。</p>
+            <div class="code-block">
+                &lt;div class="candy-accordion accordion-1"&gt;
+                  &lt;div class="candy-accordion-item"&gt;
+                    &lt;button class="candy-accordion-header"&gt;标题&lt;/button&gt;
+                    &lt;div class="candy-accordion-content"&gt;
+                      &lt;div class="candy-accordion-body"&gt;内容&lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+            </div>
+        </div>
+        
+        <h2 class="section-title">3D折叠效果 (1-10)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#1</span> 翻页效果</div>
+                <div class="candy-accordion accordion-1">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是翻页效果折叠面板的内容区域，可以包含任意HTML内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#2</span> 折叠效果</div>
+                <div class="candy-accordion accordion-2">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是折叠效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#3</span> 斜角效果</div>
+                <div class="candy-accordion accordion-3">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是斜角效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#4</span> 浮雕效果</div>
+                <div class="candy-accordion accordion-4">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是浮雕效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#5</span> 3D翻转</div>
+                <div class="candy-accordion accordion-5">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是3D翻转效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#6</span> 透视悬浮</div>
+                <div class="candy-accordion accordion-6">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是透视悬浮效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">发光效果 (11-20)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#11</span> 霓虹发光</div>
+                <div class="candy-accordion accordion-11">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是霓虹发光效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#12</span> 脉冲光晕</div>
+                <div class="candy-accordion accordion-12">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是脉冲光晕效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#13</span> 渐变光</div>
+                <div class="candy-accordion accordion-13">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是渐变光效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#14</span> 彩色边框</div>
+                <div class="candy-accordion accordion-14">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是彩色边框效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#15</span> 呼吸光效</div>
+                <div class="candy-accordion accordion-15">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是呼吸光效折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#16</span> 外发光</div>
+                <div class="candy-accordion accordion-16">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是外发光效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">动画效果 (21-30)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#21</span> 缩放弹跳</div>
+                <div class="candy-accordion accordion-21">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是缩放弹跳效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#22</span> 滑入效果</div>
+                <div class="candy-accordion accordion-22">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是滑入效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#23</span> 弹性效果</div>
+                <div class="candy-accordion accordion-23">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是弹性效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#24</span> 旋转缩放</div>
+                <div class="candy-accordion accordion-24">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是旋转缩放效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#25</span> 淡入缩放</div>
+                <div class="candy-accordion accordion-25">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是淡入缩放效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-item">
+                <div class="style-label"><span class="style-number">#26</span> 左右展开</div>
+                <div class="candy-accordion accordion-26">
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第一项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">这是左右展开效果折叠面板的内容区域。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第二项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">点击展开查看更多内容。</div>
+                        </div>
+                    </div>
+                    <div class="candy-accordion-item">
+                        <button class="candy-accordion-header">第三项</button>
+                        <div class="candy-accordion-content">
+                            <div class="candy-accordion-body">支持多种动画效果和3D变换。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="candy-accordion.js"></script>
+    <script>
+        // 自动初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            CandyAccordion.init();
+        });
+    </script>
+</body>
+</html>

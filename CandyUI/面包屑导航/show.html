@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 20种面包屑导航样式展示</title>
+    <!-- 引用面包屑导航样式文件 -->
+    <link rel="stylesheet" href="candy-breadcrumb.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* 深色主题背景 */
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* 页面头部样式 */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+        }
+        
+        /* 区域样式 */
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, transparent, #667eea, #764ba2, #f093fb, transparent) 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 8px;
+            height: 30px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+        
+        /* 面包屑网格布局 */
+        .breadcrumb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        /* 面包屑卡片样式 */
+        .breadcrumb-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .breadcrumb-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .breadcrumb-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .breadcrumb-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* 面包屑导航容器 */
+        .breadcrumb-wrapper {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+        
+        .breadcrumb-label {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .breadcrumb-class {
+            color: #667eea;
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .breadcrumb-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 15px;
+            }
+            
+            .breadcrumb-card {
+                padding: 20px 15px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .breadcrumb-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页面头部 -->
+        <header>
+            <h1>CandyUI 面包屑导航样式</h1>
+            <p class="subtitle">20种独特的CSS面包屑导航样式，支持各种分隔符和视觉效果</p>
+            <span class="badge">✨ 纯CSS实现 · 无需JavaScript</span>
+        </header>
+        
+        <!-- 第一组：基础样式 (1-5) -->
+        <section class="section">
+            <h2 class="section-title">基础样式 (1-5)</h2>
+            <div class="breadcrumb-grid">
+                <!-- 样式1：基础箭头分隔符 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-1">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">基础箭头分隔符</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-1</div>
+                </div>
+                
+                <!-- 样式2：斜杠分隔符 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-2">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">斜杠分隔符</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-2</div>
+                </div>
+                
+                <!-- 样式3：卡片背景悬停效果 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-3">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">卡片背景悬停</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-3</div>
+                </div>
+                
+                <!-- 样式4：3D翻转效果 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-4">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">3D翻转效果</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-4</div>
+                </div>
+                
+                <!-- 样式5：发光文字效果 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-5">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">发光文字效果</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-5</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第二组：渐变与背景样式 (6-10) -->
+        <section class="section">
+            <h2 class="section-title">渐变与背景样式 (6-10)</h2>
+            <div class="breadcrumb-grid">
+                <!-- 样式6：渐变背景按钮 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-6">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">渐变背景按钮</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-6</div>
+                </div>
+                
+                <!-- 样式7：下划线动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-7">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">下划线动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-7</div>
+                </div>
+                
+                <!-- 样式8：阴影卡片效果 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-8">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">阴影卡片效果</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-8</div>
+                </div>
+                
+                <!-- 样式9：艺术字体风格 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-9">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">艺术字体风格</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-9</div>
+                </div>
+                
+                <!-- 样式10：胶片风格 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-10">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">胶片风格</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-10</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第三组：动画特效样式 (11-15) -->
+        <section class="section">
+            <h2 class="section-title">动画特效样式 (11-15)</h2>
+            <div class="breadcrumb-grid">
+                <!-- 样式11：扫光动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-11">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">扫光动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-11</div>
+                </div>
+                
+                <!-- 样式12：填充动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-12">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">填充动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-12</div>
+                </div>
+                
+                <!-- 样式13：霓虹灯效果 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-13">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">霓虹灯效果</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-13</div>
+                </div>
+                
+                <!-- 样式14：底部边框动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-14">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">底部边框动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-14</div>
+                </div>
+                
+                <!-- 样式15：彩虹动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-15">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">彩虹动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-15</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第四组：特殊风格样式 (16-20) -->
+        <section class="section">
+            <h2 class="section-title">特殊风格样式 (16-20)</h2>
+            <div class="breadcrumb-grid">
+                <!-- 样式16：括号装饰 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-16">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">括号装饰</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-16</div>
+                </div>
+                
+                <!-- 样式17：进度条背景 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-17">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">进度条背景</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-17</div>
+                </div>
+                
+                <!-- 样式18：全息动画 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-18">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">全息动画</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-18</div>
+                </div>
+                
+                <!-- 样式19：渐变背景文字 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-19">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">渐变背景文字</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-19</div>
+                </div>
+                
+                <!-- 样式20：星空主题 -->
+                <div class="breadcrumb-card">
+                    <div class="breadcrumb-wrapper">
+                        <ul class="candy-breadcrumb candy-breadcrumb-20">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">产品</a></li>
+                            <li><a href="#">电子产品</a></li>
+                            <li>智能手机</li>
+                        </ul>
+                    </div>
+                    <div class="breadcrumb-label">星空主题</div>
+                    <div class="breadcrumb-class">candy-breadcrumb-20</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面底部 -->
+        <footer>
+            <p>Made with ♥ by CandyUI · 20 CSS Breadcrumb Styles</p>
+        </footer>
+    </div>
+</body>
+</html>

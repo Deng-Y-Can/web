@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 标签样式展示</title>
+    <!-- 引入标签样式表 -->
+    <link rel="stylesheet" href="candy-label.css">
+    <style>
+        /* ========== 页面基础样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 深色主题背景 */
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        /* 页面标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(90deg, #00eeff, #ff00de, #00eeff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: header-shine 3s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes header-shine {
+            to { background-position: 200% center; }
+        }
+
+        .header p {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        /* ========== 卡片网格布局 ========== */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 单个卡片样式 */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 238, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 238, 255, 0.1);
+        }
+
+        /* 标签展示区域 */
+        .label-display {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+            padding: 10px;
+        }
+
+        /* 样式编号 */
+        .style-number {
+            font-size: 0.9em;
+            color: #00eeff;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 中文名称 */
+        .style-name {
+            font-size: 1.1em;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* 底部信息 */
+        .card-footer {
+            width: 100%;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .class-name {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        /* ========== 响应式布局 ========== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题区域 -->
+    <header class="header">
+        <h1>🎨 CandyUI 标签样式展示</h1>
+        <p>50种精美标签样式，涵盖霓虹、渐变、动画等多种视觉效果</p>
+    </header>
+
+    <!-- 卡片容器 -->
+    <div class="cards-container">
+        <!-- 样式1：霓虹脉冲 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-1">霓虹脉冲</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #1</div>
+                <div class="style-name">霓虹脉冲</div>
+                <div class="class-name">candy-label-1</div>
+            </div>
+        </div>
+
+        <!-- 样式2：渐变光效 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-2">渐变光效</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #2</div>
+                <div class="style-name">渐变光效</div>
+                <div class="class-name">candy-label-2</div>
+            </div>
+        </div>
+
+        <!-- 样式3：毛玻璃 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-3">毛玻璃</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #3</div>
+                <div class="style-name">毛玻璃</div>
+                <div class="class-name">candy-label-3</div>
+            </div>
+        </div>
+
+        <!-- 样式4：电光闪烁 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-4">电光闪烁</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #4</div>
+                <div class="style-name">电光闪烁</div>
+                <div class="class-name">candy-label-4</div>
+            </div>
+        </div>
+
+        <!-- 样式5：深空渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-5">深空渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #5</div>
+                <div class="style-name">深空渐变</div>
+                <div class="class-name">candy-label-5</div>
+            </div>
+        </div>
+
+        <!-- 样式6：矩阵风格 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-6">矩阵风格</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #6</div>
+                <div class="style-name">矩阵风格</div>
+                <div class="class-name">candy-label-6</div>
+            </div>
+        </div>
+
+        <!-- 样式7：全息渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-7">全息渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #7</div>
+                <div class="style-name">全息渐变</div>
+                <div class="class-name">candy-label-7</div>
+            </div>
+        </div>
+
+        <!-- 样式8：极光流动 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-8">极光流动</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #8</div>
+                <div class="style-name">极光流动</div>
+                <div class="class-name">candy-label-8</div>
+            </div>
+        </div>
+
+        <!-- 样式9：赛博霓虹 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-9">赛博霓虹</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #9</div>
+                <div class="style-name">赛博霓虹</div>
+                <div class="class-name">candy-label-9</div>
+            </div>
+        </div>
+
+        <!-- 样式10：故障特效 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-10" data-text="故障特效">故障特效</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #10</div>
+                <div class="style-name">故障特效</div>
+                <div class="class-name">candy-label-10</div>
+            </div>
+        </div>
+
+        <!-- 样式11：径向高光 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-11">径向高光</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #11</div>
+                <div class="style-name">径向高光</div>
+                <div class="class-name">candy-label-11</div>
+            </div>
+        </div>
+
+        <!-- 样式12：液态流动 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-12">液态流动</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #12</div>
+                <div class="style-name">液态流动</div>
+                <div class="class-name">candy-label-12</div>
+            </div>
+        </div>
+
+        <!-- 样式13：彩虹光谱 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-13"><span>彩虹光谱</span></span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #13</div>
+                <div class="style-name">彩虹光谱</div>
+                <div class="class-name">candy-label-13</div>
+            </div>
+        </div>
+
+        <!-- 样式14：网格背景 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-14">网格背景</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #14</div>
+                <div class="style-name">网格背景</div>
+                <div class="class-name">candy-label-14</div>
+            </div>
+        </div>
+
+        <!-- 样式15：悬浮阴影 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-15">悬浮阴影</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #15</div>
+                <div class="style-name">悬浮阴影</div>
+                <div class="class-name">candy-label-15</div>
+            </div>
+        </div>
+
+        <!-- 样式16：清新渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-16">清新渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #16</div>
+                <div class="style-name">清新渐变</div>
+                <div class="class-name">candy-label-16</div>
+            </div>
+        </div>
+
+        <!-- 样式17：轨道科技 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-17">轨道科技</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #17</div>
+                <div class="style-name">轨道科技</div>
+                <div class="class-name">candy-label-17</div>
+            </div>
+        </div>
+
+        <!-- 样式18：深海水母 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-18">深海水母</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #18</div>
+                <div class="style-name">深海水母</div>
+                <div class="class-name">candy-label-18</div>
+            </div>
+        </div>
+
+        <!-- 样式19：热力渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-19">热力渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #19</div>
+                <div class="style-name">热力渐变</div>
+                <div class="class-name">candy-label-19</div>
+            </div>
+        </div>
+
+        <!-- 样式20：量子脉冲 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-20">量子脉冲</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #20</div>
+                <div class="style-name">量子脉冲</div>
+                <div class="class-name">candy-label-20</div>
+            </div>
+        </div>
+
+        <!-- 样式21：日落橙红 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-21">日落橙红</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #21</div>
+                <div class="style-name">日落橙红</div>
+                <div class="class-name">candy-label-21</div>
+            </div>
+        </div>
+
+        <!-- 样式22：星点背景 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-22">星点背景</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #22</div>
+                <div class="style-name">星点背景</div>
+                <div class="class-name">candy-label-22</div>
+            </div>
+        </div>
+
+        <!-- 样式23：暗红渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-23">暗红渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #23</div>
+                <div class="style-name">暗红渐变</div>
+                <div class="class-name">candy-label-23</div>
+            </div>
+        </div>
+
+        <!-- 样式24：左侧霓虹 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-24">左侧霓虹</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #24</div>
+                <div class="style-name">左侧霓虹</div>
+                <div class="class-name">candy-label-24</div>
+            </div>
+        </div>
+
+        <!-- 样式25：黑客风格 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-25">黑客风格</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #25</div>
+                <div class="style-name">黑客风格</div>
+                <div class="class-name">candy-label-25</div>
+            </div>
+        </div>
+
+        <!-- 样式26：等离子波 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-26">等离子波</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #26</div>
+                <div class="style-name">等离子波</div>
+                <div class="class-name">candy-label-26</div>
+            </div>
+        </div>
+
+        <!-- 样式27：斜纹扭曲 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-27">斜纹扭曲</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #27</div>
+                <div class="style-name">斜纹扭曲</div>
+                <div class="class-name">candy-label-27</div>
+            </div>
+        </div>
+
+        <!-- 样式28：全息彩虹 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-28">全息彩虹</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #28</div>
+                <div class="style-name">全息彩虹</div>
+                <div class="class-name">candy-label-28</div>
+            </div>
+        </div>
+
+        <!-- 样式29：深空圆形 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-29">深空圆形</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #29</div>
+                <div class="style-name">深空圆形</div>
+                <div class="class-name">candy-label-29</div>
+            </div>
+        </div>
+
+        <!-- 样式30：太阳渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-30">太阳渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #30</div>
+                <div class="style-name">太阳渐变</div>
+                <div class="class-name">candy-label-30</div>
+            </div>
+        </div>
+
+        <!-- 样式31：漂浮动画 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-31">漂浮动画</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #31</div>
+                <div class="style-name">漂浮动画</div>
+                <div class="class-name">candy-label-31</div>
+            </div>
+        </div>
+
+        <!-- 样式32：终端风格 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-32">终端风格</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #32</div>
+                <div class="style-name">终端风格</div>
+                <div class="class-name">candy-label-32</div>
+            </div>
+        </div>
+
+        <!-- 样式33：蓝色科技 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-33">蓝色科技</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #33</div>
+                <div class="style-name">蓝色科技</div>
+                <div class="class-name">candy-label-33</div>
+            </div>
+        </div>
+
+        <!-- 样式34：光扫特效 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-34">光扫特效</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #34</div>
+                <div class="style-name">光扫特效</div>
+                <div class="class-name">candy-label-34</div>
+            </div>
+        </div>
+
+        <!-- 样式35：三色渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-35">三色渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #35</div>
+                <div class="style-name">三色渐变</div>
+                <div class="class-name">candy-label-35</div>
+            </div>
+        </div>
+
+        <!-- 样式36：波纹扩散 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-36">波纹扩散</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #36</div>
+                <div class="style-name">波纹扩散</div>
+                <div class="class-name">candy-label-36</div>
+            </div>
+        </div>
+
+        <!-- 样式37：紫蓝渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-37">紫蓝渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #37</div>
+                <div class="style-name">紫蓝渐变</div>
+                <div class="class-name">candy-label-37</div>
+            </div>
+        </div>
+
+        <!-- 样式38：简约边框 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-38">简约边框</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #38</div>
+                <div class="style-name">简约边框</div>
+                <div class="class-name">candy-label-38</div>
+            </div>
+        </div>
+
+        <!-- 样式39：圆形时钟 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-39">圆形时钟</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #39</div>
+                <div class="style-name">圆形时钟</div>
+                <div class="class-name">candy-label-39</div>
+            </div>
+        </div>
+
+        <!-- 样式40：星云漂移 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-40">星云漂移</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #40</div>
+                <div class="style-name">星云漂移</div>
+                <div class="class-name">candy-label-40</div>
+            </div>
+        </div>
+
+        <!-- 样式41：金属质感 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-41">金属质感</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #41</div>
+                <div class="style-name">金属质感</div>
+                <div class="class-name">candy-label-41</div>
+            </div>
+        </div>
+
+        <!-- 样式42：点阵背景 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-42">点阵背景</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #42</div>
+                <div class="style-name">点阵背景</div>
+                <div class="class-name">candy-label-42</div>
+            </div>
+        </div>
+
+        <!-- 样式43：玫红光晕 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-43">玫红光晕</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #43</div>
+                <div class="style-name">玫红光晕</div>
+                <div class="class-name">candy-label-43</div>
+            </div>
+        </div>
+
+        <!-- 样式44：青红渐变 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-44">青红渐变</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #44</div>
+                <div class="style-name">青红渐变</div>
+                <div class="class-name">candy-label-44</div>
+            </div>
+        </div>
+
+        <!-- 样式45：虚线边框 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-45">虚线边框</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #45</div>
+                <div class="style-name">虚线边框</div>
+                <div class="class-name">candy-label-45</div>
+            </div>
+        </div>
+
+        <!-- 样式46：警戒条纹 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-46">警戒条纹</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #46</div>
+                <div class="style-name">警戒条纹</div>
+                <div class="class-name">candy-label-46</div>
+            </div>
+        </div>
+
+        <!-- 样式47：扭曲扫描 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-47">扭曲扫描</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #47</div>
+                <div class="style-name">扭曲扫描</div>
+                <div class="class-name">candy-label-47</div>
+            </div>
+        </div>
+
+        <!-- 样式48：黑客矩阵 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-48">黑客矩阵</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #48</div>
+                <div class="style-name">黑客矩阵</div>
+                <div class="class-name">candy-label-48</div>
+            </div>
+        </div>
+
+        <!-- 样式49：蓝色光晕 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-49">蓝色光晕</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #49</div>
+                <div class="style-name">蓝色光晕</div>
+                <div class="class-name">candy-label-49</div>
+            </div>
+        </div>
+
+        <!-- 样式50：紫蓝科技 -->
+        <div class="card">
+            <div class="label-display">
+                <span class="candy-label candy-label-50">紫蓝科技</span>
+            </div>
+            <div class="card-footer">
+                <div class="style-number">样式 #50</div>
+                <div class="style-name">紫蓝科技</div>
+                <div class="class-name">candy-label-50</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,902 @@
+:root {
+    --candy-progress-height: 20px;
+    --candy-progress-radius: 10px;
+    --candy-progress-bg: #e0e0e0;
+    --candy-progress-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --candy-progress-animation-duration: 1s;
+    --candy-progress-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ====================== 基础容器与填充条 ====================== */
+
+.candy-progress-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--candy-progress-shadow);
+}
+
+.candy-progress {
+    width: 100%;
+    height: var(--candy-progress-height);
+    background-color: var(--candy-progress-bg);
+    border-radius: var(--candy-progress-radius);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.candy-progress-bar {
+    height: 100%;
+    background: var(--candy-progress-color);
+    border-radius: var(--candy-progress-radius);
+    transition: width 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+
+.candy-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: candy-shimmer 2s infinite;
+}
+
+@keyframes candy-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.candy-progress-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+.candy-progress-striped {
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+}
+
+.candy-progress-animated {
+    animation: candy-progress-stripes 1s linear infinite;
+}
+
+@keyframes candy-progress-stripes {
+    0% { background-position: 40px 0; }
+    100% { background-position: 0 0; }
+}
+
+.candy-progress-sm { --candy-progress-height: 10px; --candy-progress-radius: 5px; }
+.candy-progress-lg { --candy-progress-height: 30px; --candy-progress-radius: 15px; }
+
+.candy-progress-success .candy-progress-bar { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+.candy-progress-warning .candy-progress-bar { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
+.candy-progress-danger  .candy-progress-bar { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.candy-progress-info    .candy-progress-bar { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+.candy-progress-indeterminate .candy-progress-bar,
+.candy-progress-bar.candy-progress-indeterminate {
+    position: absolute;
+    top: 0;
+    width: 50% !important;
+    height: 100%;
+    left: -50%;
+    animation: candy-indeterminate 1.5s ease-in-out infinite;
+    padding-right: 0;
+}
+
+@keyframes candy-indeterminate {
+    0% { left: -50%; width: 50%; }
+    50% { left: 25%; width: 50%; }
+    100% { left: 100%; width: 50%; }
+}
+
+.candy-progress-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* ====================== 堆叠进度条 ====================== */
+
+.candy-progress-stacked {
+    display: flex;
+    overflow: hidden;
+}
+
+.candy-progress-stacked-bar {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.candy-progress-stacked-bar:first-child { border-top-left-radius: var(--candy-progress-radius); border-bottom-left-radius: var(--candy-progress-radius); }
+.candy-progress-stacked-bar:last-child  { border-top-right-radius: var(--candy-progress-radius); border-bottom-right-radius: var(--candy-progress-radius); }
+
+.candy-progress-stacked-label,
+.candy-progress-stacked .candy-progress-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    padding: 0 6px;
+}
+
+.candy-progress-bar-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.candy-progress-bar-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+.candy-progress-bar-warning { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
+.candy-progress-bar-danger  { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.candy-progress-bar-info    { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+/* ====================== 环形进度条 ====================== */
+
+.candy-progress-circular-container {
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+}
+
+.candy-progress-circular {
+    position: relative;
+    display: inline-block;
+}
+
+.candy-progress-circular-bar {
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.candy-progress-circular-value {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ==========================================================================
+   以下为四种演示文件中的样式汇总，类名都加上 candy-progress- 前缀
+   编号：1-25  (来自 index.html  - 25种炫酷3D动态进度条)
+   编号：26-50 (来自 index2.html - 25种高级进度条 渐变/数据流/全息等)
+   编号：51-75 (来自 index3.html - 25种高级进度条 volumetric/liquid/holo等)
+   编号：76-100(来自 index4.html - 25种简洁进度条 classic/striped/glitch等)
+   ========================================================================== */
+
+/* ====================== 1. 六边形脉冲 (Hexagon Pulse) ====================== */
+.candy-progress-1 {
+    width: 120px;
+    height: 104px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: conic-gradient(from 0deg, #0ff0fc, #ff00ff, #0ff0fc);
+    animation: candy-hexSpin 3s linear infinite;
+}
+
+@keyframes candy-hexSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ====================== 2. 星形填充 (Star Fill) ====================== */
+.candy-progress-2 {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: #ff00ff;
+    transition: all 2s ease-in-out;
+}
+
+.candy-progress-2:hover {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: radial-gradient(circle, #ffff00 0%, #ff00ff 70%);
+    filter: drop-shadow(0 0 15px #ffff00);
+}
+
+/* ====================== 3. 心跳线 (Heartbeat Line) ====================== */
+.candy-progress-3 {
+    width: 150px;
+    height: 4px;
+    margin: 50px auto;
+    background: #0ff0fc;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.candy-progress-3::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #ffff00, transparent);
+    animation: candy-heartbeatSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes candy-heartbeatSlide {
+    0%, 100% { left: -20%; }
+    50% { left: 100%; }
+}
+
+/* ====================== 4. 旋转立方体 (Rotating Cube) ====================== */
+.candy-progress-4 {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.candy-progress-4-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: candy-cubeRotateY 4s infinite linear;
+}
+
+.candy-progress-4-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #0ff0fc;
+    background: transparent;
+    backface-visibility: hidden;
+}
+
+.candy-progress-4-face-front { transform: translateZ(50px); }
+.candy-progress-4-face-back  { transform: rotateY(180deg) translateZ(50px); }
+.candy-progress-4-face-right { transform: rotateY(90deg)  translateZ(50px); }
+.candy-progress-4-face-left  { transform: rotateY(-90deg) translateZ(50px); }
+.candy-progress-4-face-top   { transform: rotateX(90deg)  translateZ(50px); }
+.candy-progress-4-face-bottom{ transform: rotateX(-90deg) translateZ(50px); }
+
+.candy-progress-4-face-front::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0;
+    height: 100%;
+    background: #0ff0fc;
+    animation: candy-fillWidth 3s infinite alternate ease-in-out;
+}
+
+@keyframes candy-cubeRotateY { to { transform: rotateY(360deg); } }
+@keyframes candy-fillWidth   { to { width: 100%; } }
+
+/* ====================== 5. DNA双螺旋 (DNA Helix) ====================== */
+.candy-progress-5 {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-5-strand {
+    position: absolute;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: #0ff0fc;
+}
+
+.candy-progress-5-strand-left  { left: 30px; }
+.candy-progress-5-strand-right { right: 30px; }
+
+.candy-progress-5-strand::before,
+.candy-progress-5-strand::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #ffff00;
+    border-radius: 50%;
+    top: 0;
+}
+
+.candy-progress-5-strand-right::before,
+.candy-progress-5-strand-right::after { left: -3px; }
+
+.candy-progress-5-strand-left::before,
+.candy-progress-5-strand-left::after { right: -3px; }
+
+.candy-progress-5-strand-left::before  { animation: candy-dnaUp   2s ease-in-out infinite; }
+.candy-progress-5-strand-left::after   { animation: candy-dnaDown 2s ease-in-out infinite 1s; }
+.candy-progress-5-strand-right::before { animation: candy-dnaDown 2s ease-in-out infinite; }
+.candy-progress-5-strand-right::after  { animation: candy-dnaUp   2s ease-in-out infinite 1s; }
+
+@keyframes candy-dnaUp {
+    0%   { top: 0; }
+    100% { top: 100%; transform: translate(0, -100%); }
+}
+
+@keyframes candy-dnaDown {
+    0%   { top: 100%; transform: translate(0, -100%); }
+    100% { top: 0; }
+}
+
+/* ====================== 6. 环形波浪 (Ring Wave) ====================== */
+.candy-progress-6 {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid #0ff0fc;
+}
+
+.candy-progress-6::before,
+.candy-progress-6::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #ffff00;
+    opacity: 0;
+}
+
+.candy-progress-6::before { animation: candy-ringPulse 1.5s ease-out infinite; }
+.candy-progress-6::after  { animation: candy-ringPulse 1.5s ease-out 0.75s infinite; }
+
+@keyframes candy-ringPulse {
+    0%   { width: 0;   height: 0;   opacity: 1; }
+    100% { width: 100px; height: 100px; opacity: 0; }
+}
+
+/* ====================== 7. 无限符号 (∞ Infinity) ====================== */
+.candy-progress-7 {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.candy-progress-7::before,
+.candy-progress-7::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #0ff0fc;
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+.candy-progress-7::before { left: 0; }
+.candy-progress-7::after  { right: 0; }
+
+.candy-progress-7-dot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: #ffff00;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: candy-infinityMove 3s linear infinite;
+}
+
+@keyframes candy-infinityMove {
+    0%   { left: 0;   top: 50%; }
+    25%  { left: calc(50% - 5px); top: 0; }
+    50%  { left: 100%; top: 50%; }
+    75%  { left: calc(50% - 5px); top: 100%; }
+    100% { left: 0; }
+}
+
+/* ====================== 8. 三角形旋转填充 (Triangle Rotate Fill) ====================== */
+.candy-progress-8 {
+    width: 100px;
+    height: 87px;
+    margin: 20px auto;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background: conic-gradient(from 0deg at 50% 100%, transparent 0deg, #ff00ff 120deg, transparent 240deg);
+    animation: candy-triConicSpin 4s linear infinite;
+}
+
+@keyframes candy-triConicSpin { to { transform: rotate(360deg); } }
+
+/* ====================== 9. 发光粒子流 (Glowing Particle Stream) ====================== */
+.candy-progress-9 {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.candy-progress-9-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ffff00;
+    border-radius: 50%;
+    top: 5px;
+    box-shadow: 0 0 8px 2px #ffff00;
+    animation: candy-streamFlow 3s linear infinite;
+}
+
+.candy-progress-9-particle:nth-child(1) { animation-delay: 0s;   left: -10px; }
+.candy-progress-9-particle:nth-child(2) { animation-delay: 0.5s; left: -10px; }
+.candy-progress-9-particle:nth-child(3) { animation-delay: 1s;   left: -10px; }
+.candy-progress-9-particle:nth-child(4) { animation-delay: 1.5s; left: -10px; }
+.candy-progress-9-particle:nth-child(5) { animation-delay: 2s;   left: -10px; }
+
+@keyframes candy-streamFlow {
+    0%   { left: -10px; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 150px; opacity: 0; }
+}
+
+/* ====================== 10. 机械齿轮联动 (Mechanical Gear) ====================== */
+.candy-progress-10 {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.candy-progress-10-gear {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #0ff0fc;
+}
+
+.candy-progress-10-gear-small { left: 0; width: 30px; height: 30px; }
+.candy-progress-10-gear-large { right: 0; }
+
+.candy-progress-10-gear::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 10px; height: 10px;
+    background: #ff00ff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.candy-progress-10-gear-small::after,
+.candy-progress-10-gear-large::after {
+    content: '';
+    position: absolute;
+    top: -5px; left: 50%;
+    width: 6px; height: 15px;
+    background: #0ff0fc;
+    transform-origin: bottom center;
+}
+
+.candy-progress-10-gear-small::after { animation: candy-gearSpinSmall 4s linear infinite; }
+.candy-progress-10-gear-large::after { animation: candy-gearSpinLarge 4s linear infinite reverse; }
+
+@keyframes candy-gearSpinSmall { to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes candy-gearSpinLarge { to { transform: translateX(-50%) rotate(360deg); } }
+
+/* ====================== 11. 液态金属 (Liquid Metal) ====================== */
+.candy-progress-11 {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, #0ff0fc, #ff00ff);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-11::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: candy-shimmer2 2s infinite;
+}
+
+@keyframes candy-shimmer2 {
+    0%   { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ====================== 12. 极光带 (Aurora Band) ====================== */
+.candy-progress-12 {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, #0ff0fc, #ff00ff, #ffff00);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-12::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+    animation: candy-auroraShift 5s linear infinite;
+}
+
+@keyframes candy-auroraShift {
+    0%   { background-position: 0 0; }
+    100% { background-position: 100% 0; }
+}
+
+/* ====================== 13. 数据流矩阵 (Matrix Data Stream) ====================== */
+.candy-progress-13 {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: black;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #0ff0fc;
+}
+
+.candy-progress-13-col {
+    position: absolute;
+    top: -100%;
+    width: 10px;
+    color: #0ff0fc;
+    font-family: monospace;
+    font-size: 14px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    animation: candy-matrixFall 5s linear infinite;
+}
+
+.candy-progress-13-col:nth-child(1) { left: 10px;  animation-delay: 0s; }
+.candy-progress-13-col:nth-child(2) { left: 30px;  animation-delay: 1s; }
+.candy-progress-13-col:nth-child(3) { left: 50px;  animation-delay: 2s; }
+.candy-progress-13-col:nth-child(4) { left: 70px;  animation-delay: 3s; }
+.candy-progress-13-col:nth-child(5) { left: 90px;  animation-delay: 4s; }
+.candy-progress-13-col:nth-child(6) { left: 110px; animation-delay: 0.5s; }
+.candy-progress-13-col:nth-child(7) { left: 130px; animation-delay: 1.5s; }
+
+@keyframes candy-matrixFall { to { top: 100%; } }
+
+/* ====================== 14. 霓虹灯管 (Neon Tube) ====================== */
+.candy-progress-14 {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid #0ff0fc;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 5px #0ff0fc, inset 0 0 5px #0ff0fc;
+    animation: candy-neonFlicker 3s infinite alternate;
+}
+
+.candy-progress-14-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 70%;
+    background: #0ff0fc;
+    border-radius: 8px;
+    filter: blur(1px);
+    box-shadow: 0 0 10px #0ff0fc;
+}
+
+@keyframes candy-neonFlicker {
+    0%, 100% { opacity: 1; box-shadow: 0 0 5px #0ff0fc, inset 0 0 5px #0ff0fc; }
+    50%      { opacity: 0.8; box-shadow: 0 0 2px #0ff0fc, inset 0 0 2px #0ff0fc; }
+}
+
+/* ====================== 15. 全息投影 (Hologram Projection) ====================== */
+.candy-progress-15 {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.candy-progress-15-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: candy-hologramFloat 6s ease-in-out infinite;
+}
+
+.candy-progress-15-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, #0ff0fc, #ff00ff, #ffff00, #0ff0fc);
+    opacity: 0.7;
+    border: 1px solid white;
+}
+
+.candy-progress-15-front  { transform: translateZ(50px); }
+.candy-progress-15-back   { transform: rotateY(180deg) translateZ(50px); }
+.candy-progress-15-right  { transform: rotateY(90deg)  translateZ(50px); }
+.candy-progress-15-left   { transform: rotateY(-90deg) translateZ(50px); }
+.candy-progress-15-top    { transform: rotateX(90deg)  translateZ(50px); }
+.candy-progress-15-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+@keyframes candy-hologramFloat {
+    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
+    50%      { transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg); }
+}
+
+/* ====================== 16. 磁力场线 (Magnetic Field Lines) ====================== */
+.candy-progress-16 {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-16-line {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0;
+    height: 4px;
+    background: #0ff0fc;
+    transform-origin: left center;
+}
+
+.candy-progress-16-line.l1 { transform: translate(-50%, -50%) rotate(0deg);   width: 50px; animation: candy-fieldExtend 2s ease-in-out infinite alternate; }
+.candy-progress-16-line.l2 { transform: translate(-50%, -50%) rotate(45deg);  width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.2s infinite alternate; }
+.candy-progress-16-line.l3 { transform: translate(-50%, -50%) rotate(90deg);  width: 50px; animation: candy-fieldExtend 2s ease-in-out 0.4s infinite alternate; }
+.candy-progress-16-line.l4 { transform: translate(-50%, -50%) rotate(135deg); width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.6s infinite alternate; }
+
+.candy-progress-16-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    background: #ff00ff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+@keyframes candy-fieldExtend { to { width: 60px; } }
+
+/* ====================== 17. 能量核心 (Energy Core) ====================== */
+.candy-progress-17 {
+    width: 80px;
+    height: 80px;
+    margin: 30px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffff00 0%, #ff00ff 70%, transparent 100%);
+    position: relative;
+    box-shadow: 0 0 20px #ffff00, inset 0 0 10px white;
+    animation: candy-corePulse 2s ease-in-out infinite alternate;
+}
+
+.candy-progress-17-orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100px; height: 100px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.candy-progress-17-orbiter {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 10px; height: 10px;
+    background: #0ff0fc;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: candy-orbit 4s linear infinite;
+}
+
+@keyframes candy-corePulse { to { transform: scale(1.1); box-shadow: 0 0 30px #ffff00, inset 0 0 15px white; } }
+@keyframes candy-orbit      { to { transform: translateX(-50%) rotate(360deg); } }
+
+/* ====================== 18. 黑洞吸积盘 (Black Hole Accretion Disk) ====================== */
+.candy-progress-18 {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, black 30%, #0ff0fc 100%);
+    position: relative;
+    overflow: hidden;
+    animation: candy-diskSpin 10s linear infinite;
+}
+
+.candy-progress-18-streak {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100%;
+    height: 4px;
+    background: #ff00ff;
+    transform-origin: left center;
+    opacity: 0.7;
+}
+
+.candy-progress-18-streak.s1 { transform: translate(0, -50%) rotate(0deg); }
+.candy-progress-18-streak.s2 { transform: translate(0, -50%) rotate(30deg); }
+.candy-progress-18-streak.s3 { transform: translate(0, -50%) rotate(60deg); }
+.candy-progress-18-streak.s4 { transform: translate(0, -50%) rotate(90deg); }
+.candy-progress-18-streak.s5 { transform: translate(0, -50%) rotate(120deg); }
+.candy-progress-18-streak.s6 { transform: translate(0, -50%) rotate(150deg); }
+
+.candy-progress-18-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 40px; height: 40px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+@keyframes candy-diskSpin { to { transform: rotate(360deg); } }
+
+/* ====================== 19. 离子推进器 (Ion Thruster) ====================== */
+.candy-progress-19 {
+    width: 40px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-19-chamber {
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to right, #0d0d15, #0ff0fc);
+    border-radius: 5px 5px 0 0;
+}
+
+.candy-progress-19-beam {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 6px;
+    height: 60px;
+    background: linear-gradient(to top, #0ff0fc, #ffff00, transparent);
+    border-radius: 3px;
+    transform: translateX(-50%);
+    animation: candy-beamFlicker 0.5s ease-in-out infinite alternate;
+}
+
+.candy-progress-19-particle {
+    position: absolute;
+    bottom: 0;
+    width: 4px; height: 4px;
+    background: #ffff00;
+    border-radius: 50%;
+    animation: candy-particleRise 1s ease-out infinite;
+}
+
+.candy-progress-19-particle.p1 { left: 0;   animation-delay: 0s; }
+.candy-progress-19-particle.p2 { left: 50%; animation-delay: 0.2s; }
+.candy-progress-19-particle.p3 { right: 0;  animation-delay: 0.4s; }
+
+@keyframes candy-beamFlicker { to { height: 65px; opacity: 0.8; } }
+@keyframes candy-particleRise { to { bottom: 60px; opacity: 0; } }
+
+/* ====================== 20. 赛博朋克扫描线 (Cyber Scanline) ====================== */
+.candy-progress-20 {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: #111;
+    border: 1px solid #0ff0fc;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-20-bar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 4px;
+    background: #0ff0fc;
+    box-shadow: 0 0 10px #0ff0fc;
+    animation: candy-scanMove 2s linear infinite;
+}
+
+.candy-progress-20-grid {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px);
+}
+
+@keyframes candy-scanMove { to { top: 100%; } }
+
+/* ====================== 21. 光速飞行轨迹 (Lightspeed Trail) ====================== */
+.candy-progress-21 {
+    width: 200px;
+    height: 4px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, transparent, #0ff0fc, #ffff00, #0ff0fc, transparent);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.candy-progress-21-star {
+    position: absolute;
+    top: 50%;
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: candy-starStreak 1s linear infinite;
+}
+
+.candy-progress-21-star.s1 { left: 0;   animation-delay: 0s; }
+.candy-progress-21-star.s2 { left: 25%; animation-delay: 0.2s; }
+.candy-progress-21-star.s3 { left: 50%; animation-delay: 0.4s; }
+.candy-progress-21-star.s4 { left: 75%; animation-delay: 0.6s; }
+
+@keyframes candy-starStreak {
+    0%   { left: -10px; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* ====================== 22. 分形树生长 (Fractal Tree Growth) ====================== */
+.candy-progress-22 {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-22-trunk {
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 4px; height: 60px;
+    background: #5d4037;
+    transform: translateX(-50%);
+}
+
+.candy-progress-22-branch {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: #4caf50;
+    transform-origin: bottom center;
+}
+
+.candy-progress-22-branch.l1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-20deg); height: 40px; animation: candy-growBranch 3s forwards; }
+.candy-progress-22-branch.r1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(20deg);  height: 40px; animation: candy-growBranch 3s forwards

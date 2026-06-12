@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyUI - 统一组件库演示</title>
+    <link rel="stylesheet" href="candyui.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #4e54c8, #8e8df0, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            color: #8e8df0;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e0e0ff;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .demo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .candy-btn {
+            margin-bottom: 8px;
+        }
+
+        /* 进度条相关 */
+        .progress-demo {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-value {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8e8df0;
+            margin-top: 10px;
+        }
+
+        /* 滑块相关 */
+        .slider-demo {
+            margin-bottom: 15px;
+        }
+
+        .candy-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .candy-slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #8e8df0;
+        }
+
+        /* 下拉框相关 */
+        .dropdown-demo {
+            margin-bottom: 15px;
+        }
+
+        .dropdown-value {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(78, 84, 200, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* 代码示例 */
+        .code-example {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            color: #a0a0a0;
+        }
+
+        .code-example code {
+            color: #8e8df0;
+        }
+
+        /* 事件日志 */
+        .event-log {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .event-log .event-item {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #feb47b;
+        }
+
+        /* 炫酷进度条展示 */
+        .progress-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 120px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 标签页切换 */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #4e54c8;
+            box-shadow: 0 0 15px rgba(78, 84, 200, 0.5);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CandyUI</h1>
+            <p class="subtitle">统一的组件样式库 | 按钮(5) + 进度条(25) + 滑块(50) + 下拉框(20)</p>
+        </header>
+
+        <!-- 标签页切换 -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('buttons')">按钮样式</button>
+            <button class="tab" onclick="showTab('progress')">进度条</button>
+            <button class="tab" onclick="showTab('sliders')">滑块</button>
+            <button class="tab" onclick="showTab('dropdowns')">下拉框</button>
+            <button class="tab" onclick="showTab('api')">API示例</button>
+        </div>
+
+        <!-- 按钮展示 -->
+        <section id="buttons" class="tab-content active">
+            <h2>按钮样式 (5种)</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>1. 挤出塑料效果</h3>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-extrude">挤出塑料</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>2. 全息箔效果</h3>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-holo-foil">全息箔</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>3. 悬浮发光</h3>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-levitate">悬浮发光</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>4. 铬金属效果</h3>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-chrome">铬金属</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>5. 矩阵雨效果</h3>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-matrix">矩阵雨</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 进度条展示 -->
+        <section id="progress" class="tab-content">
+            <h2>进度条效果 (25种)</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>1. 六边形脉冲</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-hex-pulse"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>2. 星形填充</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-star-fill"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>3. 心跳线</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-heartbeat"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>4. 旋转立方体</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-cube">
+                            <div class="candy-progress-cube-inner">
+                                <div class="candy-progress-cube-face candy-progress-cube-front"></div>
+                                <div class="candy-progress-cube-face candy-progress-cube-back"></div>
+                                <div class="candy-progress-cube-face candy-progress-cube-right"></div>
+                                <div class="candy-progress-cube-face candy-progress-cube-left"></div>
+                                <div class="candy-progress-cube-face candy-progress-cube-top"></div>
+                                <div class="candy-progress-cube-face candy-progress-cube-bottom"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>5. DNA双螺旋</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-dna">
+                            <div class="candy-progress-dna-strand left"></div>
+                            <div class="candy-progress-dna-strand right"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>6. 环形波浪</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-ring-wave"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>7. 无限符号</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-infinity">
+                            <div class="candy-progress-infinity-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>8. 三角形旋转</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-tri-rotate"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>9. 发光粒子流</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-particle-stream">
+                            <div class="candy-progress-particle"></div>
+                            <div class="candy-progress-particle"></div>
+                            <div class="candy-progress-particle"></div>
+                            <div class="candy-progress-particle"></div>
+                            <div class="candy-progress-particle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>10. 机械齿轮</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-gear">
+                            <div class="candy-progress-gear-item small"></div>
+                            <div class="candy-progress-gear-item large"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>11. 液态金属</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-liquid"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>12. 极光带</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-aurora"></div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>13. 数据流矩阵</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-matrix">
+                            <div class="candy-progress-matrix-col">01010101</div>
+                            <div class="candy-progress-matrix-col">10101010</div>
+                            <div class="candy-progress-matrix-col">01010101</div>
+                            <div class="candy-progress-matrix-col">10101010</div>
+                            <div class="candy-progress-matrix-col">01010101</div>
+                            <div class="candy-progress-matrix-col">10101010</div>
+                            <div class="candy-progress-matrix-col">01010101</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>14. 霓虹灯管</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-neon-tube">
+                            <div class="candy-progress-neon-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>15. 全息投影</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-hologram">
+                            <div class="candy-progress-hologram-inner">
+                                <div class="candy-progress-hologram-face candy-progress-hologram-front"></div>
+                                <div class="candy-progress-hologram-face candy-progress-hologram-back"></div>
+                                <div class="candy-progress-hologram-face candy-progress-hologram-right"></div>
+                                <div class="candy-progress-hologram-face candy-progress-hologram-left"></div>
+                                <div class="candy-progress-hologram-face candy-progress-hologram-top"></div>
+                                <div class="candy-progress-hologram-face candy-progress-hologram-bottom"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>16. 磁力场线</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-magnetic">
+                            <div class="candy-progress-magnetic-line l1"></div>
+                            <div class="candy-progress-magnetic-line l2"></div>
+                            <div class="candy-progress-magnetic-line l3"></div>
+                            <div class="candy-progress-magnetic-line l4"></div>
+                            <div class="candy-progress-magnetic-center"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>17. 能量核心</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-energy">
+                            <div class="candy-progress-energy-orbit"></div>
+                            <div class="candy-progress-energy-orbiter"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>18. 黑洞吸积盘</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-blackhole">
+                            <div class="candy-progress-blackhole-streak s1"></div>
+                            <div class="candy-progress-blackhole-streak s2"></div>
+                            <div class="candy-progress-blackhole-streak s3"></div>
+                            <div class="candy-progress-blackhole-streak s4"></div>
+                            <div class="candy-progress-blackhole-streak s5"></div>
+                            <div class="candy-progress-blackhole-streak s6"></div>
+                            <div class="candy-progress-blackhole-event"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>19. 离子推进器</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-ion">
+                            <div class="candy-progress-ion-chamber"></div>
+                            <div class="candy-progress-ion-beam"></div>
+                            <div class="candy-progress-ion-particle p1"></div>
+                            <div class="candy-progress-ion-particle p2"></div>
+                            <div class="candy-progress-ion-particle p3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>20. 赛博扫描线</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-cyber-scan">
+                            <div class="candy-progress-cyber-bar"></div>
+                            <div class="candy-progress-cyber-grid"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>21. 光速轨迹</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-lightspeed">
+                            <div class="candy-progress-lightspeed-star s1"></div>
+                            <div class="candy-progress-lightspeed-star s2"></div>
+                            <div class="candy-progress-lightspeed-star s3"></div>
+                            <div class="candy-progress-lightspeed-star s4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>22. 分形树生长</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-fractal">
+                            <div class="candy-progress-fractal-trunk"></div>
+                            <div class="candy-progress-fractal-branch l1"></div>
+                            <div class="candy-progress-fractal-branch r1"></div>
+                            <div class="candy-progress-fractal-branch l2"></div>
+                            <div class="candy-progress-fractal-branch r2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>23. 量子纠缠</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-quantum">
+                            <div class="candy-progress-quantum-particle p1"></div>
+                            <div class="candy-progress-quantum-particle p2"></div>
+                            <div class="candy-progress-quantum-link"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>24. 时间扭曲</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-timewarp">
+                            <div class="candy-progress-timewarp-ring r1"></div>
+                            <div class="candy-progress-timewarp-ring r2"></div>
+                            <div class="candy-progress-timewarp-ring r3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>25. 宇宙弦振动</h3>
+                    <div class="progress-showcase">
+                        <div class="candy-progress-cosmic">
+                            <div class="candy-progress-cosmic-node n1"></div>
+                            <div class="candy-progress-cosmic-node n2"></div>
+                            <div class="candy-progress-cosmic-node n3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 滑块展示 -->
+        <section id="sliders" class="tab-content">
+            <h2>滑块效果 (50种)</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>1. 发光滑块</h3>
+                    <input type="range" class="candy-slider candy-slider-glow" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>2. 渐变滑块</h3>
+                    <input type="range" class="candy-slider candy-slider-gradient" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>3. 3D立体</h3>
+                    <div class="candy-slider-3d-container">
+                        <input type="range" class="candy-slider" min="0" max="100" value="50">
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>4. 荧光笔</h3>
+                    <input type="range" class="candy-slider candy-slider-neon" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>5. 赛博朋克</h3>
+                    <input type="range" class="candy-slider candy-slider-cyberpunk" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>6. 极简主义</h3>
+                    <input type="range" class="candy-slider candy-slider-minimal" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>7. 复古胶片</h3>
+                    <input type="range" class="candy-slider candy-slider-film" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>8. 液态金属</h3>
+                    <input type="range" class="candy-slider candy-slider-liquid" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>9. 霓虹灯</h3>
+                    <input type="range" class="candy-slider candy-slider-neon-light" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>10. 玻璃拟态</h3>
+                    <input type="range" class="candy-slider candy-slider-glass" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>11. 未来科技</h3>
+                    <input type="range" class="candy-slider candy-slider-tech" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>12. 水墨画</h3>
+                    <input type="range" class="candy-slider candy-slider-ink" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>13. 星空</h3>
+                    <input type="range" class="candy-slider candy-slider-starry" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>14. 火焰</h3>
+                    <input type="range" class="candy-slider candy-slider-fire" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>15. 冰霜</h3>
+                    <input type="range" class="candy-slider candy-slider-frost" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>16. 金属质感</h3>
+                    <input type="range" class="candy-slider candy-slider-metal" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>17. 荧光绿</h3>
+                    <input type="range" class="candy-slider candy-slider-toxic" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>18. 日落</h3>
+                    <input type="range" class="candy-slider candy-slider-sunset" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>19. 深海</h3>
+                    <input type="range" class="candy-slider candy-slider-ocean" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>20. 黑金</h3>
+                    <input type="range" class="candy-slider candy-slider-black-gold" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>21. 彩虹</h3>
+                    <input type="range" class="candy-slider candy-slider-rainbow" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>22. 虚拟现实</h3>
+                    <input type="range" class="candy-slider candy-slider-vr" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>23. 赛道</h3>
+                    <input type="range" class="candy-slider candy-slider-racing" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>24. 霓虹紫</h3>
+                    <input type="range" class="candy-slider candy-slider-purple-neon" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>25. 青柠</h3>
+                    <input type="range" class="candy-slider candy-slider-lime" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>26. 血色</h3>
+                    <input type="range" class="candy-slider candy-slider-blood" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>27. 薄荷</h3>
+                    <input type="range" class="candy-slider candy-slider-mint" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>28. 太空黑</h3>
+                    <input type="range" class="candy-slider candy-slider-space" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>29. 霓虹蓝</h3>
+                    <input type="range" class="candy-slider candy-slider-blue-neon" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>30. 珊瑚</h3>
+                    <input type="range" class="candy-slider candy-slider-coral" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>31. 翡翠</h3>
+                    <input type="range" class="candy-slider candy-slider-emerald" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>32. 紫罗兰</h3>
+                    <input type="range" class="candy-slider candy-slider-violet" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>33. 银河</h3>
+                    <input type="range" class="candy-slider candy-slider-galaxy" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>34. 烈焰橙</h3>
+                    <input type="range" class="candy-slider candy-slider-flame" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>35. 电光蓝</h3>
+                    <input type="range" class="candy-slider candy-slider-electric" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>36. 玫瑰金</h3>
+                    <input type="range" class="candy-slider candy-slider-rose-gold" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>37. 深红</h3>
+                    <input type="range" class="candy-slider candy-slider-crimson" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>38. 海军蓝</h3>
+                    <input type="range" class="candy-slider candy-slider-navy" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>39. 青铜</h3>
+                    <input type="range" class="candy-slider candy-slider-bronze" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>40. 霓虹粉</h3>
+                    <input type="range" class="candy-slider candy-slider-pink-neon" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>41. 电光紫</h3>
+                    <input type="range" class="candy-slider candy-slider-electric-purple" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>42. 沙漠</h3>
+                    <input type="range" class="candy-slider candy-slider-desert" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>43. 海洋</h3>
+                    <input type="range" class="candy-slider candy-slider-sea" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>44. 紫罗兰色</h3>
+                    <input type="range" class="candy-slider candy-slider-viola" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>45. 夕阳</h3>
+                    <input type="range" class="candy-slider candy-slider-sunset-glow" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>46. 极光</h3>
+                    <input type="range" class="candy-slider candy-slider-aurora-borealis" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>47. 金属铜</h3>
+                    <input type="range" class="candy-slider candy-slider-copper" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>48. 午夜蓝</h3>
+                    <input type="range" class="candy-slider candy-slider-midnight" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>49. 森林绿</h3>
+                    <input type="range" class="candy-slider candy-slider-forest" min="0" max="100" value="50">
+                </div>
+                <div class="demo-card">
+                    <h3>50. 日落金</h3>
+                    <input type="range" class="candy-slider candy-slider-gold-sunset" min="0" max="100" value="50">
+                </div>
+            </div>
+        </section>
+
+        <!-- 下拉框展示 -->
+        <section id="dropdowns" class="tab-content">
+            <h2>下拉框效果 (20种)</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>1. 发光边框</h3>
+                    <div class="candy-select candy-select-glow">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>2. 渐变边框</h3>
+                    <div class="candy-select candy-select-gradient">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>3. 玻璃拟态</h3>
+                    <div class="candy-select candy-select-glass">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>4. 霓虹效果</h3>
+                    <div class="candy-select candy-select-neon">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>5. 金属质感</h3>
+                    <div class="candy-select candy-select-metal">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>6. 赛博朋克</h3>
+                    <div class="candy-select candy-select-cyberpunk">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>7. 复古胶片</h3>
+                    <div class="candy-select candy-select-film">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>8. 彩虹渐变</h3>
+                    <div class="candy-select candy-select-rainbow">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>9. 发光绿</h3>
+                    <div class="candy-select candy-select-toxic">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>10. 黑金</h3>
+                    <div class="candy-select candy-select-black-gold">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>11. 深海蓝</h3>
+                    <div class="candy-select candy-select-ocean">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>12. 紫罗兰</h3>
+                    <div class="candy-select candy-select-violet">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>13. 玫瑰金</h3>
+                    <div class="candy-select candy-select-rose-gold">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>14. 珊瑚橙</h3>
+                    <div class="candy-select candy-select-coral">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>15. 翡翠绿</h3>
+                    <div class="candy-select candy-select-emerald">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>16. 午夜紫</h3>
+                    <div class="candy-select candy-select-midnight">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>17. 极光</h3>
+                    <div class="candy-select candy-select-aurora">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>18. 荧光粉</h3>
+                    <div class="candy-select candy-select-pink-neon">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>19. 日落</h3>
+                    <div class="candy-select candy-select-sunset">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>20. 星空</h3>
+                    <div class="candy-select candy-select-starry">
+                        <select>
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                            <option value="3">选项三</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API演示 -->
+        <section id="api" class="tab-content">
+            <h2>API 使用示例</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>进度条 API</h3>
+                    <div class="progress-demo">
+                        <div class="candy-progress" id="api-progress" data-progress="50">
+                            <div class="candy-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="progress-value"><span id="api-progress-value">50</span>%</div>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-extrude" onclick="setApiProgress(25)">设置25%</button>
+                        <button class="candy-btn candy-btn-extrude" onclick="setApiProgress(75)">设置75%</button>
+                        <button class="candy-btn candy-btn-extrude" onclick="getApiProgress()">获取值</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>滑块 API</h3>
+                    <div class="candy-slider-container">
+                        <input type="range" class="candy-slider" id="api-slider" min="0" max="100" value="50">
+                        <span class="candy-slider-value" id="api-slider-value">50</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="candy-btn candy-btn-extrude" onclick="setApiSlider(30)">设置30</button>
+                        <button class="candy-btn candy-btn-extrude" onclick="setApiSlider(80)">设置80</button>
+                        <button class="candy-btn candy-btn-extrude" onclick="getApiSlider()">获取值</button>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>动态创建进度条</h3>
+                    <div id="dynamic-progress-container"></div>
+                    <button class="candy-btn candy-btn-extrude" onclick="createDynamicProgress()">创建进度条</button>
+                </div>
+                <div class="demo-card">
+                    <h3>动态创建滑块</h3>
+                    <div id="dynamic-slider-container"></div>
+                    <button class="candy-btn candy-btn-extrude" onclick="createDynamicSlider()">创建滑块</button>
+                </div>
+                <div class="demo-card">
+                    <h3>动态创建下拉框</h3>
+                    <div id="dynamic-dropdown-container"></div>
+                    <button class="candy-btn candy-btn-extrude" onclick="createDynamicDropdown()">创建下拉框</button>
+                </div>
+                <div class="demo-card">
+                    <h3>事件监听</h3>
+                    <input type="range" class="candy-slider" id="event-slider" min="0" max="100" value="50">
+                    <div class="event-log" id="event-log"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>CandyUI - 统一组件样式库 v2.0</p>
+            <p>使用 candyui.css 和 candyui.js 快速构建精美界面</p>
+        </footer>
+    </div>
+
+    <script src="candyui.js"></script>
+    <script>
+        // 标签页切换
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // API示例函数
+        function setApiProgress(value) {
+            CandyUI.setProgress('#api-progress', value);
+            document.getElementById('api-progress-value').textContent = value;
+        }
+
+        function getApiProgress() {
+            const value = CandyUI.getProgress('#api-progress');
+            alert('当前进度: ' + value + '%');
+        }
+
+        function setApiSlider(value) {
+            CandyUI.setSliderValue('#api-slider', value);
+            document.getElementById('api-slider-value').textContent = value;
+        }
+
+        function getApiSlider() {
+            const value = CandyUI.getSliderValue('#api-slider');
+            alert('当前滑块值: ' + value);
+        }
+
+        function createDynamicProgress() {
+            const progress = CandyUI.createProgressBar({
+                id: 'new-progress',
+                value: 35,
+                animated: true,
+                striped: true
+            });
+            document.getElementById('dynamic-progress-container').appendChild(progress);
+        }
+
+        function createDynamicSlider() {
+            const slider = CandyUI.createSlider({
+                id: 'new-slider',
+                min: 0,
+                max: 100,
+                value: 75,
+                showValue: true
+            });
+            document.getElementById('dynamic-slider-container').appendChild(slider);
+        }
+
+        function createDynamicDropdown() {
+            const dropdown = CandyUI.createDropdown({
+                id: 'new-dropdown',
+                placeholder: '动态下拉框',
+                options: [
+                    { value: 'a', label: '选项 A' },
+                    { value: 'b', label: '选项 B' },
+                    { value: 'c', label: '选项 C' }
+                ]
+            });
+            document.getElementById('dynamic-dropdown-container').appendChild(dropdown);
+        }
+
+        // 事件监听示例
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventSlider = document.getElementById('event-slider');
+            eventSlider.addEventListener('candy-change', function(e) {
+                const log = document.getElementById('event-log');
+                const item = document.createElement('div');
+                item.className = 'event-item';
+                item.textContent = '值变化: ' + e.detail.value + ' (' + Math.round(e.detail.percentage) + '%)';
+                log.insertBefore(item, log.firstChild);
+                
+                if (log.children.length > 5) {
+                    log.removeChild(log.lastChild);
+                }
+            });
+
+            // 初始化滑块交互
+            CandyUI.initSliders('#api-slider');
+            CandyUI.initSliders('#event-slider');
+        });
+    </script>
+</body>
+</html>

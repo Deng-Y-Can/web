@@ -1,0 +1,1905 @@
+/* CandyUI - 按钮样式 - 从index.html提取并优化 */
+
+:root {
+    --deep-blue: #0f0c29;
+    --mid-purple: #302b63;
+    --violet: #24243e;
+    --gold: #FFD700;
+    --silver: #C0C0C0;
+    --bronze: #CD7F32;
+    --cyber-green: #00ff41;
+    --cyber-pink: #ff00ff;
+    --matrix-green: #00FF41;
+    --space-black: #0a0a0a;
+    --glass-white: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* 基础按钮类 */
+.candy-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transform-style: preserve-3d;
+}
+
+/* --- 1. Extruded Plastic (挤出塑料) --- */
+.candy-btn-extrude {
+    background: #4e54c8;
+    color: white;
+    box-shadow: 0 6px 0 #3a40a0, 0 6px 3px rgba(0,0,0,0.2);
+    transform: translateY(0);
+}
+.candy-btn-extrude:hover {
+    background: #5a60d0;
+    box-shadow: 0 4px 0 #3a40a0, 0 4px 3px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+.candy-btn-extrude:active {
+    box-shadow: 0 0px 0 #3a40a0, 0 0px 3px rgba(0,0,0,0.2);
+    transform: translateY(6px);
+}
+
+/* --- 2. Hologram Foil (全息箔) --- */
+.candy-btn-holo-foil {
+    background: transparent;
+    color: #fff;
+    border: 2px solid transparent;
+    isolation: isolate;
+}
+.candy-btn-holo-foil::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 30%, transparent 40%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.3) 100%);
+    border-radius: inherit;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+.candy-btn-holo-foil::after {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    border-radius: calc(8px + 2px);
+    z-index: -2;
+    filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: holoShine 3s linear infinite;
+}
+.candy-btn-holo-foil:hover::before,
+.candy-btn-holo-foil:hover::after {
+    opacity: 1;
+}
+
+@keyframes holoShine {
+    0% { background-position: 0 0; }
+    100% { background-position: 400% 0; }
+}
+
+/* --- 3. Isometric Cube (等距立方体) --- */
+.candy-btn-cube {
+    background: #FF6B6B;
+    color: white;
+    transform: translateZ(20px);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.candy-btn-cube::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    background: #FF5252;
+    transform: translateZ(-20px);
+    z-index: -1;
+}
+.candy-btn-cube::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    top: 0; right: -20px;
+    background: #E53935;
+    transform: rotateY(-90deg) translateZ(20px);
+    transform-origin: right center;
+    z-index: -1;
+}
+.candy-btn-cube .cube-top {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    top: -20px; left: 0;
+    background: #FF8A80;
+    transform: rotateX(90deg) translateZ(20px);
+    transform-origin: top center;
+    z-index: -1;
+}
+.candy-btn-cube:hover {
+    background: #FF8A80;
+}
+.candy-btn-cube:hover .cube-top {
+    background: #FFAB91;
+}
+
+/* --- 4. Levitating Glow (悬浮发光) --- */
+.candy-btn-levitate {
+    background: #7400b8;
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #7400b8, 0 0 20px #7400b8, 0 0 30px #7400b8, 0 0 40px #7400b8;
+    animation: levitateFloat 3s ease-in-out infinite;
+}
+@keyframes levitateFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.candy-btn-levitate::before {
+    content: '';
+    position: absolute;
+    bottom: -15px; left: 10%;
+    width: 80%; height: 10px;
+    background: radial-gradient(ellipse at center, rgba(116, 0, 184, 0.5) 0%, rgba(116, 0, 184, 0) 70%);
+    border-radius: 50%;
+    filter: blur(5px);
+    z-index: -1;
+    animation: levitateShadow 3s ease-in-out infinite;
+}
+@keyframes levitateShadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.7; }
+    50% { transform: scaleX(0.7); opacity: 0.4; }
+}
+
+/* --- 5. Cyber Chrome (铬金属) --- */
+.candy-btn-chrome {
+    background: linear-gradient(145deg, #c0c0c0, #808080);
+    color: #000;
+    border: 2px solid #a0a0a0;
+    box-shadow: inset 2px 2px 4px rgba(255,255,255,0.5), inset -2px -2px 4px rgba(0,0,0,0.2), 2px 2px 4px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+.candy-btn-chrome::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 20px; height: 200%;
+    background: rgba(255,255,255,0.6);
+    transform: rotate(25deg);
+    transition: left 0.5s;
+}
+.candy-btn-chrome:hover::before {
+    left: 120%;
+}
+
+/* --- 6. Matrix Rain (矩阵雨) --- */
+.candy-btn-matrix {
+    background-color: #000;
+    color: var(--matrix-green);
+    font-family: 'Courier New', monospace;
+    border: 1px solid var(--matrix-green);
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,255,65,0.5);
+}
+.candy-btn-matrix::before {
+    content: '01';
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+    color: rgba(0, 255, 65, 0.1);
+    animation: matrixRain 10s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+@keyframes matrixRain {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* --- 7. Glassmorphism (玻璃态) --- */
+.candy-btn-glass {
+    background: var(--glass-white);
+    color: white;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+.candy-btn-glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- 8. Anaglyph 3D (立体红蓝) --- */
+.candy-btn-anaglyph {
+    background: #000;
+    color: #fff;
+    position: relative;
+}
+.candy-btn-anaglyph span {
+    position: relative;
+}
+.candy-btn-anaglyph:hover span {
+    color: #f00;
+    text-shadow: 4px 0 0 #00f;
+}
+
+/* --- 9. Voxel Art (像素体素) --- */
+.candy-btn-voxel {
+    background: #5D4037;
+    color: white;
+    border: 2px solid #3E2723;
+    box-shadow: 4px 4px 0 0 #3E2723, 4px 4px 0 2px #000;
+    transform: translate(0, 0);
+}
+.candy-btn-voxel:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 #3E2723, 2px 2px 0 2px #000;
+}
+.candy-btn-voxel:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0 0 #3E2723, 0px 0px 0 2px #000;
+}
+
+/* --- 10. Hologram Projector (全息投影) --- */
+.candy-btn-projector {
+    background: #000;
+    color: #0ff;
+    border: 1px solid #0ff;
+    box-shadow: 0 0 10px #0ff, inset 0 0 10px rgba(0, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-projector::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.1) 2px, rgba(0,255,255,0.1) 4px);
+    pointer-events: none;
+    animation: scanline 5s linear infinite;
+}
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* --- 11. Pop Out Sticker (弹出贴纸) --- */
+.candy-btn-sticker {
+    background: #FFEB3B;
+    color: #333;
+    border-radius: 12px;
+    transform: translateZ(10px);
+    box-shadow: 0 4px 0 #FDD835, 0 8px 10px rgba(0,0,0,0.2);
+}
+.candy-btn-sticker:hover {
+    transform: translateZ(15px) translateY(-5px);
+    box-shadow: 0 9px 0 #FDD835, 0 13px 15px rgba(0,0,0,0.3);
+}
+.candy-btn-sticker:active {
+    transform: translateZ(10px) translateY(0);
+    box-shadow: 0 4px 0 #FDD835, 0 8px 10px rgba(0,0,0,0.2);
+}
+
+/* --- 12. Wireframe (线框) --- */
+.candy-btn-wireframe {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    position: relative;
+}
+.candy-btn-wireframe::before,
+.candy-btn-wireframe::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+.candy-btn-wireframe::before {
+    transform: translate(4px, 4px);
+    z-index: -1;
+}
+.candy-btn-wireframe::after {
+    transform: translate(8px, 8px);
+    z-index: -2;
+}
+.candy-btn-wireframe:hover::before,
+.candy-btn-wireframe:hover::after {
+    opacity: 1;
+}
+.candy-btn-wireframe:hover::before {
+    transform: translate(6px, 6px);
+}
+.candy-btn-wireframe:hover::after {
+    transform: translate(12px, 12px);
+}
+
+/* --- 13. Origami Crane (折纸鹤) --- */
+.candy-btn-origami {
+    background: linear-gradient(135deg, #FE6B8B, #FF8E53);
+    color: white;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    padding: 20px 30px;
+}
+
+/* --- 14. Candy Stripe (糖果条纹) --- */
+.candy-btn-candy {
+    background: repeating-linear-gradient(45deg, #FF5252, #FF5252 10px, #FF4081 10px, #FF4081 20px);
+    color: white;
+    border: none;
+}
+
+/* --- 15. Lava Lamp (熔岩灯) --- */
+.candy-btn-lava {
+    background: #222;
+    color: white;
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+}
+.candy-btn-lava::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,0,150,0.5) 0%, rgba(255,0,255,0) 70%);
+    animation: lavaFlow 10s infinite linear;
+    z-index: 0;
+}
+.candy-btn-lava span {
+    position: relative;
+    z-index: 1;
+}
+@keyframes lavaFlow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50%, 50%); }
+}
+
+/* --- 16. Pixel Explosion (像素爆炸) --- */
+.candy-btn-pixel-explosion {
+    background: #333;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    border: 2px solid #fff;
+    position: relative;
+}
+.candy-btn-pixel-explosion .pixel-dot {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+/* --- 17. Aurora Borealis (极光) --- */
+.candy-btn-aurora {
+    background: #000;
+    color: #fff;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-aurora::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(270deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 600% 600%;
+    opacity: 0.3;
+    z-index: 0;
+    animation: auroraWave 10s ease infinite;
+}
+.candy-btn-aurora span {
+    position: relative;
+    z-index: 1;
+}
+@keyframes auroraWave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 18. Diamond Facet (钻石切面) --- */
+.candy-btn-diamond {
+    background: #b9fbc0;
+    color: #000;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    padding: 20px 30px;
+    border: 2px solid #90e0ef;
+}
+
+/* --- 19. Retro CRT (复古显示器) --- */
+.candy-btn-crt {
+    background-color: #121212;
+    color: #00FF00;
+    font-family: 'VT323', monospace;
+    border: 2px solid #444;
+    box-shadow: inset 0 0 10px #00FF00;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-crt::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: #00FF00;
+    box-shadow: 0 0 10px #00FF00;
+    animation: crtScan 0.1s linear infinite;
+}
+@keyframes crtScan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* --- 20. Quantum Entanglement (量子纠缠) --- */
+.candy-btn-quantum {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+}
+.candy-btn-quantum::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-btn-quantum:hover::before {
+    opacity: 1;
+}
+
+/* --- 21. Ink Bleed (墨水晕染) --- */
+.candy-btn-ink {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-ink::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: radial-gradient(circle, rgba(64, 224, 208, 0.8) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+    border-radius: 50%;
+    z-index: 0;
+}
+.candy-btn-ink:hover::before {
+    width: 300px;
+    height: 300px;
+}
+.candy-btn-ink span {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- 22. Fractal Zoom (分形缩放) --- */
+.candy-btn-fractal {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-fractal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40 L60 40 L60 60 L40 60 Z M45 45 L55 45 L55 55 L45 55 Z M47.5 47.5 L52.5 47.5 L52.5 52.5 L47.5 52.5 Z' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 50% 50%;
+    opacity: 0.5;
+    transition: transform 10s ease-in-out;
+}
+.candy-btn-fractal:hover::before {
+    transform: scale(2);
+}
+
+/* --- 23. Kaleidoscope (万花筒) --- */
+.candy-btn-kaleido {
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    width: 80px; height: 80px;
+    padding: 0;
+    border: 2px solid #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-kaleido::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+    animation: kaleidoSpin 10s linear infinite;
+    opacity: 0.5;
+}
+@keyframes kaleidoSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- 24. Plasma Globe (等离子球) --- */
+.candy-btn-plasma {
+    background: radial-gradient(circle at center, #ff00cc, #333399);
+    color: white;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-plasma .plasma-bolt {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* --- 25. Solar Flare (太阳耀斑) --- */
+.candy-btn-solar {
+    background: #000;
+    color: #FFD700;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+    position: relative;
+}
+.candy-btn-solar .flare {
+    position: absolute;
+    background: #FFD700;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* --- 26. Tron Disc (创战纪圆盘) --- */
+.candy-btn-tron {
+    background: #000;
+    color: #0ff;
+    border: 2px solid #0ff;
+    border-radius: 50%;
+    width: 80px; height: 80px;
+    padding: 0;
+    box-shadow: 0 0 10px #0ff, inset 0 0 10px rgba(0, 255, 255, 0.2);
+    position: relative;
+}
+.candy-btn-tron::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 2px solid #0ff;
+    border-radius: 50%;
+}
+.candy-btn-tron::after {
+    content: '';
+    position: absolute;
+    top: 20px; left: 50%;
+    width: 2px; height: 40px;
+    background: #0ff;
+    transform: translateX(-50%);
+    box-shadow: 0 0 5px #0ff;
+}
+
+/* --- 27. Hologram Sticker (全息贴纸) --- */
+.candy-btn-holo-sticker {
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    color: #fff;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-holo-sticker::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(115deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 30%, transparent 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.8) 100%);
+    transform: rotate(30deg);
+    transition: left 1s ease;
+    opacity: 0.7;
+}
+.candy-btn-holo-sticker:hover::before {
+    left: 50%;
+}
+
+/* --- 28. Neumorphic (新拟态) --- */
+.candy-btn-neumorphic {
+    background: #1a1a2e;
+    color: #e6e6e6;
+    border-radius: 12px;
+    box-shadow: 8px 8px 16px #0d0d17, -8px -8px 16px #272745;
+}
+.candy-btn-neumorphic:active {
+    box-shadow: inset 4px 4px 8px #0d0d17, inset -4px -4px 8px #272745;
+}
+
+/* --- 29. ASCII Art (ASCII艺术) --- */
+.candy-btn-ascii {
+    background: #000;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    white-space: pre;
+    border: 1px solid #0f0;
+    padding: 15px;
+}
+
+/* --- 30. Light Sword (光剑) --- */
+.candy-btn-lightsword {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-lightsword::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, #00ffff, transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+.candy-btn-lightsword:hover::before {
+    transform: translateX(100%);
+}
+
+/* --- 31. Dataglobe (数据球) --- */
+.candy-btn-dataglobe {
+    background: radial-gradient(circle, #1a2a6c, #2c3e50);
+    color: #ecf0f1;
+    border-radius: 50%;
+    width: 80px; height: 80px;
+    padding: 0;
+    border: 2px solid #3498db;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-dataglobe .data-point {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #2ecc71;
+    border-radius: 50%;
+}
+
+/* --- 32. Geometric Tessellation (几何镶嵌) --- */
+.candy-btn-tessellate {
+    background: #2c3e50;
+    color: #ecf0f1;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-tessellate::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%233498db' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M0 0h40L0 40'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* --- 33. Bioluminescent (生物发光) --- */
+.candy-btn-bio {
+    background: #000;
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+    box-shadow: 0 0 5px #00ffcc, inset 0 0 5px rgba(0, 255, 204, 0.2);
+    animation: bioPulse 2s infinite ease-in-out;
+}
+@keyframes bioPulse {
+    0%, 100% { box-shadow: 0 0 5px #00ffcc, inset 0 0 5px rgba(0, 255, 204, 0.2); }
+    50% { box-shadow: 0 0 15px #00ffcc, inset 0 0 10px rgba(0, 255, 204, 0.4); }
+}
+
+/* --- 34. Time Warp (时间扭曲) --- */
+.candy-btn-time-warp {
+    background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-time-warp::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+}
+.candy-btn-time-warp:hover::before {
+    animation: timeWarpGlide 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+}
+@keyframes timeWarpGlide {
+    100% { transform: translateX(100%); }
+}
+
+/* --- 35. Nanotech (纳米科技) --- */
+.candy-btn-nano {
+    background: #000;
+    color: #00ffff;
+    border: 1px solid #00ffff;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-nano .nano-line {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background: #00ffff;
+    left: 0;
+    animation: nanoScan 3s linear infinite;
+}
+@keyframes nanoScan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* --- 36. Crystal Shard (水晶碎片) --- */
+.candy-btn-crystal {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+    padding: 15px 25px;
+    position: relative;
+}
+.candy-btn-crystal::before {
+    content: '';
+    position: absolute;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+    z-index: -1;
+    opacity: 0.5;
+    filter: blur(5px);
+}
+
+/* --- 37. Hologram Tape (全息胶带) --- */
+.candy-btn-tape {
+    background: #000;
+    color: #fff;
+    border-left: 5px dashed #FF0000;
+    border-right: 5px dashed #0000FF;
+    padding: 12px 30px;
+}
+
+/* --- 38. Glitch Realm (故障领域) --- */
+.candy-btn-glitch-realm {
+    background: #000;
+    color: #fff;
+    position: relative;
+}
+.candy-btn-glitch-realm:hover {
+    animation: glitchRealm 0.5s infinite;
+}
+@keyframes glitchRealm {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); color: #ff00c1; }
+    40% { transform: translate(-3px, -3px); color: #00fff9; }
+    60% { transform: translate(3px, 3px); color: #ff0000; }
+    80% { transform: translate(3px, -3px); color: #00ff4c; }
+    100% { transform: translate(0); color: #fff; }
+}
+
+/* --- 39. Vaporwave Sunset (蒸汽波日落) --- */
+.candy-btn-vaporwave {
+    background: linear-gradient(90deg, #ff71ce, #01cdfe, #05ffa1, #b967ff, #ff71ce);
+    background-size: 300% 300%;
+    color: #000;
+    font-weight: bold;
+    animation: vaporWaveBG 10s ease infinite;
+    border: none;
+}
+@keyframes vaporWaveBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 40. Isometric Tile (等距瓦片) --- */
+.candy-btn-iso-tile {
+    background: #34495e;
+    color: #ecf0f1;
+    position: relative;
+    padding-left: 30px;
+}
+.candy-btn-iso-tile::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 20px; height: 100%;
+    background: #2c3e50;
+    transform: skewX(-20deg);
+    transform-origin: left bottom;
+}
+
+/* --- 41. Laser Grid (激光网格) --- */
+.candy-btn-laser-grid {
+    background: #000;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-laser-grid .grid-line-h, 
+.candy-btn-laser-grid .grid-line-v {
+    position: absolute;
+    background: rgba(0, 255, 255, 0.5);
+}
+.candy-btn-laser-grid .grid-line-h {
+    width: 100%; height: 1px;
+}
+.candy-btn-laser-grid .grid-line-v {
+    width: 1px; height: 100%;
+}
+
+/* --- 42. Hologram Pyramid (全息金字塔) --- */
+.candy-btn-pyramid {
+    background: #000;
+    color: #fff;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    padding: 30px 20px 15px 20px;
+    position: relative;
+}
+.candy-btn-pyramid::before {
+    content: '';
+    position: absolute;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    background: linear-gradient(white, transparent);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    z-index: -1;
+    opacity: 0.2;
+}
+
+/* --- 43. Cybernetic Implant (神经植入) --- */
+.candy-btn-implant {
+    background: #000;
+    color: #0f0;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid #0f0;
+    box-shadow: 0 0 5px #0f0;
+    position: relative;
+}
+.candy-btn-implant .implant-line {
+    position: absolute;
+    height: 1px;
+    background: #0f0;
+}
+
+/* --- 44. Quantum Tunnel (量子隧道) --- */
+.candy-btn-quantum-tunnel {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-quantum-tunnel .tunnel {
+    position: absolute;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+/* --- 45. Hologram Prism (全息棱镜) --- */
+.candy-btn-prism {
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8);
+    background-size: 400% 400%;
+    color: #000;
+    animation: prismShift 5s ease infinite;
+    border: none;
+}
+@keyframes prismShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 46. Digital Rain (数字雨) --- */
+.candy-btn-digital-rain {
+    background: #000;
+    color: #0f0;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid #0f0;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-digital-rain .rain-char {
+    position: absolute;
+    color: #0f0;
+    font-size: 14px;
+}
+
+/* --- 47. Isometric Gem (等距宝石) --- */
+.candy-btn-iso-gem {
+    background: #9b59b6;
+    color: white;
+    position: relative;
+    padding-top: 25px;
+}
+.candy-btn-iso-gem::before,
+.candy-btn-iso-gem::after {
+    content: '';
+    position: absolute;
+    width: 0; height: 0;
+    border-style: solid;
+}
+.candy-btn-iso-gem::before {
+    top: 0; left: 0;
+    border-width: 0 50px 25px 50px;
+    border-color: transparent transparent #8e44ad transparent;
+}
+.candy-btn-iso-gem::after {
+    top: 0; right: -25px;
+    border-width: 25px 0 25px 25px;
+    border-color: transparent transparent transparent #8e44ad;
+}
+
+/* --- 48. Hologram Circuit (全息电路) --- */
+.candy-btn-circuit {
+    background: #000;
+    color: #0ff;
+    border: 1px solid #0ff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-circuit .circuit-line {
+    position: absolute;
+    background: #0ff;
+    height: 2px;
+}
+
+/* --- 49. Cyber Glitch Text (电子故障文字) --- */
+.candy-btn-cyber-glitch-text {
+    background: #000;
+    color: #fff;
+    position: relative;
+}
+.candy-btn-cyber-glitch-text .glitch-text::before,
+.candy-btn-cyber-glitch-text .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+.candy-btn-cyber-glitch-text .glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+.candy-btn-cyber-glitch-text .glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+@keyframes glitch-anim {
+    0% { clip: rect(42px, 9999px, 44px, 0); }
+    5% { clip: rect(12px, 9999px, 59px, 0); }
+    10% { clip: rect(48px, 9999px, 29px, 0); }
+    15% { clip: rect(42px, 9999px, 73px, 0); }
+    20% { clip: rect(63px, 9999px, 27px, 0); }
+    25% { clip: rect(34px, 9999px, 55px, 0); }
+    30% { clip: rect(86px, 9999px, 73px, 0); }
+    35% { clip: rect(20px, 9999px, 20px, 0); }
+    40% { clip: rect(26px, 9999px, 60px, 0); }
+    45% { clip: rect(25px, 9999px, 66px, 0); }
+    50% { clip: rect(57px, 9999px, 98px, 0); }
+    55% { clip: rect(5px, 9999px, 46px, 0); }
+    60% { clip: rect(82px, 9999px, 31px, 0); }
+    65% { clip: rect(54px, 9999px, 27px, 0); }
+    70% { clip: rect(28px, 9999px, 99px, 0); }
+    75% { clip: rect(45px, 9999px, 69px, 0); }
+    80% { clip: rect(23px, 9999px, 85px, 0); }
+    85% { clip: rect(1px, 9999px, 83px, 0); }
+    90% { clip: rect(72px, 9999px, 11px, 0); }
+    95% { clip: rect(60px, 9999px, 89px, 0); }
+    100% { clip: rect(52px, 9999px, 74px, 0); }
+}
+@keyframes glitch-anim2 {
+    0% { clip: rect(65px, 9999px, 32px, 0); }
+    5% { clip: rect(52px, 9999px, 62px, 0); }
+    10% { clip: rect(79px, 9999px, 85px, 0); }
+    15% { clip: rect(75px, 9999px, 5px, 0); }
+    20% { clip: rect(67px, 9999px, 67px, 0); }
+    25% { clip: rect(14px, 9999px, 1px, 0); }
+    30% { clip: rect(1px, 9999px, 66px, 0); }
+    35% { clip: rect(86px, 9999px, 30px, 0); }
+    40% { clip: rect(23px, 9999px, 98px, 0); }
+    45% { clip: rect(85px, 9999px, 72px, 0); }
+    50% { clip: rect(71px, 9999px, 75px, 0); }
+    55% { clip: rect(2px, 9999px, 48px, 0); }
+    60% { clip: rect(30px, 9999px, 16px, 0); }
+    65% { clip: rect(59px, 9999px, 50px, 0); }
+    70% { clip: rect(41px, 9999px, 62px, 0); }
+    75% { clip: rect(2px, 9999px, 82px, 0); }
+    80% { clip: rect(47px, 9999px, 73px, 0); }
+    85% { clip: rect(3px, 9999px, 27px, 0); }
+    90% { clip: rect(26px, 9999px, 55px, 0); }
+    95% { clip: rect(42px, 9999px, 97px, 0); }
+    100% { clip: rect(38px, 9999px, 49px, 0); }
+}
+
+/* --- 50. Hologram Waveform (全息波形) --- */
+.candy-btn-waveform {
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: relative;
+    overflow: hidden;
+    height: 50px;
+    padding: 0;
+}
+.candy-btn-waveform .wave {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 200%; height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50"><path d="M0,25 Q 25,5 50,25 T 100,25 T 150,25 T 200,25" stroke="white" fill="none"/></svg>') repeat-x;
+    background-size: 50% 100%;
+    animation: waveScroll 2s linear infinite;
+}
+@keyframes waveScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* ==================== index2.html 样式 (51-100) ==================== */
+
+/* --- 51. Simple Gradient --- */
+.candy-btn-simple-gradient {
+    background: linear-gradient(45deg, #FF9A9E, #FAD0C4);
+    color: #333;
+}
+.candy-btn-simple-gradient:hover {
+    background: linear-gradient(45deg, #FAD0C4, #FF9A9E);
+}
+
+/* --- 52. Animated Border --- */
+.candy-btn-animated-border {
+    background: transparent;
+    color: #00C9FF;
+    border: 2px solid;
+    border-image: linear-gradient(45deg, #00C9FF, #92FE9D) 1;
+}
+.candy-btn-animated-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #00C9FF, #92FE9D);
+    z-index: -1;
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 0.5s ease;
+}
+.candy-btn-animated-border:hover::before {
+    clip-path: circle(100% at 50% 50%);
+}
+
+/* --- 53. Fill Effect --- */
+.candy-btn-fill {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+.candy-btn-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #fff;
+    z-index: -1;
+    transition: width 0.5s ease;
+}
+.candy-btn-fill:hover {
+    color: #000;
+}
+.candy-btn-fill:hover::before {
+    width: 100%;
+}
+
+/* --- 54. Shimmer --- */
+.candy-btn-shimmer {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    color: white;
+    animation: shimmerBG 3s ease infinite;
+    border: none;
+}
+@keyframes shimmerBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 55. Icon Transform --- */
+.candy-btn-icon-transform i {
+    transition: transform 0.3s ease;
+}
+.candy-btn-icon-transform:hover i {
+    transform: rotate(360deg);
+}
+
+/* --- 56. Shadow Lift --- */
+.candy-btn-shadow-lift {
+    background: #11998e;
+    color: white;
+    box-shadow: 0 4px 0 #0d7a6d;
+}
+.candy-btn-shadow-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 #0d7a6d;
+}
+.candy-btn-shadow-lift:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 0 #0d7a6d;
+}
+
+/* --- 57. Corner Folded --- */
+.candy-btn-corner-folded {
+    background: #FF416C;
+    color: white;
+    position: relative;
+}
+.candy-btn-corner-folded::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 16px 16px 0;
+    border-style: solid;
+    border-color: #bd1c42 #fff;
+}
+
+/* --- 58. Pulse --- */
+.candy-btn-pulse {
+    background: #21D4FD;
+    color: white;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(33, 212, 253, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(33, 212, 253, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(33, 212, 253, 0); }
+}
+
+/* --- 59. Flip Text --- */
+.candy-btn-flip-text {
+    background: #8E2DE2;
+    color: white;
+    perspective: 1000px;
+}
+.candy-btn-flip-text span {
+    display: inline-block;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+.candy-btn-flip-text:hover span {
+    transform: rotateY(180deg);
+}
+
+/* --- 60. Jelly Bounce --- */
+.candy-btn-jelly {
+    background: #FF5858;
+    color: white;
+}
+.candy-btn-jelly:hover {
+    animation: jelly 0.5s;
+}
+@keyframes jelly {
+    0%, 100% { transform: scale(1, 1); }
+    25% { transform: scale(0.9, 1.1); }
+    50% { transform: scale(1.1, 0.9); }
+    75% { transform: scale(0.95, 1.05); }
+}
+
+/* --- 61. Underline Reveal --- */
+.candy-btn-underline-reveal {
+    background: transparent;
+    color: #FECB00;
+    border: none;
+}
+.candy-btn-underline-reveal::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #FECB00;
+    transition: width 0.3s ease;
+}
+.candy-btn-underline-reveal:hover::after {
+    width: 100%;
+}
+
+/* --- 62. Diagonal Slide --- */
+.candy-btn-diagonal-slide {
+    background: #1D976C;
+    color: white;
+    overflow: hidden;
+}
+.candy-btn-diagonal-slide span {
+    position: relative;
+    z-index: 1;
+}
+.candy-btn-diagonal-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #117a53;
+    transform: skewX(-45deg);
+    transition: left 0.5s ease;
+}
+.candy-btn-diagonal-slide:hover::before {
+    left: 100%;
+}
+
+/* --- 63. Glitch --- */
+.candy-btn-glitch {
+    background: #000;
+    color: #fff;
+    position: relative;
+}
+.candy-btn-glitch:hover {
+    animation: glitch 0.3s linear infinite;
+}
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+}
+
+/* --- 64. Liquid Fill --- */
+.candy-btn-liquid {
+    background: #4A00E0;
+    color: white;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.candy-btn-liquid::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: conic-gradient( transparent, transparent, transparent, #8E2DE2, #8E2DE2, #8E2DE2, transparent, transparent );
+    animation: rotate 4s linear infinite;
+    z-index: -1;
+}
+.candy-btn-liquid::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: #4A00E0;
+    border-radius: inherit;
+    z-index: -1;
+}
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- 65. Neon Glow --- */
+.candy-btn-neon-glow {
+    background: #000;
+    color: #0ff;
+    border: 2px solid #0ff;
+    text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+    box-shadow: 0 0 5px #0ff;
+}
+.candy-btn-neon-glow:hover {
+    box-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+/* --- 66. Morph Shape --- */
+.candy-btn-morph {
+    background: #FF416C;
+    color: white;
+    border-radius: 50px;
+    transition: border-radius 0.3s ease;
+}
+.candy-btn-morph:hover {
+    border-radius: 8px;
+}
+
+/* --- 67. Expand Border --- */
+.candy-btn-expand-border {
+    background: transparent;
+    color: #fff;
+    border: 1px solid transparent;
+    position: relative;
+}
+.candy-btn-expand-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #fff;
+    transform: scale(1.2);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+.candy-btn-expand-border:hover::before {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* --- 68. Text Swap --- */
+.candy-btn-text-swap {
+    background: #00C9FF;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-text-swap .default {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.candy-btn-text-swap .hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.candy-btn-text-swap:hover .default {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.candy-btn-text-swap:hover .hover {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+}
+
+/* --- 69. Split Line --- */
+.candy-btn-split-line {
+    background: transparent;
+    color: #fff;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+.candy-btn-split-line::before,
+.candy-btn-split-line::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: #fff;
+    top: 0;
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+.candy-btn-split-line::before { left: 0; }
+.candy-btn-split-line::after { right: 0; }
+.candy-btn-split-line:hover::before,
+.candy-btn-split-line:hover::after {
+    transform: scaleY(1);
+}
+
+/* --- 70. Holographic --- */
+.candy-btn-holo {
+    background: linear-gradient(45deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 400% 400%;
+    color: white;
+    animation: holoBG 4s ease infinite;
+    border: none;
+}
+@keyframes holoBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 71. Dot Trail --- */
+.candy-btn-dot-trail {
+    background: #333;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-dot-trail .dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: dotTrail 1s forwards;
+}
+@keyframes dotTrail {
+    to { transform: scale(0); opacity: 0; }
+}
+
+/* --- 72. Inset Shadow --- */
+.candy-btn-inset-shadow {
+    background: #FF9A9E;
+    color: #333;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+}
+.candy-btn-inset-shadow:hover {
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+}
+
+/* --- 73. Fade Background --- */
+.candy-btn-fade-bg {
+    background: #6A11CB;
+    color: white;
+}
+.candy-btn-fade-bg:hover {
+    background: transparent;
+    color: #6A11CB;
+    border: 2px solid #6A11CB;
+}
+
+/* --- 74. Rotate Icon --- */
+.candy-btn-rotate-icon i {
+    transition: transform 0.5s ease;
+}
+.candy-btn-rotate-icon:hover i {
+    transform: rotate(90deg);
+}
+
+/* --- 75. Elastic Stretch --- */
+.candy-btn-elastic {
+    background: #FF6B6B;
+    color: white;
+}
+.candy-btn-elastic:hover {
+    animation: elasticStretch 0.5s ease;
+}
+@keyframes elasticStretch {
+    0% { transform: scaleX(1); }
+    30% { transform: scaleX(1.2); }
+    60% { transform: scaleX(0.8); }
+    100% { transform: scaleX(1); }
+}
+
+/* --- 76. Floating Letters --- */
+.candy-btn-floating-letters span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+.candy-btn-floating-letters:hover span:nth-child(1) { transform: translateY(-5px); }
+.candy-btn-floating-letters:hover span:nth-child(2) { transform: translateY(-10px); }
+.candy-btn-floating-letters:hover span:nth-child(3) { transform: translateY(-15px); }
+.candy-btn-floating-letters:hover span:nth-child(4) { transform: translateY(-10px); }
+.candy-btn-floating-letters:hover span:nth-child(5) { transform: translateY(-5px); }
+
+/* --- 77. Gradient Border --- */
+.candy-btn-gradient-border {
+    background: #121212;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+.candy-btn-gradient-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    border-radius: 10px;
+    z-index: -1;
+    animation: gradientBorder 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.candy-btn-gradient-border:hover::before { opacity: 1; }
+.candy-btn-gradient-border::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #121212;
+    border-radius: 6px;
+    z-index: -1;
+}
+@keyframes gradientBorder {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+/* --- 78. Spotlight --- */
+.candy-btn-spotlight {
+    background: #222;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-spotlight::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+}
+.candy-btn-spotlight:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* --- 79. Pixelate --- */
+.candy-btn-pixelate {
+    background: #FFD700;
+    color: #000;
+    image-rendering: pixelated;
+}
+.candy-btn-pixelate:hover {
+    filter: contrast(150%) brightness(120%);
+}
+
+/* --- 80. Origami Fold --- */
+.candy-btn-origami-fold {
+    background: #8A2BE2;
+    color: white;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+.candy-btn-origami-fold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.2);
+    transform: rotateX(90deg) translateY(-50%);
+    transform-origin: top center;
+    transition: transform 0.3s ease;
+}
+.candy-btn-origami-fold:hover::before {
+    transform: rotateX(0) translateY(0);
+}
+
+/* --- 81. Magnetic Pull --- */
+.candy-btn-magnetic {
+    background: #00CED1;
+    color: white;
+    transition: transform 0.1s linear;
+}
+
+/* --- 82. Blur In --- */
+.candy-btn-blur-in {
+    background: #FF1493;
+    color: white;
+    filter: blur(2px);
+}
+.candy-btn-blur-in:hover {
+    filter: blur(0);
+}
+
+/* --- 83. Layered Shadow --- */
+.candy-btn-layered-shadow {
+    background: #20B2AA;
+    color: white;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 2px 0 rgba(0,0,0,0.2), 0 3px 0 rgba(0,0,0,0.2), 0 4px 0 rgba(0,0,0,0.2);
+}
+.candy-btn-layered-shadow:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2), 0 0px 0 rgba(0,0,0,0.2);
+}
+
+/* --- 84. Skew Hover --- */
+.candy-btn-skew-hover {
+    background: #FF8C00;
+    color: white;
+}
+.candy-btn-skew-hover:hover {
+    transform: skewX(-15deg);
+}
+
+/* --- 85. Color Shift --- */
+.candy-btn-color-shift {
+    background: #4B0082;
+    color: white;
+}
+.candy-btn-color-shift:hover {
+    background: linear-gradient(90deg, #4B0082, #8A2BE2, #9370DB);
+}
+
+/* --- 86. Heartbeat --- */
+.candy-btn-heartbeat {
+    background: #DC143C;
+    color: white;
+}
+.candy-btn-heartbeat:hover {
+    animation: heartbeat 1s infinite;
+}
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* --- 87. Text Outline --- */
+.candy-btn-text-outline {
+    background: transparent;
+    color: transparent;
+    -webkit-text-stroke: 1px #00FA9A;
+}
+.candy-btn-text-outline:hover {
+    color: #00FA9A;
+    background: transparent;
+}
+
+/* --- 88. Dashed Border --- */
+.candy-btn-dashed {
+    background: transparent;
+    color: #FFD700;
+    border: 2px dashed #FFD700;
+}
+.candy-btn-dashed:hover {
+    border-style: solid;
+}
+
+/* --- 89. Inner Glow --- */
+.candy-btn-inner-glow {
+    background: #000;
+    color: #fff;
+    box-shadow: inset 0 0 10px #00FA9A;
+}
+.candy-btn-inner-glow:hover {
+    box-shadow: inset 0 0 20px #00FA9A;
+}
+
+/* --- 90. Retro Scanlines --- */
+.candy-btn-retro {
+    background: #000;
+    color: #00FF00;
+    font-family: 'Courier New', monospace;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-retro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient( to bottom, transparent, transparent 2px, rgba(0,255,0,0.1) 2px, rgba(0,255,0,0.1) 4px );
+    pointer-events: none;
+}
+
+/* --- 91. Rainbow Text --- */
+.candy-btn-rainbow-text {
+    background: #333;
+    color: #fff;
+}
+.candy-btn-rainbow-text:hover {
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- 92. Flip Card --- */
+.candy-btn-flip-card {
+    background: transparent;
+    color: #fff;
+    perspective: 1000px;
+    width: 150px;
+    height: 50px;
+    padding: 0;
+    border: none;
+}
+.candy-btn-flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+.candy-btn-flip-card:hover .candy-btn-flip-card-inner {
+    transform: rotateY(180deg);
+}
+.candy-btn-flip-card-front, .candy-btn-flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+.candy-btn-flip-card-front {
+    background: #3498db;
+}
+.candy-btn-flip-card-back {
+    background: #e74c3c;
+    transform: rotateY(180deg);
+}
+
+/* --- 93. Flashing --- */
+.candy-btn-flash {
+    background: #34495e;
+    color: white;
+}
+.candy-btn-flash:hover {
+    animation: flash 1s infinite;
+}
+@keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* --- 94. Wobble --- */
+.candy-btn-wobble {
+    background: #9b59b6;
+    color: white;
+}
+.candy-btn-wobble:hover {
+    animation: wobble 0.8s ease-in-out;
+}
+@keyframes wobble {
+    0%, 100% { transform: translateX(0); }
+    15% { transform: translateX(-5px) rotate(-5deg); }
+    30% { transform: translateX(4px) rotate(3deg); }
+    45% { transform: translateX(-3px) rotate(-3deg); }
+    60% { transform: translateX(2px) rotate(2deg); }
+    75% { transform: translateX(-1px) rotate(-1deg); }
+}
+
+/* --- 95. Typewriter --- */
+.candy-btn-typewriter {
+    background: #2c3e50;
+    color: #ecf0f1;
+    font-family: monospace;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: typing 3s steps(40, end) infinite alternate, blink-caret 0.75s step-end infinite;
+}
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #ecf0f1; }
+}
+
+/* --- 96. Vibrate --- */
+.candy-btn-vibrate {
+    background: #e67e22;
+    color: white;
+}
+.candy-btn-vibrate:hover {
+    animation: vibrate 0.3s linear infinite both;
+}
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* --- 97. Squeeze --- */
+.candy-btn-squeeze {
+    background: #16a085;
+    color: white;
+}
+.candy-btn-squeeze:active {
+    transform: scale(0.95);
+}
+
+/* --- 98. Grow Shadow --- */
+.candy-btn-grow-shadow {
+    background: #f39c12;
+    color: white;
+    box-shadow: 0 0 0 rgba(243, 156, 18, 0.7);
+}
+.candy-btn-grow-shadow:hover {
+    box-shadow: 0 10px 20px rgba(243, 156, 18, 0.7);
+}
+
+/* --- 99. Door Close --- */
+.candy-btn-door-close {
+    background: #d35400;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-door-close::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #e67e22;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s ease;
+    z-index: -1;
+}
+.candy-btn-door-close:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* --- 100. Curtain Reveal --- */
+.candy-btn-curtain {
+    background: #8e44ad;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+.candy-btn-curtain::before,
+.candy-btn-curtain::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #9b59b6;
+    transition: transform 0.5s ease;
+    z-index: -1;
+}
+.candy-btn-curtain::before {
+    left: 0;
+    transform-origin: left;
+}
+.candy-btn-curtain::after {
+    right: 0;
+    transform-origin: right;
+}
+.candy-btn-curtain:hover::before {
+    transform: translateX(-100%);
+}
+.candy-btn-curtain:hover::after {
+    transform: translateX(100%);
+}
