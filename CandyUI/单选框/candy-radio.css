@@ -1,10 +1,54 @@
+/**
+ * CandyUI - 单选框样式库
+ * 包含50种精美的单选框样式
+ * 所有类名已添加 candy-radio- 前缀
+ * 所有动画名称已添加 candy- 前缀
+ */
+
+/* ========== CSS变量系统 - 主题颜色 ========== */
+:root {
+    /* 基础颜色 */
+    --candy-radio-primary: #4CAF50;
+    --candy-radio-secondary: #2196F3;
+    --candy-radio-accent: #ffcc00;
+    --candy-radio-background: #333;
+    --candy-radio-border: #666;
+    --candy-radio-text: #e0e0ff;
+    --candy-radio-text-hover: #ffcc00;
+    
+    /* 状态颜色 */
+    --candy-radio-checked-green: #4CAF50;
+    --candy-radio-checked-blue: #2196F3;
+    --candy-radio-checked-purple: #9C27B0;
+    --candy-radio-checked-pink: #e91e63;
+    --candy-radio-checked-gold: #FFD700;
+    --candy-radio-checked-cyan: #00BCD4;
+    
+    /* 特效颜色 */
+    --candy-radio-neon-cyan: #0ff;
+    --candy-radio-neon-magenta: #f0f;
+    --candy-radio-glow-shadow: rgba(255, 255, 255, 0.2);
+    
+    /* 尺寸变量 */
+    --candy-radio-size: 24px;
+    --candy-radio-size-small: 22px;
+    --candy-radio-inner-dot: 8px;
+    
+    /* 动画时长 */
+    --candy-radio-transition: 0.3s ease;
+    --candy-radio-animation-duration: 1s;
+}
+
+/* ========== 基础单选框容器样式 ========== */
 .candy-radio-item {
     margin: 12px 0;
     position: relative;
     padding-left: 40px;
     cursor: pointer;
     user-select: none;
-    transition: all 0.3s ease;
+    transition: all var(--candy-radio-transition);
+    display: flex;
+    align-items: center;
 }
 
 .candy-radio-item input {
@@ -17,12 +61,12 @@
     display: block;
     padding: 8px 0;
     font-size: 1rem;
-    color: #e0e0ff;
-    transition: all 0.3s ease;
+    color: var(--candy-radio-text);
+    transition: all var(--candy-radio-transition);
 }
 
 .candy-radio-item:hover label {
-    color: #ffcc00;
+    color: var(--candy-radio-text-hover);
 }
 
 .candy-radio-custom {
@@ -30,97 +74,155 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    height: 22px;
-    width: 22px;
-    background-color: #333;
-    border: 2px solid #666;
-    border-radius: 50%;
-    transition: all 0.3s ease;
 }
 
-.candy-radio-custom::after {
+/* ========== 1. 经典圆形 (classic) ========== */
+.candy-radio-1 .candy-radio-custom {
+    height: var(--candy-radio-size-small);
+    width: var(--candy-radio-size-small);
+    background-color: var(--candy-radio-background);
+    border: 2px solid var(--candy-radio-border);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-1 input:checked ~ .candy-radio-custom {
+    background-color: var(--candy-radio-checked-green);
+    border-color: var(--candy-radio-checked-green);
+}
+
+.candy-radio-1 .candy-radio-custom::after {
     content: "";
     position: absolute;
     display: none;
     top: 50%;
     left: 50%;
-    width: 8px;
-    height: 8px;
+    width: var(--candy-radio-inner-dot);
+    height: var(--candy-radio-inner-dot);
     border-radius: 50%;
     background: white;
     transform: translate(-50%, -50%);
 }
 
-.candy-radio-item input:checked ~ .candy-radio-custom::after {
+.candy-radio-1 input:checked ~ .candy-radio-custom::after {
     display: block;
 }
 
-.candy-radio-1 input:checked ~ .candy-radio-custom { background-color: #4CAF50; border-color: #4CAF50; }
-.candy-radio-2 .candy-radio-custom { border-radius: 4px; }
-.candy-radio-2 input:checked ~ .candy-radio-custom { background-color: #2196F3; border-color: #2196F3; }
-.candy-radio-2 .candy-radio-custom::after {
-    width: 10px; height: 10px;
-    border: solid #2196F3; border-width: 0 2px 2px 0;
-    transform: translate(-50%, -50%) rotate(45deg);
-    border-radius: 0;
-    background: transparent;
+/* ========== 2. 方形 (square) ========== */
+.candy-radio-2 .candy-radio-custom {
+    height: var(--candy-radio-size-small);
+    width: var(--candy-radio-size-small);
+    background-color: var(--candy-radio-background);
+    border: 2px solid var(--candy-radio-border);
+    border-radius: 4px;
+    transition: all var(--candy-radio-transition);
 }
 
+.candy-radio-2 input:checked ~ .candy-radio-custom {
+    background-color: var(--candy-radio-checked-blue);
+    border-color: var(--candy-radio-checked-blue);
+}
+
+.candy-radio-2 .candy-radio-custom::after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: white;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: solid var(--candy-radio-checked-blue);
+    border-width: 0 2px 2px 0;
+}
+
+.candy-radio-2 input:checked ~ .candy-radio-custom::after {
+    display: block;
+}
+
+/* ========== 3. 3D 立方体 (cube) ========== */
 .candy-radio-3 .candy-radio-custom {
-    transform: translateY(-50%) rotateX(45deg) rotateY(45deg);
+    height: var(--candy-radio-size-small);
+    width: var(--candy-radio-size-small);
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     border-radius: 4px;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.1);
-}
-.candy-radio-3 input:checked ~ .candy-radio-custom {
-    transform: translateY(-50%) rotateX(45deg) rotateY(45deg) scale(1.1);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(0, 0, 0, 0.2), inset -2px -2px 4px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1), 
+                inset 4px 4px 8px rgba(0, 0, 0, 0.3), 
+                inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+    transition: all var(--candy-radio-transition);
+    transform: translateY(-50%) rotateX(45deg) rotateY(45deg);
 }
 
+.candy-radio-3 input:checked ~ .candy-radio-custom {
+    transform: translateY(-50%) rotateX(45deg) rotateY(45deg) scale(1.1);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3), 
+                inset 2px 2px 4px rgba(0, 0, 0, 0.2), 
+                inset -2px -2px 4px rgba(255, 255, 255, 0.2);
+}
+
+/* ========== 4. 胶囊形状 (capsule) ========== */
 .candy-radio-4 .candy-radio-custom {
-    height: 22px; width: 40px;
+    height: var(--candy-radio-size-small);
+    width: 40px;
     background-color: #444;
     border-radius: 11px;
+    transition: all var(--candy-radio-transition);
     overflow: hidden;
 }
-.candy-radio-4 input:checked ~ .candy-radio-custom { background-color: #9C27B0; }
+
+.candy-radio-4 input:checked ~ .candy-radio-custom {
+    background-color: var(--candy-radio-checked-purple);
+}
+
 .candy-radio-4 .candy-radio-custom::before {
     content: "";
     position: absolute;
-    top: 2px; left: 2px;
-    width: 18px; height: 18px;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
     background: white;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-4 input:checked ~ .candy-radio-custom::before {
     transform: translateX(18px);
     background: #E040FB;
 }
 
+/* ========== 5. 星星形状 (star) ========== */
 .candy-radio-5 .candy-radio-custom {
-    height: 24px; width: 24px;
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    background-color: #333;
-    border: 2px solid #666;
-    border-radius: 0;
+    background-color: var(--candy-radio-background);
+    border: 2px solid var(--candy-radio-border);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-5 input:checked ~ .candy-radio-custom {
-    background-color: #FFD700;
-    border-color: #FFD700;
+    background-color: var(--candy-radio-checked-gold);
+    border-color: var(--candy-radio-checked-gold);
     transform: translateY(-50%) rotate(15deg);
 }
 
+/* ========== 6. 心形 (heart) ========== */
 .candy-radio-6 .candy-radio-custom {
-    background-color: #333;
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background-color: var(--candy-radio-background);
     clip-path: path("M0,12 C0,18 6,24 12,24 C18,24 24,18 24,12 C24,6 18,0 12,0 C6,0 0,6 0,12 Z");
-    border-radius: 0;
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-6 input:checked ~ .candy-radio-custom {
-    background-color: #e91e63;
-    animation: candy-radio-heartbeat 1s infinite;
+    background-color: var(--candy-radio-checked-pink);
+    animation: candy-heartbeat 1s infinite;
 }
-@keyframes candy-radio-heartbeat {
+
+@keyframes candy-heartbeat {
     0% { transform: translateY(-50%) scale(1); }
     5% { transform: translateY(-50%) scale(1.1); }
     10% { transform: translateY(-50%) scale(1); }
@@ -129,41 +231,76 @@
     100% { transform: translateY(-50%) scale(1); }
 }
 
-.candy-radio-7 .candy-radio-custom { overflow: hidden; }
+/* ========== 7. 液态填充 (liquid) ========== */
+.candy-radio-7 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background-color: var(--candy-radio-background);
+    border: 2px solid var(--candy-radio-border);
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all var(--candy-radio-transition);
+}
+
 .candy-radio-7 .candy-radio-custom::before {
     content: "";
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 0;
-    background: #00BCD4;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: var(--candy-radio-checked-cyan);
     transition: height 0.5s ease;
-    border-radius: 50%;
 }
-.candy-radio-7 input:checked ~ .candy-radio-custom::before { height: 100%; }
 
-.candy-radio-8 .candy-radio-custom {
-    background-color: #111;
-    box-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff;
+.candy-radio-7 input:checked ~ .candy-radio-custom::before {
+    height: 100%;
 }
+
+/* ========== 8. 霓虹灯效果 (neon) ========== */
+.candy-radio-8 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background-color: #111;
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--candy-radio-neon-cyan), 
+                0 0 10px var(--candy-radio-neon-cyan), 
+                0 0 15px var(--candy-radio-neon-cyan), 
+                0 0 20px var(--candy-radio-neon-cyan);
+    transition: all var(--candy-radio-transition);
+}
+
 .candy-radio-8 input:checked ~ .candy-radio-custom {
-    box-shadow: 0 0 10px #f0f, 0 0 20px #f0f, 0 0 30px #f0f, 0 0 40px #f0f;
+    box-shadow: 0 0 10px var(--candy-radio-neon-magenta), 
+                0 0 20px var(--candy-radio-neon-magenta), 
+                0 0 30px var(--candy-radio-neon-magenta), 
+                0 0 40px var(--candy-radio-neon-magenta);
     background-color: #222;
 }
 
+/* ========== 9. 胶片效果 (film) ========== */
 .candy-radio-9 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: linear-gradient(45deg, #ff0000, #ff00ff);
+    border-radius: 50%;
     box-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-9 input:checked ~ .candy-radio-custom {
-    animation: candy-radio-filmReel 2s infinite linear;
+    animation: candy-filmReel 2s infinite linear;
 }
-@keyframes candy-radio-filmReel {
+
+@keyframes candy-filmReel {
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
 }
 
+/* ========== 10. 磁带效果 (tape) ========== */
 .candy-radio-10 .candy-radio-custom {
-    height: 24px; width: 40px;
+    height: var(--candy-radio-size);
+    width: 40px;
     background: #222;
     border-radius: 4px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
@@ -171,291 +308,979 @@
     justify-content: space-between;
     padding: 0 5px;
 }
+
 .candy-radio-10 .candy-radio-custom::before,
 .candy-radio-10 .candy-radio-custom::after {
     content: "";
-    width: 8px; height: 8px;
+    width: 8px;
+    height: 8px;
     background: #aaa;
     border-radius: 50%;
     margin-top: 8px;
 }
+
 .candy-radio-10 input:checked ~ .candy-radio-custom {
     background: linear-gradient(90deg, #ff416c, #ff4b2b);
 }
+
 .candy-radio-10 input:checked ~ .candy-radio-custom::before,
 .candy-radio-10 input:checked ~ .candy-radio-custom::after {
     background: white;
     animation: candy-tapeSpin 2s infinite linear;
 }
+
 @keyframes candy-tapeSpin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
+/* ========== 11. 复古电视 (tv) ========== */
 .candy-radio-11 .candy-radio-custom {
-    height: 24px; width: 32px;
+    height: var(--candy-radio-size);
+    width: 32px;
     background: #333;
     border-radius: 4px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .candy-radio-11 .candy-radio-custom::before {
     content: "";
-    width: 20px; height: 16px;
+    width: 20px;
+    height: 16px;
     background: linear-gradient(90deg, #0f0, #0f0, #000, #0f0, #0f0);
     border-radius: 2px;
     animation: candy-tvStatic 0.5s infinite;
 }
-@keyframes candy-tvStatic {
-    0% { opacity: 0.7; }
-    50% { opacity: 1; }
-    100% { opacity: 0.7; }
-}
+
 .candy-radio-11 input:checked ~ .candy-radio-custom::before {
     background: linear-gradient(90deg, #0f0, #0f0, #0f0, #0f0, #0f0);
     animation: none;
 }
 
+@keyframes candy-tvStatic {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+/* ========== 12. 全息效果 (hologram) ========== */
 .candy-radio-12 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
     border-radius: 50%;
     animation: candy-hologramRotate 3s infinite linear;
     filter: blur(1px);
 }
+
 @keyframes candy-hologramRotate {
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
 }
 
+/* ========== 13. 赛博朋克 (cyberpunk) ========== */
 .candy-radio-13 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: #000;
-    border: 2px solid #0ff;
-    box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff;
-}
-.candy-radio-13 input:checked ~ .candy-radio-custom {
-    border-color: #f0f;
-    box-shadow: 0 0 15px #f0f, inset 0 0 15px #f0f;
+    border: 2px solid var(--candy-radio-neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--candy-radio-neon-cyan), 
+                inset 0 0 10px var(--candy-radio-neon-cyan);
+    transition: all var(--candy-radio-transition);
 }
 
-.candy-radio-14 .candy-radio-custom {
-    border: 2px solid #aaa;
+.candy-radio-13 input:checked ~ .candy-radio-custom {
+    border-color: var(--candy-radio-neon-magenta);
+    box-shadow: 0 0 15px var(--candy-radio-neon-magenta), 
+                inset 0 0 15px var(--candy-radio-neon-magenta);
 }
+
+/* ========== 14. 极简线条 (minimal) ========== */
+.candy-radio-14 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    border: 2px solid #aaa;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
 .candy-radio-14 input:checked ~ .candy-radio-custom {
     border-color: #fff;
 }
+
 .candy-radio-14 .candy-radio-custom::after {
-    width: 0; height: 0;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
     border-radius: 50%;
     background: #fff;
-    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-14 input:checked ~ .candy-radio-custom::after {
-    width: 12px; height: 12px;
+    width: 12px;
+    height: 12px;
 }
 
+/* ========== 15. 发光球体 (glow) ========== */
 .candy-radio-15 .candy-radio-custom {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--candy-radio-glow-shadow);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-15 input:checked ~ .candy-radio-custom {
-    background: #4CAF50;
-    box-shadow: 0 0 25px #4CAF50;
+    background: var(--candy-radio-checked-green);
+    box-shadow: 0 0 25px var(--candy-radio-checked-green);
 }
 
+/* ========== 16. 金属质感 (metal) ========== */
 .candy-radio-16 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: linear-gradient(135deg, #d3d3d3, #a9a9a9, #d3d3d3);
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-.candy-radio-16 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(135deg, #4CAF50, #2E7D32, #4CAF50);
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 
+                0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all var(--candy-radio-transition);
 }
 
+.candy-radio-16 input:checked ~ .candy-radio-custom {
+    background: linear-gradient(135deg, var(--candy-radio-checked-green), #2E7D32, var(--candy-radio-checked-green));
+}
+
+/* ========== 17. 玻璃效果 (glass) ========== */
 .candy-radio-17 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
     backdrop-filter: blur(5px);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-17 input:checked ~ .candy-radio-custom {
     background: rgba(76, 175, 80, 0.3);
     border-color: rgba(76, 175, 80, 0.5);
 }
 
-.candy-radio-18 .candy-radio-custom { overflow: hidden; }
+/* ========== 18. 动态粒子 (particles) ========== */
+.candy-radio-18 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all var(--candy-radio-transition);
+}
+
 .candy-radio-18 .candy-radio-custom::before {
     content: "";
     position: absolute;
-    top: 50%; left: 50%;
-    width: 4px; height: 4px;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
     background: #fff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 -8px 0 #ff0055, 8px -4px 0 #ffaa00, 8px 4px 0 #00ff55, 0 8px 0 #0055ff, -8px 4px 0 #aa00ff, -8px -4px 0 #ff5500;
+    box-shadow: 0 -8px 0 #ff0055, 
+                8px -4px 0 #ffaa00, 
+                8px 4px 0 #00ff55, 
+                0 8px 0 #0055ff, 
+                -8px 4px 0 #aa00ff, 
+                -8px -4px 0 #ff5500;
     animation: candy-particlesSpin 2s infinite linear;
 }
+
+.candy-radio-18 input:checked ~ .candy-radio-custom::before {
+    animation: candy-particlesPulse 1s infinite;
+}
+
 @keyframes candy-particlesSpin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
-.candy-radio-18 input:checked ~ .candy-radio-custom::before {
-    animation: candy-particlesPulse 1s infinite;
-}
+
 @keyframes candy-particlesPulse {
     0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.7; }
     100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
-.candy-radio-19 .candy-radio-custom { overflow: hidden; }
+/* ========== 19. 磁流体 (ferrofluid) ========== */
+.candy-radio-19 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #000;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all var(--candy-radio-transition);
+}
+
 .candy-radio-19 .candy-radio-custom::before {
     content: "";
     position: absolute;
-    top: 50%; left: 50%;
-    width: 16px; height: 16px;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
     background: #333;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.3s ease;
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-19 input:checked ~ .candy-radio-custom::before {
-    background: #00bcd4;
-    width: 24px; height: 24px;
+    background: var(--candy-radio-checked-cyan);
+    width: var(--candy-radio-size);
+    height: var(--candy-radio-size);
     animation: candy-ferrofluidPulse 1.5s infinite alternate;
 }
+
 @keyframes candy-ferrofluidPulse {
     0% { border-radius: 50%; }
     100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
 }
 
+/* ========== 20. 水墨效果 (ink) ========== */
 .candy-radio-20 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
     background: #fff;
+    border-radius: 50%;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all var(--candy-radio-transition);
 }
+
 .candy-radio-20 input:checked ~ .candy-radio-custom {
     background: #000;
     animation: candy-inkSpread 0.5s forwards;
 }
+
 @keyframes candy-inkSpread {
     0% { box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 0 0 #000; }
     100% { box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.5); }
 }
 
-.candy-radio-21 input:checked ~ .candy-radio-custom { background-color: #e91e63; }
-.candy-radio-22 input:checked ~ .candy-radio-custom { background-color: #9c27b0; }
-.candy-radio-23 input:checked ~ .candy-radio-custom { background-color: #673ab7; }
-.candy-radio-24 input:checked ~ .candy-radio-custom { background-color: #3f51b5; }
-.candy-radio-25 input:checked ~ .candy-radio-custom { background-color: #2196f3; }
-.candy-radio-26 input:checked ~ .candy-radio-custom { background-color: #03a9f4; }
-.candy-radio-27 input:checked ~ .candy-radio-custom { background-color: #00bcd4; }
-.candy-radio-28 input:checked ~ .candy-radio-custom { background-color: #009688; }
-.candy-radio-29 input:checked ~ .candy-radio-custom { background-color: #4caf50; }
-.candy-radio-30 input:checked ~ .candy-radio-custom { background-color: #8bc34a; }
-.candy-radio-31 input:checked ~ .candy-radio-custom { background-color: #cddc39; }
-.candy-radio-32 input:checked ~ .candy-radio-custom { background-color: #ffeb3b; }
-.candy-radio-33 input:checked ~ .candy-radio-custom { background-color: #ffc107; }
-.candy-radio-34 input:checked ~ .candy-radio-custom { background-color: #ff9800; }
-.candy-radio-35 input:checked ~ .candy-radio-custom { background-color: #ff5722; }
-.candy-radio-36 input:checked ~ .candy-radio-custom { background-color: #795548; }
-.candy-radio-37 input:checked ~ .candy-radio-custom { background-color: #9e9e9e; }
-.candy-radio-38 input:checked ~ .candy-radio-custom { background-color: #607d8b; }
+/* ========== 21-35. 颜色变体和动画效果 ========== */
 
-.candy-radio-39 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-}
-.candy-radio-40 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
-}
-.candy-radio-41 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #d4fc79, #96e6a1);
-}
-.candy-radio-42 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #f6d365, #fda085);
-}
-.candy-radio-43 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #a8edea, #fed6e3);
-}
-.candy-radio-44 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #ff758c, #ff7eb3);
-}
-.candy-radio-45 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #84fab0, #8fd3f4);
-}
-.candy-radio-46 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #d299c2, #fef9d7);
-}
-.candy-radio-47 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #fccb90, #d57eeb);
-}
-.candy-radio-48 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #a6c0fe, #f68084);
-}
-.candy-radio-49 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #fbc2eb, #a6c1ee);
-}
-.candy-radio-50 input:checked ~ .candy-radio-custom {
-    background: linear-gradient(45deg, #84fab0, #8fd3f4);
+/* 21. 粉红色 */
+.candy-radio-21 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #e91e63;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
 }
 
-.candy-radio-ripple input:checked ~ .candy-radio-custom {
+.candy-radio-21 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #e91e63;
+}
+
+/* 22. 紫色 */
+.candy-radio-22 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #9c27b0;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-22 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #9c27b0;
+}
+
+/* 23. 深紫色 */
+.candy-radio-23 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #673ab7;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-23 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #673ab7;
+}
+
+/* 24. 靛蓝色 */
+.candy-radio-24 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #3f51b5;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-24 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #3f51b5;
+}
+
+/* 25. 蓝色 */
+.candy-radio-25 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #2196f3;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-25 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #2196f3;
+}
+
+/* 26. 涟漪效果 (ripple) */
+.candy-radio-26 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-26 input:checked ~ .candy-radio-custom {
     background: #2196F3;
-    animation: candy-radio-rippleEffect 0.6s ease-out;
+    animation: candy-rippleEffect 0.6s ease-out;
 }
-@keyframes candy-radio-rippleEffect {
+
+@keyframes candy-rippleEffect {
     0% { box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7); }
     100% { box-shadow: 0 0 0 15px rgba(33, 150, 243, 0); }
 }
 
-.candy-radio-pulse input:checked ~ .candy-radio-custom {
-    background: #FF5722;
-    animation: candy-radio-pulseAnimation 1.5s infinite;
+/* 27. 脉冲效果 (pulse) */
+.candy-radio-27 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
 }
-@keyframes candy-radio-pulseAnimation {
+
+.candy-radio-27 input:checked ~ .candy-radio-custom {
+    background: #FF5722;
+    animation: candy-pulseAnimation 1.5s infinite;
+}
+
+@keyframes candy-pulseAnimation {
     0% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7); }
     70% { box-shadow: 0 0 0 15px rgba(255, 87, 34, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0); }
 }
 
-.candy-radio-bounce input:checked ~ .candy-radio-custom {
+/* 28. 弹跳效果 (bounce) */
+.candy-radio-28 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-28 input:checked ~ .candy-radio-custom {
     background: #9C27B0;
     animation: candy-bounceAnimation 0.6s;
 }
+
 @keyframes candy-bounceAnimation {
     0%, 20%, 50%, 80%, 100% { transform: translateY(-50%) scale(1); }
     40% { transform: translateY(-50%) scale(1.2); }
     60% { transform: translateY(-50%) scale(1.1); }
 }
 
-.candy-radio-flip input:checked ~ .candy-radio-custom {
-    background: #009688;
-    animation: candy-flipAnimation 0.6s;
+/* 29. 翻转效果 (flip) */
+.candy-radio-29 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
     transform-style: preserve-3d;
 }
+
+.candy-radio-29 input:checked ~ .candy-radio-custom {
+    background: #009688;
+    animation: candy-flipAnimation 0.6s;
+}
+
 @keyframes candy-flipAnimation {
     0% { transform: translateY(-50%) rotateY(0deg); }
     100% { transform: translateY(-50%) rotateY(180deg); }
 }
 
-.candy-radio-slide input:checked ~ .candy-radio-custom {
+/* 30. 滑动效果 (slide) */
+.candy-radio-30 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-30 input:checked ~ .candy-radio-custom {
     background: #FFC107;
     animation: candy-slideAnimation 0.4s;
 }
+
 @keyframes candy-slideAnimation {
     0% { transform: translateY(-50%) translateX(0); }
     50% { transform: translateY(-50%) translateX(10px); }
     100% { transform: translateY(-50%) translateX(0); }
 }
 
-.candy-radio-rotate input:checked ~ .candy-radio-custom {
+/* 31. 旋转效果 (rotate) */
+.candy-radio-31 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-31 input:checked ~ .candy-radio-custom {
     background: #795548;
     animation: candy-rotateAnimation 1s infinite linear;
 }
+
 @keyframes candy-rotateAnimation {
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
 }
 
-.candy-radio-scale input:checked ~ .candy-radio-custom {
+/* 32. 缩放效果 (scale) */
+.candy-radio-32 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-32 input:checked ~ .candy-radio-custom {
     background: #607D8B;
     animation: candy-scaleAnimation 1.5s infinite alternate;
 }
+
 @keyframes candy-scaleAnimation {
     0% { transform: translateY(-50%) scale(1); }
     100% { transform: translateY(-50%) scale(1.3); }
+}
+
+/* 33. 倾斜效果 (skew) */
+.candy-radio-33 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-33 input:checked ~ .candy-radio-custom {
+    background: #E91E63;
+    animation: candy-skewAnimation 1s infinite alternate;
+}
+
+@keyframes candy-skewAnimation {
+    0% { transform: translateY(-50%) skewX(0deg); }
+    100% { transform: translateY(-50%) skewX(15deg); }
+}
+
+/* 34. 摇摆效果 (wobble) */
+.candy-radio-34 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-34 input:checked ~ .candy-radio-custom {
+    background: #3F51B5;
+    animation: candy-wobbleAnimation 1s infinite;
+}
+
+@keyframes candy-wobbleAnimation {
+    0%, 100% { transform: translateY(-50%) translateX(0%); }
+    15% { transform: translateY(-50%) translateX(-10%) rotate(-3deg); }
+    30% { transform: translateY(-50%) translateX(8%) rotate(3deg); }
+    45% { transform: translateY(-50%) translateX(-6%) rotate(-2deg); }
+    60% { transform: translateY(-50%) translateX(5%) rotate(2deg); }
+    75% { transform: translateY(-50%) translateX(-3%) rotate(-1deg); }
+}
+
+/* 35. 摇摆效果 (swing) */
+.candy-radio-35 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: var(--candy-radio-background);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+}
+
+.candy-radio-35 input:checked ~ .candy-radio-custom {
+    background: #00BCD4;
+    animation: candy-swingAnimation 1s infinite;
+}
+
+@keyframes candy-swingAnimation {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); }
+    20% { transform: translateY(-50%) rotate(10deg); }
+    40% { transform: translateY(-50%) rotate(-8deg); }
+    60% { transform: translateY(-50%) rotate(6deg); }
+    80% { transform: translateY(-50%) rotate(-4deg); }
+}
+
+/* ========== 36-50. 更多颜色变体 ========== */
+
+/* 36. 浅蓝色 */
+.candy-radio-36 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #03a9f4;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-36 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #03a9f4;
+}
+
+/* 37. 青色 */
+.candy-radio-37 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #00bcd4;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-37 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #00bcd4;
+}
+
+/* 38. 绿松石 */
+.candy-radio-38 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #009688;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-38 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #009688;
+}
+
+/* 39. 绿色 */
+.candy-radio-39 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #4caf50;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-39 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #4caf50;
+}
+
+/* 40. 草绿 */
+.candy-radio-40 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #8bc34a;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-40 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #8bc34a;
+}
+
+/* 41. 黄绿色 */
+.candy-radio-41 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #cddc39;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-41 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #cddc39;
+}
+
+/* 42. 黄色 */
+.candy-radio-42 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #ffeb3b;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-42 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #ffeb3b;
+}
+
+/* 43. 琥珀色 */
+.candy-radio-43 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #ffc107;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-43 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #ffc107;
+}
+
+/* 44. 橙色 */
+.candy-radio-44 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #ff9800;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-44 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #ff9800;
+}
+
+/* 45. 深橙色 */
+.candy-radio-45 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #ff5722;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-45 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #ff5722;
+}
+
+/* 46. 棕色 */
+.candy-radio-46 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #795548;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-46 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #795548;
+}
+
+/* 47. 灰色 */
+.candy-radio-47 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #9e9e9e;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-47 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #9e9e9e;
+}
+
+/* 48. 蓝灰色 */
+.candy-radio-48 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: #607d8b;
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-48 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px #607d8b;
+}
+
+/* 49. 粉红渐变 */
+.candy-radio-49 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-49 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 154, 158, 0.7);
+}
+
+/* 50. 天空渐变 */
+.candy-radio-50 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-50 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(161, 196, 253, 0.7);
+}
+
+/* ========== 更多渐变颜色变体 (可选扩展) ========== */
+
+/* 扩展渐变样式 1 */
+.candy-radio-gradient-1 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #d4fc79, #96e6a1);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-1 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(212, 252, 121, 0.7);
+}
+
+/* 扩展渐变样式 2 */
+.candy-radio-gradient-2 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #f6d365, #fda085);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-2 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(246, 211, 101, 0.7);
+}
+
+/* 扩展渐变样式 3 */
+.candy-radio-gradient-3 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #a8edea, #fed6e3);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-3 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(168, 237, 234, 0.7);
+}
+
+/* 扩展渐变样式 4 */
+.candy-radio-gradient-4 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #ff758c, #ff7eb3);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-4 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 117, 140, 0.7);
+}
+
+/* 扩展渐变样式 5 */
+.candy-radio-gradient-5 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #84fab0, #8fd3f4);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-5 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(132, 250, 176, 0.7);
+}
+
+/* 扩展渐变样式 6 */
+.candy-radio-gradient-6 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #d299c2, #fef9d7);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-6 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(210, 153, 194, 0.7);
+}
+
+/* 扩展渐变样式 7 */
+.candy-radio-gradient-7 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #fccb90, #d57eeb);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-7 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(252, 203, 144, 0.7);
+}
+
+/* 扩展渐变样式 8 */
+.candy-radio-gradient-8 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #a6c0fe, #f68084);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-8 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(166, 192, 254, 0.7);
+}
+
+/* 扩展渐变样式 9 */
+.candy-radio-gradient-9 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #fbc2eb, #a6c1ee);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-9 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(251, 194, 235, 0.7);
+}
+
+/* 扩展渐变样式 10 */
+.candy-radio-gradient-10 .candy-radio-custom {
+    height: var(--candy-radio-size);
+    width: var(--candy-radio-size);
+    background: linear-gradient(45deg, #84fab0, #8fd3f4);
+    border-radius: 50%;
+    transition: all var(--candy-radio-transition);
+    opacity: 0.7;
+}
+
+.candy-radio-gradient-10 input:checked ~ .candy-radio-custom {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 15px rgba(132, 250, 176, 0.7);
+}
+
+/* ========== 禁用状态 ========== */
+.candy-radio-item.disabled,
+.candy-radio-item input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.candy-radio-item input:disabled ~ .candy-radio-custom {
+    opacity: 0.5;
+    filter: grayscale(50%);
+}
+
+/* ========== 响应式设计 ========== */
+@media (max-width: 768px) {
+    .candy-radio-item {
+        padding-left: 35px;
+    }
+    
+    .candy-radio-custom {
+        transform: translateY(-50%) scale(0.9);
+    }
 }

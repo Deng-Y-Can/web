@@ -1,32 +1,101 @@
+/**
+ * ============================================================
+ * CandyLogin - 整合版登录卡片样式库
+ * ============================================================
+ * 包含7种独特的登录卡片样式：
+ *   - candy-login-card-1: WebGL 3D球体背景 (霓虹蓝紫)
+ *   - candy-login-card-2: Vaporwave复古风格 (CRT紫色)
+ *   - candy-login-card-3: Neon Rain赛博朋克 (霓虹闪烁)
+ *   - candy-login-card-4: Matrix绿色终端 (黑客风格)
+ *   - candy-login-card-5: Nexus Reactor粒子 (青色霓虹)
+ *   - candy-login-card-6: Cyberpunk波浪网格 (毛玻璃)
+ *   - candy-login-card-7: WebGL粒子网络 (紫色渐变)
+ * ============================================================
+ */
+
+/* ============================================================
+ * CSS 变量系统 - 主题颜色配置
+ * ============================================================ */
 :root {
-    --login-bg-color: #0d0d1a;
-    --login-card-bg: rgba(20, 20, 35, 0.88);
-    --login-border-color: rgba(100, 150, 255, 0.15);
-    --login-accent-color: #6496ff;
-    --login-text-color: #e0e0e0;
-    --login-label-color: #bbb;
-    --login-success-color: #4ade80;
-    --login-error-color: #f87171;
+    /* 通用变量 */
+    --candy-login-bg-color: #0d0d1a;
+    --candy-login-card-bg: rgba(20, 20, 35, 0.88);
+    --candy-login-border-color: rgba(100, 150, 255, 0.15);
+    --candy-login-accent-color: #6496ff;
+    --candy-login-text-color: #e0e0e0;
+    --candy-login-label-color: #bbb;
+    --candy-login-success-color: #4ade80;
+    --candy-login-error-color: #f87171;
+    --candy-login-warning-color: #fbbf24;
+    
+    /* 样式1: WebGL 3D球体 */
+    --candy-login-1-primary: #6496ff;
+    --candy-login-1-secondary: #bd4dff;
+    --candy-login-1-bg: rgba(20, 20, 35, 0.88);
+    
+    /* 样式2: Vaporwave复古 */
+    --candy-login-2-primary: #ff00ff;
+    --candy-login-2-secondary: #00ffff;
+    --candy-login-2-accent: #ff7bac;
+    --candy-login-2-bg: rgba(0, 0, 30, 0.7);
+    
+    /* 样式3: Neon Rain赛博朋克 */
+    --candy-login-3-primary: #ff00ff;
+    --candy-login-3-secondary: #0af;
+    --candy-login-3-accent: #ffcc00;
+    --candy-login-3-bg: rgba(10, 5, 20, 0.65);
+    
+    /* 样式4: Matrix绿色终端 */
+    --candy-login-4-primary: #00ff41;
+    --candy-login-4-secondary: #00802b;
+    --candy-login-4-bg: rgba(0, 10, 0, 0.7);
+    
+    /* 样式5: Nexus Reactor粒子 */
+    --candy-login-5-primary: #00FFE0;
+    --candy-login-5-secondary: #00887a;
+    --candy-login-5-bg: rgba(0, 0, 0, 0.6);
+    
+    /* 样式6: Cyberpunk波浪网格 */
+    --candy-login-6-primary: #ff00ff;
+    --candy-login-6-secondary: #00ffff;
+    --candy-login-6-accent: #8a2be2;
+    --candy-login-6-bg: rgba(8, 6, 22, 0.75);
+    
+    /* 样式7: WebGL粒子网络 */
+    --candy-login-7-primary: #ff00ff;
+    --candy-login-7-secondary: #00ffff;
+    --candy-login-7-accent: #8a2be2;
+    --candy-login-7-bg: rgba(10, 8, 24, 0.75);
 }
 
-* {
+/* ============================================================
+ * 基础重置样式
+ * ============================================================ */
+.candy-login-reset {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body, html {
+/* ============================================================
+ * 通用基础样式 (所有卡片共用)
+ * ============================================================ */
+.candy-login-body,
+.candy-login-html {
     height: 100%;
     overflow: hidden;
-    background-color: var(--login-bg-color);
+    background-color: var(--candy-login-bg-color);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: var(--login-text-color);
+    color: var(--candy-login-text-color);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#webgl-bg {
+/* WebGL/Canvas背景容器 */
+.candy-login-webgl-bg,
+.candy-login-gl-canvas,
+.candy-login-scene-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -35,26 +104,29 @@ body, html {
     z-index: 1;
 }
 
-.login-card {
+/* ============================================================
+ * 样式1: WebGL 3D球体背景登录卡片
+ * ============================================================ */
+.candy-login-card-1 {
     position: relative;
     z-index: 2;
     width: 90%;
     max-width: 400px;
     padding: 40px 30px;
-    background-color: var(--login-card-bg);
+    background-color: var(--candy-login-1-bg);
     border-radius: 16px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(100, 150, 255, 0.1);
     text-align: left;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid var(--login-border-color);
+    border: 1px solid var(--candy-login-border-color);
 }
 
-.login-card:hover {
+.candy-login-card-1:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 10px 20px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(100, 150, 255, 0.2);
 }
 
-.card-header {
+.candy-login-card-1 .candy-login-header {
     text-align: center;
     margin-bottom: 30px;
     color: #f8f8ff;
@@ -64,46 +136,49 @@ body, html {
     text-shadow: 0 0 8px rgba(100, 150, 255, 0.5);
 }
 
-.input-group {
+.candy-login-card-1 .candy-login-input-group {
     margin-bottom: 20px;
 }
 
-.input-label {
+.candy-login-card-1 .candy-login-label {
     display: block;
     margin-bottom: 8px;
-    color: var(--login-label-color);
+    color: var(--candy-login-label-color);
     font-size: 14px;
     font-weight: 500;
 }
 
-.candy-login-input {
+.candy-login-card-1 .candy-login-input {
     width: 100%;
     padding: 14px 15px;
     border: 1px solid #3a3a5a;
     border-radius: 8px;
     font-family: inherit;
     font-size: 16px;
-    color: var(--login-text-color);
+    color: var(--candy-login-text-color);
     background-color: rgba(30, 30, 50, 0.75);
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.candy-login-input:focus {
+.candy-login-card-1 .candy-login-input:focus {
     outline: none;
-    border-color: var(--login-accent-color);
+    border-color: var(--candy-login-1-primary);
     box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.3), inset 0 0 5px rgba(100, 150, 255, 0.2);
     background-color: rgba(40, 40, 60, 0.85);
+    background-image: linear-gradient(90deg, transparent 50%, rgba(100, 150, 255, 0.1) 50%);
+    background-size: 200% 100%;
+    animation: candy-input-focus-in 0.6s ease;
 }
 
-.candy-login-input::placeholder {
+.candy-login-card-1 .candy-login-input::placeholder {
     color: #888;
 }
 
-.candy-login-btn {
+.candy-login-card-1 .candy-login-btn {
     width: 100%;
     padding: 15px;
     margin-top: 10px;
-    background: linear-gradient(135deg, #6496ff, #bd4dff);
+    background: linear-gradient(135deg, var(--candy-login-1-primary), var(--candy-login-1-secondary));
     color: #ffffff;
     border: none;
     border-radius: 8px;
@@ -115,78 +190,26 @@ body, html {
     box-shadow: 0 4px 10px rgba(100, 150, 255, 0.3);
 }
 
-.candy-login-btn:hover {
+.candy-login-card-1 .candy-login-btn:hover {
     background: linear-gradient(135deg, #5a8be6, #aa45e6);
     box-shadow: 0 6px 15px rgba(100, 150, 255, 0.4), 0 0 15px rgba(100, 150, 255, 0.2);
 }
 
-.candy-login-btn:active {
+.candy-login-card-1 .candy-login-btn:active {
     transform: scale(0.98);
 }
 
-.candy-login-btn:disabled {
+.candy-login-card-1 .candy-login-btn:disabled {
     background: #555;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
 
-.loader {
+/* WebGL错误提示 */
+.candy-login-webgl-error {
     display: none;
-    width: 20px;
-    height: 20px;
-    margin: 20px auto;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-top: 2px solid #ffffff;
-    border-radius: 50%;
-    animation: candy-login-spin 0.8s linear infinite;
-}
-
-@keyframes candy-login-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.login-message {
-    margin-top: 25px;
-    min-height: 24px;
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
-    text-align: center;
-}
-
-.login-message.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.login-success {
-    color: var(--login-success-color);
-    text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
-}
-
-.login-error {
-    color: var(--login-error-color);
-    text-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
-}
-
-.candy-login-input:focus {
-    background-image: linear-gradient(90deg, transparent 50%, rgba(100, 150, 255, 0.1) 50%);
-    background-size: 200% 100%;
-    animation: candy-login-focus-in 0.6s ease;
-}
-
-@keyframes candy-login-focus-in {
-    from { background-position: 100% 0; }
-    to { background-position: 0 0; }
-}
-
-#webgl-error {
-    display: none;
-    color: var(--login-error-color);
+    color: var(--candy-login-error-color);
     font-size: 18px;
     text-align: center;
     margin: auto;
@@ -200,71 +223,1054 @@ body, html {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.login-card-2 {
-    background: linear-gradient(145deg, rgba(30, 30, 50, 0.95), rgba(20, 20, 40, 0.95));
-    border: none;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+/* ============================================================
+ * 样式2: Vaporwave复古风格登录卡片
+ * ============================================================ */
+.candy-login-card-2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: var(--candy-login-2-bg);
+    border: 4px double var(--candy-login-2-primary);
+    border-radius: 30px / 200px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(255, 122, 172, 0.3);
+    text-align: left;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow: hidden;
+    font-family: 'Press Start 2P', cursive, 'Courier New', Courier, monospace;
 }
 
-.login-card-2 .candy-login-btn {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a9b);
+.candy-login-card-2 .candy-login-header {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--candy-login-2-secondary);
+    text-shadow: 2px 2px 0 var(--candy-login-2-primary), -1px -1px 0 var(--candy-login-2-primary);
+    font-weight: normal;
+    letter-spacing: 2px;
+    font-size: 14px;
+    word-break: break-all;
 }
 
-.login-card-2 .candy-login-btn:hover {
-    background: linear-gradient(135deg, #ee5a5a, #dd4a8b);
+.candy-login-card-2 .candy-login-content {
+    margin-bottom: 25px;
+    white-space: pre-wrap;
+    min-height: 120px;
+    color: var(--candy-login-2-accent);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
-.login-card-3 {
-    background: rgba(10, 10, 20, 0.92);
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1), inset 0 0 30px rgba(0, 255, 255, 0.05);
+.candy-login-card-2 .candy-login-typed-text {
+    border-right: 1px solid var(--candy-login-2-accent);
+    animation: candy-blink-cursor 1s step-end infinite;
 }
 
-.login-card-3 .card-header {
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+.candy-login-card-2 .candy-login-input-line {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    gap: 5px;
 }
 
-.login-card-3 .candy-login-input:focus {
-    border-color: #00ffff;
-    box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+.candy-login-card-2 .candy-login-prompt {
+    color: var(--candy-login-2-secondary);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    font-size: 11px;
 }
 
-.login-card-4 {
-    background: linear-gradient(180deg, rgba(40, 30, 60, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%);
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00) 1;
+.candy-login-card-2 .candy-login-input {
+    flex-grow: 1;
+    background: rgba(0, 0, 20, 0.8);
+    border: 2px inset var(--candy-login-2-accent);
+    color: var(--candy-login-2-secondary);
+    font-family: inherit;
+    font-size: 12px;
+    padding: 8px;
+    outline: none;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.login-card-4 .candy-login-btn {
-    background: linear-gradient(135deg, #ff00ff, #00ffff);
+.candy-login-card-2 .candy-login-input:focus {
+    border: 2px inset var(--candy-login-2-secondary);
+    background: rgba(10, 0, 30, 0.9);
 }
 
-.login-card-5 {
-    background: radial-gradient(ellipse at center, rgba(30, 30, 50, 0.98) 0%, rgba(10, 10, 20, 0.98) 100%);
-    border: none;
+.candy-login-card-2 .candy-login-input::placeholder {
+    color: #6a0dad;
 }
 
-.login-card-5::before {
+.candy-login-card-2 .candy-login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background: linear-gradient(to bottom, #6a0dad, #2c003e);
+    color: #ffffff;
+    border: 3px outset var(--candy-login-2-primary);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 0 #4b0082;
+}
+
+.candy-login-card-2 .candy-login-btn:hover {
+    background: linear-gradient(to bottom, #7b1fa2, #4b0082);
+    border: 3px outset var(--candy-login-2-accent);
+}
+
+.candy-login-card-2 .candy-login-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0 #4b0082;
+}
+
+/* Vaporwave背景渐变动画 */
+.candy-login-vaporwave-bg {
+    background: linear-gradient(135deg, #2c003e, #6a0dad, #00ffff, #ff7bac, #ff007f);
+    background-size: 400% 400%;
+    animation: candy-gradient-bg 30s ease infinite;
+}
+
+/* Vaporwave网格叠加层 */
+.candy-login-grid-overlay::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ============================================================
+ * 样式3: Neon Rain赛博朋克登录卡片
+ * ============================================================ */
+.candy-login-card-3 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    background: var(--candy-login-3-bg);
+    border: 1px solid var(--candy-login-3-primary);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.7), inset 0 0 15px rgba(0, 170, 255, 0.3);
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.6;
+    animation: candy-pulse-glow 4s ease-in-out infinite alternate;
+    font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+}
+
+.candy-login-card-3::before {
     content: "";
     position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle at 30% 30%, rgba(100, 150, 255, 0.1) 0%, transparent 50%);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(0, 170, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+    animation: candy-scanline-move 6s linear infinite;
+    z-index: 3;
     pointer-events: none;
 }
 
-.login-card-6 {
-    background: rgba(20, 20, 35, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.candy-login-card-3 .candy-login-header {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--candy-login-3-primary);
+    animation: candy-complex-flicker 0.1s infinite;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 22px;
 }
 
-.login-card-7 {
-    background: linear-gradient(45deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+.candy-login-card-3 .candy-login-content {
+    margin-bottom: 25px;
+    white-space: pre-wrap;
+    min-height: 120px;
+    color: var(--candy-login-3-secondary);
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
+}
+
+.candy-login-card-3 .candy-login-typed-text {
+    border-right: 2px solid var(--candy-login-3-secondary);
+    animation: candy-blink-cursor 1s step-end infinite;
+}
+
+.candy-login-card-3 .candy-login-input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.candy-login-card-3 .candy-login-prompt {
+    margin-right: 12px;
+    color: var(--candy-login-3-accent);
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+    font-weight: bold;
+}
+
+.candy-login-card-3 .candy-login-input {
+    flex-grow: 1;
+    background: transparent;
     border: none;
+    border-bottom: 1px solid var(--candy-login-3-secondary);
+    color: var(--candy-login-3-secondary);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 0;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, text-shadow 0.3s ease;
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.7);
 }
 
-.login-card-7 .candy-login-btn {
-    background: linear-gradient(135deg, #e94560, #ff6b6b);
+.candy-login-card-3 .candy-login-input:focus {
+    border-bottom: 1px solid var(--candy-login-3-primary);
+    box-shadow: 0 1px 8px rgba(255, 0, 255, 0.6);
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
+}
+
+.candy-login-card-3 .candy-login-input::placeholder {
+    color: #005a80;
+}
+
+.candy-login-card-3 .candy-login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background: rgba(20, 10, 30, 0.7);
+    color: var(--candy-login-3-primary);
+    border: 1px solid var(--candy-login-3-secondary);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.7);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.candy-login-card-3 .candy-login-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.4), transparent);
+    transition: none;
+    z-index: -1;
+}
+
+.candy-login-card-3 .candy-login-btn:hover {
+    background: rgba(40, 20, 60, 0.8);
+    border-color: var(--candy-login-3-primary);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.9), 0 0 5px rgba(0, 170, 255, 0.5) inset;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.9);
+    transform: translateY(-2px);
+    animation: candy-button-shine-hover 0.6s ease-out forwards;
+}
+
+.candy-login-card-3 .candy-login-btn:hover::after {
+    animation: candy-shine 0.6s ease-out;
+}
+
+.candy-login-card-3 .candy-login-btn:active {
+    animation: candy-button-press 0.1s ease-in forwards;
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.7), 0 0 3px rgba(0, 170, 255, 0.3) inset;
+}
+
+/* ============================================================
+ * 样式4: Matrix绿色终端登录卡片
+ * ============================================================ */
+.candy-login-card-4 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    background: var(--candy-login-4-bg);
+    border: 1px solid var(--candy-login-4-primary);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2);
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.6;
+    animation: candy-terminal-pulse 8s ease-in-out infinite alternate;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.candy-login-card-4 .candy-login-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--candy-login-4-primary);
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+    font-weight: bold;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-login-card-4 .candy-login-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 10%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.4), transparent);
+    animation: candy-scanline-header 4s linear infinite;
+}
+
+.candy-login-card-4 .candy-login-content {
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+    min-height: 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-login-card-4 .candy-login-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 10%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.1), transparent);
+    animation: candy-scanline-content 6s linear infinite;
+}
+
+.candy-login-card-4 .candy-login-typed-text {
+    border-right: 2px solid var(--candy-login-4-primary);
+    animation: candy-blink-cursor 1s step-end infinite;
+}
+
+.candy-login-card-4 .candy-login-input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+}
+
+.candy-login-card-4 .candy-login-input-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 5%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 255, 65, 0.2), transparent);
+    animation: candy-scanline-input 5s linear infinite;
+}
+
+.candy-login-card-4 .candy-login-prompt {
+    margin-right: 10px;
+    color: var(--candy-login-4-primary);
+}
+
+.candy-login-card-4 .candy-login-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--candy-login-4-secondary);
+    color: var(--candy-login-4-primary);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 5px 0;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.candy-login-card-4 .candy-login-input:focus {
+    border-bottom: 1px solid var(--candy-login-4-primary);
+    box-shadow: 0 1px 5px rgba(0, 255, 65, 0.5);
+}
+
+.candy-login-card-4 .candy-login-input::placeholder {
+    color: var(--candy-login-4-secondary);
+}
+
+.candy-login-card-4 .candy-login-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    background-color: var(--candy-login-4-primary);
+    margin-left: 2px;
+    animation: candy-blink 1s step-start infinite;
+}
+
+.candy-login-card-4 .candy-login-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background: rgba(0, 20, 0, 0.5);
+    color: var(--candy-login-4-primary);
+    border: 1px solid var(--candy-login-4-secondary);
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-login-card-4 .candy-login-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+    animation: candy-pulse-button 3s infinite;
+}
+
+.candy-login-card-4 .candy-login-btn:hover {
+    background: rgba(0, 40, 0, 0.7);
+    border-color: var(--candy-login-4-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.9);
+    transform: translateY(-2px);
+}
+
+.candy-login-card-4 .candy-login-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+/* Glitch叠加层 */
+.candy-login-glitch-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+    mix-blend-mode: screen;
+}
+
+/* ============================================================
+ * 样式5: Nexus Reactor粒子登录卡片
+ * ============================================================ */
+.candy-login-card-5 {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    z-index: 2;
+    width: 90%;
+    max-width: 400px;
+    padding: 35px 25px;
+    background: var(--candy-login-5-bg);
+    border: 1px solid var(--candy-login-5-primary);
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(0, 255, 224, 0.4);
+    text-align: center;
+    animation: candy-panel-pulse 4s ease-in-out infinite alternate;
+    transition: all 0.5s ease;
+}
+
+.candy-login-card-5:hover {
+    box-shadow: 0 0 25px rgba(0, 255, 224, 0.7), 0 0 50px rgba(0, 150, 150, 0.3);
+}
+
+.candy-login-card-5 .candy-login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: var(--candy-login-5-primary);
+    text-shadow: 0 0 8px rgba(0, 255, 224, 0.7);
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-login-card-5 .candy-login-title::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 255, 224, 0.4), transparent);
+    animation: candy-scanline 3s linear infinite;
+}
+
+.candy-login-card-5 .candy-login-input-group {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.candy-login-card-5 .candy-login-input-group .candy-login-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.candy-login-card-5 .candy-login-input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--candy-login-5-secondary);
+    border-radius: 4px;
+    color: var(--candy-login-text-color);
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.candy-login-card-5 .candy-login-input:focus {
+    transform: scale(1.02);
+    border-color: var(--candy-login-5-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 224, 0.8);
+}
+
+.candy-login-card-5 .candy-login-btn {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--candy-login-5-primary);
+    border: 1px solid var(--candy-login-5-secondary);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-login-card-5 .candy-login-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 224, 0.2), transparent);
+    animation: candy-pulse 3s infinite;
+}
+
+.candy-login-card-5 .candy-login-btn:hover {
+    background: rgba(0, 30, 30, 0.7);
+    color: #ffffff;
+    border-color: #00FFFF;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+.candy-login-card-5 .candy-login-btn:active {
+    transform: scale(0.98);
+}
+
+/* Ripple效果 */
+.candy-login-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(0, 255, 224, 0.4);
+    transform: scale(0);
+    animation: candy-ripple 0.6s linear;
+}
+
+/* ============================================================
+ * 样式6: Cyberpunk波浪网格登录卡片
+ * ============================================================ */
+.candy-login-card-6 {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 440px;
+    padding: 50px 30px;
+    background: var(--candy-login-6-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    box-shadow: 0 0 30px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.candy-login-card-6:hover {
+    transform: translateY(-10px);
+}
+
+.candy-login-card-6 .candy-login-title {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--candy-login-6-primary), var(--candy-login-6-secondary), var(--candy-login-6-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300% 300%;
+    animation: candy-title-glow 4s ease infinite;
+}
+
+.candy-login-card-6 .candy-login-input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.candy-login-card-6 .candy-login-input {
+    width: 100%;
+    padding: 16px 20px 16px 56px;
+    background: rgba(15, 10, 35, 0.8);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 17px;
+    outline: none;
+    transition: all 0.4s ease;
+}
+
+.candy-login-card-6 .candy-login-input:focus {
+    border-color: var(--candy-login-6-secondary);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.candy-login-card-6 .candy-login-input-icon {
+    content: attr(data-icon);
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--candy-login-6-accent);
+}
+
+.candy-login-card-6 .candy-login-btn {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 2px solid var(--candy-login-6-primary);
+    border-radius: 16px;
+    color: var(--candy-login-6-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+}
+
+.candy-login-card-6 .candy-login-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.candy-login-card-6 .candy-login-btn:hover {
+    background: rgba(255, 0, 255, 0.15);
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+    color: white;
+}
+
+.candy-login-card-6 .candy-login-btn:active::after {
+    opacity: 1;
+    animation: candy-ripple-cyber 0.6s linear;
+}
+
+/* ============================================================
+ * 样式7: WebGL粒子网络登录卡片
+ * ============================================================ */
+.candy-login-card-7 {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    z-index: 2;
+    width: 90%;
+    max-width: 420px;
+    padding: 45px 30px;
+    background: var(--candy-login-7-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    box-shadow: 0 0 35px rgba(138, 43, 226, 0.3), 0 0 60px rgba(0, 255, 255, 0.2), inset 0 0 15px rgba(0, 255, 255, 0.15);
+    text-align: center;
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.candy-login-card-7:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 45px rgba(138, 43, 226, 0.45), 0 0 75px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.25);
+}
+
+.candy-login-card-7 .candy-login-title {
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 35px;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, var(--candy-login-7-primary), var(--candy-login-7-secondary), var(--candy-login-7-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300% 300%;
+    animation: candy-title-glow 4s ease infinite;
+}
+
+.candy-login-card-7 .candy-login-input-group {
+    position: relative;
+    margin-bottom: 28px;
+}
+
+.candy-login-card-7 .candy-login-input {
+    width: 100%;
+    padding: 15px 20px 15px 52px;
+    background: rgba(20, 15, 40, 0.85);
+    border: 2px solid transparent;
+    border-radius: 14px;
+    color: #f0f0ff;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.35s ease;
+}
+
+.candy-login-card-7 .candy-login-input:focus {
+    border-color: var(--candy-login-7-secondary);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+}
+
+.candy-login-card-7 .candy-login-input-icon {
+    content: attr(data-icon);
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: var(--candy-login-7-accent);
+}
+
+.candy-login-card-7 .candy-login-btn {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 2px solid var(--candy-login-7-primary);
+    border-radius: 14px;
+    color: var(--candy-login-7-primary);
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+}
+
+.candy-login-card-7 .candy-login-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 0, 255, 0.25);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s, opacity 0.6s;
+    opacity: 0;
+}
+
+.candy-login-card-7 .candy-login-btn:hover {
+    background: rgba(255, 0, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+    color: white;
+}
+
+.candy-login-card-7 .candy-login-btn:active::after {
+    width: 400px;
+    height: 400px;
+    opacity: 0;
+}
+
+/* ============================================================
+ * 通用加载器样式
+ * ============================================================ */
+.candy-login-loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    margin: 20px auto;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: candy-spin 0.8s linear infinite;
+}
+
+.candy-login-loader-large {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+}
+
+/* ============================================================
+ * 通用消息样式
+ * ============================================================ */
+.candy-login-message {
+    margin-top: 25px;
+    min-height: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+    text-align: center;
+}
+
+.candy-login-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.candy-login-success {
+    color: var(--candy-login-success-color);
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.candy-login-error {
+    color: var(--candy-login-error-color);
+    text-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
+}
+
+.candy-login-warning {
+    color: var(--candy-login-warning-color);
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+}
+
+/* Neon风格的成功/错误 */
+.candy-login-success-neon {
+    color: #00ffaa;
+    text-shadow: 0 0 10px rgba(0, 255, 170, 0.6);
+}
+
+.candy-login-error-neon {
+    color: #ff44aa;
+    text-shadow: 0 0 10px rgba(255, 68, 170, 0.6);
+}
+
+/* Matrix风格的成功/错误 */
+.candy-login-success-matrix {
+    color: #00ffaa;
+    text-shadow: 0 0 8px rgba(0, 255, 170, 0.6);
+}
+
+.candy-login-error-matrix {
+    color: #ff5555;
+    text-shadow: 0 0 8px rgba(255, 85, 85, 0.6);
+}
+
+/* ============================================================
+ * 动画定义 (所有动画名称添加 candy- 前缀)
+ * ============================================================ */
+
+/* 旋转加载动画 */
+@keyframes candy-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 输入框聚焦动画 */
+@keyframes candy-input-focus-in {
+    from { background-position: 100% 0; }
+    to { background-position: 0 0; }
+}
+
+/* 光标闪烁动画 */
+@keyframes candy-blink-cursor {
+    from, to { border-color: transparent; }
+    50% { border-color: currentColor; }
+}
+
+/* 背景渐变动画 (Vaporwave) */
+@keyframes candy-gradient-bg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 脉冲发光动画 */
+@keyframes candy-pulse-glow {
+    0% { box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), inset 0 0 10px rgba(0, 170, 255, 0.2); }
+    100% { box-shadow: 0 0 25px rgba(255, 0, 255, 0.9), inset 0 0 25px rgba(0, 170, 255, 0.5); }
+}
+
+/* 扫描线移动动画 */
+@keyframes candy-scanline-move {
+    0% { top: 0; opacity: 0.1; }
+    50% { opacity: 0.6; }
+    100% { top: 100%; opacity: 0.1; }
+}
+
+/* 复杂闪烁动画 */
+@keyframes candy-complex-flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 5px #fff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff; }
+    25% { opacity: 0.9; text-shadow: 0 0 2px #fff, 0 0 5px #ff00ff, 0 0 10px #ff00ff; }
+    50% { opacity: 1.1; text-shadow: 0 0 8px #fff, 0 0 15px #ff00ff, 0 0 25px #ff00ff, 0 0 35px #ff00ff; }
+    75% { opacity: 0.85; text-shadow: 0 0 1px #fff, 0 0 3px #ff00ff; }
+}
+
+/* 按钮发光悬停动画 */
+@keyframes candy-button-shine-hover {
+    to { transform: translateY(-2px) scale(1.02); }
+}
+
+/* 光泽动画 */
+@keyframes candy-shine {
+    to { left: 100%; }
+}
+
+/* 按钮按下动画 */
+@keyframes candy-button-press {
+    0% { transform: translateY(-2px) scale(1.02); }
+    100% { transform: translateY(0) scale(0.98); }
+}
+
+/* 终端脉冲动画 */
+@keyframes candy-terminal-pulse {
+    0% { box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2); transform: translate(-50%, -50%) scale(1); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.8), inset 0 0 15px rgba(0, 255, 65, 0.3); transform: translate(-50%, -50%) scale(1.005); }
+    100% { box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.2); transform: translate(-50%, -50%) scale(1); }
+}
+
+/* 扫描线头部动画 */
+@keyframes candy-scanline-header {
+    0% { left: -10%; }
+    100% { left: 110%; }
+}
+
+/* 扫描线内容动画 */
+@keyframes candy-scanline-content {
+    0% { left: -10%; }
+    100% { left: 110%; }
+}
+
+/* 扫描线输入动画 */
+@keyframes candy-scanline-input {
+    0% { left: -5%; }
+    100% { left: 105%; }
+}
+
+/* 简单闪烁动画 */
+@keyframes candy-blink {
+    50% { opacity: 0; }
+}
+
+/* 按钮脉冲动画 */
+@keyframes candy-pulse-button {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 面板脉冲动画 */
+@keyframes candy-panel-pulse {
+    0% { box-shadow: 0 0 15px rgba(0, 255, 224, 0.4), 0 0 30px rgba(0, 100, 100, 0.1); }
+    100% { box-shadow: 0 0 25px rgba(0, 255, 224, 0.7), 0 0 50px rgba(0, 150, 150, 0.3); }
+}
+
+/* 扫描线动画 */
+@keyframes candy-scanline {
+    0% { left: -20%; }
+    100% { left: 120%; }
+}
+
+/* 脉冲动画 */
+@keyframes candy-pulse {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Ripple动画 */
+@keyframes candy-ripple {
+    to { transform: scale(2.5); opacity: 0; }
+}
+
+/* Cyberpunk Ripple动画 */
+@keyframes candy-ripple-cyber {
+    0% { transform: scale(0); opacity: 0.7; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* 标题发光动画 */
+@keyframes candy-title-glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ============================================================
+ * 响应式样式
+ * ============================================================ */
+@media (max-width: 500px) {
+    .candy-login-card-1,
+    .candy-login-card-6 {
+        max-width: 100%;
+        padding: 40px 20px;
+    }
+    
+    .candy-login-card-6 .candy-login-title,
+    .candy-login-card-7 .candy-login-title {
+        font-size: 28px;
+    }
+    
+    .candy-login-card-5 {
+        top: 20px;
+        right: 20px;
+        left: 20px;
+        max-width: none;
+        padding: 25px 20px;
+    }
+    
+    .candy-login-card-7 {
+        top: 20px;
+        right: 20px;
+        left: 20px;
+        max-width: none;
+        padding: 35px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .candy-login-card-2,
+    .candy-login-card-3,
+    .candy-login-card-4 {
+        width: 95%;
+        padding: 20px;
+    }
 }

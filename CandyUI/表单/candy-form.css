@@ -1,28 +1,272 @@
+/**
+ * CandyUI Form Styles - 整合版
+ * 包含6种主题样式的完整表单组件
+ * 
+ * 主题：
+ * 1. Clean Protocol (index.html) - 清洁白色主题
+ * 2. Minimal Future (index2.html) - 深色紫蓝主题
+ * 3. Enhanced UI (index3.html) - 霓虹青色主题
+ * 4. CyberDeck Terminal (index4.html) - 绿色终端主题
+ * 5. Neon Cyber (index5.html) - 紫/青/粉霓虹主题
+ * 6. Ultra Glassmorphism (index6.html) - 紫色玻璃态主题
+ */
+
+/* ==========================================================================
+   1. CSS变量系统 - 主题颜色
+   ========================================================================== */
+
 :root {
-    --candy-form-bg: linear-gradient(to bottom right, #f0f4f8, #e2e8f0);
-    --candy-form-panel-bg: #ffffff;
-    --candy-form-border: #cbd5e1;
-    --candy-form-text: #0f172a;
-    --candy-form-text-secondary: #64748b;
-    --candy-form-accent: #3b82f6;
-    --candy-form-accent-secondary: #10b981;
-    --candy-form-input-bg: #f8fafc;
+    /* ===== 主题1: Clean Protocol (清洁白色) ===== */
+    --candy-form-theme1-bg: linear-gradient(to bottom right, #f0f4f8, #e2e8f0);
+    --candy-form-theme1-panel-bg: #ffffff;
+    --candy-form-theme1-panel-border: #cbd5e1;
+    --candy-form-theme1-text-primary: #0f172a;
+    --candy-form-theme1-text-secondary: #64748b;
+    --candy-form-theme1-accent-primary: #3b82f6;
+    --candy-form-theme1-accent-secondary: #10b981;
+    --candy-form-theme1-accent-warning: #f59e0b;
+    --candy-form-theme1-accent-error: #ef4444;
+    --candy-form-theme1-input-bg: #f8fafc;
+    --candy-form-theme1-input-border: #cbd5e1;
+    --candy-form-theme1-input-focus-bg: #ffffff;
+    --candy-form-theme1-input-hover-border: #94a3b8;
+
+    /* ===== 主题2: Minimal Future (深色紫蓝) ===== */
+    --candy-form-theme2-bg: #0f172a;
+    --candy-form-theme2-surface: #1e293b;
+    --candy-form-theme2-on-surface: #f1f5f9;
+    --candy-form-theme2-on-surface-variant: #94a3b8;
+    --candy-form-theme2-primary: #818cf8;
+    --candy-form-theme2-primary-container: #4f46e5;
+    --candy-form-theme2-on-primary-container: #ffffff;
+    --candy-form-theme2-outline: #475569;
+    --candy-form-theme2-error: #ef4444;
+
+    /* ===== 主题3: Enhanced UI (霓虹青色) ===== */
+    --candy-form-theme3-bg-dark: #0a0e17;
+    --candy-form-theme3-glass-bg: rgba(255, 255, 255, 0.05);
+    --candy-form-theme3-glass-border: rgba(255, 255, 255, 0.1);
+    --candy-form-theme3-glass-glow: 0 0 15px rgba(100, 150, 255, 0.2);
+    --candy-form-theme3-text-primary: #e2e8f0;
+    --candy-form-theme3-text-secondary: #a0aec0;
+    --candy-form-theme3-accent-neon: #00f0ff;
+    --candy-form-theme3-accent-neon-glow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    --candy-form-theme3-success-neon: #00ff9d;
+    --candy-form-theme3-warning-neon: #ff00c8;
+
+    /* ===== 主题4: CyberDeck Terminal (绿色终端) ===== */
+    --candy-form-theme4-bg: #0a0a0a;
+    --candy-form-theme4-text: #c0c0c0;
+    --candy-form-theme4-highlight-green: #33ff33;
+    --candy-form-theme4-highlight-amber: #ffbb00;
+    --candy-form-theme4-border: #444;
+    --candy-form-theme4-border-active: #33ff33;
+    --candy-form-theme4-border-warning: #ffbb00;
+    --candy-form-theme4-glow-green: 0 0 8px #33ff33;
+    --candy-form-theme4-glow-amber: 0 0 8px #ffbb00;
+    --candy-form-theme4-input-bg: #111;
+    --candy-form-theme4-scrollbar-thumb: #333;
+    --candy-form-theme4-scrollbar-track: #1a1a1a;
+
+    /* ===== 主题5: Neon Cyber (紫/青/粉霓虹) ===== */
+    --candy-form-theme5-neon-primary: #8a2be2;
+    --candy-form-theme5-neon-secondary: #00f3ff;
+    --candy-form-theme5-neon-accent: #ff2afa;
+    --candy-form-theme5-neon-glow-primary: rgba(138, 43, 226, 0.6);
+    --candy-form-theme5-neon-glow-secondary: rgba(0, 243, 255, 0.5);
+    --candy-form-theme5-neon-glow-accent: rgba(255, 42, 250, 0.5);
+    --candy-form-theme5-glass-bg: rgba(10, 8, 20, 0.65);
+    --candy-form-theme5-glass-border: rgba(138, 43, 226, 0.3);
+    --candy-form-theme5-text-primary: #e0e0ff;
+    --candy-form-theme5-text-placeholder: #7a70a0;
+    --candy-form-theme5-input-bg: rgba(20, 18, 35, 0.7);
+    --candy-form-theme5-input-border: rgba(100, 80, 180, 0.4);
+
+    /* ===== 主题6: Ultra Glassmorphism (紫色玻璃态) ===== */
+    --candy-form-theme6-primary-hue: 250;
+    --candy-form-theme6-primary-sat: 85%;
+    --candy-form-theme6-primary-lit: 65%;
+    --candy-form-theme6-primary-color: hsl(250, 85%, 65%);
+    --candy-form-theme6-primary-color-light: hsl(250, 85%, 77%);
+    --candy-form-theme6-primary-color-dark: hsl(250, 85%, 45%);
+    --candy-form-theme6-primary-color-transparent: hsla(250, 85%, 65%, 0.2);
+    --candy-form-theme6-primary-color-glow: hsla(250, 85%, 65%, 0.5);
+    --candy-form-theme6-accent-hue: 320;
+    --candy-form-theme6-accent-color: hsl(320, 95%, 65%);
+    --candy-form-theme6-accent-color-glow: hsla(320, 95%, 65%, 0.5);
+    --candy-form-theme6-glass-bg: rgba(255, 255, 255, 0.08);
+    --candy-form-theme6-glass-border: rgba(255, 255, 255, 0.12);
+    --candy-form-theme6-glass-border-highlight: rgba(255, 255, 255, 0.25);
+    --candy-form-theme6-glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    --candy-form-theme6-glass-inset-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    --candy-form-theme6-glass-backdrop-filter: blur(18px);
+    --candy-form-theme6-text-primary: #ffffff;
+    --candy-form-theme6-text-secondary: rgba(255, 255, 255, 0.9);
+    --candy-form-theme6-text-placeholder: rgba(255, 255, 255, 0.7);
+    --candy-form-theme6-input-bg: rgba(0, 0, 0, 0.15);
+    --candy-form-theme6-input-bg-hover: rgba(0, 0, 0, 0.2);
+    --candy-form-theme6-input-bg-focus: rgba(0, 0, 0, 0.25);
+    --candy-form-theme6-input-border: rgba(255, 255, 255, 0.15);
+    --candy-form-theme6-input-border-focus: hsl(250, 85%, 77%);
+
+    /* ===== 通用间距变量 ===== */
+    --candy-form-space-1: 4px;
+    --candy-form-space-2: 8px;
+    --candy-form-space-3: 12px;
+    --candy-form-space-4: 16px;
+    --candy-form-space-5: 20px;
+    --candy-form-space-6: 24px;
+    --candy-form-space-7: 28px;
+    --candy-form-space-8: 32px;
+    --candy-form-space-10: 40px;
+    --candy-form-space-12: 48px;
+
+    /* ===== 通用形状变量 ===== */
+    --candy-form-corner-small: 4px;
+    --candy-form-corner-medium: 6px;
+    --candy-form-corner-large: 10px;
+    --candy-form-corner-extra-large: 16px;
+    --candy-form-corner-round: 28px;
+
+    /* ===== 通用动画变量 ===== */
+    --candy-form-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --candy-form-easing-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --candy-form-easing-spring: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    --candy-form-duration-fast: 150ms;
+    --candy-form-duration-short: 200ms;
+    --candy-form-duration-normal: 300ms;
+    --candy-form-duration-medium: 400ms;
+    --candy-form-duration-slow: 500ms;
 }
 
-.candy-form {
+/* ==========================================================================
+   2. 基础样式
+   ========================================================================== */
+
+.candy-form-style-1 {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.candy-form-body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--candy-form-space-4);
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   3. 卡片/容器样式
+   ========================================================================== */
+
+/* 通用卡片容器 */
+.candy-form-card {
     width: 100%;
     max-width: 720px;
-    background: var(--candy-form-panel-bg);
-    border-radius: 16px;
-    border: 1px solid var(--candy-form-border);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    background: var(--candy-form-theme1-panel-bg);
+    border-radius: var(--candy-form-corner-extra-large);
+    border: 1px solid var(--candy-form-theme1-panel-border);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
+/* 主题2卡片容器 */
+.candy-form-card-theme2 {
+    max-width: 560px;
+    background-color: var(--candy-form-theme2-surface);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.25);
+    max-height: calc(100vh - 2 * var(--candy-form-space-4));
+}
+
+/* 主题3卡片容器 (霓虹玻璃态) */
+.candy-form-card-theme3 {
+    max-width: 600px;
+    max-height: calc(100vh - 40px);
+    background: var(--candy-form-theme3-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid var(--candy-form-theme3-glass-border);
+    box-shadow: var(--candy-form-theme3-glass-glow), 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    position: relative;
+    isolation: isolate;
+}
+
+/* 主题4终端窗口 */
+.candy-form-terminal {
+    max-width: 750px;
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    background-color: rgba(10, 10, 10, 0.9);
+    position: relative;
+}
+
+/* 主题5霓虹玻璃卡片 */
+.candy-form-glass-card {
+    max-width: 600px;
+    background: var(--candy-form-theme5-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--candy-form-theme5-glass-border);
+    border-radius: 20px;
+    padding: 45px 40px;
+    box-shadow: 0 0 30px rgba(138, 43, 226, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+    position: relative;
+    overflow: visible;
+    transition: box-shadow 0.4s ease;
+}
+
+.candy-form-glass-card:hover {
+    box-shadow: 0 0 40px rgba(138, 43, 226, 0.4), inset 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+/* 主题6高级玻璃态卡片 */
+.candy-form-glass-card-advanced {
+    max-width: 520px;
+    background: var(--candy-form-theme6-glass-bg);
+    backdrop-filter: var(--candy-form-theme6-glass-backdrop-filter);
+    -webkit-backdrop-filter: var(--candy-form-theme6-glass-backdrop-filter);
+    border: 1px solid var(--candy-form-theme6-glass-border);
+    border-radius: 30px;
+    padding: 50px 45px 40px;
+    box-shadow: var(--candy-form-theme6-glass-shadow);
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+}
+
+.candy-form-glass-card-advanced:hover {
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    border-color: var(--candy-form-theme6-glass-border-highlight);
+}
+
+.candy-form-glass-card-advanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 25%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 25%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ==========================================================================
+   4. 头部样式
+   ========================================================================== */
+
 .candy-form-header {
-    padding: 24px;
+    padding: var(--candy-form-space-6) var(--candy-form-space-6) var(--candy-form-space-5);
     text-align: center;
     background-color: rgba(59, 130, 246, 0.03);
 }
@@ -30,47 +274,230 @@
 .candy-form-header h1 {
     font-size: 1.85rem;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: var(--candy-form-space-2);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    color: var(--candy-form-text);
+    gap: var(--candy-form-space-3);
+    color: var(--candy-form-theme1-text-primary);
 }
 
 .candy-form-header h1 i {
-    color: var(--candy-form-accent);
+    color: var(--candy-form-theme1-accent-primary);
+    font-size: 1.5em;
 }
 
 .candy-form-header p {
     font-size: 1.05rem;
-    color: var(--candy-form-text-secondary);
+    color: var(--candy-form-theme1-text-secondary);
+    font-weight: 400;
 }
 
-.candy-form-body {
-    padding: 24px;
+/* 主题2头部 */
+.candy-form-header-theme2 {
+    padding: var(--candy-form-space-8) var(--candy-form-space-6) var(--candy-form-space-4);
+    background: linear-gradient(120deg, #312e81, #4338ca);
+}
+
+.candy-form-header-theme2 h1 {
+    color: var(--candy-form-theme2-on-primary-container);
+}
+
+.candy-form-header-theme2 p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* 主题3头部 (霓虹) */
+.candy-form-header-theme3 {
+    padding: 32px 24px 24px;
+    background: rgba(0, 20, 40, 0.3);
+    border-bottom: 1px solid var(--candy-form-theme3-glass-border);
+    position: relative;
+    overflow: hidden;
+    animation: candy-float 6s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.candy-form-header-theme3::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 240, 255, 0.1), transparent);
+    animation: candy-scan 4s linear infinite;
+    z-index: 1;
+}
+
+.candy-form-header-theme3 h1 {
+    font-size: 28px;
+    text-shadow: var(--candy-form-theme3-accent-neon-glow);
+    color: var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-header-theme3 p {
+    color: var(--candy-form-theme3-text-secondary);
+    font-size: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+/* 主题4终端头部 */
+.candy-form-terminal-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.candy-form-terminal-header h1 {
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: var(--candy-form-theme4-highlight-green);
+    text-shadow: var(--candy-form-theme4-glow-green);
+}
+
+.candy-form-terminal-header p {
+    font-size: 14px;
+    color: var(--candy-form-theme4-text);
+}
+
+/* 主题5玻璃态头部 */
+.candy-form-header-glass {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.candy-form-header-glass h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--candy-form-theme5-neon-primary), var(--candy-form-theme5-neon-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.candy-form-header-glass p {
+    color: var(--candy-form-theme5-text-placeholder);
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+/* 主题6高级头部 */
+.candy-form-header-advanced {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.candy-form-header-advanced h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 38px;
+    margin-bottom: 15px;
+    background: linear-gradient(to right, var(--candy-form-theme6-text-primary), var(--candy-form-theme6-primary-color-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: -0.5px;
+}
+
+.candy-form-header-advanced p {
+    color: var(--candy-form-theme6-text-secondary);
+    font-size: 18px;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   5. 表单主体样式
+   ========================================================================== */
+
+.candy-form-body-section {
+    padding: var(--candy-form-space-6);
     overflow-y: auto;
     flex-grow: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--candy-form-theme1-accent-primary) transparent;
 }
 
-.candy-form-section {
-    margin-bottom: 32px;
+.candy-form-body-section::-webkit-scrollbar {
+    width: 8px;
 }
 
-.candy-form-section:first-child {
-    margin-top: 0;
+.candy-form-body-section::-webkit-scrollbar-track {
+    background: transparent;
 }
+
+.candy-form-body-section::-webkit-scrollbar-thumb {
+    background-color: var(--candy-form-theme1-accent-primary);
+    border-radius: 4px;
+}
+
+/* 主题2表单主体 */
+.candy-form-body-theme2 {
+    scrollbar-color: var(--candy-form-theme2-primary) var(--candy-form-theme2-surface);
+}
+
+.candy-form-body-theme2::-webkit-scrollbar-track {
+    background: var(--candy-form-theme2-surface);
+    border-radius: 4px;
+}
+
+.candy-form-body-theme2::-webkit-scrollbar-thumb {
+    background-color: var(--candy-form-theme2-primary);
+    border-radius: 4px;
+    border: 1px solid var(--candy-form-theme2-surface);
+}
+
+.candy-form-body-theme2::-webkit-scrollbar-thumb:hover {
+    background-color: #a5b4fc;
+}
+
+/* 主题3表单主体 */
+.candy-form-body-theme3 {
+    padding: 24px;
+    scrollbar-color: var(--candy-form-theme3-accent-neon) var(--candy-form-theme3-bg-dark);
+}
+
+.candy-form-body-theme3::-webkit-scrollbar-track {
+    background: var(--candy-form-theme3-bg-dark);
+    border-radius: 4px;
+}
+
+.candy-form-body-theme3::-webkit-scrollbar-thumb {
+    background-color: var(--candy-form-theme3-accent-neon);
+    border-radius: 4px;
+    border: 1px solid var(--candy-form-theme3-bg-dark);
+}
+
+.candy-form-body-theme3::-webkit-scrollbar-thumb:hover {
+    background-color: #66ffff;
+}
+
+/* 主题4终端内容 */
+.candy-form-terminal-content {
+    padding: 25px;
+}
+
+/* ==========================================================================
+   6. 分节标题样式
+   ========================================================================== */
 
 .candy-form-section-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--candy-form-space-3);
     font-size: 1.2rem;
     font-weight: 600;
-    margin: 32px 0 16px;
-    color: var(--candy-form-text);
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--candy-form-border);
+    margin: var(--candy-form-space-8) 0 var(--candy-form-space-4);
+    color: var(--candy-form-theme1-text-primary);
+    position: relative;
+    padding-bottom: var(--candy-form-space-2);
+    border-bottom: 2px solid var(--candy-form-theme1-panel-border);
 }
 
 .candy-form-section-title:first-child {
@@ -78,127 +505,970 @@
 }
 
 .candy-form-section-title i {
-    color: var(--candy-form-accent-secondary);
+    color: var(--candy-form-theme1-accent-secondary);
+    font-size: 1.1em;
 }
 
-.candy-form-group {
+/* 主题2分节标题 */
+.candy-form-section-title-theme2 {
+    gap: var(--candy-form-space-2);
+    font-size: 1.125rem;
+    margin: var(--candy-form-space-6) 0 var(--candy-form-space-4);
+    color: var(--candy-form-theme2-on-surface);
+    border-bottom: none;
+}
+
+/* 主题3分节标题 */
+.candy-form-section-title-theme3 {
+    gap: 10px;
+    font-size: 18px;
     margin-bottom: 20px;
+    color: var(--candy-form-theme3-text-primary);
+    border-bottom: none;
+}
+
+.candy-form-section-title-theme3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, var(--candy-form-theme3-accent-neon), transparent);
+    opacity: 0.5;
+}
+
+/* 主题4分节标题 */
+.candy-form-section-title-terminal {
+    font-size: 16px;
+    color: var(--candy-form-theme4-highlight-amber);
+    margin: 25px 0 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: none;
+}
+
+/* 主题5分节标题 */
+.candy-form-section-title-neon {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    color: var(--candy-form-theme5-neon-secondary);
+    margin: 30px 0 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: none;
+}
+
+/* 主题6分节标题 */
+.candy-form-section-title-advanced {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: var(--candy-form-theme6-primary-color-light);
+    border-bottom: none;
+    padding-bottom: 12px;
+}
+
+.candy-form-section-title-advanced::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, var(--candy-form-theme6-primary-color), var(--candy-form-theme6-accent-color));
+    border-radius: 3px;
+}
+
+.candy-form-section-title-advanced i {
+    font-size: 1.3em;
+    width: 30px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   7. 输入组样式
+   ========================================================================== */
+
+.candy-form-group {
+    margin-bottom: var(--candy-form-space-5);
+    position: relative;
 }
 
 .candy-form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: var(--candy-form-space-2);
     font-size: 0.95rem;
     font-weight: 500;
-    color: var(--candy-form-text-secondary);
+    color: var(--candy-form-theme1-text-secondary);
+}
+
+/* 主题4输入组 */
+.candy-form-group-terminal {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* 主题5输入组 */
+.candy-form-group-neon {
+    margin-bottom: 28px;
+    position: relative;
+}
+
+/* 主题6输入组 */
+.candy-form-group-advanced {
+    margin-bottom: 32px;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   8. 输入框样式
+   ========================================================================== */
+
+.candy-form-input-wrapper {
+    position: relative;
 }
 
 .candy-form-input,
 .candy-form-select,
 .candy-form-textarea {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--candy-form-border);
-    border-radius: 6px;
-    background-color: var(--candy-form-input-bg);
-    color: var(--candy-form-text);
+    padding: var(--candy-form-space-3) var(--candy-form-space-4);
+    border: 1px solid var(--candy-form-theme1-input-border);
+    border-radius: var(--candy-form-corner-medium);
+    background-color: var(--candy-form-theme1-input-bg);
+    color: var(--candy-form-theme1-text-primary);
     font-size: 1rem;
-    transition: all 0.15s ease;
+    transition: all var(--candy-form-duration-fast) var(--candy-form-easing-standard);
 }
 
 .candy-form-input:hover,
 .candy-form-select:hover,
 .candy-form-textarea:hover {
-    border-color: #94a3b8;
+    border-color: var(--candy-form-theme1-input-hover-border);
 }
 
 .candy-form-input:focus,
 .candy-form-select:focus,
 .candy-form-textarea:focus {
     outline: none;
-    border-color: var(--candy-form-accent);
+    border-color: var(--candy-form-theme1-accent-primary);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-    background-color: #ffffff;
+    background-color: var(--candy-form-theme1-input-focus-bg);
 }
+
+/* 主题2输入框 */
+.candy-form-input-theme2,
+.candy-form-select-theme2,
+.candy-form-textarea-theme2 {
+    border: 1px solid var(--candy-form-theme2-outline);
+    border-radius: var(--candy-form-corner-medium);
+    background-color: rgba(30, 41, 59, 0.7);
+    color: var(--candy-form-theme2-on-surface);
+    transition: border-color var(--candy-form-duration-fast) var(--candy-form-easing-standard), box-shadow var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+}
+
+.candy-form-input-theme2:focus,
+.candy-form-select-theme2:focus,
+.candy-form-textarea-theme2:focus {
+    border-color: var(--candy-form-theme2-primary);
+    box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3);
+}
+
+/* 主题3输入框 (霓虹) */
+.candy-form-input-theme3,
+.candy-form-select-theme3,
+.candy-form-textarea-theme3 {
+    padding: 14px 16px;
+    border: 1px solid var(--candy-form-theme3-glass-border);
+    border-radius: 12px;
+    background: rgba(0, 10, 20, 0.2);
+    color: var(--candy-form-theme3-text-primary);
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.candy-form-input-theme3:focus,
+.candy-form-select-theme3:focus,
+.candy-form-textarea-theme3:focus {
+    border-color: var(--candy-form-theme3-accent-neon);
+    box-shadow: 0 0 0 2px var(--candy-form-theme3-accent-neon), 0 0 15px var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-input-wrapper-theme3:focus-within::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--candy-form-theme3-accent-neon), transparent);
+    animation: candy-flowLine 1.5s infinite linear;
+}
+
+/* 主题4输入框 (终端) */
+.candy-form-input-terminal {
+    width: 100%;
+    padding: 15px 12px 8px;
+    background-color: var(--candy-form-theme4-input-bg);
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 0;
+    color: var(--candy-form-theme4-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: none;
+}
+
+.candy-form-input-terminal:focus {
+    border-color: var(--candy-form-theme4-border-active);
+    box-shadow: var(--candy-form-theme4-glow-green), inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.candy-form-input-label-terminal {
+    position: absolute;
+    top: 15px;
+    left: 12px;
+    font-size: 14px;
+    color: var(--candy-form-theme4-text);
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.candy-form-input-terminal:focus + .candy-form-input-label-terminal,
+.candy-form-input-terminal:not(:placeholder-shown) + .candy-form-input-label-terminal {
+    top: 2px;
+    left: 12px;
+    font-size: 11px;
+    color: var(--candy-form-theme4-highlight-green);
+    text-shadow: var(--candy-form-theme4-glow-green);
+}
+
+/* 主题5输入框 (霓虹) */
+.candy-form-input-neon {
+    padding: 18px 16px 10px;
+    background: var(--candy-form-theme5-input-bg);
+    border: 1px solid var(--candy-form-theme5-input-border);
+    border-radius: 12px;
+    color: var(--candy-form-theme5-text-primary);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.candy-form-input-neon:focus {
+    border-color: var(--candy-form-theme5-neon-primary);
+    box-shadow: 0 0 12px var(--candy-form-theme5-neon-glow-primary), inset 0 0 8px var(--candy-form-theme5-neon-glow-primary);
+}
+
+.candy-form-input-label-neon {
+    position: absolute;
+    top: 18px;
+    left: 16px;
+    color: var(--candy-form-theme5-text-placeholder);
+    font-size: 15px;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.candy-form-input-neon:focus + .candy-form-input-label-neon,
+.candy-form-input-neon:not(:placeholder-shown) + .candy-form-input-label-neon {
+    top: 6px;
+    left: 12px;
+    font-size: 12px;
+    color: var(--candy-form-theme5-neon-secondary);
+    background: var(--candy-form-theme5-glass-bg);
+    padding: 0 5px;
+    border-radius: 4px;
+}
+
+/* 主题6输入框 (高级玻璃态) */
+.candy-form-input-advanced {
+    padding: 22px 18px 14px;
+    font-size: 17px;
+    background: var(--candy-form-theme6-input-bg);
+    border: 1px solid var(--candy-form-theme6-input-border);
+    border-radius: 16px;
+    outline: none;
+    color: var(--candy-form-theme6-text-primary);
+    transition: all var(--candy-form-duration-normal) ease;
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow);
+}
+
+.candy-form-input-advanced:hover {
+    background: var(--candy-form-theme6-input-bg-hover);
+    border-color: var(--candy-form-theme6-text-placeholder);
+}
+
+.candy-form-input-advanced:focus {
+    background: var(--candy-form-theme6-input-bg-focus);
+    border-color: var(--candy-form-theme6-input-border-focus);
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow), 0 0 0 3px var(--candy-form-theme6-primary-color-transparent);
+}
+
+.candy-form-input-advanced::placeholder {
+    color: transparent;
+}
+
+.candy-form-input-label-advanced {
+    position: absolute;
+    top: 22px;
+    left: 18px;
+    font-size: 17px;
+    color: var(--candy-form-theme6-text-placeholder);
+    pointer-events: none;
+    transition: all 0.35s var(--candy-form-easing-ease-out-back);
+    transform-origin: left center;
+    z-index: 1;
+    background: transparent;
+    padding: 0;
+    line-height: 1;
+}
+
+.candy-form-input-advanced:focus + .candy-form-input-label-advanced,
+.candy-form-input-advanced:not(:placeholder-shown) + .candy-form-input-label-advanced {
+    top: 10px;
+    left: 15px;
+    font-size: 13px;
+    color: var(--candy-form-theme6-primary-color-light);
+    transform: translateY(0) scale(0.92);
+    background: var(--candy-form-theme6-glass-bg);
+    padding: 0 6px;
+    border-radius: 4px;
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow);
+}
+
+/* ==========================================================================
+   9. 选择框样式
+   ========================================================================== */
+
+.candy-form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+/* 自定义选择框容器 */
+.candy-form-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.candy-form-select-trigger {
+    width: 100%;
+    padding: 22px 45px 14px 18px;
+    font-size: 17px;
+    background: var(--candy-form-theme6-input-bg);
+    border: 1px solid var(--candy-form-theme6-input-border);
+    border-radius: 16px;
+    outline: none;
+    color: var(--candy-form-theme6-text-primary);
+    cursor: pointer;
+    transition: all var(--candy-form-duration-normal) ease;
+    text-align: left;
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow);
+    position: relative;
+}
+
+.candy-form-select-trigger:hover {
+    background: var(--candy-form-theme6-input-bg-hover);
+    border-color: var(--candy-form-theme6-text-placeholder);
+}
+
+.candy-form-select-trigger:focus {
+    background: var(--candy-form-theme6-input-bg-focus);
+    border-color: var(--candy-form-theme6-input-border-focus);
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow), 0 0 0 3px var(--candy-form-theme6-primary-color-transparent);
+}
+
+.candy-form-select-trigger::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.45s var(--candy-form-easing-spring);
+    color: var(--candy-form-theme6-text-placeholder);
+    font-size: 16px;
+}
+
+.candy-form-select-trigger.open::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.candy-form-select-native {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.candy-form-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--candy-form-theme6-glass-bg);
+    backdrop-filter: var(--candy-form-theme6-glass-backdrop-filter);
+    border: 1px solid var(--candy-form-theme6-glass-border);
+    border-radius: 16px;
+    box-shadow: var(--candy-form-theme6-glass-shadow);
+    overflow: hidden;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.4s var(--candy-form-easing-spring);
+}
+
+.candy-form-select-wrapper.open .candy-form-select-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.candy-form-select-option {
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    color: var(--candy-form-theme6-text-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-form-select-option:hover {
+    color: var(--candy-form-theme6-text-primary);
+    background-color: var(--candy-form-theme6-primary-color-transparent);
+}
+
+.candy-form-select-option.selected {
+    color: var(--candy-form-theme6-text-primary);
+    font-weight: 500;
+    background-color: var(--candy-form-theme6-primary-color-transparent);
+}
+
+.candy-form-select-option.selected::after {
+    content: '\f00c';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--candy-form-theme6-accent-color);
+}
+
+/* 主题5选择框 */
+.candy-form-select-trigger-neon {
+    width: 100%;
+    padding: 18px 40px 10px 16px;
+    background: var(--candy-form-theme5-input-bg);
+    border: 1px solid var(--candy-form-theme5-input-border);
+    border-radius: 12px;
+    color: var(--candy-form-theme5-text-primary);
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.candy-form-select-trigger-neon:hover,
+.candy-form-select-wrapper-neon.focus .candy-form-select-trigger-neon {
+    border-color: var(--candy-form-theme5-neon-primary);
+    box-shadow: 0 0 12px var(--candy-form-theme5-neon-glow-primary), inset 0 0 8px var(--candy-form-theme5-neon-glow-primary);
+}
+
+.candy-form-select-trigger-neon::after {
+    content: "▼";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--candy-form-theme5-neon-secondary);
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.candy-form-select-dropdown-neon {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--candy-form-theme5-input-bg);
+    border: 1px solid var(--candy-form-theme5-neon-primary);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.candy-form-select-wrapper-neon.open .candy-form-select-dropdown-neon {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.candy-form-select-option-neon {
+    padding: 14px 16px;
+    color: var(--candy-form-theme5-text-primary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.candy-form-select-option-neon:hover,
+.candy-form-select-option-neon.selected {
+    background: rgba(138, 43, 226, 0.2);
+    color: white;
+}
+
+/* ==========================================================================
+   10. 文本域样式
+   ========================================================================== */
 
 .candy-form-textarea {
     min-height: 120px;
     resize: vertical;
 }
 
-.candy-form-footer {
-    padding: 24px;
+.candy-form-textarea-theme2 {
+    min-height: 100px;
+}
+
+.candy-form-textarea-theme3 {
+    min-height: 100px;
+}
+
+.candy-form-textarea-terminal {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.candy-form-textarea-neon {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.candy-form-textarea-advanced {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.candy-form-textarea-advanced::-webkit-scrollbar {
+    width: 10px;
+}
+
+.candy-form-textarea-advanced::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.candy-form-textarea-advanced::-webkit-scrollbar-thumb {
+    background-color: var(--candy-form-theme6-primary-color-transparent);
+    border-radius: 5px;
+    border: 2px solid var(--candy-form-theme6-glass-bg);
+}
+
+.candy-form-textarea-advanced::-webkit-scrollbar-thumb:hover {
+    background-color: var(--candy-form-theme6-primary-color-light);
+}
+
+/* ==========================================================================
+   11. 选项组样式 (Radio/Checkbox)
+   ========================================================================== */
+
+.candy-form-option-group {
     display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    background-color: rgba(59, 130, 246, 0.03);
+    flex-direction: column;
+    gap: var(--candy-form-space-3);
 }
 
-.candy-form-btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: inline-flex;
+.candy-form-option-item {
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--candy-form-space-3);
+    padding: var(--candy-form-space-2) var(--candy-form-space-3);
+    border-radius: var(--candy-form-corner-small);
+    transition: background-color var(--candy-form-duration-fast) var(--candy-form-easing-standard);
 }
 
-.candy-form-btn-primary {
-    background-color: var(--candy-form-accent);
-    color: white;
+.candy-form-option-item:hover {
+    background-color: rgba(59, 130, 246, 0.05);
 }
 
-.candy-form-btn-primary:hover {
-    background-color: #2563eb;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+.candy-form-option-item input[type="radio"],
+.candy-form-option-item input[type="checkbox"] {
+    accent-color: var(--candy-form-theme1-accent-primary);
+    width: 18px;
+    height: 18px;
 }
 
-.candy-form-btn-secondary {
-    background-color: var(--candy-form-input-bg);
-    color: var(--candy-form-text);
-    border: 1px solid var(--candy-form-border);
+.candy-form-option-item label {
+    font-size: 0.95rem;
+    color: var(--candy-form-theme1-text-primary);
+    font-weight: normal;
 }
 
-.candy-form-btn-secondary:hover {
-    background-color: #e2e8f0;
-}
-
-.candy-form-btn-success {
-    background-color: var(--candy-form-accent-secondary);
-    color: white;
-}
-
-.candy-form-btn-success:hover {
-    background-color: #059669;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-}
-
-.candy-form-error {
-    color: #ef4444;
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-.candy-form-hint {
-    color: var(--candy-form-text-secondary);
-    font-size: 0.85rem;
-    margin-top: 4px;
-}
-
-.candy-form-row {
+/* 主题2选项组 */
+.candy-form-option-item-theme2 input[type="radio"],
+.candy-form-option-item-theme2 input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--candy-form-theme2-outline);
+    border-radius: 50%;
+    background-color: transparent;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+    place-content: center;
+    cursor: pointer;
+    transition: border-color var(--candy-form-duration-fast) var(--candy-form-easing-standard);
 }
 
-.candy-form-inline {
+.candy-form-option-item-theme2 input[type="radio"]:checked {
+    border-color: var(--candy-form-theme2-primary);
+    background-color: transparent;
+}
+
+.candy-form-option-item-theme2 input[type="radio"]:checked::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--candy-form-theme2-primary);
+    transform: scale(1);
+}
+
+.candy-form-option-item-theme2 input[type="checkbox"] {
+    border-radius: 4px;
+}
+
+.candy-form-option-item-theme2 input[type="checkbox"]:checked {
+    border-color: var(--candy-form-theme2-primary);
+    background-color: var(--candy-form-theme2-primary);
+}
+
+.candy-form-option-item-theme2 input[type="checkbox"]:checked::before {
+    content: "\2713";
+    color: white;
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* 主题4选项组 */
+.candy-form-checkbox-group,
+.candy-form-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.candy-form-checkbox-group label,
+.candy-form-radio-group label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    min-height: 25px;
+}
+
+.candy-form-checkbox-group input[type="checkbox"],
+.candy-form-radio-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.candy-form-checkmark,
+.candy-form-radiomark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 18px;
+    width: 18px;
+    background-color: var(--candy-form-theme4-input-bg);
+    border: 1px solid var(--candy-form-theme4-border);
+    transition: none;
+}
+
+.candy-form-checkmark {
+    border-radius: 0;
+}
+
+.candy-form-radio-group .candy-form-checkmark {
+    border-radius: 50%;
+}
+
+.candy-form-checkbox-group label:hover .candy-form-checkmark,
+.candy-form-radio-group label:hover .candy-form-radiomark {
+    border-color: var(--candy-form-theme4-highlight-green);
+    box-shadow: var(--candy-form-theme4-glow-green);
+}
+
+.candy-form-checkbox-group input:checked ~ .candy-form-checkmark,
+.candy-form-radio-group input:checked ~ .candy-form-radiomark {
+    background-color: var(--candy-form-theme4-highlight-green);
+    border-color: var(--candy-form-theme4-highlight-green);
+    box-shadow: var(--candy-form-theme4-glow-green);
+}
+
+.candy-form-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.candy-form-checkbox-group input:checked ~ .candy-form-checkmark:after {
+    display: block;
+}
+
+.candy-form-radio-group .candy-form-radiomark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000;
+    transform: translate(-50%, -50%);
+}
+
+.candy-form-radio-group input:checked ~ .candy-form-radiomark:after {
+    display: block;
+}
+
+/* 主题5选项组 */
+.candy-form-checkbox-group-neon,
+.candy-form-radio-group-neon {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.candy-form-checkbox-group-neon label,
+.candy-form-radio-group-neon label {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 35px;
+}
+
+.candy-form-checkbox-group-neon input[type="checkbox"],
+.candy-form-radio-group-neon input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.candy-form-checkmark-neon,
+.candy-form-radiomark-neon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 22px;
+    width: 22px;
+    background-color: var(--candy-form-theme5-input-bg);
+    border: 1px solid var(--candy-form-theme5-input-border);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.candy-form-radio-group-neon .candy-form-checkmark-neon {
+    border-radius: 50%;
+}
+
+.candy-form-checkbox-group-neon label:hover .candy-form-checkmark-neon,
+.candy-form-radio-group-neon label:hover .candy-form-radiomark-neon {
+    box-shadow: 0 0 8px var(--candy-form-theme5-neon-glow-primary);
+    border-color: var(--candy-form-theme5-neon-primary);
+}
+
+.candy-form-checkbox-group-neon input:checked ~ .candy-form-checkmark-neon,
+.candy-form-radio-group-neon input:checked ~ .candy-form-radiomark-neon {
+    background-color: var(--candy-form-theme5-neon-primary);
+    border-color: var(--candy-form-theme5-neon-primary);
+}
+
+.candy-form-checkmark-neon:after,
+.candy-form-radiomark-neon:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.candy-form-checkbox-group-neon input:checked ~ .candy-form-checkmark-neon:after {
+    display: block;
+}
+
+.candy-form-checkbox-group-neon .candy-form-checkmark-neon:after {
+    left: 8px;
+    top: 4px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.candy-form-radio-group-neon input:checked ~ .candy-form-radiomark-neon:after {
+    display: block;
+}
+
+.candy-form-radio-group-neon .candy-form-radiomark-neon:after {
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    transform: translate(-50%, -50%);
+}
+
+/* 主题6选项组 */
+.candy-form-choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.candy-form-choice-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding-left: 42px;
+    user-select: none;
+    font-size: 17px;
+    font-weight: 400;
+    transition: color var(--candy-form-duration-normal) ease;
+}
+
+.candy-form-choice-item:hover {
+    color: var(--candy-form-theme6-primary-color-light);
+}
+
+.candy-form-choice-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.candy-form-choice-checkmark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 28px;
+    width: 28px;
+    background-color: transparent;
+    border: 2px solid var(--candy-form-theme6-input-border);
+    border-radius: 50%;
+    transition: all var(--candy-form-duration-normal) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow);
+}
+
+.candy-form-choice-item.checkbox .candy-form-choice-checkmark {
+    border-radius: 8px;
+}
+
+.candy-form-choice-item:hover .candy-form-choice-checkmark {
+    border-color: var(--candy-form-theme6-primary-color-light);
+}
+
+.candy-form-choice-input:checked ~ .candy-form-choice-checkmark {
+    background-color: var(--candy-form-theme6-primary-color);
+    border-color: var(--candy-form-theme6-primary-color);
+    animation: candy-popInChoice 0.5s var(--candy-form-easing-spring);
+    box-shadow: 0 0 0 3px var(--candy-form-theme6-primary-color-transparent);
+}
+
+.candy-form-choice-checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+    transition: all var(--candy-form-duration-normal) ease;
+}
+
+.candy-form-choice-item.radio .candy-form-choice-checkmark::after {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+}
+
+.candy-form-choice-item.checkbox .candy-form-choice-checkmark::after {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: white;
+    font-size: 15px;
+}
+
+.candy-form-choice-input:checked ~ .candy-form-choice-checkmark::after {
+    display: block;
+    animation: candy-fadeInChoice 0.3s ease forwards;
+}
+
+/* ==========================================================================
+   12. 开关样式 (Toggle Switch)
+   ========================================================================== */
+
+.candy-form-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--candy-form-space-3) var(--candy-form-space-2);
+    border-radius: var(--candy-form-corner-medium);
+    transition: background-color var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+}
+
+.candy-form-toggle-container:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.candy-form-toggle-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--candy-form-theme1-text-primary);
 }
 
 .candy-form-toggle {
@@ -241,10 +1511,1726 @@
 }
 
 .candy-form-toggle input:checked + .candy-form-toggle-slider {
-    background-color: var(--candy-form-accent);
+    background-color: var(--candy-form-theme1-accent-primary);
     box-shadow: none;
 }
 
 .candy-form-toggle input:checked + .candy-form-toggle-slider:before {
     transform: translateX(24px);
+}
+
+/* 主题2开关 */
+.candy-form-toggle-slider-theme2 {
+    background-color: var(--candy-form-theme2-outline);
+    border-radius: 34px;
+}
+
+.candy-form-toggle-slider-theme2:before {
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-theme2 {
+    background-color: var(--candy-form-theme2-primary);
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-theme2:before {
+    transform: translateX(24px);
+}
+
+/* 主题3开关 (霓虹) */
+.candy-form-toggle-slider-theme3 {
+    background-color: rgba(100, 100, 100, 0.3);
+    transition: 0.4s;
+    border-radius: 9999px;
+    border: 1px solid var(--candy-form-theme3-glass-border);
+}
+
+.candy-form-toggle-slider-theme3:before {
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--candy-form-theme3-text-secondary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-theme3 {
+    background: rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 8px var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-theme3:before {
+    background-color: var(--candy-form-theme3-accent-neon);
+    box-shadow: 0 0 8px var(--candy-form-theme3-accent-neon);
+    transform: translateX(24px);
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-theme3::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, transparent, var(--candy-form-theme3-accent-neon), transparent);
+    animation: candy-flowLine 1.5s infinite linear;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+/* 主题4开关 (终端) */
+.candy-form-toggle-slider-terminal {
+    background-color: #333;
+    border: 1px solid var(--candy-form-theme4-border);
+    transition: .2s;
+}
+
+.candy-form-toggle-slider-terminal:before {
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--candy-form-theme4-text);
+    transition: .2s;
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-terminal {
+    background-color: var(--candy-form-theme4-highlight-green);
+    box-shadow: var(--candy-form-theme4-glow-green);
+    border-color: var(--candy-form-theme4-border-active);
+}
+
+.candy-form-toggle input:checked + .candy-form-toggle-slider-terminal:before {
+    transform: translateX(26px);
+    background-color: #000;
+}
+
+.candy-form-toggle-container-terminal {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.candy-form-toggle-container-terminal .candy-form-input-label-terminal {
+    position: static;
+    font-size: 14px;
+    color: var(--candy-form-theme4-text);
+    pointer-events: none;
+    transition: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================================================================
+   13. 滑块样式 (Range Slider)
+   ========================================================================== */
+
+.candy-form-slider-container {
+    margin-top: 10px;
+}
+
+.candy-form-slider-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--candy-form-theme4-text);
+}
+
+.candy-form-slider-container span {
+    color: var(--candy-form-theme4-highlight-amber);
+    font-weight: bold;
+}
+
+input[type="range"].candy-form-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--candy-form-theme1-input-border);
+    border-radius: 3px;
+    outline: none;
+}
+
+input[type="range"].candy-form-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--candy-form-theme1-panel-bg);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 2px solid var(--candy-form-theme1-accent-primary);
+}
+
+input[type="range"].candy-form-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--candy-form-theme1-panel-bg);
+    cursor: pointer;
+    border: 2px solid var(--candy-form-theme1-accent-primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 主题2滑块 */
+input[type="range"].candy-form-slider-theme2::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--candy-form-theme2-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+}
+
+input[type="range"].candy-form-slider-theme2::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--candy-form-theme2-primary);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"].candy-form-slider-theme2::-webkit-slider-thumb:hover,
+input[type="range"].candy-form-slider-theme2::-moz-range-thumb:hover {
+    background-color: #a5b4fc;
+}
+
+/* 主题3滑块 (霓虹) */
+input[type="range"].candy-form-slider-theme3 {
+    padding: 0 12px;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+input[type="range"].candy-form-slider-theme3::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(100, 200, 255, 0.2);
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"].candy-form-slider-theme3::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--candy-form-theme3-accent-neon);
+    border: 2px solid #0a0e17;
+    box-shadow: 0 0 5px var(--candy-form-theme3-accent-neon);
+    cursor: pointer;
+    margin-top: -7px;
+}
+
+input[type="range"].candy-form-slider-theme3::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(100, 200, 255, 0.2);
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"].candy-form-slider-theme3::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--candy-form-theme3-accent-neon);
+    border: 2px solid #0a0e17;
+    box-shadow: 0 0 5px var(--candy-form-theme3-accent-neon);
+    cursor: pointer;
+    border: none;
+}
+
+/* 主题4滑块 (终端) */
+input[type="range"].candy-form-slider-terminal {
+    height: 4px;
+    border-radius: 0;
+    background: #333;
+}
+
+input[type="range"].candy-form-slider-terminal::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background: var(--candy-form-theme4-highlight-green);
+    cursor: pointer;
+    box-shadow: var(--candy-form-theme4-glow-green);
+    border: 1px solid #000;
+}
+
+/* 主题5滑块 */
+input[type="range"].candy-form-slider-neon {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--candy-form-theme5-neon-primary), var(--candy-form-theme5-neon-secondary));
+}
+
+input[type="range"].candy-form-slider-neon::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--candy-form-theme5-neon-glow-primary);
+}
+
+/* 主题6滑块 */
+.candy-form-slider-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--candy-form-theme6-text-secondary);
+}
+
+.candy-form-slider-value {
+    font-weight: 600;
+    color: var(--candy-form-theme6-primary-color-light);
+    min-width: 60px;
+    text-align: right;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.1);
+}
+
+.candy-form-slider-value.strong {
+    color: var(--candy-form-theme6-accent-color);
+    background: rgba(255, 0, 100, 0.1);
+}
+
+input[type="range"].candy-form-slider-advanced {
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, var(--candy-form-theme6-primary-color) var(--value-percent, 0%), rgba(255,255,255,0.15) var(--value-percent, 0%));
+    transition: box-shadow var(--candy-form-duration-normal) ease;
+}
+
+input[type="range"].candy-form-slider-advanced:focus {
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.25);
+}
+
+input[type="range"].candy-form-slider-advanced::-webkit-slider-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--candy-form-theme6-primary-color);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: all 0.35s var(--candy-form-easing-spring);
+    border: 3px solid white;
+}
+
+input[type="range"].candy-form-slider-advanced::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--candy-form-theme6-primary-color);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    border: 3px solid white;
+    transition: all 0.35s var(--candy-form-easing-spring);
+}
+
+input[type="range"].candy-form-slider-advanced:active::-webkit-slider-thumb {
+    transform: scale(1.3);
+    background: var(--candy-form-theme6-accent-color);
+    box-shadow: 0 0 0 8px var(--candy-form-theme6-accent-color-glow);
+}
+
+input[type="range"].candy-form-slider-advanced:active::-moz-range-thumb {
+    transform: scale(1.3);
+    background: var(--candy-form-theme6-accent-color);
+    box-shadow: 0 0 0 8px var(--candy-form-theme6-accent-color-glow);
+}
+
+/* ==========================================================================
+   14. 进度条样式
+   ========================================================================== */
+
+.candy-form-progress-wrap {
+    height: 6px;
+    background-color: var(--candy-form-theme1-input-border);
+    border-radius: 3px;
+    margin-top: var(--candy-form-space-2);
+    overflow: hidden;
+}
+
+.candy-form-progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    background: var(--candy-form-theme1-accent-primary);
+    transition: width var(--candy-form-duration-normal) var(--candy-form-easing-standard);
+}
+
+/* 主题2进度条 */
+.candy-form-progress-bar-theme2 {
+    background-color: var(--candy-form-theme2-primary);
+}
+
+/* 主题3进度条 (霓虹) */
+.candy-form-progress-wrap-theme3 {
+    height: 10px;
+    background: rgba(0, 10, 20, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.candy-form-progress-bar-theme3 {
+    background: var(--candy-form-theme3-accent-neon);
+    transition: width 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0 0 8px var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-progress-bar-theme3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: candy-shimmer 1.5s infinite;
+}
+
+.candy-form-progress-bar-theme3::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--candy-form-theme3-accent-neon));
+    opacity: 0.7;
+    filter: blur(5px);
+    animation: candy-trail 0.8s infinite alternate;
+}
+
+/* 主题4进度条 */
+.candy-form-progress-container-terminal {
+    width: 100%;
+    background-color: #333;
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 0;
+    overflow: hidden;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.candy-form-progress-bar-terminal {
+    width: 0%;
+    height: 100%;
+    background-color: var(--candy-form-theme4-highlight-green);
+    box-shadow: var(--candy-form-theme4-glow-green);
+    transition: width 0.5s ease-in-out;
+}
+
+.candy-form-progress-label-terminal {
+    font-size: 13px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* ==========================================================================
+   15. 文件上传样式
+   ========================================================================== */
+
+.candy-form-file-upload {
+    padding: var(--candy-form-space-3) var(--candy-form-space-4);
+    border: 1px dashed var(--candy-form-theme1-input-border);
+    border-radius: var(--candy-form-corner-medium);
+    background-color: var(--candy-form-theme1-panel-bg);
+    cursor: pointer;
+    transition: all var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+    color: var(--candy-form-theme1-text-secondary);
+    font-size: 0.95rem;
+}
+
+.candy-form-file-upload:hover {
+    border-color: var(--candy-form-theme1-accent-primary);
+    background-color: var(--candy-form-theme1-input-bg);
+}
+
+.candy-form-file-upload::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.candy-form-file-upload::before {
+    content: '\f093  Choose File';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    display: inline-block;
+    background: var(--candy-form-theme1-input-bg);
+    border: 1px solid var(--candy-form-theme1-input-border);
+    border-radius: var(--candy-form-corner-small);
+    padding: 5px 10px;
+    outline: none;
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+    color: var(--candy-form-theme1-text-secondary);
+    font-size: 0.9rem;
+    transition: all var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+}
+
+.candy-form-file-upload:hover::before {
+    border-color: var(--candy-form-theme1-accent-primary);
+    background-color: var(--candy-form-theme1-panel-bg);
+    color: var(--candy-form-theme1-accent-primary);
+}
+
+/* 主题2文件上传 */
+.candy-form-file-upload-theme2 {
+    padding: var(--candy-form-space-2) var(--candy-form-space-4);
+    border: 1px dashed var(--candy-form-theme2-outline);
+    border-radius: var(--candy-form-corner-medium);
+    background-color: rgba(30, 41, 59, 0.5);
+    cursor: pointer;
+    transition: border-color var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+}
+
+.candy-form-file-upload-theme2:hover {
+    border-color: var(--candy-form-theme2-primary);
+}
+
+/* 主题4文件上传 */
+.candy-form-file-upload-container-terminal {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.candy-form-file-upload-trigger-terminal {
+    display: block;
+    width: 100%;
+    padding: 15px 12px;
+    background-color: var(--candy-form-theme4-input-bg);
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 0;
+    color: var(--candy-form-theme4-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    min-height: 50px;
+}
+
+.candy-form-file-upload-trigger-terminal:hover {
+    border-color: var(--candy-form-theme4-border-active);
+    box-shadow: var(--candy-form-theme4-glow-green);
+}
+
+.candy-form-file-upload-trigger-terminal i {
+    margin-right: 8px;
+}
+
+.candy-form-file-upload-input-terminal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.candy-form-file-upload-name-terminal {
+    font-size: 12px;
+    margin-top: 5px;
+    color: var(--candy-form-theme4-highlight-amber);
+    word-break: break-all;
+}
+
+/* 主题5文件上传 */
+.candy-form-file-upload-area-neon {
+    padding: 30px;
+    border: 2px dashed var(--candy-form-theme5-neon-primary);
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(20, 18, 35, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-form-file-upload-area-neon:hover {
+    background: rgba(30, 25, 50, 0.7);
+    border-color: var(--candy-form-theme5-neon-secondary);
+    box-shadow: 0 0 15px var(--candy-form-theme5-neon-glow-primary);
+}
+
+.candy-form-file-upload-area-neon.dragover {
+    background: rgba(40, 30, 70, 0.8);
+    border-color: var(--candy-form-theme5-neon-accent);
+    box-shadow: 0 0 20px var(--candy-form-theme5-neon-glow-accent);
+}
+
+.candy-form-file-upload-icon-neon {
+    font-size: 36px;
+    color: var(--candy-form-theme5-neon-primary);
+    margin-bottom: 10px;
+}
+
+.candy-form-file-upload-area-neon:hover .candy-form-file-upload-icon-neon {
+    color: var(--candy-form-theme5-neon-secondary);
+}
+
+.candy-form-file-upload-input-neon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.candy-form-file-upload-name-neon {
+    font-size: 14px;
+    color: var(--candy-form-theme5-text-placeholder);
+    margin-top: 10px;
+    word-break: break-all;
+}
+
+.candy-form-file-upload-preview-neon {
+    margin-top: 15px;
+    display: none;
+}
+
+.candy-form-file-upload-preview-image-neon {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 1px solid var(--candy-form-theme5-glass-border);
+}
+
+/* 主题6文件上传 */
+.candy-form-file-upload-wrapper-advanced {
+    position: relative;
+}
+
+.candy-form-file-upload-area-advanced {
+    width: 100%;
+    padding: 35px 25px;
+    background: var(--candy-form-theme6-input-bg);
+    border: 2px dashed var(--candy-form-theme6-input-border);
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--candy-form-duration-normal) ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-form-file-upload-area-advanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.candy-form-file-upload-area-advanced:hover,
+.candy-form-file-upload-input-advanced:focus + .candy-form-file-upload-area-advanced {
+    background: var(--candy-form-theme6-input-bg-hover);
+    border-color: var(--candy-form-theme6-primary-color-light);
+}
+
+.candy-form-file-upload-area-advanced:hover::before {
+    transform: translateX(100%);
+}
+
+.candy-form-file-upload-area-advanced.dragover {
+    background: var(--candy-form-theme6-input-bg-focus);
+    border-color: var(--candy-form-theme6-accent-color);
+    box-shadow: var(--candy-form-theme6-glass-inset-shadow), 0 0 0 3px var(--candy-form-theme6-accent-color-glow);
+}
+
+.candy-form-file-upload-icon-advanced {
+    font-size: 40px;
+    color: var(--candy-form-theme6-text-placeholder);
+    transition: all var(--candy-form-duration-normal) ease;
+}
+
+.candy-form-file-upload-area-advanced:hover .candy-form-file-upload-icon-advanced,
+.candy-form-file-upload-area-advanced.dragover .candy-form-file-upload-icon-advanced {
+    color: var(--candy-form-theme6-primary-color-light);
+}
+
+.candy-form-file-upload-text-advanced {
+    font-size: 17px;
+    color: var(--candy-form-theme6-text-secondary);
+    transition: all var(--candy-form-duration-normal) ease;
+}
+
+.candy-form-file-upload-area-advanced:hover .candy-form-file-upload-text-advanced,
+.candy-form-file-upload-area-advanced.dragover .candy-form-file-upload-text-advanced {
+    color: var(--candy-form-theme6-text-primary);
+}
+
+.candy-form-file-upload-input-advanced {
+    position: absolute;
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    z-index: -1;
+}
+
+.candy-form-file-upload-preview-container-advanced {
+    margin-top: 20px;
+    display: none;
+    animation: candy-fadeInUp 0.5s var(--candy-form-easing-spring) forwards;
+}
+
+.candy-form-file-upload-preview-image-advanced {
+    max-width: 100%;
+    max-height: 180px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    display: block;
+    margin: 0 auto;
+    border: 2px solid var(--candy-form-theme6-glass-border);
+}
+
+.candy-form-file-upload-info-advanced {
+    margin-top: 15px;
+    font-size: 15px;
+    color: var(--candy-form-theme6-text-secondary);
+    word-break: break-word;
+    text-align: center;
+}
+
+/* ==========================================================================
+   16. 按钮样式
+   ========================================================================== */
+
+.candy-form-submit-container {
+    text-align: center;
+    margin: var(--candy-form-space-10) 0 var(--candy-form-space-6);
+}
+
+.candy-form-btn-submit {
+    padding: var(--candy-form-space-4) var(--candy-form-space-8);
+    background-color: var(--candy-form-theme1-accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--candy-form-corner-large);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-form-btn-submit:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+.candy-form-btn-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* 通用按钮样式 */
+.candy-form-btn {
+    padding: var(--candy-form-space-3) var(--candy-form-space-6);
+    border: none;
+    border-radius: var(--candy-form-corner-medium);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--candy-form-space-2);
+}
+
+.candy-form-btn-primary {
+    background-color: var(--candy-form-theme1-accent-primary);
+    color: white;
+}
+
+.candy-form-btn-primary:hover {
+    background-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.candy-form-btn-secondary {
+    background-color: var(--candy-form-theme1-input-bg);
+    color: var(--candy-form-theme1-text-primary);
+    border: 1px solid var(--candy-form-theme1-panel-border);
+}
+
+.candy-form-btn-secondary:hover {
+    background-color: #e2e8f0;
+}
+
+.candy-form-btn-success {
+    background-color: var(--candy-form-theme1-accent-secondary);
+    color: white;
+}
+
+.candy-form-btn-success:hover {
+    background-color: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* 主题2按钮 */
+.candy-form-btn-submit-theme2 {
+    padding: var(--candy-form-space-3) var(--candy-form-space-6);
+    background-color: var(--candy-form-theme2-primary-container);
+    color: var(--candy-form-theme2-on-primary-container);
+    border: none;
+    border-radius: var(--candy-form-corner-large);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--candy-form-duration-fast) var(--candy-form-easing-standard), transform var(--candy-form-duration-fast) var(--candy-form-easing-standard);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.candy-form-btn-submit-theme2:hover {
+    background-color: #6366f1;
+    transform: translateY(-2px);
+}
+
+.candy-form-btn-submit-theme2:active {
+    transform: translateY(0);
+}
+
+/* 主题3按钮 (霓虹) */
+.candy-form-btn-submit-theme3 {
+    padding: 16px 40px;
+    background: var(--candy-form-theme3-accent-neon);
+    color: #0a0e17;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 0px var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-btn-submit-theme3:hover {
+    box-shadow: 0 0 0 3px var(--candy-form-theme3-accent-neon), 0 0 25px var(--candy-form-theme3-accent-neon);
+    transform: translateY(-2px);
+}
+
+.candy-form-btn-submit-theme3:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 0 1px var(--candy-form-theme3-accent-neon), 0 0 10px var(--candy-form-theme3-accent-neon);
+}
+
+.candy-form-btn-submit-theme3 .candy-form-ripple-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+.candy-form-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(10, 14, 23, 0.4);
+    transform: scale(0);
+    animation: candy-ripple-animation 0.6s linear;
+}
+
+/* 主题4按钮 (终端) */
+.candy-form-btn-submit-terminal {
+    width: 100%;
+    padding: 15px;
+    background-color: transparent;
+    color: var(--candy-form-theme4-highlight-green);
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: none;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-form-btn-submit-terminal:hover {
+    background-color: rgba(51, 255, 51, 0.1);
+    border-color: var(--candy-form-theme4-border-active);
+    box-shadow: var(--candy-form-theme4-glow-green);
+    color: white;
+}
+
+/* 主题5按钮 */
+.candy-form-btn-submit-neon {
+    width: 100%;
+    padding: 18px;
+    background: transparent;
+    color: var(--candy-form-theme5-neon-secondary);
+    border: 2px solid var(--candy-form-theme5-neon-primary);
+    border-radius: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+    margin-top: 20px;
+}
+
+.candy-form-btn-submit-neon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--candy-form-theme5-neon-glow-primary), transparent);
+    transition: 0.8s;
+}
+
+.candy-form-btn-submit-neon:hover {
+    box-shadow: 0 0 20px var(--candy-form-theme5-neon-glow-primary);
+    color: white;
+}
+
+.candy-form-btn-submit-neon:hover::before {
+    left: 100%;
+}
+
+/* 主题6按钮 */
+.candy-form-btn-submit-advanced {
+    width: 100%;
+    padding: 22px;
+    background: linear-gradient(90deg, var(--candy-form-theme6-primary-color), var(--candy-form-theme6-primary-color-dark));
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.5s var(--candy-form-easing-spring);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(108, 99, 255, 0);
+    position: relative;
+    overflow: hidden;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.candy-form-btn-submit-text {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.candy-form-btn-submit-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: candy-spin 1s linear infinite;
+}
+
+.candy-form-btn-submit-advanced.loading .candy-form-btn-submit-text {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.candy-form-btn-submit-advanced.loading .candy-form-btn-submit-spinner {
+    display: block;
+}
+
+.candy-form-btn-submit-advanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: 0.7s;
+}
+
+.candy-form-btn-submit-advanced:hover::before {
+    left: 100%;
+}
+
+.candy-form-btn-submit-advanced:hover {
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), 0 0 0 4px var(--candy-form-theme6-primary-color-glow);
+}
+
+.candy-form-btn-submit-advanced:active {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25), 0 0 0 0 rgba(108, 99, 255, 0);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+/* ==========================================================================
+   17. 状态栏样式
+   ========================================================================== */
+
+.candy-form-status-footer {
+    padding: var(--candy-form-space-4) var(--candy-form-space-6);
+    background-color: rgba(241, 245, 249, 0.5);
+    border-top: 1px solid var(--candy-form-theme1-panel-border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--candy-form-theme1-text-secondary);
+    font-weight: 500;
+}
+
+/* 主题2状态栏 */
+.candy-form-status-footer-theme2 {
+    padding: var(--candy-form-space-4) var(--candy-form-space-6);
+    background-color: rgba(30, 41, 59, 0.8);
+    border-top: 1px solid var(--candy-form-theme2-outline);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--candy-form-theme2-on-surface-variant);
+}
+
+/* 主题3状态栏 */
+.candy-form-status-footer-theme3 {
+    padding: 16px 24px;
+    background: rgba(0, 10, 20, 0.2);
+    border-top: 1px solid var(--candy-form-theme3-glass-border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--candy-form-theme3-text-secondary);
+    flex-shrink: 0;
+}
+
+.candy-form-status-footer-theme3 span:first-child::before {
+    content: "● ";
+    color: var(--candy-form-theme3-success-neon);
+    text-shadow: 0 0 5px var(--candy-form-theme3-success-neon);
+    animation: candy-pulseOnline 2s infinite;
+}
+
+/* 主题4状态栏 */
+.candy-form-status-bar-terminal {
+    background-color: #222;
+    color: var(--candy-form-theme4-text);
+    padding: 6px 15px;
+    font-size: 12px;
+    border-top: 1px solid var(--candy-form-theme4-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+.candy-form-status-item-terminal {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.candy-form-status-indicator-terminal {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #555;
+}
+
+.candy-form-status-indicator-terminal.active {
+    background-color: var(--candy-form-theme4-highlight-green);
+    box-shadow: var(--candy-form-theme4-glow-green);
+}
+
+/* ==========================================================================
+   18. 标题栏样式 (终端主题)
+   ========================================================================== */
+
+.candy-form-title-bar {
+    background-color: #222;
+    color: var(--candy-form-theme4-text);
+    padding: 8px 15px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--candy-form-theme4-border);
+}
+
+.candy-form-title-bar-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.candy-form-title-bar-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid #000;
+}
+
+.candy-form-title-bar-btn-close {
+    background-color: #ff5f57;
+}
+
+.candy-form-title-bar-btn-minimize {
+    background-color: #febc2e;
+}
+
+.candy-form-title-bar-btn-maximize {
+    background-color: #28c840;
+}
+
+/* ==========================================================================
+   19. 列表框样式 (终端主题)
+   ========================================================================== */
+
+.candy-form-listbox-terminal {
+    width: 100%;
+    background-color: var(--candy-form-theme4-input-bg);
+    border: 1px solid var(--candy-form-theme4-border);
+    border-radius: 0;
+    color: var(--candy-form-theme4-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    min-height: 100px;
+    padding: 5px;
+}
+
+.candy-form-listbox-terminal option {
+    background-color: var(--candy-form-theme4-input-bg);
+    color: var(--candy-form-theme4-text);
+    padding: 5px;
+}
+
+.candy-form-listbox-terminal option:checked {
+    background-color: var(--candy-form-theme4-highlight-green);
+    color: #000;
+}
+
+.candy-form-listbox-terminal:focus {
+    border-color: var(--candy-form-theme4-border-active);
+    box-shadow: var(--candy-form-theme4-glow-green), inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   20. 颜色选择器样式
+   ========================================================================== */
+
+.candy-form-input-color {
+    height: 45px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.candy-form-input-color::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.candy-form-input-color::-webkit-color-swatch {
+    border: 1px solid var(--candy-form-theme4-border);
+}
+
+.candy-form-input-color-advanced {
+    height: 62px;
+    padding: 1px 18px;
+}
+
+/* ==========================================================================
+   21. 日期选择器样式
+   ========================================================================== */
+
+.candy-form-input-date-terminal {
+    appearance: none;
+}
+
+.candy-form-input-date-terminal::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   22. 数字输入框样式
+   ========================================================================== */
+
+input[type="number"].candy-form-input::-webkit-outer-spin-button,
+input[type="number"].candy-form-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"].candy-form-input {
+    -moz-appearance: textfield;
+}
+
+/* ==========================================================================
+   23. 密码强度指示器样式
+   ========================================================================== */
+
+.candy-form-password-strength-meter {
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.candy-form-password-strength-meter.visible {
+    opacity: 1;
+}
+
+.candy-form-password-strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.candy-form-password-strength-text {
+    font-size: 13px;
+    margin-top: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.candy-form-password-strength-text.visible {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   24. 错误提示样式
+   ========================================================================== */
+
+.candy-form-error {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.candy-form-hint {
+    color: var(--candy-form-theme1-text-secondary);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   25. 行布局样式
+   ========================================================================== */
+
+.candy-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--candy-form-space-4);
+}
+
+.candy-form-inline {
+    display: flex;
+    align-items: center;
+    gap: var(--candy-form-space-2);
+}
+
+.candy-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ==========================================================================
+   26. 分隔线样式
+   ========================================================================== */
+
+.candy-form-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 30px 0;
+}
+
+/* ==========================================================================
+   27. 验证摘要样式
+   ========================================================================== */
+
+.candy-form-validation-summary {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   28. 多步骤表单样式
+   ========================================================================== */
+
+.candy-form-step-indicator {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: rgba(59, 130, 246, 0.05);
+    border-bottom: 1px solid var(--candy-form-theme1-panel-border);
+    position: relative;
+}
+
+.candy-form-step-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.candy-form-step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.candy-form-step-label {
+    margin-left: 8px;
+    font-size: 0.9rem;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.candy-form-step-line {
+    position: absolute;
+    top: 16px;
+    left: 40px;
+    right: -8px;
+    height: 2px;
+    background: #e2e8f0;
+    z-index: 0;
+}
+
+/* ==========================================================================
+   29. 动画样式
+   ========================================================================== */
+
+/* 扫描动画 */
+@keyframes candy-scan {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 浮动动画 */
+@keyframes candy-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* 流线动画 */
+@keyframes candy-flowLine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 闪烁动画 */
+@keyframes candy-shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 轨迹动画 */
+@keyframes candy-trail {
+    0% {
+        opacity: 0.7;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleX(0.2);
+    }
+}
+
+/* 涟漪动画 */
+@keyframes candy-ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* 在线脉冲动画 */
+@keyframes candy-pulseOnline {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* 扫描线动画 */
+@keyframes candy-scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* 淡入上升动画 */
+@keyframes candy-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 选项弹出动画 */
+@keyframes candy-popInChoice {
+    0% {
+        transform: translateY(-50%) scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: translateY(-50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+/* 选项淡入动画 */
+@keyframes candy-fadeInChoice {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 旋转动画 */
+@keyframes candy-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   30. 滚动条样式
+   ========================================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--candy-form-theme4-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--candy-form-theme4-scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ==========================================================================
+   31. 响应式样式
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .candy-form-card {
+        border-radius: var(--candy-form-corner-large);
+        max-width: 95%;
+    }
+
+    .candy-form-header {
+        padding: var(--candy-form-space-5) var(--candy-form-space-4) var(--candy-form-space-4);
+    }
+
+    .candy-form-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .candy-form-header p {
+        font-size: 1rem;
+    }
+
+    .candy-form-body-section {
+        padding: var(--candy-form-space-5);
+    }
+
+    .candy-form-section-title {
+        font-size: 1.1rem;
+        margin: var(--candy-form-space-7) 0 var(--candy-form-space-4);
+    }
+
+    .candy-form-submit-container {
+        margin: var(--candy-form-space-8) 0 var(--candy-form-space-5);
+    }
+
+    .candy-form-btn-submit {
+        padding: var(--candy-form-space-3) var(--candy-form-space-6);
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .candy-form-card-theme2 {
+        border-radius: var(--candy-form-corner-large);
+    }
+
+    .candy-form-header-theme2 {
+        padding: var(--candy-form-space-6) var(--candy-form-space-4) var(--candy-form-space-3);
+    }
+
+    .candy-form-header-theme2 h1 {
+        font-size: 1.5rem;
+    }
+
+    .candy-form-body-theme2 {
+        padding: var(--candy-form-space-4);
+    }
+
+    .candy-form-section-title-theme2 {
+        font-size: 1rem;
+    }
+
+    .candy-form-card-theme3 {
+        border-radius: 12px;
+    }
+
+    .candy-form-header-theme3 {
+        padding: 24px 16px 16px;
+    }
+
+    .candy-form-body-theme3 {
+        padding: 20px 16px;
+    }
+
+    .candy-form-btn-submit-theme3 {
+        padding: 14px 30px;
+    }
+
+    .candy-form-terminal-content {
+        padding: 15px;
+    }
+
+    .candy-form-terminal-header h1 {
+        font-size: 20px;
+    }
+
+    .candy-form-terminal {
+        max-width: 100%;
+    }
+
+    .candy-form-glass-card {
+        padding: 35px 25px;
+    }
+
+    .candy-form-header-glass h2 {
+        font-size: 28px;
+    }
+
+    .candy-form-glass-card-advanced {
+        padding: 40px 30px 30px;
+    }
+
+    .candy-form-header-advanced h2 {
+        font-size: 32px;
+    }
+
+    .candy-form-choice-group {
+        gap: 18px;
+    }
+
+    .candy-form-choice-item {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 550px) {
+    .candy-form-glass-card-advanced {
+        padding: 40px 30px 30px;
+    }
+
+    .candy-form-header-advanced h2 {
+        font-size: 32px;
+    }
+
+    .candy-form-choice-group {
+        gap: 18px;
+    }
+
+    .candy-form-choice-item {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 650px) {
+    .candy-form-glass-card {
+        padding: 35px 25px;
+    }
+
+    .candy-form-header-glass h2 {
+        font-size: 28px;
+    }
+}
+
+/* ==========================================================================
+   32. 主题切换类
+   ========================================================================== */
+
+/* 主题1: 清洁白色 */
+.candy-form-theme-clean {
+    --candy-form-current-bg: var(--candy-form-theme1-bg);
+    --candy-form-current-panel-bg: var(--candy-form-theme1-panel-bg);
+    --candy-form-current-panel-border: var(--candy-form-theme1-panel-border);
+    --candy-form-current-text-primary: var(--candy-form-theme1-text-primary);
+    --candy-form-current-text-secondary: var(--candy-form-theme1-text-secondary);
+    --candy-form-current-accent-primary: var(--candy-form-theme1-accent-primary);
+    --candy-form-current-accent-secondary: var(--candy-form-theme1-accent-secondary);
+    --candy-form-current-input-bg: var(--candy-form-theme1-input-bg);
+    --candy-form-current-input-border: var(--candy-form-theme1-input-border);
+}
+
+/* 主题2: 深色紫蓝 */
+.candy-form-theme-dark {
+    --candy-form-current-bg: var(--candy-form-theme2-bg);
+    --candy-form-current-panel-bg: var(--candy-form-theme2-surface);
+    --candy-form-current-panel-border: var(--candy-form-theme2-outline);
+    --candy-form-current-text-primary: var(--candy-form-theme2-on-surface);
+    --candy-form-current-text-secondary: var(--candy-form-theme2-on-surface-variant);
+    --candy-form-current-accent-primary: var(--candy-form-theme2-primary);
+    --candy-form-current-accent-secondary: var(--candy-form-theme2-primary);
+    --candy-form-current-input-bg: rgba(30, 41, 59, 0.7);
+    --candy-form-current-input-border: var(--candy-form-theme2-outline);
+}
+
+/* 主题3: 霓虹青色 */
+.candy-form-theme-neon-cyan {
+    --candy-form-current-bg: var(--candy-form-theme3-bg-dark);
+    --candy-form-current-panel-bg: var(--candy-form-theme3-glass-bg);
+    --candy-form-current-panel-border: var(--candy-form-theme3-glass-border);
+    --candy-form-current-text-primary: var(--candy-form-theme3-text-primary);
+    --candy-form-current-text-secondary: var(--candy-form-theme3-text-secondary);
+    --candy-form-current-accent-primary: var(--candy-form-theme3-accent-neon);
+    --candy-form-current-accent-secondary: var(--candy-form-theme3-success-neon);
+    --candy-form-current-input-bg: rgba(0, 10, 20, 0.2);
+    --candy-form-current-input-border: var(--candy-form-theme3-glass-border);
+}
+
+/* 主题4: 绿色终端 */
+.candy-form-theme-terminal {
+    --candy-form-current-bg: var(--candy-form-theme4-bg);
+    --candy-form-current-panel-bg: rgba(10, 10, 10, 0.9);
+    --candy-form-current-panel-border: var(--candy-form-theme4-border);
+    --candy-form-current-text-primary: var(--candy-form-theme4-text);
+    --candy-form-current-text-secondary: var(--candy-form-theme4-text);
+    --candy-form-current-accent-primary: var(--candy-form-theme4-highlight-green);
+    --candy-form-current-accent-secondary: var(--candy-form-theme4-highlight-amber);
+    --candy-form-current-input-bg: var(--candy-form-theme4-input-bg);
+    --candy-form-current-input-border: var(--candy-form-theme4-border);
+}
+
+/* 主题5: 紫/青/粉霓虹 */
+.candy-form-theme-neon-purple {
+    --candy-form-current-bg: #050310;
+    --candy-form-current-panel-bg: var(--candy-form-theme5-glass-bg);
+    --candy-form-current-panel-border: var(--candy-form-theme5-glass-border);
+    --candy-form-current-text-primary: var(--candy-form-theme5-text-primary);
+    --candy-form-current-text-secondary: var(--candy-form-theme5-text-placeholder);
+    --candy-form-current-accent-primary: var(--candy-form-theme5-neon-primary);
+    --candy-form-current-accent-secondary: var(--candy-form-theme5-neon-secondary);
+    --candy-form-current-input-bg: var(--candy-form-theme5-input-bg);
+    --candy-form-current-input-border: var(--candy-form-theme5-input-border);
+}
+
+/* 主题6: 紫色玻璃态 */
+.candy-form-theme-glassmorphism {
+    --candy-form-current-bg: linear-gradient(135deg, hsl(210, 70%, 15%), hsl(270, 70%, 25%));
+    --candy-form-current-panel-bg: var(--candy-form-theme6-glass-bg);
+    --candy-form-current-panel-border: var(--candy-form-theme6-glass-border);
+    --candy-form-current-text-primary: var(--candy-form-theme6-text-primary);
+    --candy-form-current-text-secondary: var(--candy-form-theme6-text-secondary);
+    --candy-form-current-accent-primary: var(--candy-form-theme6-primary-color);
+    --candy-form-current-accent-secondary: var(--candy-form-theme6-accent-color);
+    --candy-form-current-input-bg: var(--candy-form-theme6-input-bg);
+    --candy-form-current-input-border: var(--candy-form-theme6-input-border);
 }

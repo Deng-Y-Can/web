@@ -128,7 +128,9 @@
         }
         
         /* 隐藏WebGL背景 canvas */
-        #webgl-bg {
+        .candy-login-webgl-bg,
+        .candy-login-gl-canvas,
+        .candy-login-scene-container {
             display: none;
         }
         
@@ -193,151 +195,151 @@
         <section class="section">
             <h2 class="section-title">登录卡片样式 (1-7)</h2>
             <div class="login-grid">
-                <!-- 样式1：默认渐变登录卡片 -->
+                <!-- 样式1：WebGL 3D球体背景登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-1">
+                            <div class="candy-login-header">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">默认渐变登录卡片</div>
-                    <div class="card-class">login-card-1</div>
+                    <div class="card-label">WebGL 3D球体背景登录卡片</div>
+                    <div class="card-class">candy-login-card-1</div>
                 </div>
                 
-                <!-- 样式2：深色渐变登录卡片 -->
+                <!-- 样式2：Vaporwave复古风格登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-2">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-2">
+                            <div class="candy-login-header">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">深色渐变登录卡片</div>
-                    <div class="card-class">login-card-2</div>
+                    <div class="card-label">Vaporwave复古风格登录卡片</div>
+                    <div class="card-class">candy-login-card-2</div>
                 </div>
                 
-                <!-- 样式3：青色霓虹登录卡片 -->
+                <!-- 样式3：Neon Rain赛博朋克登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-3">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-3">
+                            <div class="candy-login-header">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">青色霓虹登录卡片</div>
-                    <div class="card-class">login-card-3</div>
+                    <div class="card-label">Neon Rain赛博朋克登录卡片</div>
+                    <div class="card-class">candy-login-card-3</div>
                 </div>
                 
-                <!-- 样式4：渐变边框登录卡片 -->
+                <!-- 样式4：Matrix绿色终端登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-4">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-4">
+                            <div class="candy-login-header">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">渐变边框登录卡片</div>
-                    <div class="card-class">login-card-4</div>
+                    <div class="card-label">Matrix绿色终端登录卡片</div>
+                    <div class="card-class">candy-login-card-4</div>
                 </div>
                 
-                <!-- 样式5：径向渐变登录卡片 -->
+                <!-- 样式5：Nexus Reactor粒子登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-5">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-5">
+                            <div class="candy-login-title">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">径向渐变登录卡片</div>
-                    <div class="card-class">login-card-5</div>
+                    <div class="card-label">Nexus Reactor粒子登录卡片</div>
+                    <div class="card-class">candy-login-card-5</div>
                 </div>
                 
-                <!-- 样式6：毛玻璃效果登录卡片 -->
+                <!-- 样式6：Cyberpunk波浪网格登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-6">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-6">
+                            <div class="candy-login-title">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">毛玻璃效果登录卡片</div>
-                    <div class="card-class">login-card-6</div>
+                    <div class="card-label">Cyberpunk波浪网格登录卡片</div>
+                    <div class="card-class">candy-login-card-6</div>
                 </div>
                 
-                <!-- 样式7：蓝色渐变登录卡片 -->
+                <!-- 样式7：WebGL粒子网络登录卡片 -->
                 <div class="login-card-wrapper">
                     <div class="login-showcase">
-                        <div class="login-card login-card-7">
-                            <div class="card-header">登录</div>
-                            <div class="input-group">
-                                <label class="input-label">用户名</label>
+                        <div class="candy-login-card-7">
+                            <div class="candy-login-title">登录</div>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">用户名</label>
                                 <input type="text" class="candy-login-input" placeholder="请输入用户名">
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">密码</label>
+                            <div class="candy-login-input-group">
+                                <label class="candy-login-label">密码</label>
                                 <input type="password" class="candy-login-input" placeholder="请输入密码">
                             </div>
                             <button class="candy-login-btn">登录</button>
-                            <div class="login-message"></div>
+                            <div class="candy-login-message"></div>
                         </div>
                     </div>
-                    <div class="card-label">蓝色渐变登录卡片</div>
-                    <div class="card-class">login-card-7</div>
+                    <div class="card-label">WebGL粒子网络登录卡片</div>
+                    <div class="card-class">candy-login-card-7</div>
                 </div>
             </div>
         </section>

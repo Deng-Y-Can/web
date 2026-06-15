@@ -1,8 +1,61 @@
+/**
+ * CandyUI Breadcrumb Component
+ * 20种炫酷面包屑导航样式
+ * @version 2.0.0
+ */
+
+/* ==================== CSS变量系统 ==================== */
+:root {
+    /* 主色调 */
+    --candy-breadcrumb-primary: #667eea;
+    --candy-breadcrumb-secondary: #764ba2;
+    --candy-breadcrumb-accent: #f093fb;
+    
+    /* 文字颜色 */
+    --candy-breadcrumb-text: #ddd;
+    --candy-breadcrumb-text-hover: #fff;
+    --candy-breadcrumb-text-active: #fff;
+    
+    /* 分隔符颜色 */
+    --candy-breadcrumb-separator: #888;
+    --candy-breadcrumb-separator-alt: #aaa;
+    
+    /* 背景颜色 */
+    --candy-breadcrumb-bg: rgba(255, 255, 255, 0.1);
+    --candy-breadcrumb-bg-hover: rgba(255, 255, 255, 0.2);
+    --candy-breadcrumb-bg-card: rgba(255, 255, 255, 0.03);
+    
+    /* 边框颜色 */
+    --candy-breadcrumb-border: rgba(255, 255, 255, 0.2);
+    --candy-breadcrumb-border-light: rgba(255, 255, 255, 0.08);
+    
+    /* 发光效果颜色 */
+    --candy-breadcrumb-glow: rgba(100, 200, 255, 0.7);
+    --candy-breadcrumb-glow-intense: rgba(100, 200, 255, 1);
+    
+    /* 渐变色 */
+    --candy-breadcrumb-gradient-1: #ff9a9e;
+    --candy-breadcrumb-gradient-2: #fad0c4;
+    --candy-breadcrumb-gradient-3: #00c9ff;
+    --candy-breadcrumb-gradient-4: #92fe9d;
+    
+    /* 特殊效果颜色 */
+    --candy-breadcrumb-neon: #0ff;
+    --candy-breadcrumb-tech: #00f7ff;
+    --candy-breadcrumb-cosmic: #a8d8ff;
+    
+    /* 动画时间 */
+    --candy-breadcrumb-transition: 0.3s ease;
+    --candy-breadcrumb-animation-duration: 3s;
+}
+
+/* ==================== 面包屑基础样式 ==================== */
 .candy-breadcrumb {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     padding: 10px 0;
+    margin: 0;
 }
 
 .candy-breadcrumb li {
@@ -12,119 +65,582 @@
     align-items: center;
 }
 
-.candy-breadcrumb li:not(:last-child)::after {
-    content: ">";
-    margin-left: 10px;
-    color: #888;
-}
-
 .candy-breadcrumb a {
     text-decoration: none;
-    color: #ddd;
+    color: var(--candy-breadcrumb-text);
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all var(--candy-breadcrumb-transition);
     position: relative;
     padding: 5px 10px;
     border-radius: 5px;
 }
 
 .candy-breadcrumb a:hover {
-    color: #fff;
+    color: var(--candy-breadcrumb-text-hover);
 }
 
-.candy-breadcrumb-1 li:not(:last-child)::after { content: ">"; color: #888; }
+.candy-breadcrumb-active {
+    color: var(--candy-breadcrumb-text-active);
+}
 
-.candy-breadcrumb-2 li:not(:last-child)::after { content: "/"; color: #aaa; }
+/* 分隔符样式 */
+.candy-breadcrumb-separator {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 5px;
+    color: var(--candy-breadcrumb-separator);
+}
 
-.candy-breadcrumb-3 a { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
-.candy-breadcrumb-3 a:hover { background: rgba(255, 255, 255, 0.2); }
-.candy-breadcrumb-3 li:not(:last-child)::after { content: "›"; margin-left: 10px; color: #ccc; }
+/* ==================== 样式1：经典箭头 ==================== */
+.candy-breadcrumb-1 li:not(:last-child)::after {
+    content: ">";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-separator);
+}
 
-.candy-breadcrumb-4 { perspective: 1000px; }
-.candy-breadcrumb-4 a { transform-style: preserve-3d; transition: transform 0.3s ease; }
-.candy-breadcrumb-4 a:hover { transform: translateZ(15px); text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
-.candy-breadcrumb-4 li:not(:last-child)::after { content: "»"; margin-left: 10px; color: #ff9a00; }
+/* ==================== 样式2：斜线分隔 ==================== */
+.candy-breadcrumb-2 li:not(:last-child)::after {
+    content: "/";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-separator-alt);
+}
 
-.candy-breadcrumb-5 a { text-shadow: 0 0 5px rgba(100, 200, 255, 0.7); }
-.candy-breadcrumb-5 a:hover { text-shadow: 0 0 15px rgba(100, 200, 255, 1), 0 0 25px rgba(100, 200, 255, 0.8); }
-.candy-breadcrumb-5 li:not(:last-child)::after { content: "→"; margin-left: 10px; color: #4dabf7; }
+/* ==================== 样式3：胶囊形状 ==================== */
+.candy-breadcrumb-3 a {
+    background: var(--candy-breadcrumb-bg);
+    border: 1px solid var(--candy-breadcrumb-border);
+}
 
-.candy-breadcrumb-6 a { background: linear-gradient(45deg, #ff9a9e, #fad0c4); color: #333; font-weight: bold; }
-.candy-breadcrumb-6 a:hover { background: linear-gradient(45deg, #fad0c4, #ff9a9e); }
-.candy-breadcrumb-6 li:not(:last-child)::after { content: "•"; margin-left: 15px; color: #ff6b6b; font-size: 1.5rem; line-height: 1; }
+.candy-breadcrumb-3 a:hover {
+    background: var(--candy-breadcrumb-bg-hover);
+}
 
-.candy-breadcrumb-7 a { position: relative; }
-.candy-breadcrumb-7 a::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #ff6b6b; transition: width 0.3s ease; }
-.candy-breadcrumb-7 a:hover::after { width: 100%; }
-.candy-breadcrumb-7 li:not(:last-child)::after { content: "›"; margin-left: 10px; color: #aaa; }
+.candy-breadcrumb-3 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 10px;
+    color: #ccc;
+}
 
-.candy-breadcrumb-8 a { background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
-.candy-breadcrumb-8 a:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
-.candy-breadcrumb-8 li:not(:last-child)::after { content: "›"; margin-left: 15px; color: #8ec5fc; }
+/* ==================== 样式4：3D立体效果 ==================== */
+.candy-breadcrumb-4 {
+    perspective: 1000px;
+}
 
-.candy-breadcrumb-9 { font-family: cursive; font-size: 1.4rem; }
-.candy-breadcrumb-9 a { color: #f8a5c2; }
-.candy-breadcrumb-9 a:hover { color: #e84393; }
-.candy-breadcrumb-9 li:not(:last-child)::after { content: "→"; margin-left: 10px; color: #fd79a8; }
+.candy-breadcrumb-4 a {
+    transform-style: preserve-3d;
+    transition: transform var(--candy-breadcrumb-transition);
+}
 
-.candy-breadcrumb-10 { background: linear-gradient(to right, #000, #333, #000); padding: 15px; border-radius: 10px; position: relative; }
-.candy-breadcrumb-10::before, .candy-breadcrumb-10::after { content: ""; position: absolute; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(to bottom, #000, #000 10px, #fff 10px, #fff 20px); }
-.candy-breadcrumb-10::before { left: -20px; }
-.candy-breadcrumb-10::after { right: -20px; }
-.candy-breadcrumb-10 a { color: #ffcc00; text-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
-.candy-breadcrumb-10 a:hover { color: #ffd700; text-shadow: 0 0 10px rgba(255, 204, 0, 0.8); }
-.candy-breadcrumb-10 li:not(:last-child)::after { content: "▶"; margin-left: 15px; color: #ff9a00; }
+.candy-breadcrumb-4 a:hover {
+    transform: translateZ(15px);
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
 
-.candy-breadcrumb-11 a { position: relative; overflow: hidden; }
-.candy-breadcrumb-11 a::before { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: left 0.5s; }
-.candy-breadcrumb-11 a:hover::before { left: 100%; }
-.candy-breadcrumb-11 li:not(:last-child)::after { content: "•"; margin-left: 15px; color: #6c5ce7; }
+.candy-breadcrumb-4 li:not(:last-child)::after {
+    content: "»";
+    margin-left: 10px;
+    color: #ff9a00;
+}
 
-.candy-breadcrumb-12 a { position: relative; z-index: 1; }
-.candy-breadcrumb-12 a::before { content: ""; position: absolute; top: 0; left: 0; width: 0; height: 100%; background: linear-gradient(45deg, #00c9ff, #92fe9d); z-index: -1; transition: width 0.4s ease; border-radius: 5px; }
-.candy-breadcrumb-12 a:hover::before { width: 100%; }
-.candy-breadcrumb-12 a:hover { color: #000; }
-.candy-breadcrumb-12 li:not(:last-child)::after { content: "›"; margin-left: 10px; color: #00c9ff; }
+/* ==================== 样式5：发光效果 ==================== */
+.candy-breadcrumb-5 a {
+    text-shadow: 0 0 5px var(--candy-breadcrumb-glow);
+}
 
-.candy-breadcrumb-13 a { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0ff, 0 0 20px #0ff, 0 0 25px #0ff; transition: all 0.3s ease; }
-.candy-breadcrumb-13 a:hover { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 50px #0ff, 0 0 60px #0ff; }
-.candy-breadcrumb-13 li:not(:last-child)::after { content: "→"; margin-left: 10px; color: #0ff; text-shadow: 0 0 5px #0ff; }
+.candy-breadcrumb-5 a:hover {
+    text-shadow: 0 0 15px var(--candy-breadcrumb-glow-intense), 0 0 25px var(--candy-breadcrumb-glow);
+}
 
-.candy-breadcrumb-14 { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
-.candy-breadcrumb-14 a { position: relative; }
-.candy-breadcrumb-14 a::after { content: ""; position: absolute; bottom: -10px; left: 0; width: 0; height: 2px; background: #ff6b6b; transition: width 0.3s ease; }
-.candy-breadcrumb-14 a:hover::after { width: 100%; }
-.candy-breadcrumb-14 li:not(:last-child)::after { content: ""; }
-.candy-breadcrumb-14 li:not(:last-child) a { margin-right: 20px; }
+.candy-breadcrumb-5 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 10px;
+    color: #4dabf7;
+}
 
-.candy-breadcrumb-15 a { background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: candy-breadcrumb-rainbow 3s linear infinite; }
-@keyframes candy-breadcrumb-rainbow { to { background-position: 200% center; } }
-.candy-breadcrumb-15 li:not(:last-child)::after { content: "›"; margin-left: 10px; color: #ff6b6b; }
+/* ==================== 样式6：渐变背景 ==================== */
+.candy-breadcrumb-6 a {
+    background: linear-gradient(45deg, var(--candy-breadcrumb-gradient-1), var(--candy-breadcrumb-gradient-2));
+    color: #333;
+    font-weight: bold;
+}
 
-.candy-breadcrumb-16 a { color: #00f7ff; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; position: relative; }
-.candy-breadcrumb-16 a::before { content: "["; position: absolute; left: -8px; opacity: 0; transition: opacity 0.3s; }
-.candy-breadcrumb-16 a::after { content: "]"; position: absolute; right: -8px; opacity: 0; transition: opacity 0.3s; }
-.candy-breadcrumb-16 a:hover::before, .candy-breadcrumb-16 a:hover::after { opacity: 1; }
-.candy-breadcrumb-16 li:not(:last-child)::after { content: "→"; margin-left: 10px; color: #00f7ff; }
+.candy-breadcrumb-6 a:hover {
+    background: linear-gradient(45deg, var(--candy-breadcrumb-gradient-2), var(--candy-breadcrumb-gradient-1));
+}
 
-.candy-breadcrumb-17 { background: linear-gradient(to right, #2c3e50, #4a6491); padding: 15px; border-radius: 10px; position: relative; }
-.candy-breadcrumb-17::before { content: ""; position: absolute; top: 10px; left: 10px; right: 10px; height: 5px; background: repeating-linear-gradient(to right, #3498db, #3498db 10px, #2c3e50 10px, #2c3e50 20px); }
-.candy-breadcrumb-17 a { color: #ecf0f1; }
-.candy-breadcrumb-17 a:hover { color: #3498db; }
-.candy-breadcrumb-17 li:not(:last-child)::after { content: "►"; margin-left: 15px; color: #3498db; }
+.candy-breadcrumb-6 li:not(:last-child)::after {
+    content: "•";
+    margin-left: 15px;
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    line-height: 1;
+}
 
-.candy-breadcrumb-18 a { position: relative; background: linear-gradient(90deg, #ff00cc, #333399, #00ccff); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 300% 300%; animation: candy-breadcrumb-holo 4s ease infinite; }
-@keyframes candy-breadcrumb-holo { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-.candy-breadcrumb-18 li:not(:last-child)::after { content: "›"; margin-left: 10px; color: #00ccff; }
+/* ==================== 样式7：动态下划线 ==================== */
+.candy-breadcrumb-7 a {
+    position: relative;
+}
 
-.candy-breadcrumb-19 { background: linear-gradient(45deg, #ff006e, #8920d1, #20c997); padding: 15px; border-radius: 10px; text-shadow: 0 0 10px rgba(255, 0, 110, 0.7); }
-.candy-breadcrumb-19 a { color: #fff; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-.candy-breadcrumb-19 a:hover { text-shadow: 0 0 15px rgba(137, 32, 209, 0.9); }
-.candy-breadcrumb-19 li:not(:last-child)::after { content: "→"; margin-left: 15px; color: #fff; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+.candy-breadcrumb-7 a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff6b6b;
+    transition: width var(--candy-breadcrumb-transition);
+}
 
-.candy-breadcrumb-20 { background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); padding: 20px; border-radius: 15px; position: relative; overflow: hidden; }
-.candy-breadcrumb-20::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 2px), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 2px); animation: candy-breadcrumb-stars 15s linear infinite; }
-@keyframes candy-breadcrumb-stars { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.candy-breadcrumb-20 a { color: #a8d8ff; }
-.candy-breadcrumb-20 a:hover { color: #fff; text-shadow: 0 0 10px rgba(168, 216, 255, 0.8); }
-.candy-breadcrumb-20 li:not(:last-child)::after { content: "›"; margin-left: 15px; color: #a8d8ff; }
+.candy-breadcrumb-7 a:hover::after {
+    width: 100%;
+}
+
+.candy-breadcrumb-7 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-separator-alt);
+}
+
+/* ==================== 样式8：悬浮卡片 ==================== */
+.candy-breadcrumb-8 a {
+    background: var(--candy-breadcrumb-bg);
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-8 a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.candy-breadcrumb-8 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 15px;
+    color: #8ec5fc;
+}
+
+/* ==================== 样式9：艺术手写 ==================== */
+.candy-breadcrumb-9 {
+    font-family: 'Dancing Script', cursive, cursive;
+    font-size: 1.4rem;
+}
+
+.candy-breadcrumb-9 a {
+    color: #f8a5c2;
+}
+
+.candy-breadcrumb-9 a:hover {
+    color: #e84393;
+}
+
+.candy-breadcrumb-9 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 10px;
+    color: #fd79a8;
+}
+
+/* ==================== 样式10：电影胶片 ==================== */
+.candy-breadcrumb-10 {
+    background: linear-gradient(to right, #000, #333, #000);
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.candy-breadcrumb-10::before,
+.candy-breadcrumb-10::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: repeating-linear-gradient(to bottom, #000, #000 10px, #fff 10px, #fff 20px);
+}
+
+.candy-breadcrumb-10::before {
+    left: -20px;
+}
+
+.candy-breadcrumb-10::after {
+    right: -20px;
+}
+
+.candy-breadcrumb-10 a {
+    color: #ffcc00;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.candy-breadcrumb-10 a:hover {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+.candy-breadcrumb-10 li:not(:last-child)::after {
+    content: "▶";
+    margin-left: 15px;
+    color: #ff9a00;
+}
+
+/* ==================== 样式11：粒子效果 ==================== */
+.candy-breadcrumb-11 a {
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-breadcrumb-11 a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.candy-breadcrumb-11 a:hover::before {
+    left: 100%;
+}
+
+.candy-breadcrumb-11 li:not(:last-child)::after {
+    content: "•";
+    margin-left: 15px;
+    color: #6c5ce7;
+}
+
+/* ==================== 样式12：液态填充 ==================== */
+.candy-breadcrumb-12 a {
+    position: relative;
+    z-index: 1;
+}
+
+.candy-breadcrumb-12 a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(45deg, var(--candy-breadcrumb-gradient-3), var(--candy-breadcrumb-gradient-4));
+    z-index: -1;
+    transition: width 0.4s ease;
+    border-radius: 5px;
+}
+
+.candy-breadcrumb-12 a:hover::before {
+    width: 100%;
+}
+
+.candy-breadcrumb-12 a:hover {
+    color: #000;
+}
+
+.candy-breadcrumb-12 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-gradient-3);
+}
+
+/* ==================== 样式13：霓虹灯效果 ==================== */
+.candy-breadcrumb-13 a {
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--candy-breadcrumb-neon), 0 0 20px var(--candy-breadcrumb-neon), 0 0 25px var(--candy-breadcrumb-neon);
+    transition: all var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-13 a:hover {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--candy-breadcrumb-neon), 0 0 40px var(--candy-breadcrumb-neon), 0 0 50px var(--candy-breadcrumb-neon), 0 0 60px var(--candy-breadcrumb-neon);
+}
+
+.candy-breadcrumb-13 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-neon);
+    text-shadow: 0 0 5px var(--candy-breadcrumb-neon);
+}
+
+/* ==================== 样式14：极简线条 ==================== */
+.candy-breadcrumb-14 {
+    border-bottom: 1px solid var(--candy-breadcrumb-border-light);
+    padding-bottom: 10px;
+}
+
+.candy-breadcrumb-14 a {
+    position: relative;
+}
+
+.candy-breadcrumb-14 a::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff6b6b;
+    transition: width var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-14 a:hover::after {
+    width: 100%;
+}
+
+.candy-breadcrumb-14 li:not(:last-child)::after {
+    content: "";
+}
+
+.candy-breadcrumb-14 li:not(:last-child) a {
+    margin-right: 20px;
+}
+
+/* ==================== 样式15：彩虹渐变 ==================== */
+.candy-breadcrumb-15 a {
+    background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: candy-rainbow var(--candy-breadcrumb-animation-duration) linear infinite;
+}
+
+@keyframes candy-rainbow {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.candy-breadcrumb-15 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 10px;
+    color: #ff6b6b;
+}
+
+/* ==================== 样式16：科技感 ==================== */
+.candy-breadcrumb-16 a {
+    color: var(--candy-breadcrumb-tech);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    position: relative;
+}
+
+.candy-breadcrumb-16 a::before {
+    content: "[";
+    position: absolute;
+    left: -8px;
+    opacity: 0;
+    transition: opacity var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-16 a::after {
+    content: "]";
+    position: absolute;
+    right: -8px;
+    opacity: 0;
+    transition: opacity var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-16 a:hover::before,
+.candy-breadcrumb-16 a:hover::after {
+    opacity: 1;
+}
+
+.candy-breadcrumb-16 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 10px;
+    color: var(--candy-breadcrumb-tech);
+}
+
+/* ==================== 样式17：复古磁带 ==================== */
+.candy-breadcrumb-17 {
+    background: linear-gradient(to right, #2c3e50, #4a6491);
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.candy-breadcrumb-17::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 5px;
+    background: repeating-linear-gradient(to right, #3498db, #3498db 10px, #2c3e50 10px, #2c3e50 20px);
+}
+
+.candy-breadcrumb-17 a {
+    color: #ecf0f1;
+}
+
+.candy-breadcrumb-17 a:hover {
+    color: #3498db;
+}
+
+.candy-breadcrumb-17 li:not(:last-child)::after {
+    content: "►";
+    margin-left: 15px;
+    color: #3498db;
+}
+
+/* ==================== 样式18：全息效果 ==================== */
+.candy-breadcrumb-18 a {
+    position: relative;
+    background: linear-gradient(90deg, #ff00cc, #333399, #00ccff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 300% 300%;
+    animation: candy-holographic 4s ease infinite;
+}
+
+@keyframes candy-holographic {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.candy-breadcrumb-18 li:not(:last-child)::after {
+    content: "›";
+    margin-left: 10px;
+    color: #00ccff;
+}
+
+/* ==================== 样式19：赛博朋克 ==================== */
+.candy-breadcrumb-19 {
+    background: linear-gradient(45deg, #ff006e, #8920d1, #20c997);
+    padding: 15px;
+    border-radius: 10px;
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.7);
+}
+
+.candy-breadcrumb-19 a {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.candy-breadcrumb-19 a:hover {
+    text-shadow: 0 0 15px rgba(137, 32, 209, 0.9);
+}
+
+.candy-breadcrumb-19 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 15px;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+/* ==================== 样式20：宇宙星空 ==================== */
+.candy-breadcrumb-20 {
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    padding: 20px;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-breadcrumb-20::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 2px),
+                radial-gradient(circle at 50% 50%, rgba(100, 150, 255, 0.1) 1px, transparent 2px);
+    animation: candy-stars 15s linear infinite;
+}
+
+@keyframes candy-stars {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.candy-breadcrumb-20 a {
+    color: var(--candy-breadcrumb-cosmic);
+    position: relative;
+}
+
+.candy-breadcrumb-20 a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--candy-breadcrumb-cosmic), transparent);
+    transition: width 0.4s ease;
+}
+
+.candy-breadcrumb-20 a:hover::after {
+    width: 100%;
+}
+
+.candy-breadcrumb-20 li:not(:last-child)::after {
+    content: "→";
+    margin-left: 15px;
+    color: var(--candy-breadcrumb-cosmic);
+}
+
+/* ==================== 动画增强样式 ==================== */
+.candy-breadcrumb-animated {
+    transition: all var(--candy-breadcrumb-transition);
+}
+
+.candy-breadcrumb-animate-slide li {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.candy-breadcrumb-animate-fade li {
+    transition: opacity 0.3s ease;
+}
+
+.candy-breadcrumb-animate-scale li {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ==================== 初始化状态 ==================== */
+.candy-breadcrumb-initialized {
+    opacity: 1;
+}
+
+/* ==================== 响应式布局 ==================== */
+@media (max-width: 768px) {
+    .candy-breadcrumb {
+        flex-direction: column;
+    }
+    
+    .candy-breadcrumb li {
+        padding: 5px 0;
+    }
+    
+    .candy-breadcrumb li:not(:last-child)::after {
+        display: none;
+    }
+    
+    .candy-breadcrumb-10::before,
+    .candy-breadcrumb-10::after {
+        display: none;
+    }
+    
+    .candy-breadcrumb-17::before {
+        left: 5px;
+        right: 5px;
+    }
+}

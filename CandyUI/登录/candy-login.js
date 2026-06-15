@@ -246,7 +246,7 @@ const CandyLogin = {
     showFieldError(field, message) {
         this.clearFieldError(field);
         const errorEl = document.createElement('div');
-        errorEl.className = 'login-error';
+        errorEl.className = 'candy-login-field-error';
         errorEl.textContent = message;
         errorEl.style.fontSize = '12px';
         errorEl.style.marginTop = '4px';
@@ -257,7 +257,7 @@ const CandyLogin = {
 
     /** 清除单个字段错误 */
     clearFieldError(field) {
-        const errorEl = field.parentNode.querySelector('.login-error');
+        const errorEl = field.parentNode.querySelector('.candy-login-field-error');
         if (errorEl) errorEl.remove();
         field.style.borderColor = '';
     },
@@ -273,7 +273,7 @@ const CandyLogin = {
         const form = this.forms[formId]?.form;
         if (!form) return;
 
-        const loader = form.querySelector('.loader');
+        const loader = form.querySelector('.candy-login-loader');
         const button = form.querySelector('.candy-login-btn');
 
         if (loader) {
@@ -294,11 +294,11 @@ const CandyLogin = {
         const form = this.forms[formId]?.form;
         if (!form) return;
 
-        const messageEl = form.querySelector('.login-message') || form.querySelector('#message');
+        const messageEl = form.querySelector('.candy-login-message') || form.querySelector('#message');
         if (!messageEl) return;
 
         messageEl.textContent = message;
-        messageEl.className = `login-message login-${type} show`;
+        messageEl.className = `candy-login-message candy-login-${type} show`;
     },
 
     /** 隐藏消息 */
@@ -330,11 +330,11 @@ const CandyLogin = {
     clearMessage(formId) {
         const form = this.forms[formId]?.form;
         if (!form) return;
-        const messageEl = form.querySelector('.login-message') || form.querySelector('#message');
+        const messageEl = form.querySelector('.candy-login-message') || form.querySelector('#message');
         if (messageEl) {
             messageEl.textContent = '';
             messageEl.classList.remove('show');
-            messageEl.className = 'login-message';
+            messageEl.className = 'candy-login-message';
         }
     },
 
@@ -349,7 +349,7 @@ const CandyLogin = {
 
         form.reset();
         this.clearMessage(formId);
-        form.querySelectorAll('.login-error').forEach(el => el.remove());
+        form.querySelectorAll('.candy-login-field-error').forEach(el => el.remove());
         form.querySelectorAll('.candy-login-input').forEach(field => {
             field.style.borderColor = '';
         });
@@ -362,10 +362,10 @@ const CandyLogin = {
      */
     create(options = {}) {
         const container = document.createElement('div');
-        container.className = `login-card ${options.cardStyle ? `login-card-${options.cardStyle}` : 'login-card-1'}`;
+        container.className = `candy-login-card-1 ${options.cardStyle ? `candy-login-card-${options.cardStyle}` : 'candy-login-card-1'}`;
 
         const header = document.createElement('h1');
-        header.className = 'card-header';
+        header.className = 'candy-login-header';
         header.textContent = options.title || 'Secure Access';
         container.appendChild(header);
 
@@ -374,9 +374,9 @@ const CandyLogin = {
 
         // 用户名
         const usernameGroup = document.createElement('div');
-        usernameGroup.className = 'input-group';
+        usernameGroup.className = 'candy-login-input-group';
         const usernameLabel = document.createElement('label');
-        usernameLabel.className = 'input-label';
+        usernameLabel.className = 'candy-login-label';
         usernameLabel.htmlFor = 'username';
         usernameLabel.textContent = 'Username';
         usernameGroup.appendChild(usernameLabel);
@@ -393,9 +393,9 @@ const CandyLogin = {
 
         // 密码
         const passwordGroup = document.createElement('div');
-        passwordGroup.className = 'input-group';
+        passwordGroup.className = 'candy-login-input-group';
         const passwordLabel = document.createElement('label');
-        passwordLabel.className = 'input-label';
+        passwordLabel.className = 'candy-login-label';
         passwordLabel.htmlFor = 'password';
         passwordLabel.textContent = 'Password';
         passwordGroup.appendChild(passwordLabel);
@@ -419,13 +419,13 @@ const CandyLogin = {
 
         // 加载器
         const loader = document.createElement('div');
-        loader.className = 'loader';
+        loader.className = 'candy-login-loader';
         form.appendChild(loader);
 
         // 消息区
         const message = document.createElement('div');
         message.id = 'message';
-        message.className = 'login-message';
+        message.className = 'candy-login-message';
         form.appendChild(message);
 
         container.appendChild(form);
@@ -1268,7 +1268,7 @@ const CandyLogin = {
         }
 
         // 如果正在显示锁定消息，清除
-        const msg = formData.form.querySelector('.login-message') || formData.form.querySelector('#message');
+        const msg = formData.form.querySelector('.candy-login-message') || formData.form.querySelector('#message');
         if (msg && msg.textContent.includes('锁定')) {
             this.clearMessage(formId);
         }

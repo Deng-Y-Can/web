@@ -1,106 +1,142 @@
+/**
+ * CandyProgress CSS - CandyUI 进度条样式库
+ * 整合100种炫酷进度条样式
+ * 版本: 1.0.0
+ */
+
+/* ============================================================
+   CSS 变量系统 - 主题颜色配置
+   ============================================================ */
 :root {
+    /* 主色调 */
+    --candy-primary: #0ff0fc;
+    --candy-secondary: #ff00ff;
+    --candy-accent: #ffff00;
+    
+    /* 背景色 */
+    --candy-bg-dark: #0d0d15;
+    --candy-bg-deep-space: #0a0a1a;
+    --candy-bg-carbon: #1e1e1e;
+    
+    /* 玻璃效果 */
+    --candy-glass-bg: rgba(255, 255, 255, 0.05);
+    --candy-glass-border: rgba(255, 255, 255, 0.1);
+    
+    /* 霓虹色 */
+    --candy-neon-blue: #00eeff;
+    --candy-neon-purple: #bd00ff;
+    --candy-neon-green: #00ff00;
+    
+    /* 金属色 */
+    --candy-gold: #ffd700;
+    --candy-silver: #c0c0c0;
+    
+    /* 基础进度条变量 */
     --candy-progress-height: 20px;
+    --candy-progress-bg: #34495e;
     --candy-progress-radius: 10px;
-    --candy-progress-bg: #e0e0e0;
-    --candy-progress-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --candy-progress-animation-duration: 1s;
-    --candy-progress-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --candy-progress-bar-bg: linear-gradient(90deg, #667eea, #764ba2);
 }
 
-/* ====================== 基础容器与填充条 ====================== */
+/* ============================================================
+   通用基础样式
+   ============================================================ */
 
+/* 进度条容器 */
 .candy-progress-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 15px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: var(--candy-progress-shadow);
+    margin-bottom: 15px;
 }
 
+/* 进度条标签 */
+.candy-progress-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 基础进度条 */
 .candy-progress {
-    width: 100%;
+    position: relative;
     height: var(--candy-progress-height);
     background-color: var(--candy-progress-bg);
     border-radius: var(--candy-progress-radius);
     overflow: hidden;
-    position: relative;
-    cursor: pointer;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
+/* 进度条填充 */
 .candy-progress-bar {
     height: 100%;
-    background: var(--candy-progress-color);
+    background: var(--candy-progress-bar-bg);
     border-radius: var(--candy-progress-radius);
-    transition: width 0.3s ease;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 8px;
+    padding-right: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
-.candy-progress-bar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    animation: candy-shimmer 2s infinite;
-}
-
-@keyframes candy-shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
+/* 进度值显示 */
 .candy-progress-value {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 0.75rem;
     color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* 条纹样式 */
 .candy-progress-striped {
     background: repeating-linear-gradient(
         45deg,
-        transparent,
-        transparent 10px,
-        rgba(255, 255, 255, 0.1) 10px,
-        rgba(255, 255, 255, 0.1) 20px
+        #667eea,
+        #667eea 10px,
+        #764ba2 10px,
+        #764ba2 20px
     );
 }
 
+/* 条纹动画 */
 .candy-progress-animated {
-    animation: candy-progress-stripes 1s linear infinite;
+    animation: candy-stripes-move 1s linear infinite;
 }
 
-@keyframes candy-progress-stripes {
-    0% { background-position: 40px 0; }
-    100% { background-position: 0 0; }
+@keyframes candy-stripes-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 0; }
 }
 
-.candy-progress-sm { --candy-progress-height: 10px; --candy-progress-radius: 5px; }
-.candy-progress-lg { --candy-progress-height: 30px; --candy-progress-radius: 15px; }
+/* 尺寸变体 */
+.candy-progress-sm {
+    height: 10px;
+}
 
-.candy-progress-success .candy-progress-bar { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-.candy-progress-warning .candy-progress-bar { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
-.candy-progress-danger  .candy-progress-bar { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-.candy-progress-info    .candy-progress-bar { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.candy-progress-lg {
+    height: 30px;
+}
 
-.candy-progress-indeterminate .candy-progress-bar,
-.candy-progress-bar.candy-progress-indeterminate {
-    position: absolute;
-    top: 0;
-    width: 50% !important;
-    height: 100%;
-    left: -50%;
-    animation: candy-indeterminate 1.5s ease-in-out infinite;
-    padding-right: 0;
+/* 颜色变体 */
+.candy-progress-success .candy-progress-bar {
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+}
+
+.candy-progress-warning .candy-progress-bar {
+    background: linear-gradient(90deg, #f7b733, #fc4a1a);
+}
+
+.candy-progress-danger .candy-progress-bar {
+    background: linear-gradient(90deg, #ff6b6b, #ee0979);
+}
+
+.candy-progress-info .candy-progress-bar {
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+/* 不确定状态 */
+.candy-progress-indeterminate .candy-progress-bar {
+    animation: candy-indeterminate 2s ease-in-out infinite;
 }
 
 @keyframes candy-indeterminate {
@@ -109,55 +145,3598 @@
     100% { left: 100%; width: 50%; }
 }
 
-.candy-progress-label {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 8px;
-    font-weight: 500;
+/* ============================================================
+   样式 1-25 (来自 index.html)
+   ============================================================ */
+
+/* --- 1. 六边形脉冲 (Hexagon Pulse) --- */
+.candy-progress-hex-pulse {
+    width: 120px;
+    height: 104px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: conic-gradient(from 0deg, var(--candy-primary), var(--candy-secondary), var(--candy-primary));
+    animation: candy-hexSpin 3s linear infinite;
 }
 
-/* ====================== 堆叠进度条 ====================== */
+@keyframes candy-hexSpin {
+    to { transform: rotate(360deg); }
+}
 
-.candy-progress-stacked {
-    display: flex;
+/* --- 2. 星形填充 (Star Fill) --- */
+.candy-progress-star-fill {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: var(--candy-secondary);
+    transition: all 2s ease-in-out;
+}
+
+.candy-progress-star-fill:hover {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: radial-gradient(circle, var(--candy-accent) 0%, var(--candy-secondary) 70%);
+    filter: drop-shadow(0 0 15px var(--candy-accent));
+}
+
+/* --- 3. 心跳线 (Heartbeat Line) --- */
+.candy-progress-heartbeat-line {
+    width: 150px;
+    height: 4px;
+    margin: 50px auto;
+    background: var(--candy-primary);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.candy-progress-heartbeat-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 20%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--candy-accent), transparent);
+    animation: candy-heartbeatSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes candy-heartbeatSlide {
+    0%, 100% { left: -20%; }
+    50% { left: 100%; }
+}
+
+/* --- 4. 旋转立方体面 (Rotating Cube Face) --- */
+.candy-progress-cube-face {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.candy-progress-cube-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: candy-cubeRotateY 4s infinite linear;
+}
+
+.candy-progress-cube-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--candy-primary);
+    background: transparent;
+    backface-visibility: hidden;
+}
+
+.candy-progress-cube-front { transform: translateZ(50px); }
+.candy-progress-cube-back { transform: rotateY(180deg) translateZ(50px); }
+.candy-progress-cube-right { transform: rotateY(90deg) translateZ(50px); }
+.candy-progress-cube-left { transform: rotateY(-90deg) translateZ(50px); }
+.candy-progress-cube-top { transform: rotateX(90deg) translateZ(50px); }
+.candy-progress-cube-bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+.candy-progress-cube-front::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--candy-primary);
+    animation: candy-fillWidth 3s infinite alternate ease-in-out;
+}
+
+@keyframes candy-cubeRotateY {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+@keyframes candy-fillWidth {
+    to { width: 100%; }
+}
+
+/* --- 5. DNA双螺旋 (DNA Helix) --- */
+.candy-progress-dna-helix {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-strand {
+    position: absolute;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--candy-primary);
+}
+
+.candy-progress-strand.candy-progress-left { left: 30px; }
+.candy-progress-strand.candy-progress-right { right: 30px; }
+
+.candy-progress-strand::before, .candy-progress-strand::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--candy-accent);
+    border-radius: 50%;
+    top: 0;
+}
+
+.candy-progress-strand.candy-progress-right::before, .candy-progress-strand.candy-progress-right::after { left: -3px; }
+.candy-progress-strand.candy-progress-left::before, .candy-progress-strand.candy-progress-left::after { right: -3px; }
+
+.candy-progress-strand.candy-progress-left::before { animation: candy-dnaUp 2s ease-in-out infinite; }
+.candy-progress-strand.candy-progress-left::after { animation: candy-dnaDown 2s ease-in-out infinite 1s; }
+.candy-progress-strand.candy-progress-right::before { animation: candy-dnaDown 2s ease-in-out infinite; }
+.candy-progress-strand.candy-progress-right::after { animation: candy-dnaUp 2s ease-in-out infinite 1s; }
+
+@keyframes candy-dnaUp {
+    0% { top: 0; }
+    100% { top: 100%; transform: translate(0, -100%); }
+}
+
+@keyframes candy-dnaDown {
+    0% { top: 100%; transform: translate(0, -100%); }
+    100% { top: 0; }
+}
+
+/* --- 6. 环形波浪 (Ring Wave) --- */
+.candy-progress-ring-wave {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid var(--candy-primary);
+}
+
+.candy-progress-ring-wave::before, .candy-progress-ring-wave::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--candy-accent);
+    opacity: 0;
+}
+
+.candy-progress-ring-wave::before { animation: candy-ringPulse 1.5s ease-out infinite; }
+.candy-progress-ring-wave::after { animation: candy-ringPulse 1.5s ease-out 0.75s infinite; }
+
+@keyframes candy-ringPulse {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 100px; height: 100px; opacity: 0; }
+}
+
+/* --- 7. 无限符号 (∞ Infinity) --- */
+.candy-progress-infinity-symbol {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.candy-progress-infinity-symbol::before, .candy-progress-infinity-symbol::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--candy-primary);
+    border-radius: 50%;
+    transform: rotate(45deg);
+}
+
+.candy-progress-infinity-symbol::after { right: 0; }
+
+.candy-progress-infinity-dot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--candy-accent);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: candy-infinityMove 3s linear infinite;
+}
+
+@keyframes candy-infinityMove {
+    0% { left: 0; }
+    25% { left: calc(50% - 5px); top: 0; }
+    50% { left: 100%; top: 50%; }
+    75% { left: calc(50% - 5px); top: 100%; }
+    100% { left: 0; }
+}
+
+/* --- 8. 三角形旋转填充 (Triangle Rotate Fill) --- */
+.candy-progress-tri-rotate-fill {
+    width: 100px;
+    height: 87px;
+    margin: 20px auto;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    background: conic-gradient(from 0deg at 50% 100%, transparent 0deg, var(--candy-secondary) 120deg, transparent 240deg);
+    animation: candy-triConicSpin 4s linear infinite;
+}
+
+@keyframes candy-triConicSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- 9. 发光粒子流 (Glowing Particle Stream) --- */
+.candy-progress-particle-stream {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.candy-progress-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--candy-accent);
+    border-radius: 50%;
+    top: 5px;
+    box-shadow: 0 0 8px 2px var(--candy-accent);
+    animation: candy-streamFlow 3s linear infinite;
+}
+
+.candy-progress-particle:nth-child(1) { left: -10px; animation-delay: 0s; }
+.candy-progress-particle:nth-child(2) { left: -10px; animation-delay: 0.5s; }
+.candy-progress-particle:nth-child(3) { left: -10px; animation-delay: 1s; }
+.candy-progress-particle:nth-child(4) { left: -10px; animation-delay: 1.5s; }
+.candy-progress-particle:nth-child(5) { left: -10px; animation-delay: 2s; }
+
+@keyframes candy-streamFlow {
+    0% { left: -10px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 150px; opacity: 0; }
+}
+
+/* --- 10. 机械齿轮联动 (Mechanical Gear Linkage) --- */
+.candy-progress-gear-linkage {
+    width: 120px;
+    height: 60px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.candy-progress-gear {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--candy-primary);
+}
+
+.candy-progress-gear.candy-progress-small { left: 0; width: 30px; height: 30px; }
+.candy-progress-gear.candy-progress-large { right: 0; }
+
+.candy-progress-gear::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--candy-secondary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.candy-progress-gear.candy-progress-small::after, .candy-progress-gear.candy-progress-large::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 6px;
+    height: 15px;
+    background: var(--candy-primary);
+    transform-origin: bottom center;
+}
+
+.candy-progress-gear.candy-progress-small::after {
+    transform: translateX(-50%) rotate(0deg);
+    animation: candy-gearSpinSmall 4s linear infinite;
+}
+
+.candy-progress-gear.candy-progress-large::after {
+    transform: translateX(-50%) rotate(0deg);
+    animation: candy-gearSpinLarge 4s linear infinite reverse;
+}
+
+@keyframes candy-gearSpinSmall {
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+@keyframes candy-gearSpinLarge {
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* --- 11. 液态金属 (Liquid Metal) --- */
+.candy-progress-liquid-metal {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, var(--candy-primary), var(--candy-secondary));
+    border-radius: 10px;
+    position: relative;
     overflow: hidden;
 }
 
-.candy-progress-stacked-bar {
+.candy-progress-liquid-metal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
     height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: candy-shimmer 2s infinite;
+}
+
+@keyframes candy-shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 12. 极光带 (Aurora Band) --- */
+.candy-progress-aurora-band {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, var(--candy-primary), var(--candy-secondary), var(--candy-accent));
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-aurora-band::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+    animation: candy-auroraShift 5s linear infinite;
+}
+
+@keyframes candy-auroraShift {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 0; }
+}
+
+/* --- 13. 数据流矩阵 (Matrix Data Stream) --- */
+.candy-progress-matrix-stream {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: black;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--candy-primary);
+}
+
+.candy-progress-matrix-col {
+    position: absolute;
+    top: -100%;
+    width: 10px;
+    color: var(--candy-primary);
+    font-family: monospace;
+    font-size: 14px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    animation: candy-matrixFall 5s linear infinite;
+}
+
+.candy-progress-matrix-col:nth-child(1) { left: 10px; animation-delay: 0s; }
+.candy-progress-matrix-col:nth-child(2) { left: 30px; animation-delay: 1s; }
+.candy-progress-matrix-col:nth-child(3) { left: 50px; animation-delay: 2s; }
+.candy-progress-matrix-col:nth-child(4) { left: 70px; animation-delay: 3s; }
+.candy-progress-matrix-col:nth-child(5) { left: 90px; animation-delay: 4s; }
+.candy-progress-matrix-col:nth-child(6) { left: 110px; animation-delay: 0.5s; }
+.candy-progress-matrix-col:nth-child(7) { left: 130px; animation-delay: 1.5s; }
+
+@keyframes candy-matrixFall {
+    to { top: 100%; }
+}
+
+/* --- 14. 霓虹灯管 (Neon Tube) --- */
+.candy-progress-neon-tube {
+    width: 150px;
+    height: 20px;
+    margin: 50px auto;
+    background: transparent;
+    border: 2px solid var(--candy-primary);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 5px var(--candy-primary), inset 0 0 5px var(--candy-primary);
+    animation: candy-neonFlicker 3s infinite alternate;
+}
+
+.candy-progress-neon-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70%;
+    background: var(--candy-primary);
+    border-radius: 8px;
+    filter: blur(1px);
+    box-shadow: 0 0 10px var(--candy-primary);
+}
+
+@keyframes candy-neonFlicker {
+    0%, 100% { opacity: 1; box-shadow: 0 0 5px var(--candy-primary), inset 0 0 5px var(--candy-primary); }
+    50% { opacity: 0.8; box-shadow: 0 0 2px var(--candy-primary), inset 0 0 2px var(--candy-primary); }
+}
+
+/* --- 15. 全息投影 (Hologram Projection) --- */
+.candy-progress-hologram-projection {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+    perspective: 500px;
+}
+
+.candy-progress-hologram-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: candy-hologramFloat 6s ease-in-out infinite;
+}
+
+.candy-progress-hologram-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0deg, var(--candy-primary), var(--candy-secondary), var(--candy-accent), var(--candy-primary));
+    opacity: 0.7;
+    border: 1px solid white;
+}
+
+.candy-progress-front-h { transform: translateZ(50px); }
+.candy-progress-back-h { transform: rotateY(180deg) translateZ(50px); }
+.candy-progress-right-h { transform: rotateY(90deg) translateZ(50px); }
+.candy-progress-left-h { transform: rotateY(-90deg) translateZ(50px); }
+.candy-progress-top-h { transform: rotateX(90deg) translateZ(50px); }
+.candy-progress-bottom-h { transform: rotateX(-90deg) translateZ(50px); }
+
+@keyframes candy-hologramFloat {
+    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
+    50% { transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg); }
+}
+
+/* --- 16. 磁力场线 (Magnetic Field Lines) --- */
+.candy-progress-magnetic-field {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-field-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 4px;
+    background: var(--candy-primary);
+    transform-origin: left center;
+}
+
+.candy-progress-field-line.candy-progress-l1 { transform: translate(-50%, -50%) rotate(0deg); width: 50px; animation: candy-fieldExtend 2s ease-in-out infinite alternate; }
+.candy-progress-field-line.candy-progress-l2 { transform: translate(-50%, -50%) rotate(45deg); width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.2s infinite alternate; }
+.candy-progress-field-line.candy-progress-l3 { transform: translate(-50%, -50%) rotate(90deg); width: 50px; animation: candy-fieldExtend 2s ease-in-out 0.4s infinite alternate; }
+.candy-progress-field-line.candy-progress-l4 { transform: translate(-50%, -50%) rotate(135deg); width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.6s infinite alternate; }
+
+.candy-progress-field-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--candy-secondary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--candy-secondary);
+}
+
+@keyframes candy-fieldExtend {
+    to { width: 60px; }
+}
+
+/* --- 17. 能量核心 (Energy Core) --- */
+.candy-progress-energy-core {
+    width: 80px;
+    height: 80px;
+    margin: 30px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--candy-accent) 0%, var(--candy-secondary) 70%, transparent 100%);
+    position: relative;
+    box-shadow: 0 0 20px var(--candy-accent), inset 0 0 10px white;
+    animation: candy-corePulse 2s ease-in-out infinite alternate;
+}
+
+.candy-progress-core-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.candy-progress-core-orbiter {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--candy-primary);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: candy-orbit 4s linear infinite;
+}
+
+@keyframes candy-corePulse {
+    to { transform: scale(1.1); box-shadow: 0 0 30px var(--candy-accent), inset 0 0 15px white; }
+}
+
+@keyframes candy-orbit {
+    to { transform: translateX(-50%) rotate(360deg); top: 0; }
+}
+
+/* --- 18. 黑洞吸积盘 (Black Hole Accretion Disk) --- */
+.candy-progress-blackhole-disk {
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, black 30%, var(--candy-primary) 100%);
+    position: relative;
+    overflow: hidden;
+    animation: candy-diskSpin 10s linear infinite;
+}
+
+.candy-progress-disk-streak {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 4px;
+    background: var(--candy-secondary);
+    transform-origin: left center;
+    opacity: 0.7;
+}
+
+.candy-progress-disk-streak.candy-progress-s1 { transform: translate(0, -50%) rotate(0deg); }
+.candy-progress-disk-streak.candy-progress-s2 { transform: translate(0, -50%) rotate(30deg); }
+.candy-progress-disk-streak.candy-progress-s3 { transform: translate(0, -50%) rotate(60deg); }
+.candy-progress-disk-streak.candy-progress-s4 { transform: translate(0, -50%) rotate(90deg); }
+.candy-progress-disk-streak.candy-progress-s5 { transform: translate(0, -50%) rotate(120deg); }
+.candy-progress-disk-streak.candy-progress-s6 { transform: translate(0, -50%) rotate(150deg); }
+
+.candy-progress-event-horizon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+@keyframes candy-diskSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- 19. 离子推进器 (Ion Thruster) --- */
+.candy-progress-ion-thruster {
+    width: 40px;
+    height: 100px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-thruster-chamber {
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to right, var(--candy-bg-dark), var(--candy-primary));
+    border-radius: 5px 5px 0 0;
+}
+
+.candy-progress-plasma-beam {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 6px;
+    height: 60px;
+    background: linear-gradient(to top, var(--candy-primary), var(--candy-accent), transparent);
+    border-radius: 3px;
+    transform: translateX(-50%);
+    animation: candy-beamFlicker 0.5s ease-in-out infinite alternate;
+}
+
+.candy-progress-beam-particle {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    background: var(--candy-accent);
+    border-radius: 50%;
+    animation: candy-particleRise 1s ease-out infinite;
+}
+
+.candy-progress-beam-particle.candy-progress-p1 { left: 0; animation-delay: 0s; }
+.candy-progress-beam-particle.candy-progress-p2 { left: 50%; animation-delay: 0.2s; }
+.candy-progress-beam-particle.candy-progress-p3 { right: 0; animation-delay: 0.4s; }
+
+@keyframes candy-beamFlicker {
+    to { height: 65px; opacity: 0.8; }
+}
+
+@keyframes candy-particleRise {
+    to { bottom: 60px; opacity: 0; }
+}
+
+/* --- 20. 赛博朋克扫描线 (Cyber Scanline) --- */
+.candy-progress-cyber-scan {
+    width: 150px;
+    height: 100px;
+    margin: 20px auto;
+    background: #111;
+    border: 1px solid var(--candy-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-scan-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--candy-primary);
+    box-shadow: 0 0 10px var(--candy-primary);
+    animation: candy-scanMove 2s linear infinite;
+}
+
+.candy-progress-scan-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+@keyframes candy-scanMove {
+    to { top: 100%; }
+}
+
+/* --- 21. 光速飞行轨迹 (Lightspeed Trail) --- */
+.candy-progress-lightspeed-trail {
+    width: 200px;
+    height: 4px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, transparent, var(--candy-primary), var(--candy-accent), var(--candy-primary), transparent);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.candy-progress-trail-star {
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: candy-starStreak 1s linear infinite;
+}
+
+.candy-progress-trail-star.candy-progress-s1 { left: 0; animation-delay: 0s; }
+.candy-progress-trail-star.candy-progress-s2 { left: 25%; animation-delay: 0.2s; }
+.candy-progress-trail-star.candy-progress-s3 { left: 50%; animation-delay: 0.4s; }
+.candy-progress-trail-star.candy-progress-s4 { left: 75%; animation-delay: 0.6s; }
+
+@keyframes candy-starStreak {
+    0% { left: -10px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* --- 22. 分形树生长 (Fractal Tree Growth) --- */
+.candy-progress-fractal-tree {
+    width: 100px;
+    height: 120px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.candy-progress-tree-trunk {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    height: 60px;
+    background: #5d4037;
+    transform: translateX(-50%);
+}
+
+.candy-progress-tree-branch {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: #4caf50;
+    transform-origin: bottom center;
+}
+
+.candy-progress-branch-l1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-20deg); height: 40px; animation: candy-growBranch 3s forwards; }
+.candy-progress-branch-r1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(20deg); height: 40px; animation: candy-growBranch 3s forwards; }
+.candy-progress-branch-l2 { bottom: 90px; left: 30px; transform: translateX(-50%) rotate(-40deg); animation: candy-growBranch 3s 1s forwards; }
+.candy-progress-branch-r2 { bottom: 90px; right: 30px; transform: translateX(50%) rotate(40deg); animation: candy-growBranch 3s 1s forwards; }
+
+@keyframes candy-growBranch {
+    from { height: 0; }
+    to { height: 100%; }
+}
+
+/* --- 23. 量子纠缠粒子 (Quantum Entangled Particles) --- */
+.candy-progress-quantum-entanglement {
+    width: 120px;
+    height: 80px;
+    margin: 30px auto;
+    position: relative;
+}
+
+.candy-progress-entangled-particle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--candy-secondary);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--candy-secondary);
+}
+
+.candy-progress-entangled-particle.candy-progress-p1 { left: 20px; animation: candy-quantumOscillate 2s ease-in-out infinite alternate; }
+.candy-progress-entangled-particle.candy-progress-p2 { right: 20px; animation: candy-quantumOscillate 2s ease-in-out infinite alternate-reverse; }
+
+.candy-progress-entanglement-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--candy-primary);
+    transform: translate(-50%, -50%);
+    animation: candy-linkPulse 2s ease-in-out infinite;
+}
+
+@keyframes candy-quantumOscillate {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.5); }
+}
+
+@keyframes candy-linkPulse {
+    0%, 100% { width: 0; }
+    50% { width: 60px; }
+}
+
+/* --- 24. 时间扭曲光环 (Time Warp Aura) --- */
+.candy-progress-time-warp {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+    border-radius: 50%;
+    position: relative;
+    animation: candy-timeWarpRotate 20s linear infinite;
+}
+
+.candy-progress-warp-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.candy-progress-ring1 { border-color: var(--candy-primary); animation: candy-ringDistort 3s ease-in-out infinite alternate; }
+.candy-progress-ring2 { border-color: var(--candy-secondary); width: 80%; height: 80%; top: 10%; left: 10%; animation: candy-ringDistort 3s ease-in-out infinite alternate-reverse; }
+.candy-progress-ring3 { border-color: var(--candy-accent); width: 60%; height: 60%; top: 20%; left: 20%; animation: candy-ringDistort 3s ease-in-out infinite alternate; }
+
+@keyframes candy-timeWarpRotate {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes candy-ringDistort {
+    0%, 100% { border-radius: 50%; }
+    50% { border-radius: 40% 60% 40% 60%; }
+}
+
+/* --- 25. 宇宙弦振动 (Cosmic String Vibration) --- */
+.candy-progress-cosmic-string {
+    width: 150px;
+    height: 2px;
+    margin: 60px auto;
+    background: linear-gradient(90deg, transparent, var(--candy-primary), var(--candy-secondary), var(--candy-primary), transparent);
+    position: relative;
+    animation: candy-stringVibrate 0.05s ease-in-out infinite alternate;
+}
+
+.candy-progress-string-node {
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background: var(--candy-accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.candy-progress-node1 { left: 0; }
+.candy-progress-node2 { left: 50%; }
+.candy-progress-node3 { left: 100%; }
+
+@keyframes candy-stringVibrate {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(1.5) scaleX(0.95); }
+}
+
+/* ============================================================
+   样式 26-50 (来自 index2.html)
+   ============================================================ */
+
+/* --- 26. Classic with Glow --- */
+.candy-progress-classic-glow {
+    width: 100%;
+    height: 20px;
+    background-color: #34495e;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.candy-progress-classic-glow .candy-progress-fill {
+    height: 100%;
+    width: 75%;
+    background-color: var(--candy-neon-blue);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--candy-neon-blue);
+    animation: candy-glow-pulse 2s infinite alternate;
+}
+
+@keyframes candy-glow-pulse {
+    from { box-shadow: 0 0 5px var(--candy-neon-blue); }
+    to { box-shadow: 0 0 20px var(--candy-neon-blue), 0 0 30px var(--candy-neon-blue); }
+}
+
+/* --- 27. Gradient Stripes --- */
+.candy-progress-striped-bar {
+    width: 100%;
+    height: 25px;
+    background-color: #2c3e50;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+.candy-progress-striped-bar .candy-progress-fill {
+    height: 100%;
+    width: 60%;
+    background: repeating-linear-gradient(45deg, #2ecc71, #2ecc71 10px, #27ae60 10px, #27ae60 20px);
+    border-radius: 12px;
+    animation: candy-slideStripes 1s linear infinite;
+    box-shadow: 0 0 10px #2ecc71;
+}
+
+@keyframes candy-slideStripes {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 0; }
+}
+
+/* --- 28. Neon Glow --- */
+.candy-progress-neon-glow {
+    width: 100%;
+    height: 15px;
+    background-color: #0d0d0d;
+    border-radius: 7px;
+    box-shadow: inset 0 0 5px black;
+}
+
+.candy-progress-neon-glow .candy-progress-fill {
+    height: 100%;
+    width: 85%;
+    background-color: cyan;
+    border-radius: 7px;
+    box-shadow: 0 0 5px cyan, 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan;
+    filter: blur(0.5px);
+}
+
+/* --- 29. Liquid Fill --- */
+.candy-progress-liquid-fill {
+    width: 100%;
+    height: 30px;
+    background-color: #1a1a2e;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.candy-progress-liquid-fill .candy-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    background: #9b59b6;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.candy-progress-liquid-fill .candy-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -40%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(30deg);
+    animation: candy-liquid-shine 3s infinite linear;
+}
+
+@keyframes candy-liquid-shine {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    100% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* --- 30. Bouncing Balls --- */
+.candy-progress-bouncing-balls {
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.candy-progress-bouncing-balls .candy-progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: #34495e;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-bouncing-balls .candy-progress-ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    animation: candy-bounce 2s infinite ease-in-out;
+    box-shadow: 0 0 10px #e74c3c;
+}
+
+@keyframes candy-bounce {
+    0%, 100% { left: 0; }
+    50% { left: calc(100% - 20px); }
+}
+
+/* --- 31. Glitch Effect --- */
+.candy-progress-glitch-effect {
+    width: 100%;
+    height: 20px;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-glitch-effect .candy-progress-fill {
+    height: 100%;
+    width: 70%;
+    background-color: #3498db;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-glitch-effect .candy-progress-fill::before,
+.candy-progress-glitch-effect .candy-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 70%);
+    animation: candy-glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.candy-progress-glitch-effect .candy-progress-fill::after {
+    animation: candy-glitch-anim2 2s infinite linear alternate-reverse;
+    clip-path: polygon(0 30%, 100% 70%, 100% 100%, 0 100%);
+}
+
+@keyframes candy-glitch-anim {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes candy-glitch-anim2 {
+    0% { transform: translate(0); }
+    20% { transform: translate(2px, -2px); }
+    40% { transform: translate(-2px, 2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* --- 32. Gradient Wave --- */
+.candy-progress-gradient-wave {
+    width: 100%;
+    height: 25px;
+    background-color: #2c3e50;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.candy-progress-gradient-wave .candy-progress-fill {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b, #ff7e5f);
+    background-size: 200% 100%;
+    border-radius: 12px;
+    animation: candy-wave-animation 2s linear infinite;
+    box-shadow: 0 0 10px #ff7e5f;
+}
+
+@keyframes candy-wave-animation {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* --- 33. Pulsing Dot --- */
+.candy-progress-pulsing-dot {
+    width: 100%;
+    height: 20px;
+    background-color: #34495e;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-pulsing-dot .candy-progress-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #2ecc71;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    animation: candy-pulse-move 3s infinite ease-in-out;
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+}
+
+@keyframes candy-pulse-move {
+    0% { left: 0; box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+    70% { left: calc(100% - 20px); box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+    100% { left: calc(100% - 20px); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+/* --- 34. 3D Groove --- */
+.candy-progress-groove-3d {
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, #555, #333);
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-groove-3d .candy-progress-fill {
+    height: 100%;
+    width: 80%;
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 15px;
+    box-shadow: inset -2px -2px 5px rgba(0,0,0,0.3), inset 2px 2px 5px rgba(255,255,255,0.2);
+}
+
+/* --- 35. Shiny Slider --- */
+.candy-progress-shiny-slider {
+    width: 100%;
+    height: 20px;
+    background-color: #2c3e50;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+.candy-progress-shiny-slider .candy-progress-fill {
+    height: 100%;
+    width: 50%;
+    background-color: #9b59b6;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-shiny-slider .candy-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: rotate(30deg);
+    animation: candy-shiny-slide 2s infinite linear;
+}
+
+@keyframes candy-shiny-slide {
+    0% { left: -60%; }
+    100% { left: 160%; }
+}
+
+/* --- 36. Minimalist Line --- */
+.candy-progress-minimalist-line {
+    width: 100%;
+    height: 4px;
+    background-color: #7f8c8d;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.candy-progress-minimalist-line .candy-progress-fill {
+    height: 100%;
+    width: 90%;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* --- 37. Candy Stripe --- */
+.candy-progress-candy-stripe {
+    width: 100%;
+    height: 25px;
+    background-color: #ecf0f1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.candy-progress-candy-stripe .candy-progress-fill {
+    height: 100%;
+    width: 45%;
+    background: repeating-linear-gradient(-45deg, #e74c3c, #e74c3c 10px, #c0392b 10px, #c0392b 20px);
+    border-radius: 12px;
+}
+
+/* --- 38. Fire Animation --- */
+.candy-progress-fire-animation {
+    width: 100%;
+    height: 20px;
+    background-color: #111;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.candy-progress-fire-animation .candy-progress-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(to top, #ff416c, #ff4b2b);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-fire-animation .candy-progress-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="none"/><path d="M100,50 Q120,30 140,50 T180,50 Q160,70 140,50 T100,50 Z" fill="rgba(255,255,255,0.2)"/></svg>');
+    background-size: 30px 30px;
+    animation: candy-fire-flicker 0.5s infinite alternate;
+}
+
+@keyframes candy-fire-flicker {
+    from { opacity: 0.8; transform: translateY(0); }
+    to { opacity: 1; transform: translateY(-2px); }
+}
+
+/* --- 39. Diamond Dots --- */
+.candy-progress-diamond-dots {
+    width: 100%;
+    height: 25px;
+    background-color: #2c3e50;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.candy-progress-diamond-dots .candy-progress-dot {
+    width: 15px;
+    height: 15px;
+    background-color: #7f8c8d;
+    margin-right: 5px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    transition: background-color 0.3s ease;
+}
+
+.candy-progress-diamond-dots .candy-progress-dot.candy-progress-active {
+    background-color: #f1c40f;
+    box-shadow: 0 0 5px #f1c40f;
+}
+
+/* --- 40. Holographic --- */
+.candy-progress-holographic-bar {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(90deg, #000, #434343, #000);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-holographic-bar .candy-progress-fill {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(90deg, #00c9ff, #92fe9d, #00c9ff, #92fe9d);
+    background-size: 300% 100%;
+    border-radius: 10px;
+    animation: candy-hologram-shift 3s linear infinite;
+    mix-blend-mode: screen;
+}
+
+@keyframes candy-hologram-shift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+/* --- 41. Pixel Art --- */
+.candy-progress-pixel-art {
+    width: 100%;
+    height: 24px;
+    background-color: #000;
+    border: 2px solid #555;
+    display: flex;
+}
+
+.candy-progress-pixel-art .candy-progress-pixel-fill {
+    height: 100%;
+    width: 55%;
+    background-color: #00ff00;
+    image-rendering: pixelated;
+    display: flex;
+}
+
+.candy-progress-pixel-art .candy-progress-pixel-fill div {
+    width: 12px;
+    height: 100%;
+    background-color: inherit;
+    border-right: 1px solid #000;
+}
+
+/* --- 42. Glass Morphism --- */
+.candy-progress-glass-morphism {
+    width: 100%;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.candy-progress-glass-morphism .candy-progress-fill {
+    height: 100%;
+    width: 70%;
+    background: linear-gradient(90deg, rgba(52, 152, 219, 0.5), rgba(41, 128, 185, 0.5));
+    border-radius: 12px;
+}
+
+/* --- 43. Circuit Board --- */
+.candy-progress-circuit-board {
+    width: 100%;
+    height: 20px;
+    background-color: #001f00;
+    border: 1px solid #00cc00;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #00cc00;
+    position: relative;
+}
+
+.candy-progress-circuit-board .candy-progress-fill {
+    height: 100%;
+    width: 80%;
+    background-color: #00cc00;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-circuit-board .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(0, 51, 0, 0.5) 5px, rgba(0, 51, 0, 0.5) 6px);
+    animation: candy-circuit-flow 1s linear infinite;
+}
+
+@keyframes candy-circuit-flow {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 6px; }
+}
+
+/* --- 44. Origami Fold --- */
+.candy-progress-origami-fold {
+    width: 100%;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    perspective: 1000px;
+}
+
+.candy-progress-origami-fold .candy-progress-fill {
+    height: 100%;
+    width: 65%;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    position: relative;
+    transform-origin: left center;
+    animation: candy-fold 3s infinite alternate;
+}
+
+@keyframes candy-fold {
+    0% { transform: rotateY(0deg); }
+    50% { transform: rotateY(10deg); }
+    100% { transform: rotateY(0deg); }
+}
+
+/* --- 45. Aurora Borealis --- */
+.candy-progress-aurora-borealis-bar {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.candy-progress-aurora-borealis-bar .candy-progress-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 200% auto;
+    border-radius: 12px;
+    animation: candy-aurora-flow 3s linear infinite;
+    filter: blur(2px);
+}
+
+@keyframes candy-aurora-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* --- 46. Retro CRT --- */
+.candy-progress-retro-crt {
+    width: 100%;
+    height: 25px;
+    background-color: #000;
+    border: 2px solid #555;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.5);
+    position: relative;
+}
+
+.candy-progress-retro-crt .candy-progress-fill {
+    height: 100%;
+    width: 50%;
+    background-color: #0f0;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-retro-crt .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.2) 2px);
+    animation: candy-scanline 0.1s linear infinite;
+}
+
+@keyframes candy-scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* --- 47. Floating Islands --- */
+.candy-progress-floating-islands {
+    width: 100%;
+    height: 40px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><rect width="100" height="40" fill="%232c3e50"/><circle cx="20" cy="20" r="5" fill="%2334495e"/><circle cx="50" cy="15" r="7" fill="%2334495e"/><circle cx="80" cy="25" r="6" fill="%2334495e"/></svg>') repeat-x;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-floating-islands .candy-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40"><rect width="100" height="40" fill="none"/><circle cx="20" cy="20" r="5" fill="%232ecc71"/><circle cx="50" cy="15" r="7" fill="%232ecc71"/><circle cx="80" cy="25" r="6" fill="%232ecc71"/></svg>') repeat-x;
+    border-radius: 20px;
+    animation: candy-float 10s linear infinite;
+}
+
+@keyframes candy-float {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 100px; }
+}
+
+/* --- 48. Quantum Leap --- */
+.candy-progress-quantum-leap {
+    width: 100%;
+    height: 25px;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-quantum-leap .candy-progress-fill {
+    height: 100%;
+    width: 85%;
+    background: conic-gradient(from 0deg, #40e0d0, #ff8c00, #ff0080, #40e0d0);
+    border-radius: 12px;
+    mask: radial-gradient(circle at center, white 60%, transparent 70%);
+    animation: candy-quantum-spin 5s linear infinite;
+}
+
+@keyframes candy-quantum-spin {
+    100% { transform: rotate(1turn); }
+}
+
+/* --- 49. VHS Tracking --- */
+.candy-progress-vhs-tracking {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border: 1px dashed #aaa;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-vhs-tracking .candy-progress-fill {
+    height: 100%;
+    width: 55%;
+    background: repeating-linear-gradient(90deg, #ff0000, #ff0000 5px, #00ff00 5px, #00ff00 10px, #0000ff 10px, #0000ff 15px);
+    position: relative;
+    animation: candy-vhs-static 0.1s infinite;
+}
+
+@keyframes candy-vhs-static {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-1px); }
+    50% { transform: translateX(1px); }
+    75% { transform: translateX(0); }
+    100% { transform: translateX(1px); }
+}
+
+/* --- 50. Cyberpunk Grid --- */
+.candy-progress-cyberpunk-grid {
+    width: 100%;
+    height: 30px;
+    background-color: #000;
+    border: 1px solid #0ff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #0ff;
+    position: relative;
+}
+
+.candy-progress-cyberpunk-grid .candy-progress-fill {
+    height: 100%;
+    width: 90%;
+    background-color: #f0f;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-cyberpunk-grid .candy-progress-fill::before,
+.candy-progress-cyberpunk-grid .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(90deg, transparent 50%, rgba(0, 255, 255, 0.5) 50%), linear-gradient(transparent 50%, rgba(0, 255, 255, 0.5) 50%);
+    background-size: 10px 10px;
+    animation: candy-grid-move 2s linear infinite;
+}
+
+.candy-progress-cyberpunk-grid .candy-progress-fill::after {
+    animation-duration: 1s;
+    animation-direction: reverse;
+}
+
+@keyframes candy-grid-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 10px 10px; }
+}
+
+/* ============================================================
+   样式 51-75 (来自 index3.html)
+   ============================================================ */
+
+/* --- 51. Cosmic Dust --- */
+.candy-progress-cosmic-dust {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-cosmic-dust .candy-progress-fill {
+    height: 100%;
+    width: 68%;
+    background: linear-gradient(90deg, #8A2BE2, #0000FF, #00FFFF);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-cosmic-dust .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: candy-dust-drift 10s linear infinite;
+}
+
+@keyframes candy-dust-drift {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+/* --- 52. Molten Core --- */
+.candy-progress-molten-core {
+    width: 100%;
+    height: 30px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.candy-progress-molten-core .candy-progress-fill {
+    height: 100%;
+    width: 72%;
+    background: linear-gradient(to right, #ff416c, #ff4b2b, #ffd700);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-molten-core .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    animation: candy-molten-flow 1.5s infinite linear;
+}
+
+@keyframes candy-molten-flow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 53. Data Stream --- */
+.candy-progress-data-stream {
+    width: 100%;
+    height: 20px;
+    background: #000;
+    border: 1px solid #00ff00;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-data-stream .candy-progress-fill {
+    height: 100%;
+    width: 58%;
+    background-color: #00ff00;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-data-stream .candy-progress-fill::before {
+    content: "0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101......";
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    color: #000;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 20px;
+    animation: candy-stream-data 5s linear infinite;
+}
+
+@keyframes candy-stream-data {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* --- 54. Prismatic Light --- */
+.candy-progress-prismatic-light {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-prismatic-light .candy-progress-fill {
+    height: 100%;
+    width: 82%;
+    background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    filter: saturate(2);
+}
+
+.candy-progress-prismatic-light .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: candy-prismatic-sweep 2s infinite linear;
+}
+
+@keyframes candy-prismatic-sweep {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+
+/* --- 55. Bioluminescent --- */
+.candy-progress-bio-luminescent {
+    width: 100%;
+    height: 20px;
+    background: #001f1f;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.candy-progress-bio-luminescent .candy-progress-fill {
+    height: 100%;
+    width: 48%;
+    background: #00ffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, inset 0 0 10px rgba(0, 255, 255, 0.5);
+    animation: candy-bio-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes candy-bio-pulse {
+    from { opacity: 0.7; box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, inset 0 0 5px rgba(0, 255, 255, 0.3); }
+    to { opacity: 1; box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, inset 0 0 15px rgba(0, 255, 255, 0.7); }
+}
+
+/* --- 56. Hologram Sticker --- */
+.candy-progress-hologram-sticker {
+    width: 100%;
+    height: 30px;
+    background: #222;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-hologram-sticker .candy-progress-fill {
+    height: 100%;
+    width: 78%;
+    background: linear-gradient(135deg, #7F00FF, #E100FF, #7F00FF);
+    background-size: 200% 200%;
+    border-radius: 15px;
+    animation: candy-hologram-shimmer 3s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-hologram-sticker .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path d="M10,2 L12,8 L18,8 L13,12 L15,18 L10,14 L5,18 L7,12 L2,8 L8,8 Z" fill="rgba(255,255,255,0.2)"/></svg>');
+    background-size: 20px 20px;
+    mix-blend-mode: overlay;
+    animation: candy-hologram-stars 4s linear infinite;
+}
+
+@keyframes candy-hologram-shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes candy-hologram-stars {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+/* --- 57. Lava Lamp --- */
+.candy-progress-lava-lamp {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-lava-lamp .candy-progress-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65%;
+    background: repeating-radial-gradient(circle at center bottom, #ff5500, #ff0000 20px);
+    border-radius: 20px 20px 0 0;
+    animation: candy-lava-rise 4s ease-in-out infinite alternate;
+}
+
+@keyframes candy-lava-rise {
+    0% { height: 30%; border-radius: 20px 20px 0 0; }
+    100% { height: 80%; border-radius: 20px; }
+}
+
+/* --- 58. Geometric Morph --- */
+.candy-progress-geo-morph {
+    width: 100%;
+    height: 30px;
+    background: #333;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-geo-morph .candy-progress-fill {
+    height: 100%;
+    width: 52%;
+    background: #9b59b6;
+    clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+    border-radius: 15px 0 0 15px;
+    position: relative;
+    transition: clip-path 1s ease-in-out;
+}
+
+.candy-progress-geo-morph:hover .candy-progress-fill {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* --- 59. Plasma Field --- */
+.candy-progress-plasma-field {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.candy-progress-plasma-field .candy-progress-fill {
+    height: 100%;
+    width: 88%;
+    background: radial-gradient(circle, #ff00cc, #3333ff, #000);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    animation: candy-plasma-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes candy-plasma-pulse {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.5); }
+}
+
+/* --- 60. Anaglyph 3D --- */
+.candy-progress-anaglyph-3d {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-anaglyph-3d .candy-progress-fill {
+    height: 100%;
+    width: 62%;
+    background: #0ff;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-anaglyph-3d .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f0f;
+    border-radius: 12px;
+    mix-blend-mode: multiply;
+    transform: translate(3px, -3px);
+    animation: candy-anaglyph-shift 1s ease-in-out infinite alternate;
+}
+
+@keyframes candy-anaglyph-shift {
+    0% { transform: translate(2px, -2px); }
+    100% { transform: translate(-2px, 2px); }
+}
+
+/* --- 61. Crystalline Growth --- */
+.candy-progress-crystal-grow {
+    width: 100%;
+    height: 30px;
+    background: #111;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-crystal-grow .candy-progress-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-crystal-grow .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.1) 10px, rgba(255, 255, 255, 0.1) 11px);
+    animation: candy-crystal-form 5s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes candy-crystal-form {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+/* --- 62. Nanobot Swarm --- */
+.candy-progress-nano-swarm {
+    width: 100%;
+    height: 20px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-nano-swarm .candy-progress-fill {
+    height: 100%;
+    width: 55%;
+    background: #3498db;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-nano-swarm .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1.5px);
+    background-size: 10px 10px;
+    animation: candy-nano-move 0.5s linear infinite;
+}
+
+@keyframes candy-nano-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 10px 10px; }
+}
+
+/* --- 63. Kaleidoscope --- */
+.candy-progress-kaleido {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-kaleido .candy-progress-fill {
+    height: 100%;
+    width: 85%;
+    background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    animation: candy-kaleido-spin 10s linear infinite;
+}
+
+.candy-progress-kaleido .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    background: inherit;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(5px);
+    z-index: -1;
+}
+
+@keyframes candy-kaleido-spin {
+    100% { transform: rotate(1turn); }
+}
+
+/* --- 64. Levitating Orb --- */
+.candy-progress-levi-orb {
+    width: 100%;
+    height: 40px;
+    background: #111;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.candy-progress-levi-orb .candy-progress-orb-track {
+    width: 100%;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    position: relative;
+    overflow: visible;
+}
+
+.candy-progress-levi-orb .candy-progress-orb {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #fff, #f39c12, #e67e22);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px #f39c12, 0 0 30px #e67e22;
+    animation: candy-levitate 3s ease-in-out infinite;
+}
+
+@keyframes candy-levitate {
+    0%, 100% { transform: translate(-50%, -60%); box-shadow: 0 0 10px #f39c12, 0 0 20px #e67e22; }
+    50% { transform: translate(-50%, -40%); box-shadow: 0 0 20px #f39c12, 0 0 40px #e67e22; }
+}
+
+/* --- 65. Fractal Expansion --- */
+.candy-progress-fractal-expand {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-fractal-expand .candy-progress-fill {
+    height: 100%;
+    width: 65%;
+    background: #9b59b6;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-fractal-expand .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><rect width="50" height="50" fill="none"/><path d="M25,5 L30,15 L40,15 L32,22 L35,32 L25,25 L15,32 L18,22 L10,15 L20,15 Z" fill="rgba(255,255,255,0.2)"/></svg>');
+    background-size: 25px 25px;
+    animation: candy-fractal-zoom 8s steps(8, end) infinite;
+}
+
+@keyframes candy-fractal-zoom {
+    0% { background-size: 50px 50px; opacity: 0.2; }
+    100% { background-size: 10px 10px; opacity: 0.8; }
+}
+
+/* --- 66. Holo-Deck --- */
+.candy-progress-holo-deck {
+    width: 100%;
+    height: 35px;
+    background: #000;
+    border: 2px solid #00ffff;
+    border-radius: 17px;
+    box-shadow: 0 0 15px #00ffff;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-holo-deck .candy-progress-fill {
+    height: 100%;
+    width: 70%;
+    background: rgba(0, 255, 255, 0.2);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-holo-deck .candy-progress-fill::before,
+.candy-progress-holo-deck .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.8), transparent);
+    border-radius: 15px;
+    animation: candy-holo-scan 2s linear infinite;
+}
+
+.candy-progress-holo-deck .candy-progress-fill::after {
+    animation-delay: 1s;
+    opacity: 0.5;
+}
+
+@keyframes candy-holo-scan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* --- 67. Singularity Event --- */
+.candy-progress-singularity {
+    width: 100%;
+    height: 40px;
+    background: radial-gradient(circle, #222, #000);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-singularity .candy-progress-fill {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, #ffffff, #ffff00, #ff0000);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: candy-singularity-collapse 4s ease-in-out infinite alternate;
+}
+
+@keyframes candy-singularity-collapse {
+    0% { width: 0; height: 0; opacity: 1; }
+    70% { opacity: 1; }
+    100% { width: 95%; height: 95%; opacity: 0; }
+}
+
+/* --- 68. Emissive Plating --- */
+.candy-progress-emissive-plate {
+    width: 100%;
+    height: 25px;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+.candy-progress-emissive-plate .candy-progress-fill {
+    height: 100%;
+    width: 80%;
+    background: #3498db;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-emissive-plate .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    animation: candy-plate-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes candy-plate-glow {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+/* --- 69. Time Dilation --- */
+.candy-progress-time-dilate {
+    width: 100%;
+    height: 20px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-time-dilate .candy-progress-fill {
+    height: 100%;
+    width: 92%;
+    background: repeating-linear-gradient(90deg, #fff, #fff 5px, #000 5px, #000 10px);
+    border-radius: 10px;
+    animation: candy-time-warp 0.1s steps(2, jump-none) infinite;
+}
+
+@keyframes candy-time-warp {
+    0% { transform: scaleX(1); }
+    50% { transform: scaleX(1.05); }
+    100% { transform: scaleX(0.95); }
+}
+
+/* --- 70. Quantum Entanglement --- */
+.candy-progress-quantum-entangle {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.candy-progress-quantum-entangle .candy-progress-particle {
+    width: 20px;
+    height: 20px;
+    background: #9b59b6;
+    border-radius: 50%;
+    margin-top: 5px;
+    box-shadow: 0 0 10px #9b59b6;
+    animation: candy-entangle-pulse 2s ease-in-out infinite;
+}
+
+.candy-progress-quantum-entangle .candy-progress-particle:nth-child(2) {
+    animation-delay: 1s;
+    background: #e74c3c;
+    box-shadow: 0 0 10px #e74c3c;
+}
+
+.candy-progress-quantum-entangle .candy-progress-connection {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    width: calc(100% - 30px);
+    height: 2px;
+    background: linear-gradient(90deg, #9b59b6, #e74c3c);
+    transform: translateY(-50%);
+    animation: candy-entangle-flicker 1s ease-in-out infinite;
+}
+
+@keyframes candy-entangle-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+@keyframes candy-entangle-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+/* --- 71. Haptic Feedback --- */
+.candy-progress-haptic-feedback {
+    width: 100%;
+    height: 25px;
+    background: #333;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-haptic-feedback .candy-progress-fill {
+    height: 100%;
+    width: 50%;
+    background: #2ecc71;
+    border-radius: 12px;
+    position: relative;
+    animation: candy-haptic-click 0.5s ease-in-out;
+}
+
+.candy-progress-haptic-feedback .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%);
+    opacity: 0;
+    animation: candy-haptic-ripple 0.5s ease-out;
+}
+
+@keyframes candy-haptic-click {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+@keyframes candy-haptic-ripple {
+    0% { opacity: 1; transform: scale(0.5); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* --- 72. Aurora Australis --- */
+.candy-progress-australis {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-australis .candy-progress-fill {
+    height: 100%;
+    width: 77%;
+    background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 200% auto;
+    border-radius: 15px;
+    animation: candy-australis-flow 4s linear infinite;
+    filter: hue-rotate(180deg) blur(2px);
+}
+
+@keyframes candy-australis-flow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* --- 73. Neural Link --- */
+.candy-progress-neural-link {
+    width: 100%;
+    height: 25px;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-neural-link .candy-progress-fill {
+    height: 100%;
+    width: 60%;
+    background: #3498db;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-neural-link .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(255, 255, 255, 0.3) 5px, rgba(255, 255, 255, 0.3) 6px);
+    animation: candy-neural-pulse 1s ease-in-out infinite;
+}
+
+@keyframes candy-neural-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* --- 74. Warp Drive --- */
+.candy-progress-warp-drive {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-warp-drive .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: #000;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-warp-drive .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.8), rgba(128, 0, 128, 0.8), transparent);
+    animation: candy-warp-speed 1s linear infinite;
+}
+
+.candy-progress-warp-drive .candy-progress-core {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    width: 10px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50% 0 0 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px #fff;
+}
+
+@keyframes candy-warp-speed {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 75. Digital Rain --- */
+.candy-progress-digital-rain {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    font-family: monospace;
+}
+
+.candy-progress-digital-rain .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    color: #0f0;
+    font-size: 20px;
+    line-height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-digital-rain .candy-progress-fill::before {
+    content: "10101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101......";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #0f0;
+    animation: candy-rain-fall 3s linear infinite;
+    opacity: 0.7;
+}
+
+.candy-progress-digital-rain .candy-progress-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 45%;
+    background: rgba(0, 255, 0, 0.1);
+    border-right: 1px solid #0f0;
+}
+
+@keyframes candy-rain-fall {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+/* ============================================================
+   样式 76-100 (来自 index4.html)
+   ============================================================ */
+
+/* --- 76. Volumetric Light Beam --- */
+.candy-progress-volumetric-beam {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.candy-progress-volumetric-beam .candy-progress-fill {
+    height: 100%;
+    width: 75%;
+    background: linear-gradient(90deg, transparent, var(--candy-neon-blue), transparent);
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.candy-progress-volumetric-beam .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: candy-beam-sweep 2s infinite linear;
+    filter: blur(5px);
+}
+
+@keyframes candy-beam-sweep {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+
+/* --- 77. Liquid Mercury --- */
+.candy-progress-liquid-mercury {
+    width: 100%;
+    height: 25px;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.9);
+}
+
+.candy-progress-liquid-mercury .candy-progress-fill {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(to right, #aaa, #fff, #aaa);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.candy-progress-liquid-mercury .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px 12px 0 0;
+}
+
+.candy-progress-liquid-mercury .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: candy-mercury-shine 3s infinite linear;
+    border-radius: 12px;
+}
+
+@keyframes candy-mercury-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 78. Cyber Grid --- */
+.candy-progress-cyber-grid-bar {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border: 1px solid var(--candy-neon-blue);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 10px var(--candy-neon-blue);
+}
+
+.candy-progress-cyber-grid-bar .candy-progress-fill {
+    height: 100%;
+    width: 85%;
+    background-color: rgba(0, 238, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-cyber-grid-bar .candy-progress-grid-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(0, 238, 255, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 238, 255, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: candy-grid-scroll 10s linear infinite;
+}
+
+.candy-progress-cyber-grid-bar .candy-progress-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--candy-neon-blue);
+    box-shadow: 0 0 10px var(--candy-neon-blue);
+    animation: candy-scan-down 4s linear infinite;
+}
+
+@keyframes candy-grid-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+@keyframes candy-scan-down {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* --- 79. Holographic Glitch --- */
+.candy-progress-holographic-glitch {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-holographic-glitch .candy-progress-fill {
+    height: 100%;
+    width: 55%;
+    background: linear-gradient(90deg, var(--candy-neon-purple), var(--candy-neon-blue));
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    animation: candy-glitch-base 5s infinite;
+}
+
+.candy-progress-holographic-glitch .candy-progress-fill::before,
+.candy-progress-holographic-glitch .candy-progress-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    opacity: 0.7;
+    mix-blend-mode: screen;
+    animation: candy-glitch-overlays 3s infinite;
+}
+
+.candy-progress-holographic-glitch .candy-progress-fill::before {
+    animation-delay: -1s;
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%, 0 35%, 100% 35%, 100% 40%, 0 40%, 0 100%, 100% 100%);
+}
+
+.candy-progress-holographic-glitch .candy-progress-fill::after {
+    animation-delay: -2s;
+    clip-path: polygon(0 0, 0 30%, 100% 30%, 100% 35%, 0 35%, 0 40%, 100% 40%, 100% 100%, 0 100%, 0 70);
+}
+
+@keyframes candy-glitch-base {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(360deg); }
+}
+
+@keyframes candy-glitch-overlays {
+    0%, 100% { transform: translate(0); }
+    10% { transform: translate(-3px, 3px); }
+    20% { transform: translate(-3px, -3px); }
+    30% { transform: translate(3px, 3px); }
+    40% { transform: translate(3px, -3px); }
+    50% { transform: translate(0); }
+    60% { transform: translate(-2px, 2px); }
+    70% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+    90% { transform: translate(2px, -2px); }
+}
+
+/* --- 80. Aurora Borealis (Advanced) --- */
+.candy-progress-aurora-borealis-adv {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-aurora-borealis-adv .candy-progress-fill {
+    height: 100%;
+    width: 80%;
+    background: linear-gradient(90deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 200% auto;
+    border-radius: 20px;
+    animation: candy-aurora-flow-adv 6s linear infinite;
+    filter: blur(3px);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-aurora-borealis-adv .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    filter: blur(10px);
+    opacity: 0.7;
+    z-index: -1;
+}
+
+@keyframes candy-aurora-flow-adv {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* --- 81. Carbon Fiber --- */
+.candy-progress-carbon-fiber {
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%), linear-gradient(45deg, #222 25%, transparent 25%, transparent 75%, #222 75%);
+    background-color: #111;
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+}
+
+.candy-progress-carbon-fiber .candy-progress-fill {
+    height: 100%;
+    width: 70%;
+    background: linear-gradient(90deg, var(--candy-gold), #daa520);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 5px var(--candy-gold);
+}
+
+.candy-progress-carbon-fiber .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+}
+
+/* --- 82. Neon Pulse --- */
+.candy-progress-neon-pulse-bar {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-neon-pulse-bar .candy-progress-fill {
+    height: 100%;
+    width: 45%;
+    background: var(--candy-neon-purple);
+    border-radius: 12px;
+    box-shadow: 0 0 10px var(--candy-neon-purple), 0 0 20px var(--candy-neon-purple), inset 0 0 10px rgba(189, 0, 255, 0.3);
+    animation: candy-neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes candy-neon-glow {
+    from { box-shadow: 0 0 5px var(--candy-neon-purple), 0 0 10px var(--candy-neon-purple), inset 0 0 5px rgba(189, 0, 255, 0.2); }
+    to { box-shadow: 0 0 20px var(--candy-neon-purple), 0 0 40px var(--candy-neon-purple), inset 0 0 15px rgba(189, 0, 255, 0.5); }
+}
+
+/* --- 83. Tron Disc --- */
+.candy-progress-tron-disc {
+    width: 100%;
+    height: 35px;
+    background: #000;
+    border-radius: 17px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-tron-disc .candy-progress-track {
+    width: 100%;
+    height: 6px;
+    background: #222;
+    border-radius: 3px;
+    position: relative;
+    overflow: visible;
+}
+
+.candy-progress-tron-disc .candy-progress-glow-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--candy-neon-blue);
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--candy-neon-blue);
+    opacity: 0.7;
+}
+
+.candy-progress-tron-disc .candy-progress-disc {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle, #fff, var(--candy-neon-blue));
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px var(--candy-neon-blue);
+    animation: candy-disc-rotate 4s linear infinite;
+}
+
+@keyframes candy-disc-rotate {
+    100% { transform: translate(-50%, -50%) rotate(1turn); }
+}
+
+/* --- 84. Energy Coil --- */
+.candy-progress-energy-coil {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.candy-progress-energy-coil .candy-progress-coil-center {
+    width: 100%;
+    height: 10px;
+    background: #222;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-energy-coil .candy-progress-fill {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, var(--candy-neon-blue), #00f, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px var(--candy-neon-blue);
+    animation: candy-coil-pulse 2s ease-in-out infinite;
+}
+
+.candy-progress-energy-coil .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #fff, var(--candy-neon-blue));
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes candy-coil-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+}
+
+/* --- 85. Holo-Spectrum --- */
+.candy-progress-holo-spectrum {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-holo-spectrum .candy-progress-fill {
+    height: 100%;
+    width: 90%;
+    background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red, violet);
+    background-size: 200% 100%;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    animation: candy-spectrum-shift 4s linear infinite;
+}
+
+.candy-progress-holo-spectrum .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255,255,255,0.5) 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+    border-radius: 15px;
+}
+
+@keyframes candy-spectrum-shift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+}
+
+/* --- 86. Morphing Polygon --- */
+.candy-progress-morph-polygon {
+    width: 100%;
+    height: 35px;
+    background: #111;
+    border-radius: 17px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-morph-polygon .candy-progress-fill {
+    height: 100%;
+    width: 65%;
+    background: var(--candy-neon-purple);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 17px;
+    position: relative;
+    overflow: hidden;
+    animation: candy-morph-shape 8s infinite;
+}
+
+@keyframes candy-morph-shape {
+    0% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+    25% { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }
+    50% { clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%); }
+    75% { clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+    100% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+}
+
+/* --- 87. Particle Accelerator --- */
+.candy-progress-particle-accelerator {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-particle-accelerator .candy-progress-track {
+    width: 100%;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.candy-progress-particle-accelerator .candy-progress-particle {
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    width: 10px;
+    height: 10px;
+    background: var(--candy-neon-blue);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px var(--candy-neon-blue);
+    animation: candy-particle-run 3s linear infinite;
+}
+
+@keyframes candy-particle-run {
+    0% { left: -10px; }
+    100% { left: calc(65% + 10px); }
+}
+
+/* --- 88. Quantum Foam --- */
+.candy-progress-quantum-foam {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-quantum-foam .candy-progress-fill {
+    height: 100%;
+    width: 50%;
+    background: #111;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-quantum-foam .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 2px);
+    background-size: 30px 30px;
+    animation: candy-foam-fluctuate 4s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+@keyframes candy-foam-fluctuate {
+    0%, 100% { background-size: 30px 30px; opacity: 0.5; }
+    50% { background-size: 25px 25px; opacity: 0.9; }
+}
+
+/* --- 89. Laser Etching --- */
+.candy-progress-laser-etching {
+    width: 100%;
+    height: 20px;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.7);
+}
+
+.candy-progress-laser-etching .candy-progress-fill {
+    height: 100%;
+    width: 78%;
+    background: #000;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-laser-etching .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(90deg, transparent, transparent 5px, var(--candy-neon-blue) 5px, var(--candy-neon-blue) 6px);
+    animation: candy-laser-draw 2s steps(20, end) infinite;
+}
+
+@keyframes candy-laser-draw {
+    to { transform: translateX(-100%); }
+}
+
+/* --- 90. Stellar Wind --- */
+.candy-progress-stellar-wind {
+    width: 100%;
+    height: 35px;
+    background: radial-gradient(circle at 10% 50%, #111, #000);
+    border-radius: 17px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-stellar-wind .candy-progress-fill {
+    height: 100%;
+    width: 82%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 17px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-stellar-wind .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: candy-wind-blow 1.5s linear infinite;
+    filter: blur(2px);
+}
+
+@keyframes candy-wind-blow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 91. Gravitational Wave --- */
+.candy-progress-grav-wave {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-grav-wave .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: #111;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-grav-wave .candy-progress-wave {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: candy-wave-expand 3s ease-out infinite;
+}
+
+.candy-progress-grav-wave .candy-progress-wave:nth-child(1) {
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 238, 255, 0.6) 0%, transparent 70%);
+    animation-delay: 0s;
+}
+
+.candy-progress-grav-wave .candy-progress-wave:nth-child(2) {
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(189, 0, 255, 0.4) 0%, transparent 70%);
+    animation-delay: 1s;
+}
+
+@keyframes candy-wave-expand {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 200%; height: 200%; opacity: 0; }
+}
+
+/* --- 92. Holo-Interface --- */
+.candy-progress-holo-interface {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    border: 1px solid var(--candy-neon-blue);
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.candy-progress-holo-interface .candy-progress-node {
+    width: 12px;
+    height: 12px;
+    background: var(--candy-neon-blue);
+    border-radius: 50%;
+    margin: 0 8px;
+    box-shadow: 0 0 8px var(--candy-neon-blue);
+    animation: candy-node-pulse 2s ease-in-out infinite;
+}
+
+.candy-progress-holo-interface .candy-progress-node:nth-child(2) {
+    animation-delay: 0.2s;
+    background-color: var(--candy-neon-purple);
+    box-shadow: 0 0 8px var(--candy-neon-purple);
+}
+
+.candy-progress-holo-interface .candy-progress-node:nth-child(3) {
+    animation-delay: 0.4s;
+    background-color: var(--candy-gold);
+    box-shadow: 0 0 8px var(--candy-gold);
+}
+
+.candy-progress-holo-interface .candy-progress-node:nth-child(4) {
+    animation-delay: 0.6s;
+    background-color: #0f0;
+    box-shadow: 0 0 8px #0f0;
+}
+
+.candy-progress-holo-interface .candy-progress-link {
+    flex-grow: 1;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--candy-neon-blue), var(--candy-neon-purple), var(--candy-gold), #0f0, transparent);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-holo-interface .candy-progress-link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    animation: candy-link-flow 2s linear infinite;
+}
+
+@keyframes candy-node-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+@keyframes candy-link-flow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 93. Plasma Conduit --- */
+.candy-progress-plasma-conduit {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}
+
+.candy-progress-plasma-conduit .candy-progress-fill {
+    height: 100%;
+    width: 58%;
+    background: linear-gradient(90deg, #ff00cc, #3333ff);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-plasma-conduit .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: candy-conduit-flow 1s linear infinite;
+}
+
+@keyframes candy-conduit-flow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* --- 94. Dystopian Bar Code --- */
+.candy-progress-dystopia-barcode {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border: 1px solid #444;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-dystopia-barcode .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: repeating-linear-gradient(90deg, #111, #111 5px, #444 5px, #444 10px, #222 10px, #222 15px);
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-dystopia-barcode .candy-progress-scanner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--candy-neon-purple);
+    box-shadow: 0 0 10px var(--candy-neon-purple);
+    animation: candy-scan-across 3s linear infinite;
+}
+
+@keyframes candy-scan-across {
+    0% { left: 0; }
+    100% { left: calc(100% - 5px); }
+}
+
+/* --- 95. Singularity Core --- */
+.candy-progress-singularity-core {
+    width: 100%;
+    height: 45px;
+    background: radial-gradient(circle, #222, #000);
+    border-radius: 22px;
+    overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 auto;
-    transition: width 0.3s ease, background 0.3s ease;
 }
 
-.candy-progress-stacked-bar:first-child { border-top-left-radius: var(--candy-progress-radius); border-bottom-left-radius: var(--candy-progress-radius); }
-.candy-progress-stacked-bar:last-child  { border-top-right-radius: var(--candy-progress-radius); border-bottom-right-radius: var(--candy-progress-radius); }
+.candy-progress-singularity-core .candy-progress-horizon {
+    width: 90%;
+    height: 25px;
+    background: #111;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
 
-.candy-progress-stacked-label,
-.candy-progress-stacked .candy-progress-value {
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+.candy-progress-singularity-core .candy-progress-fill {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, #fff, #ffff00, #ff0000);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: candy-core-collapse 5s ease-in-out infinite alternate;
+}
+
+@keyframes candy-core-collapse {
+    0% { width: 0; height: 0; opacity: 1; }
+    70% { opacity: 1; }
+    100% { width: 95%; height: 95%; opacity: 0; }
+}
+
+/* --- 96. Kinetic Energy --- */
+.candy-progress-kinetic-energy {
+    width: 100%;
+    height: 30px;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-kinetic-energy .candy-progress-fill {
+    height: 100%;
+    width: 72%;
+    background: #333;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-kinetic-energy .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 238, 255, 0.3) 10px, rgba(0, 238, 255, 0.3) 15px);
+    animation: candy-energy-motion 1s linear infinite;
+}
+
+@keyframes candy-energy-motion {
+    0% { background-position: 0 0; }
+    100% { background-position: 15px 15px; }
+}
+
+/* --- 97. Retro CRT (Advanced) --- */
+.candy-progress-retro-crt-adv {
+    width: 100%;
+    height: 30px;
+    background: #001100;
+    border: 3px solid #336633;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 100, 0, 0.5), 0 0 15px rgba(0, 100, 0, 0.3);
+}
+
+.candy-progress-retro-crt-adv .candy-progress-fill {
+    height: 100%;
+    width: 63%;
+    background: #0f0;
+    position: relative;
+    overflow: hidden;
+    animation: candy-crt-flicker 0.1s infinite;
+}
+
+.candy-progress-retro-crt-adv .candy-progress-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 1px, rgba(0, 0, 0, 0.2) 1px, rgba(0, 0, 0, 0.2) 2px);
+    pointer-events: none;
+}
+
+.candy-progress-retro-crt-adv .candy-progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0, 255, 0, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+@keyframes candy-crt-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.95; }
+}
+
+/* --- 98. Holo-Decryption --- */
+.candy-progress-holo-decrypt {
+    width: 100%;
+    height: 35px;
+    background: #000;
+    border-radius: 17px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-holo-decrypt .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: #111;
+    border-radius: 17px;
+    position: relative;
+    overflow: hidden;
+    color: var(--candy-neon-blue);
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 35px;
     white-space: nowrap;
-    padding: 0 6px;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 
-.candy-progress-bar-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-.candy-progress-bar-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-.candy-progress-bar-warning { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
-.candy-progress-bar-danger  { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-.candy-progress-bar-info    { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.candy-progress-holo-decrypt .candy-progress-fill::before {
+    content: "[ACCESS GRANTED]_DATA_STREAM_INTEGRITY_CHECK_PASSED_DECRYPTING_FILE_XYZ_789...[COMPLETE]";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    animation: candy-decrypt-scroll 8s linear infinite;
+}
 
-/* ====================== 环形进度条 ====================== */
+.candy-progress-holo-decrypt .candy-progress-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 53%;
+    background: rgba(0, 238, 255, 0.1);
+    border-right: 1px solid var(--candy-neon-blue);
+}
+
+@keyframes candy-decrypt-scroll {
+    0% { left: 100%; }
+    100% { left: -100%; }
+}
+
+/* --- 99. Nanite Assembly --- */
+.candy-progress-nanite-assembly {
+    width: 100%;
+    height: 25px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.candy-progress-nanite-assembly .candy-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: #111;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.candy-progress-nanite-assembly .candy-progress-nanite {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--candy-neon-purple);
+    border-radius: 2px;
+    animation: candy-assemble 4s ease-in-out infinite;
+}
+
+@keyframes candy-assemble {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.5); opacity: 1; }
+}
+
+/* --- 100. Temporal Rift --- */
+.candy-progress-temporal-rift {
+    width: 100%;
+    height: 40px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    perspective: 1000px;
+}
+
+.candy-progress-temporal-rift .candy-progress-fill {
+    height: 100%;
+    width: 67%;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: candy-rift-warp 5s infinite linear;
+}
+
+.candy-progress-temporal-rift .candy-progress-fill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 50%, rgba(255, 255, 255, 0.1) 50%);
+    background-size: 100% 10px;
+    animation: candy-rift-lines 1s linear infinite;
+}
+
+@keyframes candy-rift-warp {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+@keyframes candy-rift-lines {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 10px; }
+}
+
+/* ============================================================
+   堆叠进度条样式
+   ============================================================ */
+
+.candy-progress-stacked {
+    display: flex;
+    width: 100%;
+}
+
+.candy-progress-stacked-bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease;
+}
+
+.candy-progress-stacked-label {
+    font-size: 0.7rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* ============================================================
+   圆形进度条样式
+   ============================================================ */
 
 .candy-progress-circular-container {
     display: inline-block;
-    padding: 10px;
-    text-align: center;
 }
 
 .candy-progress-circular {
@@ -170,733 +3749,37 @@
 }
 
 .candy-progress-circular-value {
-    pointer-events: none;
-    user-select: none;
-}
-
-/* ==========================================================================
-   以下为四种演示文件中的样式汇总，类名都加上 candy-progress- 前缀
-   编号：1-25  (来自 index.html  - 25种炫酷3D动态进度条)
-   编号：26-50 (来自 index2.html - 25种高级进度条 渐变/数据流/全息等)
-   编号：51-75 (来自 index3.html - 25种高级进度条 volumetric/liquid/holo等)
-   编号：76-100(来自 index4.html - 25种简洁进度条 classic/striped/glitch等)
-   ========================================================================== */
-
-/* ====================== 1. 六边形脉冲 (Hexagon Pulse) ====================== */
-.candy-progress-1 {
-    width: 120px;
-    height: 104px;
-    margin: 20px auto;
-    position: relative;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: conic-gradient(from 0deg, #0ff0fc, #ff00ff, #0ff0fc);
-    animation: candy-hexSpin 3s linear infinite;
-}
-
-@keyframes candy-hexSpin {
-    to { transform: rotate(360deg); }
-}
-
-/* ====================== 2. 星形填充 (Star Fill) ====================== */
-.candy-progress-2 {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    background: #ff00ff;
-    transition: all 2s ease-in-out;
-}
-
-.candy-progress-2:hover {
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    background: radial-gradient(circle, #ffff00 0%, #ff00ff 70%);
-    filter: drop-shadow(0 0 15px #ffff00);
-}
-
-/* ====================== 3. 心跳线 (Heartbeat Line) ====================== */
-.candy-progress-3 {
-    width: 150px;
-    height: 4px;
-    margin: 50px auto;
-    background: #0ff0fc;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-}
-
-.candy-progress-3::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 20%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, #ffff00, transparent);
-    animation: candy-heartbeatSlide 1.5s ease-in-out infinite;
-}
-
-@keyframes candy-heartbeatSlide {
-    0%, 100% { left: -20%; }
-    50% { left: 100%; }
-}
-
-/* ====================== 4. 旋转立方体 (Rotating Cube) ====================== */
-.candy-progress-4 {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-    perspective: 500px;
-}
-
-.candy-progress-4-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: candy-cubeRotateY 4s infinite linear;
-}
-
-.candy-progress-4-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid #0ff0fc;
-    background: transparent;
-    backface-visibility: hidden;
-}
-
-.candy-progress-4-face-front { transform: translateZ(50px); }
-.candy-progress-4-face-back  { transform: rotateY(180deg) translateZ(50px); }
-.candy-progress-4-face-right { transform: rotateY(90deg)  translateZ(50px); }
-.candy-progress-4-face-left  { transform: rotateY(-90deg) translateZ(50px); }
-.candy-progress-4-face-top   { transform: rotateX(90deg)  translateZ(50px); }
-.candy-progress-4-face-bottom{ transform: rotateX(-90deg) translateZ(50px); }
-
-.candy-progress-4-face-front::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 0;
-    height: 100%;
-    background: #0ff0fc;
-    animation: candy-fillWidth 3s infinite alternate ease-in-out;
-}
-
-@keyframes candy-cubeRotateY { to { transform: rotateY(360deg); } }
-@keyframes candy-fillWidth   { to { width: 100%; } }
-
-/* ====================== 5. DNA双螺旋 (DNA Helix) ====================== */
-.candy-progress-5 {
-    width: 100px;
-    height: 120px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.candy-progress-5-strand {
-    position: absolute;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    background: #0ff0fc;
-}
-
-.candy-progress-5-strand-left  { left: 30px; }
-.candy-progress-5-strand-right { right: 30px; }
-
-.candy-progress-5-strand::before,
-.candy-progress-5-strand::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: #ffff00;
-    border-radius: 50%;
-    top: 0;
-}
-
-.candy-progress-5-strand-right::before,
-.candy-progress-5-strand-right::after { left: -3px; }
-
-.candy-progress-5-strand-left::before,
-.candy-progress-5-strand-left::after { right: -3px; }
-
-.candy-progress-5-strand-left::before  { animation: candy-dnaUp   2s ease-in-out infinite; }
-.candy-progress-5-strand-left::after   { animation: candy-dnaDown 2s ease-in-out infinite 1s; }
-.candy-progress-5-strand-right::before { animation: candy-dnaDown 2s ease-in-out infinite; }
-.candy-progress-5-strand-right::after  { animation: candy-dnaUp   2s ease-in-out infinite 1s; }
-
-@keyframes candy-dnaUp {
-    0%   { top: 0; }
-    100% { top: 100%; transform: translate(0, -100%); }
-}
-
-@keyframes candy-dnaDown {
-    0%   { top: 100%; transform: translate(0, -100%); }
-    100% { top: 0; }
-}
-
-/* ====================== 6. 环形波浪 (Ring Wave) ====================== */
-.candy-progress-6 {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    border-radius: 50%;
-    position: relative;
-    border: 2px solid #0ff0fc;
-}
-
-.candy-progress-6::before,
-.candy-progress-6::after {
-    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
     transform: translate(-50%, -50%);
-    border: 2px solid #ffff00;
-    opacity: 0;
+    font-weight: bold;
+    color: #fff;
 }
 
-.candy-progress-6::before { animation: candy-ringPulse 1.5s ease-out infinite; }
-.candy-progress-6::after  { animation: candy-ringPulse 1.5s ease-out 0.75s infinite; }
+/* ============================================================
+   进度条卡片样式（用于展示）
+   ============================================================ */
 
-@keyframes candy-ringPulse {
-    0%   { width: 0;   height: 0;   opacity: 1; }
-    100% { width: 100px; height: 100px; opacity: 0; }
+.candy-progress-card {
+    background: var(--candy-glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--candy-glass-border);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ====================== 7. 无限符号 (∞ Infinity) ====================== */
-.candy-progress-7 {
-    width: 120px;
-    height: 60px;
-    margin: 40px auto;
-    position: relative;
+.candy-progress-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 195, 255, 0.2);
 }
 
-.candy-progress-7::before,
-.candy-progress-7::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 40px;
-    height: 40px;
-    border: 4px solid #0ff0fc;
-    border-radius: 50%;
-    transform: rotate(45deg);
+.candy-progress-card-title {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--candy-primary);
 }
-
-.candy-progress-7::before { left: 0; }
-.candy-progress-7::after  { right: 0; }
-
-.candy-progress-7-dot {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    background: #ffff00;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    animation: candy-infinityMove 3s linear infinite;
-}
-
-@keyframes candy-infinityMove {
-    0%   { left: 0;   top: 50%; }
-    25%  { left: calc(50% - 5px); top: 0; }
-    50%  { left: 100%; top: 50%; }
-    75%  { left: calc(50% - 5px); top: 100%; }
-    100% { left: 0; }
-}
-
-/* ====================== 8. 三角形旋转填充 (Triangle Rotate Fill) ====================== */
-.candy-progress-8 {
-    width: 100px;
-    height: 87px;
-    margin: 20px auto;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    background: conic-gradient(from 0deg at 50% 100%, transparent 0deg, #ff00ff 120deg, transparent 240deg);
-    animation: candy-triConicSpin 4s linear infinite;
-}
-
-@keyframes candy-triConicSpin { to { transform: rotate(360deg); } }
-
-/* ====================== 9. 发光粒子流 (Glowing Particle Stream) ====================== */
-.candy-progress-9 {
-    width: 150px;
-    height: 20px;
-    margin: 50px auto;
-    position: relative;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.candy-progress-9-particle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: #ffff00;
-    border-radius: 50%;
-    top: 5px;
-    box-shadow: 0 0 8px 2px #ffff00;
-    animation: candy-streamFlow 3s linear infinite;
-}
-
-.candy-progress-9-particle:nth-child(1) { animation-delay: 0s;   left: -10px; }
-.candy-progress-9-particle:nth-child(2) { animation-delay: 0.5s; left: -10px; }
-.candy-progress-9-particle:nth-child(3) { animation-delay: 1s;   left: -10px; }
-.candy-progress-9-particle:nth-child(4) { animation-delay: 1.5s; left: -10px; }
-.candy-progress-9-particle:nth-child(5) { animation-delay: 2s;   left: -10px; }
-
-@keyframes candy-streamFlow {
-    0%   { left: -10px; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { left: 150px; opacity: 0; }
-}
-
-/* ====================== 10. 机械齿轮联动 (Mechanical Gear) ====================== */
-.candy-progress-10 {
-    width: 120px;
-    height: 60px;
-    margin: 40px auto;
-    position: relative;
-}
-
-.candy-progress-10-gear {
-    position: absolute;
-    top: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid #0ff0fc;
-}
-
-.candy-progress-10-gear-small { left: 0; width: 30px; height: 30px; }
-.candy-progress-10-gear-large { right: 0; }
-
-.candy-progress-10-gear::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 10px; height: 10px;
-    background: #ff00ff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.candy-progress-10-gear-small::after,
-.candy-progress-10-gear-large::after {
-    content: '';
-    position: absolute;
-    top: -5px; left: 50%;
-    width: 6px; height: 15px;
-    background: #0ff0fc;
-    transform-origin: bottom center;
-}
-
-.candy-progress-10-gear-small::after { animation: candy-gearSpinSmall 4s linear infinite; }
-.candy-progress-10-gear-large::after { animation: candy-gearSpinLarge 4s linear infinite reverse; }
-
-@keyframes candy-gearSpinSmall { to { transform: translateX(-50%) rotate(360deg); } }
-@keyframes candy-gearSpinLarge { to { transform: translateX(-50%) rotate(360deg); } }
-
-/* ====================== 11. 液态金属 (Liquid Metal) ====================== */
-.candy-progress-11 {
-    width: 150px;
-    height: 20px;
-    margin: 50px auto;
-    background: linear-gradient(90deg, #0ff0fc, #ff00ff);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.candy-progress-11::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    animation: candy-shimmer2 2s infinite;
-}
-
-@keyframes candy-shimmer2 {
-    0%   { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* ====================== 12. 极光带 (Aurora Band) ====================== */
-.candy-progress-12 {
-    width: 150px;
-    height: 20px;
-    margin: 50px auto;
-    background: linear-gradient(90deg, #0ff0fc, #ff00ff, #ffff00);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.candy-progress-12::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
-    animation: candy-auroraShift 5s linear infinite;
-}
-
-@keyframes candy-auroraShift {
-    0%   { background-position: 0 0; }
-    100% { background-position: 100% 0; }
-}
-
-/* ====================== 13. 数据流矩阵 (Matrix Data Stream) ====================== */
-.candy-progress-13 {
-    width: 150px;
-    height: 100px;
-    margin: 20px auto;
-    background: black;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #0ff0fc;
-}
-
-.candy-progress-13-col {
-    position: absolute;
-    top: -100%;
-    width: 10px;
-    color: #0ff0fc;
-    font-family: monospace;
-    font-size: 14px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    animation: candy-matrixFall 5s linear infinite;
-}
-
-.candy-progress-13-col:nth-child(1) { left: 10px;  animation-delay: 0s; }
-.candy-progress-13-col:nth-child(2) { left: 30px;  animation-delay: 1s; }
-.candy-progress-13-col:nth-child(3) { left: 50px;  animation-delay: 2s; }
-.candy-progress-13-col:nth-child(4) { left: 70px;  animation-delay: 3s; }
-.candy-progress-13-col:nth-child(5) { left: 90px;  animation-delay: 4s; }
-.candy-progress-13-col:nth-child(6) { left: 110px; animation-delay: 0.5s; }
-.candy-progress-13-col:nth-child(7) { left: 130px; animation-delay: 1.5s; }
-
-@keyframes candy-matrixFall { to { top: 100%; } }
-
-/* ====================== 14. 霓虹灯管 (Neon Tube) ====================== */
-.candy-progress-14 {
-    width: 150px;
-    height: 20px;
-    margin: 50px auto;
-    background: transparent;
-    border: 2px solid #0ff0fc;
-    border-radius: 10px;
-    position: relative;
-    box-shadow: 0 0 5px #0ff0fc, inset 0 0 5px #0ff0fc;
-    animation: candy-neonFlicker 3s infinite alternate;
-}
-
-.candy-progress-14-fill {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 70%;
-    background: #0ff0fc;
-    border-radius: 8px;
-    filter: blur(1px);
-    box-shadow: 0 0 10px #0ff0fc;
-}
-
-@keyframes candy-neonFlicker {
-    0%, 100% { opacity: 1; box-shadow: 0 0 5px #0ff0fc, inset 0 0 5px #0ff0fc; }
-    50%      { opacity: 0.8; box-shadow: 0 0 2px #0ff0fc, inset 0 0 2px #0ff0fc; }
-}
-
-/* ====================== 15. 全息投影 (Hologram Projection) ====================== */
-.candy-progress-15 {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-    perspective: 500px;
-}
-
-.candy-progress-15-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: candy-hologramFloat 6s ease-in-out infinite;
-}
-
-.candy-progress-15-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: conic-gradient(from 0deg, #0ff0fc, #ff00ff, #ffff00, #0ff0fc);
-    opacity: 0.7;
-    border: 1px solid white;
-}
-
-.candy-progress-15-front  { transform: translateZ(50px); }
-.candy-progress-15-back   { transform: rotateY(180deg) translateZ(50px); }
-.candy-progress-15-right  { transform: rotateY(90deg)  translateZ(50px); }
-.candy-progress-15-left   { transform: rotateY(-90deg) translateZ(50px); }
-.candy-progress-15-top    { transform: rotateX(90deg)  translateZ(50px); }
-.candy-progress-15-bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-@keyframes candy-hologramFloat {
-    0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
-    50%      { transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg); }
-}
-
-/* ====================== 16. 磁力场线 (Magnetic Field Lines) ====================== */
-.candy-progress-16 {
-    width: 120px;
-    height: 120px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.candy-progress-16-line {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 0;
-    height: 4px;
-    background: #0ff0fc;
-    transform-origin: left center;
-}
-
-.candy-progress-16-line.l1 { transform: translate(-50%, -50%) rotate(0deg);   width: 50px; animation: candy-fieldExtend 2s ease-in-out infinite alternate; }
-.candy-progress-16-line.l2 { transform: translate(-50%, -50%) rotate(45deg);  width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.2s infinite alternate; }
-.candy-progress-16-line.l3 { transform: translate(-50%, -50%) rotate(90deg);  width: 50px; animation: candy-fieldExtend 2s ease-in-out 0.4s infinite alternate; }
-.candy-progress-16-line.l4 { transform: translate(-50%, -50%) rotate(135deg); width: 40px; animation: candy-fieldExtend 2s ease-in-out 0.6s infinite alternate; }
-
-.candy-progress-16-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 20px; height: 20px;
-    background: #ff00ff;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #ff00ff;
-}
-
-@keyframes candy-fieldExtend { to { width: 60px; } }
-
-/* ====================== 17. 能量核心 (Energy Core) ====================== */
-.candy-progress-17 {
-    width: 80px;
-    height: 80px;
-    margin: 30px auto;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffff00 0%, #ff00ff 70%, transparent 100%);
-    position: relative;
-    box-shadow: 0 0 20px #ffff00, inset 0 0 10px white;
-    animation: candy-corePulse 2s ease-in-out infinite alternate;
-}
-
-.candy-progress-17-orbit {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100px; height: 100px;
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.candy-progress-17-orbiter {
-    position: absolute;
-    top: 0; left: 50%;
-    width: 10px; height: 10px;
-    background: #0ff0fc;
-    border-radius: 50%;
-    transform: translateX(-50%);
-    animation: candy-orbit 4s linear infinite;
-}
-
-@keyframes candy-corePulse { to { transform: scale(1.1); box-shadow: 0 0 30px #ffff00, inset 0 0 15px white; } }
-@keyframes candy-orbit      { to { transform: translateX(-50%) rotate(360deg); } }
-
-/* ====================== 18. 黑洞吸积盘 (Black Hole Accretion Disk) ====================== */
-.candy-progress-18 {
-    width: 120px;
-    height: 120px;
-    margin: 20px auto;
-    border-radius: 50%;
-    background: radial-gradient(circle, black 30%, #0ff0fc 100%);
-    position: relative;
-    overflow: hidden;
-    animation: candy-diskSpin 10s linear infinite;
-}
-
-.candy-progress-18-streak {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100%;
-    height: 4px;
-    background: #ff00ff;
-    transform-origin: left center;
-    opacity: 0.7;
-}
-
-.candy-progress-18-streak.s1 { transform: translate(0, -50%) rotate(0deg); }
-.candy-progress-18-streak.s2 { transform: translate(0, -50%) rotate(30deg); }
-.candy-progress-18-streak.s3 { transform: translate(0, -50%) rotate(60deg); }
-.candy-progress-18-streak.s4 { transform: translate(0, -50%) rotate(90deg); }
-.candy-progress-18-streak.s5 { transform: translate(0, -50%) rotate(120deg); }
-.candy-progress-18-streak.s6 { transform: translate(0, -50%) rotate(150deg); }
-
-.candy-progress-18-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 40px; height: 40px;
-    background: black;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-}
-
-@keyframes candy-diskSpin { to { transform: rotate(360deg); } }
-
-/* ====================== 19. 离子推进器 (Ion Thruster) ====================== */
-.candy-progress-19 {
-    width: 40px;
-    height: 100px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.candy-progress-19-chamber {
-    width: 100%;
-    height: 40px;
-    background: linear-gradient(to right, #0d0d15, #0ff0fc);
-    border-radius: 5px 5px 0 0;
-}
-
-.candy-progress-19-beam {
-    position: absolute;
-    bottom: 0; left: 50%;
-    width: 6px;
-    height: 60px;
-    background: linear-gradient(to top, #0ff0fc, #ffff00, transparent);
-    border-radius: 3px;
-    transform: translateX(-50%);
-    animation: candy-beamFlicker 0.5s ease-in-out infinite alternate;
-}
-
-.candy-progress-19-particle {
-    position: absolute;
-    bottom: 0;
-    width: 4px; height: 4px;
-    background: #ffff00;
-    border-radius: 50%;
-    animation: candy-particleRise 1s ease-out infinite;
-}
-
-.candy-progress-19-particle.p1 { left: 0;   animation-delay: 0s; }
-.candy-progress-19-particle.p2 { left: 50%; animation-delay: 0.2s; }
-.candy-progress-19-particle.p3 { right: 0;  animation-delay: 0.4s; }
-
-@keyframes candy-beamFlicker { to { height: 65px; opacity: 0.8; } }
-@keyframes candy-particleRise { to { bottom: 60px; opacity: 0; } }
-
-/* ====================== 20. 赛博朋克扫描线 (Cyber Scanline) ====================== */
-.candy-progress-20 {
-    width: 150px;
-    height: 100px;
-    margin: 20px auto;
-    background: #111;
-    border: 1px solid #0ff0fc;
-    position: relative;
-    overflow: hidden;
-}
-
-.candy-progress-20-bar {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 4px;
-    background: #0ff0fc;
-    box-shadow: 0 0 10px #0ff0fc;
-    animation: candy-scanMove 2s linear infinite;
-}
-
-.candy-progress-20-grid {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px);
-}
-
-@keyframes candy-scanMove { to { top: 100%; } }
-
-/* ====================== 21. 光速飞行轨迹 (Lightspeed Trail) ====================== */
-.candy-progress-21 {
-    width: 200px;
-    height: 4px;
-    margin: 50px auto;
-    background: linear-gradient(90deg, transparent, #0ff0fc, #ffff00, #0ff0fc, transparent);
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-}
-
-.candy-progress-21-star {
-    position: absolute;
-    top: 50%;
-    width: 6px; height: 6px;
-    background: white;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    animation: candy-starStreak 1s linear infinite;
-}
-
-.candy-progress-21-star.s1 { left: 0;   animation-delay: 0s; }
-.candy-progress-21-star.s2 { left: 25%; animation-delay: 0.2s; }
-.candy-progress-21-star.s3 { left: 50%; animation-delay: 0.4s; }
-.candy-progress-21-star.s4 { left: 75%; animation-delay: 0.6s; }
-
-@keyframes candy-starStreak {
-    0%   { left: -10px; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { left: 100%; opacity: 0; }
-}
-
-/* ====================== 22. 分形树生长 (Fractal Tree Growth) ====================== */
-.candy-progress-22 {
-    width: 100px;
-    height: 120px;
-    margin: 20px auto;
-    position: relative;
-}
-
-.candy-progress-22-trunk {
-    position: absolute;
-    bottom: 0; left: 50%;
-    width: 4px; height: 60px;
-    background: #5d4037;
-    transform: translateX(-50%);
-}
-
-.candy-progress-22-branch {
-    position: absolute;
-    width: 2px;
-    height: 30px;
-    background: #4caf50;
-    transform-origin: bottom center;
-}
-
-.candy-progress-22-branch.l1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-20deg); height: 40px; animation: candy-growBranch 3s forwards; }
-.candy-progress-22-branch.r1 { bottom: 60px; left: 50%; transform: translateX(-50%) rotate(20deg);  height: 40px; animation: candy-growBranch 3s forwards
