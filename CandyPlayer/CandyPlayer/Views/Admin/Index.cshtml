@@ -1,63 +1,63 @@
-﻿@{
+@{
     ViewData["Title"] = "管理面板";
     var stats = ViewBag.Stats;
 }
 
 <div class="row mb-4">
     <div class="col">
-        <h2><i class="fas fa-cog"></i> 管理面板</h2>
-        <p class="text-muted">欢迎回来，管理员！</p>
+        <h2 style="font-size:1.5rem;"><i class="fas fa-cog"></i> 管理面板</h2>
+        <p class="text-muted small">欢迎回来，管理员！</p>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-primary">
+<div class="row g-3">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100" style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05))!important;border-color:rgba(99,102,241,0.2)!important;">
             <div class="card-body">
-                <h5 class="card-title">用户总数</h5>
-                <h2 class="mb-0">@stats.TotalUsers</h2>
+                <h5 class="small" style="text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;">用户总数</h5>
+                <h2 style="color:var(--primary-light);">@stats.TotalUsers</h2>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-success">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05))!important;border-color:rgba(16,185,129,0.2)!important;">
             <div class="card-body">
-                <h5 class="card-title">文件总数</h5>
-                <h2 class="mb-0">@stats.TotalFiles</h2>
+                <h5 class="small" style="text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;">文件总数</h5>
+                <h2 style="color:var(--accent2);">@stats.TotalFiles</h2>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-info">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100" style="background:linear-gradient(135deg,rgba(244,114,182,0.15),rgba(244,114,182,0.05))!important;border-color:rgba(244,114,182,0.2)!important;">
             <div class="card-body">
-                <h5 class="card-title">书籍</h5>
-                <h2 class="mb-0">@stats.Books</h2>
+                <h5 class="small" style="text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;">书籍</h5>
+                <h2 style="color:var(--accent);">@stats.Books</h2>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-warning">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100" style="background:linear-gradient(135deg,rgba(251,191,36,0.15),rgba(251,191,36,0.05))!important;border-color:rgba(251,191,36,0.2)!important;">
             <div class="card-body">
-                <h5 class="card-title">音乐</h5>
-                <h2 class="mb-0">@stats.Music</h2>
+                <h5 class="small" style="text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;">音乐</h5>
+                <h2 style="color:#fbbf24;">@stats.Music</h2>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-4">
-        <div class="card text-white bg-danger">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100" style="background:linear-gradient(135deg,rgba(248,113,113,0.15),rgba(248,113,113,0.05))!important;border-color:rgba(248,113,113,0.2)!important;">
             <div class="card-body">
-                <h5 class="card-title">视频</h5>
-                <h2 class="mb-0">@stats.Videos</h2>
+                <h5 class="small" style="text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;">视频</h5>
+                <h2 style="color:#f87171;">@stats.Videos</h2>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row g-3">
     <div class="col-md-6 mb-4">
         <div class="card h-100">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="fas fa-tools"></i> 快速操作</h5>
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tools me-2" style="color:var(--primary-light);"></i>快速操作</h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
@@ -77,8 +77,8 @@
 
     <div class="col-md-6 mb-4">
         <div class="card h-100">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> 系统信息</h5>
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2" style="color:var(--accent2);"></i>系统信息</h5>
             </div>
             <div class="card-body">
                 <p><strong>数据库类型:</strong> SQLite</p>
@@ -103,14 +103,14 @@
                     },
                     success: function(result) {
                         if (result.success) {
-                            alert('文件刷新成功');
-                            location.reload();
+                            if (typeof showToast === 'function') showToast('文件刷新成功', 'success');
+                            setTimeout(function() { location.reload(); }, 1000);
                         } else {
-                            alert('文件刷新失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '刷新失败', 'error');
                         }
                     },
                     error: function() {
-                        alert('文件刷新失败，请稍后重试');
+                        if (typeof showToast === 'function') showToast('刷新失败', 'error');
                     }
                 });
             }

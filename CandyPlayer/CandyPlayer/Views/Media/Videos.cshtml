@@ -11,16 +11,18 @@
 
 <style>
     .folder-tree {
-        background: #f8f9fa;
-        border-radius: 8px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
         padding: 15px;
         height: fit-content;
     }
     .folder-tree h5 {
         margin-bottom: 15px;
-        color: #495057;
-        border-bottom: 2px solid #0d6efd;
+        color: var(--text-primary);
+        border-bottom: 2px solid rgba(99,102,241,0.3);
         padding-bottom: 8px;
+        font-size: 0.9rem;
     }
     .folder-tree ul {
         list-style: none;
@@ -41,49 +43,59 @@
         display: flex;
         align-items: center;
         padding: 6px 10px;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
-        transition: background-color 0.2s;
+        transition: all 0.3s ease;
         text-decoration: none;
-        color: #212529;
+        color: var(--text-secondary);
     }
     .folder-tree .folder-item:hover {
-        background-color: #e9ecef;
+        background-color: rgba(99,102,241,0.1);
+        color: #fff;
     }
     .folder-tree .folder-item.active {
-        background-color: #0d6efd;
-        color: white;
+        background-color: rgba(99,102,241,0.15);
+        color: var(--primary-light);
     }
     .folder-tree .folder-toggle {
         width: 20px;
         text-align: center;
         margin-right: 5px;
-        color: #6c757d;
+        color: var(--text-secondary);
         flex-shrink: 0;
     }
     .folder-tree .folder-item.active .folder-toggle {
-        color: white;
+        color: var(--primary-light);
     }
     .folder-tree .folder-icon {
         margin-right: 8px;
-        color: #ffc107;
-    }
-    .folder-tree .folder-item.active .folder-icon {
-        color: #ffc107;
+        color: #fbbf24;
     }
     .breadcrumb {
-        background-color: #f8f9fa;
+        background: transparent !important;
         border-radius: 8px;
-        padding: 10px 15px;
+        padding: 10px 0;
         margin-bottom: 20px;
     }
-    .breadcrumb-item + .breadcrumb-item::before {
-        content: ">";
+
+    .file-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .file-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 20px rgba(99,102,241,0.1);
+    }
+
+    @@media (max-width: 991px) {
+        .folder-sidebar {
+            display: none;
+        }
     }
 </style>
 
-<div class="row">
-    <div class="col-lg-3">
+<div class="row g-3">
+    <div class="col-lg-3 col-md-4 folder-sidebar">
         <div class="folder-tree">
             <h5><i class="fas fa-folder-tree"></i> 文件夹</h5>
             <ul id="folderTree">
@@ -92,11 +104,11 @@
         </div>
     </div>
 
-    <div class="col-lg-9">
+    <div class="col-lg-9 col-md-8">
         <div class="row mb-4">
             <div class="col">
-                <h2><i class="fas fa-video"></i> 视频库</h2>
-                <p class="text-muted">观看您的视频收藏</p>
+                <h2 style="font-size:1.5rem;"><i class="fas fa-video"></i> 视频库</h2>
+                <p class="text-muted small">观看您的视频收藏</p>
             </div>
             @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
             {
@@ -113,7 +125,7 @@
         </nav>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="input-group">
                     <input type="text" id="searchInput" class="form-control" placeholder="搜索视频..." value="@searchKeyword" />
                     <button class="btn btn-outline-secondary" type="button" id="searchBtn">
@@ -123,11 +135,11 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row g-3">
             @foreach (var video in Model)
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 shadow-sm">
+                <div class="col-6 col-md-4 mb-3">
+                    <div class="card h-100">
                         <div class="card-body text-center">
                             <i class="fas fa-video text-danger fa-4x mb-3"></i>
                             <h6 class="card-title text-truncate" title="@video.FileName">@video.FileName</h6>
@@ -202,8 +214,8 @@
 <div class="modal fade" id="addToListModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title">添加到观看列表</h5>
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h5 class="modal-title"><i class="fas fa-plus me-2" style="color:var(--primary-light);"></i>添加到观看列表</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -213,8 +225,12 @@
                         <option value="">-- 请选择 --</option>
                     </select>
                 </div>
-                <div class="text-center">或</div>
-                <div class="mb-3 mt-2">
+                <div class="text-center my-3" style="color:var(--text-secondary);font-size:0.85rem;">
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                    <span class="mx-2">或</span>
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">创建新列表</label>
                     <input type="text" id="newPlaylistName" class="form-control" placeholder="输入新列表名称" />
                 </div>
@@ -227,7 +243,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">确定添加</button>
+                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">
+                    <i class="fas fa-check me-1"></i>确定添加
+                </button>
             </div>
         </div>
     </div>
@@ -237,8 +255,8 @@
 <div class="modal fade" id="uploadModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="fas fa-upload"></i> 上传视频</h5>
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h5 class="modal-title"><i class="fas fa-upload me-2" style="color:var(--primary-light);"></i>上传视频</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -433,13 +451,13 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, false);
-                            alert('已取消收藏');
+                            if (typeof showToast === 'function') showToast('已取消收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
@@ -453,13 +471,13 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, true);
-                            alert('已添加到收藏');
+                            if (typeof showToast === 'function') showToast('已添加到收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             }
@@ -469,12 +487,13 @@
             if (confirm('确定要删除这个视频文件吗？')) {
                 $.post('/Media/Delete', { id: fileId }, function(result) {
                     if (result.success) {
-                        location.reload();
+                        if (typeof showToast === 'function') showToast('删除成功', 'success');
+                        setTimeout(function() { location.reload(); }, 800);
                     } else {
-                        alert('删除失败：' + result.message);
+                        if (typeof showToast === 'function') showToast(result.message || '删除失败', 'error');
                     }
                 }).fail(function(xhr) {
-                    alert('删除失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    if (typeof showToast === 'function') showToast('删除失败', 'error');
                 });
             }
         }
@@ -515,14 +534,14 @@
                     headers: { 'RequestVerificationToken': token },
                     success: function(result) {
                         if (result.success) {
-                            alert('添加成功');
+                            if (typeof showToast === 'function') showToast('添加成功', 'success');
                             bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                         } else {
-                            alert('添加失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '添加失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('添加失败', 'error');
                     }
                 });
             } else if (newPlaylistName) {
@@ -540,26 +559,26 @@
                                 headers: { 'RequestVerificationToken': token },
                                 success: function(addResult) {
                                     if (addResult.success) {
-                                        alert('已添加到新列表：' + newPlaylistName);
+                                        if (typeof showToast === 'function') showToast('已添加到新列表', 'success');
                                         bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                                     } else {
-                                        alert('添加失败：' + addResult.message);
+                                        if (typeof showToast === 'function') showToast(addResult.message || '添加失败', 'error');
                                     }
                                 },
                                 error: function(xhr) {
-                                    alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                                    if (typeof showToast === 'function') showToast('添加失败', 'error');
                                 }
                             });
                         } else {
-                            alert('创建列表失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '创建失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
-                alert('请选择已有列表或输入新列表名称');
+                if (typeof showToast === 'function') showToast('请选择已有列表或输入新列表名称', 'warning');
             }
         }
 
@@ -588,7 +607,7 @@
         $('#uploadBtn').on('click', function() {
             var files = $('#fileInput')[0].files;
             if (files.length === 0) {
-                alert('请选择文件');
+                if (typeof showToast === 'function') showToast('请选择文件', 'warning');
                 return;
             }
 

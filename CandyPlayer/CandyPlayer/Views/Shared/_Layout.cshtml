@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
@@ -7,11 +7,27 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>@ViewData["Title"] - CandyPlayer</title>
-    <!-- 使用国内CDN -->
     <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ========== 基础样式 ========== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --accent: #f472b6;
+            --accent2: #34d399;
+            --bg-main: #0f0f23;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-glass: rgba(255,255,255,0.05);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-glass: rgba(255,255,255,0.08);
+            --glow-primary: 0 0 20px rgba(99,102,241,0.3);
+            --glow-accent: 0 0 20px rgba(244,114,182,0.3);
+        }
+
         * {
             -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
@@ -19,48 +35,545 @@
 
         body {
             overflow-x: hidden;
-            background-color: #f8f9fa;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-overflow-scrolling: touch;
+            min-height: 100vh;
         }
 
-        /* ========== 侧边栏样式 ========== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(244,114,182,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(52,211,153,0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== Sidebar ========== */
         #sidebar-wrapper {
             min-height: 100vh;
-            margin-left: -15rem;
-            transition: margin 0.25s ease-out;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            margin-left: -16rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(180deg, #0a0a1a 0%, #111128 50%, #0d0d20 100%);
+            border-right: 1px solid var(--border-glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #sidebar-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(99,102,241,0.05) 0%, transparent 50%, rgba(244,114,182,0.03) 100%);
+            pointer-events: none;
         }
 
         #sidebar-wrapper .sidebar-heading {
-            padding: 0.875rem 1.25rem;
-            font-size: 1.2rem;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 1.25rem 1.25rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border-glass);
+            position: relative;
+        }
+
+        #sidebar-wrapper .sidebar-heading i {
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         #sidebar-wrapper .list-group {
-            width: 15rem;
+            width: 16rem;
+            position: relative;
         }
 
         #sidebar-wrapper .list-group-item {
             border: none;
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 0.25rem;
-            border-radius: 8px;
+            padding: 0.7rem 1.25rem;
+            margin-bottom: 2px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #sidebar-wrapper .list-group-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 0 3px 3px 0;
+            opacity: 0;
+            transform: scaleY(0);
+            transition: all 0.3s ease;
         }
 
         #sidebar-wrapper .list-group-item:hover {
-            background-color: rgba(255, 255, 255, 0.1) !important;
+            background: rgba(99,102,241,0.1) !important;
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        #sidebar-wrapper .list-group-item:hover::before {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        #sidebar-wrapper .list-group-item.active-item {
+            background: rgba(99,102,241,0.15) !important;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        #sidebar-wrapper .list-group-item.active-item::before {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        #sidebar-wrapper .text-muted.small {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: var(--text-secondary) !important;
+            opacity: 0.5;
         }
 
         #page-content-wrapper {
             min-width: 100vw;
+            background: transparent;
         }
 
         #wrapper.toggled #sidebar-wrapper {
             margin-left: 0;
         }
 
-        /* ========== 桌面端响应式 ========== */
+        /* ========== Navbar ========== */
+        .navbar {
+            background: rgba(15,15,35,0.8) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass) !important;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important;
+            padding: 0.6rem 1rem;
+        }
+
+        .navbar .ms-auto {
+            color: var(--text-secondary);
+        }
+
+        .navbar .badge {
+            background: rgba(99,102,241,0.2) !important;
+            color: var(--primary-light) !important;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            border: 1px solid rgba(99,102,241,0.3);
+        }
+
+        #menu-toggle {
+            background: rgba(99,102,241,0.15) !important;
+            border: 1px solid rgba(99,102,241,0.3) !important;
+            color: var(--primary-light) !important;
+            transition: all 0.3s ease;
+        }
+
+        #menu-toggle:hover {
+            background: rgba(99,102,241,0.25) !important;
+            box-shadow: var(--glow-primary);
+        }
+
+        /* ========== Content Area ========== */
+        .container-fluid.px-4.py-4 {
+            padding-top: 1.5rem !important;
+            padding-bottom: 2rem !important;
+        }
+
+        /* ========== Cards ========== */
+        .card {
+            background: rgba(255,255,255,0.03) !important;
+            border: 1px solid var(--border-glass) !important;
+            border-radius: 16px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text-primary) !important;
+        }
+
+        .card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(99,102,241,0.1) !important;
+            border-color: rgba(99,102,241,0.2) !important;
+        }
+
+        .card-header {
+            background: rgba(255,255,255,0.03) !important;
+            border-bottom: 1px solid var(--border-glass) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .card-footer {
+            background: rgba(255,255,255,0.02) !important;
+            border-top: 1px solid var(--border-glass) !important;
+        }
+
+        .card-title, .card-text {
+            color: var(--text-primary) !important;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        /* ========== Buttons ========== */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important;
+            border: none !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(99,102,241,0.4) !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #f472b6, #ec4899) !important;
+            border: none !important;
+        }
+
+        .btn-info:hover {
+            box-shadow: 0 8px 25px rgba(244,114,182,0.4) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+            border: none !important;
+            color: #000 !important;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            border: none !important;
+        }
+
+        .btn-outline-primary {
+            border-color: rgba(99,102,241,0.3) !important;
+            color: var(--primary-light) !important;
+        }
+
+        .btn-outline-primary:hover {
+            background: rgba(99,102,241,0.15) !important;
+            border-color: var(--primary) !important;
+        }
+
+        .btn-outline-light {
+            border-color: var(--border-glass) !important;
+            color: var(--text-secondary) !important;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+
+        /* ========== Text Colors ========== */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary) !important;
+        }
+
+        .text-primary {
+            color: var(--primary-light) !important;
+        }
+
+        .text-success {
+            color: var(--accent2) !important;
+        }
+
+        .text-danger {
+            color: #f87171 !important;
+        }
+
+        .text-warning {
+            color: #fbbf24 !important;
+        }
+
+        /* ========== Badges ========== */
+        .badge {
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .bg-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+        }
+
+        .bg-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+        }
+
+        .bg-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+        }
+
+        .bg-warning {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+        }
+
+        .bg-info {
+            background: linear-gradient(135deg, #f472b6, #ec4899) !important;
+        }
+
+        .bg-secondary {
+            background: rgba(255,255,255,0.1) !important;
+        }
+
+        .bg-dark {
+            background: rgba(0,0,0,0.3) !important;
+        }
+
+        /* ========== Forms ========== */
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border-glass) !important;
+            color: var(--text-primary) !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.15) !important;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary) !important;
+            opacity: 0.5;
+        }
+
+        .input-group-text {
+            background: rgba(255,255,255,0.05) !important;
+            border: 1px solid var(--border-glass) !important;
+            color: var(--text-secondary) !important;
+        }
+
+        /* ========== Tables ========== */
+        .table {
+            color: var(--text-primary) !important;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: rgba(255,255,255,0.02) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .table > :not(caption) > * > * {
+            color: var(--text-primary) !important;
+            border-bottom-color: var(--border-glass) !important;
+        }
+
+        .table-dark {
+            --bs-table-bg: rgba(99,102,241,0.1);
+            --bs-table-border-color: var(--border-glass);
+        }
+
+        /* ========== Alerts ========== */
+        .alert {
+            border-radius: 12px !important;
+            border: none !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background: rgba(16,185,129,0.15) !important;
+            color: #6ee7b7 !important;
+            border: 1px solid rgba(16,185,129,0.2) !important;
+        }
+
+        .alert-danger {
+            background: rgba(239,68,68,0.15) !important;
+            color: #fca5a5 !important;
+            border: 1px solid rgba(239,68,68,0.2) !important;
+        }
+
+        /* ========== List Groups ========== */
+        .list-group-item {
+            background: rgba(255,255,255,0.03) !important;
+            border-color: var(--border-glass) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .list-group-item:hover {
+            background: rgba(99,102,241,0.08) !important;
+        }
+
+        .list-group-item.active {
+            background: rgba(99,102,241,0.15) !important;
+            border-color: rgba(99,102,241,0.3) !important;
+        }
+
+        /* ========== Progress ========== */
+        .progress {
+            background: rgba(255,255,255,0.05) !important;
+            border-radius: 10px !important;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary), var(--accent)) !important;
+            border-radius: 10px !important;
+        }
+
+        /* ========== Modals ========== */
+        .modal-content {
+            background: #1a1a2e !important;
+            border: 1px solid var(--border-glass) !important;
+            border-radius: 16px !important;
+            color: var(--text-primary) !important;
+        }
+
+        .modal-header {
+            border-bottom-color: var(--border-glass) !important;
+        }
+
+        .modal-footer {
+            border-top-color: var(--border-glass) !important;
+        }
+
+        /* ========== Pagination ========== */
+        .page-link {
+            background: rgba(255,255,255,0.05) !important;
+            border-color: var(--border-glass) !important;
+            color: var(--text-secondary) !important;
+            border-radius: 8px !important;
+            margin: 0 2px;
+        }
+
+        .page-link:hover {
+            background: rgba(99,102,241,0.15) !important;
+            color: var(--primary-light) !important;
+        }
+
+        .page-item.active .page-link {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+            border-color: var(--primary) !important;
+        }
+
+        /* ========== Scrollbar ========== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99,102,241,0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99,102,241,0.5);
+        }
+
+        /* ========== Animations ========== */
+        @@keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @@keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(99,102,241,0.3); }
+            50% { box-shadow: 0 0 20px rgba(99,102,241,0.5); }
+        }
+
+        @@keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* ========== Floating Particles ========== */
+        .particles {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(99,102,241,0.3);
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+        }
+
+        @@keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        /* ========== Responsive ========== */
         @@media (min-width: 768px) {
             #sidebar-wrapper {
                 margin-left: 0;
@@ -70,238 +583,120 @@
                 width: 100%;
             }
             #wrapper.toggled #sidebar-wrapper {
-                margin-left: -15rem;
+                margin-left: -16rem;
             }
         }
 
-        /* ========== 移动端优化 ========== */
-        @@media (max-width: 768px) {
-            /* 触摸优化 - 所有可点击元素增大触摸区域 */
-            button,
-            .btn,
-            [role="button"],
-            .list-group-item,
-            .navbar-toggler,
-            #menu-toggle,
-            .card,
-            a:not(.card) {
+        @media (max-width: 768px) {
+            button, .btn, [role="button"], .list-group-item, .navbar-toggler, #menu-toggle {
                 min-height: 44px;
                 min-width: 44px;
-                cursor: pointer;
             }
 
-            /* 防止iOS输入框自动缩放 */
-            input,
-            select,
-            textarea {
+            input, select, textarea {
                 font-size: 16px !important;
             }
 
-            /* 优化容器内边距 */
             .container-fluid {
                 padding-left: 12px;
                 padding-right: 12px;
             }
 
-            /* 侧边栏移动端优化 */
             #sidebar-wrapper .list-group {
-                width: 13rem;
+                width: 14rem;
             }
 
             #sidebar-wrapper .list-group-item {
-                padding: 0.7rem 1rem;
+                padding: 0.65rem 1rem;
                 font-size: 14px;
             }
 
-            /* 顶部导航栏优化 */
             .navbar {
                 padding: 8px 12px;
             }
 
-            .navbar .btn-primary {
-                width: 44px !important;
-                height: 44px !important;
-            }
-
-            /* 卡片移动端优化 */
-            .card {
-                margin-bottom: 15px;
-                border-radius: 12px;
-            }
-
-            /* 表格移动端优化 - 允许横向滚动 */
-            .table-responsive {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            /* 调整字体大小 */
             body {
                 font-size: 14px;
             }
 
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            h3 {
-                font-size: 1.2rem;
-            }
-
-            /* 优化面包屑导航 */
-            .breadcrumb {
-                font-size: 13px;
-            }
-
-            /* 模态框移动端优化 */
             .modal-dialog {
                 margin: 10px;
             }
 
-            /* 优化阅读区域 */
             #readerContent {
                 padding: 15px 12px !important;
             }
+
+            .card:hover {
+                transform: none !important;
+            }
         }
 
-        /* ========== iPad 优化 ========== */
-        @@media (min-width: 769px) and (max-width: 1024px) {
+        @media (min-width: 769px) and (max-width: 1024px) {
             .container-fluid {
                 padding-left: 20px;
                 padding-right: 20px;
             }
-
-            button, .btn {
-                min-height: 40px;
-            }
         }
 
-        /* ========== 卡片样式 ========== */
-        .card {
-            border: none;
-            border-radius: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 移动端禁用悬停效果 */
-        @@media (max-width: 768px) {
-            .card:hover {
-                transform: none;
-            }
-        }
-
-        .progress {
-            height: 5px;
-            border-radius: 5px;
-        }
-
-        .alert {
-            animation: slideDown 0.3s ease;
-            border-radius: 10px;
-        }
-
-        @@keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 移动端按钮点击优化 */
-        @@media (max-width: 768px) {
-            .btn-primary:active {
-                transform: scale(0.98);
-            }
-        }
-
-        .navbar {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 移动端导航栏优化 */
-        @@media (max-width: 768px) {
-            .navbar {
-                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            }
-
-            .navbar .ms-auto {
-                font-size: 13px;
-            }
-
-            .navbar .badge {
-                font-size: 11px;
-            }
-        }
-
+        /* ========== Misc ========== */
         .table th {
-            border-top: none;
+            border-top: none !important;
         }
 
-        .badge {
-            padding: 5px 10px;
-            font-weight: 500;
+        .dropdown-menu {
+            background: #1a1a2e !important;
+            border: 1px solid var(--border-glass) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
         }
 
-        /* ========== 滚动条美化 ========== */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+        .dropdown-item {
+            color: var(--text-primary) !important;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
+        .dropdown-item:hover {
+            background: rgba(99,102,241,0.1) !important;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 3px;
+        .breadcrumb {
+            background: transparent !important;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .breadcrumb-item a {
+            color: var(--primary-light) !important;
         }
 
-        /* 移动端滚动条更细 */
-        @@media (max-width: 768px) {
-            ::-webkit-scrollbar {
-                width: 3px;
-                height: 3px;
-            }
+        .breadcrumb-item.active {
+            color: var(--text-secondary) !important;
         }
 
-        /* ========== 加载动画 ========== */
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: var(--text-secondary) !important;
+        }
+
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        hr {
+            border-color: var(--border-glass) !important;
+            opacity: 0.3;
+        }
+
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(0,0,0,.1);
+            border: 2px solid rgba(255,255,255,0.1);
             border-radius: 50%;
-            border-top-color: #667eea;
+            border-top-color: var(--primary-light);
             animation: spin 0.6s linear infinite;
         }
 
@@ -309,7 +704,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ========== 工具类 ========== */
         .text-truncate-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -317,25 +711,19 @@
             overflow: hidden;
         }
 
-        /* 移动端隐藏某些元素（如果需要） */
-        @@media (max-width: 768px) {
-            .hide-on-mobile {
-                display: none !important;
-            }
+        @media (max-width: 768px) {
+            .hide-on-mobile { display: none !important; }
         }
-
-        /* 桌面端隐藏某些元素（如果需要） */
-        @@media (min-width: 769px) {
-            .hide-on-desktop {
-                display: none !important;
-            }
+        @media (min-width: 769px) {
+            .hide-on-desktop { display: none !important; }
         }
     </style>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+
     <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
         <div class="text-white" id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 fs-4 fw-bold">
                 <i class="fas fa-headphones me-2"></i>CandyPlayer
@@ -400,19 +788,18 @@
             </div>
         </div>
 
-        <!-- Page Content -->
         <div id="page-content-wrapper" class="w-100">
-            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+            <nav class="navbar navbar-expand-lg border-bottom">
                 <div class="container-fluid">
-                    <button class="btn btn-primary rounded-circle" id="menu-toggle" style="width: 40px; height: 40px; padding: 0;">
+                    <button class="btn rounded-circle" id="menu-toggle" style="width: 40px; height: 40px; padding: 0;">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="ms-auto d-flex align-items-center">
                         <span class="me-3">
-                            <i class="fas fa-user-circle me-1 text-primary"></i>
+                            <i class="fas fa-user-circle me-1"></i>
                             <strong>@User.Identity?.Name</strong>
                         </span>
-                        <span class="badge bg-secondary">
+                        <span class="badge">
                             @{
                                 var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
                                 if (role == "Admin")
@@ -438,14 +825,14 @@
                 {
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                     </div>
                 }
                 @if (TempData["ErrorMessage"] != null)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i> @TempData["ErrorMessage"]
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                     </div>
                 }
                 @RenderBody()
@@ -456,31 +843,26 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
-        // 侧边栏切换
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
 
-        // 自动关闭提示消息
         setTimeout(function() {
             $('.alert').fadeOut('slow');
         }, 5000);
 
-        // 移动端优化：点击菜单外区域关闭侧边栏（仅移动端）
         if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             $(document).on('click', function(event) {
                 var isSidebar = $(event.target).closest('#sidebar-wrapper').length > 0;
                 var isMenuBtn = $(event.target).closest('#menu-toggle').length > 0;
                 var wrapper = $('#wrapper');
-
                 if (!isSidebar && !isMenuBtn && wrapper.hasClass('toggled')) {
                     wrapper.removeClass('toggled');
                 }
             });
         }
 
-        // 防止 iOS 双击缩放（可选）
         var lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             var now = (new Date()).getTime();
@@ -489,6 +871,29 @@
             }
             lastTouchEnd = now;
         }, false);
+
+        (function() {
+            var container = document.getElementById('particles');
+            var count = window.innerWidth < 768 ? 15 : 30;
+            for (var i = 0; i < count; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = p.style.height = (Math.random() * 3 + 2) + 'px';
+                p.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                p.style.animationDelay = (Math.random() * 20) + 's';
+                p.style.opacity = Math.random() * 0.5 + 0.1;
+                var colors = ['rgba(99,102,241,0.3)', 'rgba(244,114,182,0.3)', 'rgba(52,211,153,0.3)'];
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(p);
+            }
+        })();
+
+        document.querySelectorAll('.list-group-item').forEach(function(item) {
+            if (item.href && item.href === window.location.href) {
+                item.classList.add('active-item');
+            }
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

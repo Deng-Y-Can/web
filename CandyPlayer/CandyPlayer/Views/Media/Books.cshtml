@@ -10,18 +10,19 @@
 
 <style>
     .folder-tree {
-        background: #fff;
-        border-radius: 8px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
         padding: 16px 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .folder-tree-title {
         padding: 0 16px 12px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
         margin-bottom: 8px;
         font-weight: 600;
-        color: #333;
+        color: var(--text-primary);
+        font-size: 0.85rem;
     }
 
     .folder-list, .sub-folders {
@@ -33,27 +34,29 @@
     .folder-item {
         padding: 8px 16px;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--text-secondary);
     }
 
     .folder-item:hover {
-        background: #f5f7fa;
+        background: rgba(99,102,241,0.1);
+        color: #fff;
     }
 
     .folder-item.active {
-        background: #e8f0fe;
-        color: #1976d2;
+        background: rgba(99,102,241,0.15);
+        color: var(--primary-light);
     }
 
     .folder-item .folder-icon {
-        color: #f5a623;
+        color: #fbbf24;
     }
 
     .folder-item.active .folder-icon {
-        color: #1976d2;
+        color: var(--primary-light);
     }
 
     .folder-toggle {
@@ -63,7 +66,7 @@
         transition: transform 0.2s;
         flex-shrink: 0;
         font-size: 10px;
-        color: #999;
+        color: var(--text-secondary);
     }
 
     .folder-toggle.expanded {
@@ -81,16 +84,16 @@
 
     .breadcrumb-item.folder-breadcrumb {
         cursor: pointer;
-        color: #666;
+        color: var(--text-secondary);
     }
 
     .breadcrumb-item.folder-breadcrumb:hover {
-        color: #1976d2;
+        color: var(--primary-light);
         text-decoration: underline;
     }
 
     .breadcrumb-item.folder-breadcrumb.active {
-        color: #333;
+        color: var(--text-primary);
         cursor: default;
         text-decoration: none;
     }
@@ -98,7 +101,16 @@
     .folder-loading {
         padding: 16px;
         text-align: center;
-        color: #999;
+        color: var(--text-secondary);
+    }
+
+    .file-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .file-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 20px rgba(99,102,241,0.1);
     }
 
     @@media (max-width: 991px) {
@@ -125,9 +137,9 @@
     <div class="col-lg-9 col-md-8">
         <div class="row mb-4">
             <div class="col">
-                <h2><i class="fas fa-book"></i> 我的书籍</h2>
+                <h2 style="font-size:1.5rem;"><i class="fas fa-book"></i> 我的书籍</h2>
                 <nav aria-label="breadcrumb" class="mt-2">
-                    <ol class="breadcrumb mb-0" id="breadcrumb">
+                    <ol class="breadcrumb mb-0 small" id="breadcrumb">
                     </ol>
                 </nav>
             </div>
@@ -142,7 +154,7 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="input-group">
                     <input type="text" id="searchInput" class="form-control" placeholder="搜索书籍..." value="@searchKeyword" />
                     <button class="btn btn-outline-secondary" type="button" id="searchBtn">
@@ -152,11 +164,11 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row g-3">
             @foreach (var book in Model)
             {
-                <div class="col-md-4 col-lg-3 mb-4">
-                    <div class="card h-100 shadow-sm file-card">
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card h-100 file-card">
                         <div class="card-body text-center">
                             <i class="fas @(book.FileExtension.ToLower() == "pdf" ? "fa-file-pdf text-danger" : "fa-file-alt text-primary") fa-4x mb-3"></i>
                             <h6 class="card-title text-truncate" title="@book.FileName">@book.FileName</h6>
@@ -231,8 +243,8 @@
 <div class="modal fade" id="addToListModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title">添加到阅读列表</h5>
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h5 class="modal-title"><i class="fas fa-plus me-2" style="color:var(--primary-light);"></i>添加到阅读列表</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -242,8 +254,12 @@
                         <option value="">-- 请选择 --</option>
                     </select>
                 </div>
-                <div class="text-center">或</div>
-                <div class="mb-3 mt-2">
+                <div class="text-center my-3" style="color:var(--text-secondary);font-size:0.85rem;">
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                    <span class="mx-2">或</span>
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">创建新列表</label>
                     <input type="text" id="newPlaylistName" class="form-control" placeholder="输入新列表名称" />
                 </div>
@@ -256,7 +272,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">确定添加</button>
+                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">
+                    <i class="fas fa-check me-1"></i>确定添加
+                </button>
             </div>
         </div>
     </div>
@@ -266,8 +284,8 @@
 <div class="modal fade" id="uploadModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title"><i class="fas fa-upload"></i> 上传书籍</h5>
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h5 class="modal-title"><i class="fas fa-upload me-2" style="color:var(--primary-light);"></i>上传书籍</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -453,13 +471,13 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, false);
-                            alert('已取消收藏');
+                            if (typeof showToast === 'function') showToast('已取消收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
@@ -473,13 +491,13 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, true);
-                            alert('已添加到收藏');
+                            if (typeof showToast === 'function') showToast('已添加到收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             }
@@ -488,10 +506,14 @@
         function deleteFile(fileId) {
             if (confirm('确定要删除这个文件吗？')) {
                 $.post('/Media/Delete', { id: fileId }, function(result) {
-                    if (result.success) location.reload();
-                    else alert('删除失败：' + result.message);
+                    if (result.success) {
+                        if (typeof showToast === 'function') showToast('删除成功', 'success');
+                        setTimeout(function() { location.reload(); }, 800);
+                    } else {
+                        if (typeof showToast === 'function') showToast(result.message || '删除失败', 'error');
+                    }
                 }).fail(function(xhr) {
-                    alert('删除失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    if (typeof showToast === 'function') showToast('删除失败', 'error');
                 });
             }
         }
@@ -532,14 +554,14 @@
                     headers: { 'RequestVerificationToken': token },
                     success: function(result) {
                         if (result.success) {
-                            alert('添加成功');
+                            if (typeof showToast === 'function') showToast('添加成功', 'success');
                             bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                         } else {
-                            alert('添加失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '添加失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('添加失败', 'error');
                     }
                 });
             } else if (newPlaylistName) {
@@ -557,26 +579,26 @@
                                 headers: { 'RequestVerificationToken': token },
                                 success: function(addResult) {
                                     if (addResult.success) {
-                                        alert('已添加到新列表：' + newPlaylistName);
+                                        if (typeof showToast === 'function') showToast('已添加到新列表', 'success');
                                         bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                                     } else {
-                                        alert('添加失败：' + addResult.message);
+                                        if (typeof showToast === 'function') showToast(addResult.message || '添加失败', 'error');
                                     }
                                 },
                                 error: function(xhr) {
-                                    alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                                    if (typeof showToast === 'function') showToast('添加失败', 'error');
                                 }
                             });
                         } else {
-                            alert('创建列表失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '创建失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
-                alert('请选择已有列表或输入新列表名称');
+                if (typeof showToast === 'function') showToast('请选择已有列表或输入新列表名称', 'warning');
             }
         }
 
@@ -603,7 +625,7 @@
         $('#uploadBtn').on('click', function() {
             var files = $('#fileInput')[0].files;
             if (files.length === 0) {
-                alert('请选择文件');
+                if (typeof showToast === 'function') showToast('请选择文件', 'warning');
                 return;
             }
 

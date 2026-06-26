@@ -1,23 +1,61 @@
-﻿@model CandyPlayer.Models.MediaFile
+@model CandyPlayer.Models.MediaFile
 
 @{
     ViewData["Title"] = "视频播放器 - " + Model.FileName;
 }
 
-<div class="container-fluid px-0">
+<style>
+    .video-info {
+        font-size: 0.9rem;
+    }
+
+    .speed-btn-group .btn {
+        flex: 1;
+        min-width: 0;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .speed-btn-group .btn.active-speed {
+        background: rgba(99,102,241,0.2) !important;
+        color: var(--primary-light) !important;
+        border-color: rgba(99,102,241,0.3) !important;
+        font-weight: bold;
+    }
+
+    .video-actions .btn {
+        flex: 1;
+    }
+
+    @@media (max-width: 576px) {
+        .card-header h5 {
+            font-size: 0.95rem;
+        }
+
+        .video-info p {
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .speed-btn-group .btn {
+            padding: 0.2rem 0.3rem;
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+<div class="container-fluid px-2 px-md-4">
     <div class="row">
         <div class="col-lg-10 mx-auto">
-            <div class="card shadow-lg">
-                <div class="card-header bg-dark text-white">
+            <div class="card">
+                <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
+                        <h5 class="mb-0 text-truncate me-2" style="font-size:1rem;">
                             <i class="fas fa-video"></i> @Model.FileName
                         </h5>
-                        <div>
-                            <a href="@Url.Action("Videos", "Media")" class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-arrow-left"></i> 返回列表
-                            </a>
-                        </div>
+                        <a href="@Url.Action("Videos", "Media")" class="btn btn-sm btn-outline-light flex-shrink-0">
+                            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">返回</span>
+                        </a>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -27,31 +65,27 @@
                     </video>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6 mb-3 mb-md-0 video-info">
                             <p class="text-muted mb-1">
                                 <i class="fas fa-file-video"></i> 格式: @Model.FileExtension.ToUpper()
-                            </p>
-                            <p class="text-muted mb-1">
-                                <i class="fas fa-hdd"></i> 大小: @(Model.FileSize / 1024 / 1024) MB
-                            </p>
-                            <p class="text-muted mb-1">
-                                <i class="fas fa-chart-line"></i> 播放次数: @Model.PlayCount
+                                <span class="ms-2"><i class="fas fa-hdd"></i> @(Model.FileSize / 1024 / 1024) MB</span>
+                                <span class="ms-2"><i class="fas fa-chart-line"></i> @Model.PlayCount 次</span>
                             </p>
                         </div>
-                        <div class="col-md-6 text-end">
-                            <div class="btn-group">
-                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(0.5)">0.5x</button>
-                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(0.75)">0.75x</button>
-                                <button class="btn btn-primary btn-sm" onclick="setPlaybackRate(1)">1x</button>
-                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(1.25)">1.25x</button>
-                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(1.5)">1.5x</button>
-                                <button class="btn btn-outline-primary btn-sm" onclick="setPlaybackRate(2)">2x</button>
+                        <div class="col-12 col-md-6 text-md-end">
+                            <div class="btn-group speed-btn-group w-100 w-md-auto" role="group">
+                                <button class="btn btn-outline-primary" onclick="setPlaybackRate(0.5)">0.5x</button>
+                                <button class="btn btn-outline-primary" onclick="setPlaybackRate(0.75)">0.75x</button>
+                                <button class="btn btn-outline-primary active-speed" id="speed1x" onclick="setPlaybackRate(1)">1x</button>
+                                <button class="btn btn-outline-primary" onclick="setPlaybackRate(1.25)">1.25x</button>
+                                <button class="btn btn-outline-primary" onclick="setPlaybackRate(1.5)">1.5x</button>
+                                <button class="btn btn-outline-primary" onclick="setPlaybackRate(2)">2x</button>
                             </div>
                         </div>
                     </div>
                     <hr />
-                    <div class="btn-group w-100">
+                    <div class="btn-group video-actions w-100">
                         <a href="@Url.Action("Download", "Media", new { id = Model.FileId })" class="btn btn-success">
                             <i class="fas fa-download"></i> 下载
                         </a>
@@ -87,6 +121,10 @@
 
         function setPlaybackRate(rate) {
             videoPlayer.playbackRate = rate;
+            document.querySelectorAll('.speed-btn-group .btn').forEach(function(btn) {
+                btn.classList.remove('active-speed');
+            });
+            event.target.classList.add('active-speed');
         }
 
         function addToFavorites(fileId) {
@@ -99,13 +137,13 @@
                 },
                 success: function(result) {
                     if (result.success) {
-                        alert('已添加到收藏');
+                        showToast('已添加到收藏', 'success');
                     } else {
-                        alert('添加失败：' + result.message);
+                        showToast(result.message || '添加失败', 'error');
                     }
                 },
                 error: function() {
-                    alert('添加失败，请稍后重试');
+                    showToast('添加失败，请稍后重试', 'error');
                 }
             });
         }
@@ -162,5 +200,83 @@
         videoPlayer.addEventListener('loadedmetadata', function() {
             setTimeout(checkResumePlayback, 500);
         });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - 10);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    videoPlayer.currentTime = Math.min(videoPlayer.duration, videoPlayer.currentTime + 10);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    videoPlayer.volume = Math.min(1, videoPlayer.volume + 0.1);
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    videoPlayer.volume = Math.max(0, videoPlayer.volume - 0.1);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (videoPlayer.paused) videoPlayer.play();
+                    else videoPlayer.pause();
+                    break;
+                case 'f':
+                    e.preventDefault();
+                    if (!document.fullscreenElement) {
+                        videoPlayer.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                    break;
+                case 'm':
+                    e.preventDefault();
+                    videoPlayer.muted = !videoPlayer.muted;
+                    break;
+            }
+        });
+
+        var touchStartX = 0;
+        var touchStartY = 0;
+        var touchStartTime = 0;
+
+        videoPlayer.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].screenX;
+                touchStartY = e.touches[0].screenY;
+                touchStartTime = Date.now();
+            }
+        }, { passive: true });
+
+        videoPlayer.addEventListener('touchend', function(e) {
+            if (e.changedTouches.length === 1) {
+                var deltaX = e.changedTouches[0].screenX - touchStartX;
+                var deltaY = e.changedTouches[0].screenY - touchStartY;
+                var deltaTime = Date.now() - touchStartTime;
+
+                if (deltaTime < 300 && Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 2) {
+                    if (deltaX > 0) {
+                        videoPlayer.currentTime = Math.max(0, videoPlayer.currentTime - 10);
+                        showSwipeHint('后退 10s');
+                    } else {
+                        videoPlayer.currentTime = Math.min(videoPlayer.duration, videoPlayer.currentTime + 10);
+                        showSwipeHint('前进 10s');
+                    }
+                }
+            }
+        }, { passive: true });
+
+        function showSwipeHint(text) {
+            var hint = document.createElement('div');
+            hint.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;padding:8px 16px;border-radius:20px;z-index:9999;font-size:14px;pointer-events:none;';
+            hint.textContent = text;
+            document.body.appendChild(hint);
+            setTimeout(function() { hint.remove(); }, 800);
+        }
     </script>
 }

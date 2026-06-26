@@ -1,4 +1,3 @@
-﻿// 移动端优化的书籍阅读器
 class BookReader {
     constructor(containerId, fileUrl, fileType, fileName, fileId) {
         this.container = document.getElementById(containerId);
@@ -9,10 +8,8 @@ class BookReader {
         this.currentPage = 1;
         this.totalPages = 1;
 
-        // 检测是否为移动端
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        // 移动端优化的默认设置
         this.settings = {
             fontSize: this.isMobile ? 18 : 16,
             lineHeight: 1.8,
@@ -25,16 +22,12 @@ class BookReader {
             autoSave: true
         };
 
-        // 移动端每页显示更少的字符
         this.charsPerPage = this.isMobile ? 1800 : 3000;
         this.fullContent = '';
-        this.pdfDoc = null;
-        this.scale = this.isMobile ? 1.2 : 1.5;
         this.readingProgress = 0;
         this.readingTime = 0;
         this.timer = null;
 
-        // 触摸滑动相关
         this.touchStartX = 0;
         this.touchEndX = 0;
 
@@ -43,22 +36,21 @@ class BookReader {
     }
 
     loadSettings() {
-        const saved = localStorage.getItem(`reader_settings_${this.fileName}`);
+        const saved = localStorage.getItem('reader_settings_' + this.fileName);
         if (saved) {
             try {
-                const parsed = JSON.parse(saved);
-                Object.assign(this.settings, parsed);
+                Object.assign(this.settings, JSON.parse(saved));
             } catch (e) { }
         }
     }
 
     saveSettings() {
-        localStorage.setItem(`reader_settings_${this.fileName}`, JSON.stringify(this.settings));
+        localStorage.setItem('reader_settings_' + this.fileName, JSON.stringify(this.settings));
     }
 
     init() {
         if (this.fileType === 'pdf') {
-            this.loadPDF();
+            this.loadPDFNative();
         } else {
             this.loadTXT();
         }
@@ -69,25 +61,22 @@ class BookReader {
 
     initTouchSwipe() {
         if (!this.isMobile) return;
-
         const content = document.getElementById('readerContent');
         if (!content) return;
 
         content.addEventListener('touchstart', (e) => {
             this.touchStartX = e.changedTouches[0].screenX;
-        }, false);
+        }, { passive: true });
 
         content.addEventListener('touchend', (e) => {
             this.touchEndX = e.changedTouches[0].screenX;
             this.handleSwipe();
-        }, false);
+        }, { passive: true });
     }
 
     handleSwipe() {
-        const swipeThreshold = 50;
         const diff = this.touchEndX - this.touchStartX;
-
-        if (Math.abs(diff) > swipeThreshold) {
+        if (Math.abs(diff) > 50) {
             if (diff > 0) {
                 this.previousPage();
             } else {
@@ -107,169 +96,157 @@ class BookReader {
     updateReadingTimeDisplay() {
         const minutes = Math.floor(this.readingTime / 60);
         const seconds = this.readingTime % 60;
-        const timeDisplay = document.getElementById('readingTime');
-        if (timeDisplay) {
-            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const el = document.getElementById('readingTime');
+        if (el) {
+            el.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
         }
     }
 
     createControls() {
-        let controlsHtml = '';
+        var controlsHtml = '';
 
         if (this.isMobile) {
-            // 移动端布局
-            controlsHtml = `
-                <div class="reader-controls" style="position: sticky; top: 0; background: #2c3e50; padding: 10px; border-bottom: 1px solid #34495e; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <div class="d-flex justify-content-around mb-2">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-light" id="fontMinusBtn" style="font-size: 1.2rem; padding: 8px 12px;">A-</button>
-                            <span class="px-2 text-white align-self-center" id="fontSizeDisplay" style="min-width: 50px;">${this.settings.fontSize}px</span>
-                            <button class="btn btn-sm btn-light" id="fontPlusBtn" style="font-size: 1.2rem; padding: 8px 12px;">A+</button>
-                        </div>
-                        
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-light" id="lineHeightMinusBtn" style="padding: 8px 12px;">行距-</button>
-                            <span class="px-2 text-white align-self-center" id="lineHeightDisplay" style="min-width: 40px;">${this.settings.lineHeight.toFixed(1)}</span>
-                            <button class="btn btn-sm btn-light" id="lineHeightPlusBtn" style="padding: 8px 12px;">行距+</button>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-around mb-2">
-                        <select id="fontFamilySelect" class="form-select form-select-sm" style="background: #ecf0f1; color: #2c3e50; border: none; font-size: 0.9rem; width: auto;">
-                            <option value="Microsoft YaHei" ${this.settings.fontFamily === 'Microsoft YaHei' ? 'selected' : ''}>微软雅黑</option>
-                            <option value="SimSun" ${this.settings.fontFamily === 'SimSun' ? 'selected' : ''}>宋体</option>
-                            <option value="SimHei" ${this.settings.fontFamily === 'SimHei' ? 'selected' : ''}>黑体</option>
-                            <option value="KaiTi" ${this.settings.fontFamily === 'KaiTi' ? 'selected' : ''}>楷体</option>
-                        </select>
-                        
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-light" data-theme="day" style="padding: 8px 10px;">☀️</button>
-                            <button class="btn btn-sm btn-light" data-theme="night" style="padding: 8px 10px;">🌙</button>
-                            <button class="btn btn-sm btn-light" data-theme="eye" style="padding: 8px 10px;">👁️</button>
-                            <button class="btn btn-sm btn-light" data-theme="sepia" style="padding: 8px 10px;">📜</button>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-sm btn-primary" id="prevPageBtn" style="padding: 6px 12px;">◀</button>
-                            <span class="mx-2 text-white" id="pageInfo" style="font-size: 0.9rem;">${this.currentPage}/${this.totalPages}</span>
-                            <button class="btn btn-sm btn-primary" id="nextPageBtn" style="padding: 6px 12px;">▶</button>
-                        </div>
-                        
-                        <button class="btn btn-sm btn-primary" id="resetSettingsBtn" style="padding: 6px 12px;">重置</button>
-                        
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-clock text-white me-1" style="font-size: 0.8rem;"></i>
-                            <span class="text-white small" id="readingTime">00:00</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="readerContent" style="padding: 20px 15px; min-height: 60vh; transition: all 0.3s ease;"></div>
-                <div id="paginationControls" class="text-center mt-3 pb-4" style="display: none;">
-                    <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                        <button class="btn btn-sm btn-primary" id="firstPageBtn">首页</button>
-                        <button class="btn btn-sm btn-primary" id="lastPageBtn">尾页</button>
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center gap-2">
-                        <input type="number" id="pageInput" class="form-control" style="width: 80px; text-align: center;" min="1" />
-                        <button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>
-                    </div>
-                    <div class="mt-3 px-3">
-                        <div class="progress" style="height: 6px;">
-                            <div id="readingProgress" class="progress-bar bg-primary" style="width: 0%"></div>
-                        </div>
-                        <small class="text-muted" id="progressText">阅读进度: 0%</small>
-                    </div>
-                </div>
-                <div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1000;">
-                    <button class="btn btn-warning rounded-circle shadow" id="addBookmarkBtn" style="width: 50px; height: 50px; font-size: 1.2rem;">
-                        <i class="fas fa-bookmark"></i>
-                    </button>
-                </div>
-            `;
+            controlsHtml = '<div class="reader-controls" style="position:sticky;top:0;background:#2c3e50;padding:10px;border-bottom:1px solid #34495e;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.1);">' +
+                '<div class="d-flex justify-content-around mb-2">' +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-sm btn-light" id="fontMinusBtn" style="font-size:1.2rem;padding:8px 12px;">A-</button>' +
+                        '<span class="px-2 text-white align-self-center" id="fontSizeDisplay" style="min-width:50px;">' + this.settings.fontSize + 'px</span>' +
+                        '<button class="btn btn-sm btn-light" id="fontPlusBtn" style="font-size:1.2rem;padding:8px 12px;">A+</button>' +
+                    '</div>' +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-sm btn-light" id="lineHeightMinusBtn" style="padding:8px 12px;">行距-</button>' +
+                        '<span class="px-2 text-white align-self-center" id="lineHeightDisplay" style="min-width:40px;">' + this.settings.lineHeight.toFixed(1) + '</span>' +
+                        '<button class="btn btn-sm btn-light" id="lineHeightPlusBtn" style="padding:8px 12px;">行距+</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="d-flex justify-content-around mb-2">' +
+                    '<select id="fontFamilySelect" class="form-select form-select-sm" style="background:#ecf0f1;color:#2c3e50;border:none;font-size:0.9rem;width:auto;">' +
+                        '<option value="Microsoft YaHei"' + (this.settings.fontFamily === 'Microsoft YaHei' ? ' selected' : '') + '>微软雅黑</option>' +
+                        '<option value="SimSun"' + (this.settings.fontFamily === 'SimSun' ? ' selected' : '') + '>宋体</option>' +
+                        '<option value="SimHei"' + (this.settings.fontFamily === 'SimHei' ? ' selected' : '') + '>黑体</option>' +
+                        '<option value="KaiTi"' + (this.settings.fontFamily === 'KaiTi' ? ' selected' : '') + '>楷体</option>' +
+                    '</select>' +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-sm btn-light" data-theme="day" style="padding:8px 10px;">☀️</button>' +
+                        '<button class="btn btn-sm btn-light" data-theme="night" style="padding:8px 10px;">🌙</button>' +
+                        '<button class="btn btn-sm btn-light" data-theme="eye" style="padding:8px 10px;">👁️</button>' +
+                        '<button class="btn btn-sm btn-light" data-theme="sepia" style="padding:8px 10px;">📜</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="d-flex justify-content-between align-items-center">' +
+                    '<div class="btn-group">' +
+                        '<button class="btn btn-sm btn-primary" id="prevPageBtn" style="padding:6px 12px;">◀</button>' +
+                        '<span class="mx-2 text-white" id="pageInfo" style="font-size:0.9rem;">' + this.currentPage + '/' + this.totalPages + '</span>' +
+                        '<button class="btn btn-sm btn-primary" id="nextPageBtn" style="padding:6px 12px;">▶</button>' +
+                    '</div>' +
+                    '<button class="btn btn-sm btn-primary" id="resetSettingsBtn" style="padding:6px 12px;">重置</button>' +
+                    '<div class="d-flex align-items-center">' +
+                        '<i class="fas fa-clock text-white me-1" style="font-size:0.8rem;"></i>' +
+                        '<span class="text-white small" id="readingTime">00:00</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div id="readerContent" style="padding:20px 15px;min-height:60vh;transition:all 0.3s ease;"></div>' +
+            '<div id="paginationControls" class="text-center mt-3 pb-4" style="display:none;">' +
+                '<div class="d-flex justify-content-center align-items-center gap-2 mb-2">' +
+                    '<button class="btn btn-sm btn-primary" id="firstPageBtn">首页</button>' +
+                    '<button class="btn btn-sm btn-primary" id="lastPageBtn">尾页</button>' +
+                '</div>' +
+                '<div class="d-flex justify-content-center align-items-center gap-2">' +
+                    '<input type="number" id="pageInput" class="form-control" style="width:80px;text-align:center;" min="1" />' +
+                    '<button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>' +
+                '</div>' +
+                '<div class="mt-3 px-3">' +
+                    '<div class="progress" style="height:6px;">' +
+                        '<div id="readingProgress" class="progress-bar bg-primary" style="width:0%"></div>' +
+                    '</div>' +
+                    '<small class="text-muted" id="progressText">阅读进度: 0%</small>' +
+                '</div>' +
+            '</div>' +
+            '<div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index:1000;">' +
+                '<button class="btn btn-warning rounded-circle shadow" id="addBookmarkBtn" style="width:50px;height:50px;font-size:1.2rem;">' +
+                    '<i class="fas fa-bookmark"></i>' +
+                '</button>' +
+            '</div>';
         } else {
-            // 桌面版布局
-            controlsHtml = `
-                <div class="reader-controls" style="position: sticky; top: 0; background: #2c3e50; padding: 12px 20px; border-bottom: 1px solid #34495e; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <div class="row align-items-center">
-                        <div class="col-md-2 mb-2 mb-md-0">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light" id="fontMinusBtn" title="减小字体" style="background: #ecf0f1; color: #2c3e50;">A-</button>
-                                <span class="px-2 text-white" id="fontSizeDisplay">${this.settings.fontSize}px</span>
-                                <button class="btn btn-sm btn-light" id="fontPlusBtn" title="增大字体" style="background: #ecf0f1; color: #2c3e50;">A+</button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 mb-2 mb-md-0">
-                            <select id="fontFamilySelect" class="form-select form-select-sm" style="background: #ecf0f1; color: #2c3e50; border: none;">
-                                <option value="Microsoft YaHei" ${this.settings.fontFamily === 'Microsoft YaHei' ? 'selected' : ''}>微软雅黑</option>
-                                <option value="SimSun" ${this.settings.fontFamily === 'SimSun' ? 'selected' : ''}>宋体</option>
-                                <option value="SimHei" ${this.settings.fontFamily === 'SimHei' ? 'selected' : ''}>黑体</option>
-                                <option value="KaiTi" ${this.settings.fontFamily === 'KaiTi' ? 'selected' : ''}>楷体</option>
-                                <option value="Arial" ${this.settings.fontFamily === 'Arial' ? 'selected' : ''}>Arial</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 mb-2 mb-md-0">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light" data-theme="day" title="白天模式" style="background: #ecf0f1; color: #2c3e50;">☀️</button>
-                                <button class="btn btn-sm btn-light" data-theme="night" title="夜间模式" style="background: #ecf0f1; color: #2c3e50;">🌙</button>
-                                <button class="btn btn-sm btn-light" data-theme="eye" title="护眼模式" style="background: #ecf0f1; color: #2c3e50;">👁️</button>
-                                <button class="btn btn-sm btn-light" data-theme="sepia" title="复古模式" style="background: #ecf0f1; color: #2c3e50;">📜</button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 mb-2 mb-md-0">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light" id="lineHeightMinusBtn" title="减小行距" style="background: #ecf0f1; color: #2c3e50;">行距-</button>
-                                <span class="px-2 text-white" id="lineHeightDisplay">${this.settings.lineHeight.toFixed(1)}</span>
-                                <button class="btn btn-sm btn-light" id="lineHeightPlusBtn" title="增大行距" style="background: #ecf0f1; color: #2c3e50;">行距+</button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 mb-2 mb-md-0">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light" id="letterSpacingMinusBtn" title="减小字间距" style="background: #ecf0f1; color: #2c3e50;">字距-</button>
-                                <span class="px-2 text-white" id="letterSpacingDisplay">${this.settings.letterSpacing}px</span>
-                                <button class="btn btn-sm btn-light" id="letterSpacingPlusBtn" title="增大字间距" style="background: #ecf0f1; color: #2c3e50;">字距+</button>
-                            </div>
-                        </div>
-                        <div class="col-md-2 text-md-end">
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-light" id="fullscreenBtn" title="全屏模式" style="background: #ecf0f1; color: #2c3e50;">📺 全屏</button>
-                                <button class="btn btn-sm btn-light" id="resetSettingsBtn" title="重置设置" style="background: #ecf0f1; color: #2c3e50;">↺ 重置</button>
-                            </div>
-                            <span class="ms-2 text-white small">
-                                <i class="fas fa-clock"></i> <span id="readingTime">00:00</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div id="readerContent" style="padding: 30px; min-height: 600px; transition: all 0.3s ease;"></div>
-                <div id="paginationControls" class="text-center mt-3 pb-4" style="display: none;">
-                    <div class="btn-group">
-                        <button class="btn btn-sm btn-primary" id="firstPageBtn" title="首页">⏮ 首页</button>
-                        <button class="btn btn-sm btn-primary" id="prevPageBtn" title="上一页">◀ 上一页</button>
-                        <span class="mx-3 align-self-center" id="pageInfo">第1页 / 共1页</span>
-                        <button class="btn btn-sm btn-primary" id="nextPageBtn" title="下一页">下一页 ▶</button>
-                        <button class="btn btn-sm btn-primary" id="lastPageBtn" title="尾页">尾页 ⏭</button>
-                    </div>
-                    <div class="mt-2">
-                        <div class="d-inline-block">
-                            <input type="number" id="pageInput" class="form-control d-inline-block" style="width: 80px;" min="1" />
-                            <button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <div class="progress" style="height: 8px; max-width: 400px; margin: 0 auto;">
-                            <div id="readingProgress" class="progress-bar bg-primary" style="width: 0%"></div>
-                        </div>
-                        <small class="text-muted" id="progressText">阅读进度: 0%</small>
-                    </div>
-                </div>
-                <div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index: 1000;">
-                    <button class="btn btn-sm btn-warning rounded-circle shadow" id="addBookmarkBtn" title="添加书签" style="width: 45px; height: 45px;">
-                        <i class="fas fa-bookmark"></i>
-                    </button>
-                </div>
-            `;
+            controlsHtml = '<div class="reader-controls" style="position:sticky;top:0;background:#2c3e50;padding:12px 20px;border-bottom:1px solid #34495e;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.1);">' +
+                '<div class="row align-items-center">' +
+                    '<div class="col-md-2 mb-2 mb-md-0">' +
+                        '<div class="btn-group">' +
+                            '<button class="btn btn-sm btn-light" id="fontMinusBtn" title="减小字体" style="background:#ecf0f1;color:#2c3e50;">A-</button>' +
+                            '<span class="px-2 text-white" id="fontSizeDisplay">' + this.settings.fontSize + 'px</span>' +
+                            '<button class="btn btn-sm btn-light" id="fontPlusBtn" title="增大字体" style="background:#ecf0f1;color:#2c3e50;">A+</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2 mb-2 mb-md-0">' +
+                        '<select id="fontFamilySelect" class="form-select form-select-sm" style="background:#ecf0f1;color:#2c3e50;border:none;">' +
+                            '<option value="Microsoft YaHei"' + (this.settings.fontFamily === 'Microsoft YaHei' ? ' selected' : '') + '>微软雅黑</option>' +
+                            '<option value="SimSun"' + (this.settings.fontFamily === 'SimSun' ? ' selected' : '') + '>宋体</option>' +
+                            '<option value="SimHei"' + (this.settings.fontFamily === 'SimHei' ? ' selected' : '') + '>黑体</option>' +
+                            '<option value="KaiTi"' + (this.settings.fontFamily === 'KaiTi' ? ' selected' : '') + '>楷体</option>' +
+                            '<option value="Arial"' + (this.settings.fontFamily === 'Arial' ? ' selected' : '') + '>Arial</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div class="col-md-2 mb-2 mb-md-0">' +
+                        '<div class="btn-group">' +
+                            '<button class="btn btn-sm btn-light" data-theme="day" title="白天模式" style="background:#ecf0f1;color:#2c3e50;">☀️</button>' +
+                            '<button class="btn btn-sm btn-light" data-theme="night" title="夜间模式" style="background:#ecf0f1;color:#2c3e50;">🌙</button>' +
+                            '<button class="btn btn-sm btn-light" data-theme="eye" title="护眼模式" style="background:#ecf0f1;color:#2c3e50;">👁️</button>' +
+                            '<button class="btn btn-sm btn-light" data-theme="sepia" title="复古模式" style="background:#ecf0f1;color:#2c3e50;">📜</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2 mb-2 mb-md-0">' +
+                        '<div class="btn-group">' +
+                            '<button class="btn btn-sm btn-light" id="lineHeightMinusBtn" title="减小行距" style="background:#ecf0f1;color:#2c3e50;">行距-</button>' +
+                            '<span class="px-2 text-white" id="lineHeightDisplay">' + this.settings.lineHeight.toFixed(1) + '</span>' +
+                            '<button class="btn btn-sm btn-light" id="lineHeightPlusBtn" title="增大行距" style="background:#ecf0f1;color:#2c3e50;">行距+</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2 mb-2 mb-md-0">' +
+                        '<div class="btn-group">' +
+                            '<button class="btn btn-sm btn-light" id="letterSpacingMinusBtn" title="减小字间距" style="background:#ecf0f1;color:#2c3e50;">字距-</button>' +
+                            '<span class="px-2 text-white" id="letterSpacingDisplay">' + this.settings.letterSpacing + 'px</span>' +
+                            '<button class="btn btn-sm btn-light" id="letterSpacingPlusBtn" title="增大字间距" style="background:#ecf0f1;color:#2c3e50;">字距+</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-md-2 text-md-end">' +
+                        '<div class="btn-group">' +
+                            '<button class="btn btn-sm btn-light" id="fullscreenBtn" title="全屏模式" style="background:#ecf0f1;color:#2c3e50;">📺 全屏</button>' +
+                            '<button class="btn btn-sm btn-light" id="resetSettingsBtn" title="重置设置" style="background:#ecf0f1;color:#2c3e50;">↺ 重置</button>' +
+                        '</div>' +
+                        '<span class="ms-2 text-white small">' +
+                            '<i class="fas fa-clock"></i> <span id="readingTime">00:00</span>' +
+                        '</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div id="readerContent" style="padding:30px;min-height:600px;transition:all 0.3s ease;"></div>' +
+            '<div id="paginationControls" class="text-center mt-3 pb-4" style="display:none;">' +
+                '<div class="btn-group">' +
+                    '<button class="btn btn-sm btn-primary" id="firstPageBtn" title="首页">⏮ 首页</button>' +
+                    '<button class="btn btn-sm btn-primary" id="prevPageBtn" title="上一页">◀ 上一页</button>' +
+                    '<span class="mx-3 align-self-center" id="pageInfo">第1页 / 共1页</span>' +
+                    '<button class="btn btn-sm btn-primary" id="nextPageBtn" title="下一页">下一页 ▶</button>' +
+                    '<button class="btn btn-sm btn-primary" id="lastPageBtn" title="尾页">尾页 ⏭</button>' +
+                '</div>' +
+                '<div class="mt-2">' +
+                    '<div class="d-inline-block">' +
+                        '<input type="number" id="pageInput" class="form-control d-inline-block" style="width:80px;" min="1" />' +
+                        '<button class="btn btn-sm btn-primary" id="jumpPageBtn">跳转</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="mt-3">' +
+                    '<div class="progress" style="height:8px;max-width:400px;margin:0 auto;">' +
+                        '<div id="readingProgress" class="progress-bar bg-primary" style="width:0%"></div>' +
+                    '</div>' +
+                    '<small class="text-muted" id="progressText">阅读进度: 0%</small>' +
+                '</div>' +
+            '</div>' +
+            '<div id="bookmarkPanel" class="position-fixed bottom-0 end-0 m-3" style="z-index:1000;">' +
+                '<button class="btn btn-sm btn-warning rounded-circle shadow" id="addBookmarkBtn" title="添加书签" style="width:45px;height:45px;">' +
+                    '<i class="fas fa-bookmark"></i>' +
+                '</button>' +
+            '</div>';
         }
 
         this.container.innerHTML = controlsHtml;
@@ -277,40 +254,31 @@ class BookReader {
     }
 
     bindEvents() {
-        // 字体控制
-        document.getElementById('fontMinusBtn')?.addEventListener('click', () => this.changeFontSize(-2));
-        document.getElementById('fontPlusBtn')?.addEventListener('click', () => this.changeFontSize(2));
-        document.getElementById('fontFamilySelect')?.addEventListener('change', (e) => this.changeFontFamily(e.target.value));
+        document.getElementById('fontMinusBtn') && document.getElementById('fontMinusBtn').addEventListener('click', () => this.changeFontSize(-2));
+        document.getElementById('fontPlusBtn') && document.getElementById('fontPlusBtn').addEventListener('click', () => this.changeFontSize(2));
+        document.getElementById('fontFamilySelect') && document.getElementById('fontFamilySelect').addEventListener('change', (e) => this.changeFontFamily(e.target.value));
+        document.getElementById('lineHeightMinusBtn') && document.getElementById('lineHeightMinusBtn').addEventListener('click', () => this.changeLineHeight(-0.1));
+        document.getElementById('lineHeightPlusBtn') && document.getElementById('lineHeightPlusBtn').addEventListener('click', () => this.changeLineHeight(0.1));
 
-        // 行距控制
-        document.getElementById('lineHeightMinusBtn')?.addEventListener('click', () => this.changeLineHeight(-0.1));
-        document.getElementById('lineHeightPlusBtn')?.addEventListener('click', () => this.changeLineHeight(0.1));
-
-        // 字间距控制（仅桌面版）
         if (!this.isMobile) {
-            document.getElementById('letterSpacingMinusBtn')?.addEventListener('click', () => this.changeLetterSpacing(-0.5));
-            document.getElementById('letterSpacingPlusBtn')?.addEventListener('click', () => this.changeLetterSpacing(0.5));
-            document.getElementById('fullscreenBtn')?.addEventListener('click', () => this.toggleFullscreen());
+            document.getElementById('letterSpacingMinusBtn') && document.getElementById('letterSpacingMinusBtn').addEventListener('click', () => this.changeLetterSpacing(-0.5));
+            document.getElementById('letterSpacingPlusBtn') && document.getElementById('letterSpacingPlusBtn').addEventListener('click', () => this.changeLetterSpacing(0.5));
+            document.getElementById('fullscreenBtn') && document.getElementById('fullscreenBtn').addEventListener('click', () => this.toggleFullscreen());
         }
 
-        // 主题切换
         document.querySelectorAll('[data-theme]').forEach(btn => {
             btn.addEventListener('click', () => this.changeTheme(btn.getAttribute('data-theme')));
         });
 
-        // 其他控制
-        document.getElementById('resetSettingsBtn')?.addEventListener('click', () => this.resetSettings());
-        document.getElementById('addBookmarkBtn')?.addEventListener('click', () => this.addBookmark());
+        document.getElementById('resetSettingsBtn') && document.getElementById('resetSettingsBtn').addEventListener('click', () => this.resetSettings());
+        document.getElementById('addBookmarkBtn') && document.getElementById('addBookmarkBtn').addEventListener('click', () => this.addBookmark());
+        document.getElementById('firstPageBtn') && document.getElementById('firstPageBtn').addEventListener('click', () => this.firstPage());
+        document.getElementById('prevPageBtn') && document.getElementById('prevPageBtn').addEventListener('click', () => this.previousPage());
+        document.getElementById('nextPageBtn') && document.getElementById('nextPageBtn').addEventListener('click', () => this.nextPage());
+        document.getElementById('lastPageBtn') && document.getElementById('lastPageBtn').addEventListener('click', () => this.lastPage());
+        document.getElementById('jumpPageBtn') && document.getElementById('jumpPageBtn').addEventListener('click', () => this.jumpToPage());
 
-        // 分页控制
-        document.getElementById('firstPageBtn')?.addEventListener('click', () => this.firstPage());
-        document.getElementById('prevPageBtn')?.addEventListener('click', () => this.previousPage());
-        document.getElementById('nextPageBtn')?.addEventListener('click', () => this.nextPage());
-        document.getElementById('lastPageBtn')?.addEventListener('click', () => this.lastPage());
-        document.getElementById('jumpPageBtn')?.addEventListener('click', () => this.jumpToPage());
-
-        // 页面输入框键盘支持
-        const pageInput = document.getElementById('pageInput');
+        var pageInput = document.getElementById('pageInput');
         if (pageInput) {
             pageInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') this.jumpToPage();
@@ -321,83 +289,43 @@ class BookReader {
     }
 
     updateDisplays() {
-        const fontSizeDisplay = document.getElementById('fontSizeDisplay');
-        const lineHeightDisplay = document.getElementById('lineHeightDisplay');
-
+        var fontSizeDisplay = document.getElementById('fontSizeDisplay');
+        var lineHeightDisplay = document.getElementById('lineHeightDisplay');
         if (fontSizeDisplay) fontSizeDisplay.textContent = this.settings.fontSize + 'px';
         if (lineHeightDisplay) lineHeightDisplay.textContent = this.settings.lineHeight.toFixed(1);
-
         if (!this.isMobile) {
-            const letterSpacingDisplay = document.getElementById('letterSpacingDisplay');
+            var letterSpacingDisplay = document.getElementById('letterSpacingDisplay');
             if (letterSpacingDisplay) letterSpacingDisplay.textContent = this.settings.letterSpacing + 'px';
         }
     }
 
-    loadPDF() {
-        if (typeof pdfjsLib === 'undefined') {
-            document.getElementById('readerContent').innerHTML = '<div class="alert alert-danger">PDF.js 库未加载，请检查网络连接。</div>';
-            return;
+    loadPDFNative() {
+        var readerContent = document.getElementById('readerContent');
+        var paginationControls = document.getElementById('paginationControls');
+
+        readerContent.innerHTML = '';
+
+        var iframe = document.createElement('iframe');
+        iframe.src = this.fileUrl;
+        iframe.style.width = '100%';
+        iframe.style.height = '75vh';
+        iframe.style.border = 'none';
+        iframe.style.borderRadius = '4px';
+
+        if (this.isMobile) {
+            iframe.style.height = '80vh';
         }
 
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        readerContent.appendChild(iframe);
 
-        pdfjsLib.getDocument(this.fileUrl).promise.then(pdf => {
-            this.pdfDoc = pdf;
-            this.totalPages = pdf.numPages;
-            document.getElementById('paginationControls').style.display = 'block';
+        paginationControls.style.display = 'none';
 
-            // 移动端调整PDF缩放比例
-            if (this.isMobile) {
-                this.scale = 1.0;
-            }
+        var savedPage = localStorage.getItem('bookmark_page_' + this.fileName);
+        if (savedPage) {
+            this.currentPage = parseInt(savedPage);
+        }
 
-            const savedPage = localStorage.getItem(`bookmark_page_${this.fileName}`);
-            if (savedPage && parseInt(savedPage) > 0 && parseInt(savedPage) <= this.totalPages) {
-                if (confirm(`您上次阅读到第 ${savedPage} 页，是否继续？`)) {
-                    this.currentPage = parseInt(savedPage);
-                }
-            }
-
-            this.renderPDFPage(this.currentPage);
-            this.loadBookmarks();
-        }).catch(error => {
-            document.getElementById('readerContent').innerHTML = `<div class="alert alert-danger">PDF加载失败：${error.message}</div>`;
-        });
-    }
-
-    renderPDFPage(pageNum) {
-        if (!this.pdfDoc) return;
-
-        this.pdfDoc.getPage(pageNum).then(page => {
-            const viewport = page.getViewport({ scale: this.scale });
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            canvas.style.maxWidth = '100%';
-            canvas.style.height = 'auto';
-
-            // 移动端优化canvas显示
-            if (this.isMobile) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            }
-
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-
-            page.render(renderContext);
-
-            const readerContent = document.getElementById('readerContent');
-            readerContent.innerHTML = '';
-            readerContent.appendChild(canvas);
-
-            this.updatePaginationDisplay();
-            this.updateProgress();
-            this.savePosition();
-        });
+        this.loadBookmarks();
     }
 
     loadTXT() {
@@ -408,9 +336,9 @@ class BookReader {
                 this.totalPages = Math.ceil(this.fullContent.length / this.charsPerPage);
                 document.getElementById('paginationControls').style.display = 'block';
 
-                const savedPage = localStorage.getItem(`bookmark_page_${this.fileName}`);
+                var savedPage = localStorage.getItem('bookmark_page_' + this.fileName);
                 if (savedPage && parseInt(savedPage) > 0 && parseInt(savedPage) <= this.totalPages) {
-                    if (confirm(`您上次阅读到第 ${savedPage} 页，是否继续？`)) {
+                    if (confirm('您上次阅读到第 ' + savedPage + ' 页，是否继续？')) {
                         this.currentPage = parseInt(savedPage);
                     }
                 }
@@ -419,22 +347,21 @@ class BookReader {
                 this.loadBookmarks();
             })
             .catch(error => {
-                document.getElementById('readerContent').innerHTML = `<div class="alert alert-danger">TXT加载失败：${error.message}</div>`;
+                document.getElementById('readerContent').innerHTML = '<div class="alert alert-danger">TXT加载失败：' + error.message + '</div>';
             });
     }
 
     renderTXTPage() {
-        const start = (this.currentPage - 1) * this.charsPerPage;
-        const end = Math.min(start + this.charsPerPage, this.fullContent.length);
-        let pageContent = this.fullContent.substring(start, end);
-
+        var start = (this.currentPage - 1) * this.charsPerPage;
+        var end = Math.min(start + this.charsPerPage, this.fullContent.length);
+        var pageContent = this.fullContent.substring(start, end);
         pageContent = pageContent.replace(/\n/g, '<br>');
 
-        const readerContent = document.getElementById('readerContent');
-        const maxWidth = this.isMobile ? '100%' : '800px';
-        const padding = this.isMobile ? '0' : '0 20px';
+        var readerContent = document.getElementById('readerContent');
+        var maxWidth = this.isMobile ? '100%' : '800px';
+        var padding = this.isMobile ? '0' : '0 20px';
 
-        readerContent.innerHTML = `<div class="txt-content" style="max-width: ${maxWidth}; margin: 0 auto; text-align: justify; padding: ${padding};">${pageContent}</div>`;
+        readerContent.innerHTML = '<div class="txt-content" style="max-width:' + maxWidth + ';margin:0 auto;text-align:justify;padding:' + padding + ';">' + pageContent + '</div>';
 
         this.updatePaginationDisplay();
         this.updateProgress();
@@ -443,100 +370,97 @@ class BookReader {
     }
 
     applyStyles() {
-        const content = document.getElementById('readerContent');
-        if (content) {
-            content.style.fontSize = this.settings.fontSize + 'px';
-            content.style.lineHeight = this.settings.lineHeight;
-            content.style.fontFamily = this.settings.fontFamily;
-            content.style.letterSpacing = this.settings.letterSpacing + 'px';
+        var content = document.getElementById('readerContent');
+        if (!content) return;
 
-            // 移动端增加触摸区域优化
-            if (this.isMobile) {
-                content.style.padding = '20px 15px';
-                content.style.touchAction = 'pan-y pinch-zoom';
-            }
+        content.style.fontSize = this.settings.fontSize + 'px';
+        content.style.lineHeight = this.settings.lineHeight;
+        content.style.fontFamily = this.settings.fontFamily;
+        content.style.letterSpacing = this.settings.letterSpacing + 'px';
 
-            // 主题样式
-            const themes = {
-                day: { background: '#ffffff', color: '#333333', border: '#e0e0e0' },
-                night: { background: '#1a1a2e', color: '#ecf0f1', border: '#2c3e50' },
-                eye: { background: '#c7edcc', color: '#2c3e50', border: '#a0c4a8' },
-                sepia: { background: '#f4ecd8', color: '#5b4636', border: '#d4c5a8' }
-            };
-            const theme = themes[this.settings.theme];
-            if (theme) {
-                content.style.backgroundColor = theme.background;
-                content.style.color = theme.color;
-            }
+        if (this.isMobile) {
+            content.style.padding = '20px 15px';
+            content.style.touchAction = 'pan-y pinch-zoom';
+        }
+
+        var themes = {
+            day: { background: '#ffffff', color: '#333333' },
+            night: { background: '#1a1a2e', color: '#ecf0f1' },
+            eye: { background: '#c7edcc', color: '#2c3e50' },
+            sepia: { background: '#f4ecd8', color: '#5b4636' }
+        };
+        var theme = themes[this.settings.theme];
+        if (theme) {
+            content.style.backgroundColor = theme.background;
+            content.style.color = theme.color;
         }
     }
 
     updatePaginationDisplay() {
-        const pageInfo = document.getElementById('pageInfo');
-        const pageInput = document.getElementById('pageInput');
+        var pageInfo = document.getElementById('pageInfo');
+        var pageInput = document.getElementById('pageInput');
 
         if (pageInfo) {
             if (this.isMobile) {
-                pageInfo.textContent = `${this.currentPage}/${this.totalPages}`;
+                pageInfo.textContent = this.currentPage + '/' + this.totalPages;
             } else {
-                pageInfo.innerHTML = `第${this.currentPage}页 / 共${this.totalPages}页`;
+                pageInfo.innerHTML = '第' + this.currentPage + '页 / 共' + this.totalPages + '页';
             }
         }
         if (pageInput) pageInput.value = this.currentPage;
     }
 
     updateProgress() {
-        const progress = (this.currentPage / this.totalPages) * 100;
-        const progressBar = document.getElementById('readingProgress');
-        const progressText = document.getElementById('progressText');
+        var progress = (this.currentPage / this.totalPages) * 100;
+        var progressBar = document.getElementById('readingProgress');
+        var progressText = document.getElementById('progressText');
         if (progressBar) {
             progressBar.style.width = progress + '%';
             if (!this.isMobile) progressBar.textContent = Math.round(progress) + '%';
         }
         if (progressText) {
-            progressText.textContent = `阅读进度: ${Math.round(progress)}%`;
+            progressText.textContent = '阅读进度: ' + Math.round(progress) + '%';
         }
         this.readingProgress = progress;
     }
 
     savePosition() {
         if (this.settings.autoSave) {
-            localStorage.setItem(`bookmark_page_${this.fileName}`, this.currentPage);
+            localStorage.setItem('bookmark_page_' + this.fileName, this.currentPage);
         }
     }
 
     loadBookmarks() {
-        const bookmarks = localStorage.getItem(`bookmarks_${this.fileName}`);
+        var bookmarks = localStorage.getItem('bookmarks_' + this.fileName);
         if (bookmarks) {
             try {
-                const marks = JSON.parse(bookmarks);
-                this.showBookmarks(marks);
+                this.showBookmarks(JSON.parse(bookmarks));
             } catch (e) { }
         }
     }
 
     addBookmark() {
-        let bookmarks = localStorage.getItem(`bookmarks_${this.fileName}`);
-        let marks = bookmarks ? JSON.parse(bookmarks) : [];
+        var bookmarks = localStorage.getItem('bookmarks_' + this.fileName);
+        var marks = bookmarks ? JSON.parse(bookmarks) : [];
 
-        const bookmark = {
+        var bookmark = {
             page: this.currentPage,
             time: new Date().toLocaleString(),
-            note: prompt('添加书签备注（可选）：', `第${this.currentPage}页`)
+            note: prompt('添加书签备注（可选）：', '第' + this.currentPage + '页')
         };
 
         marks.push(bookmark);
-        localStorage.setItem(`bookmarks_${this.fileName}`, JSON.stringify(marks));
+        localStorage.setItem('bookmarks_' + this.fileName, JSON.stringify(marks));
 
         if (this.isMobile) {
-            const toast = document.createElement('div');
+            var toast = document.createElement('div');
             toast.className = 'position-fixed top-50 start-50 translate-middle bg-dark text-white p-3 rounded shadow';
             toast.style.zIndex = '2000';
-            toast.innerHTML = `✅ 已添加书签：第${bookmark.page}页`;
+            toast.innerHTML = '✅ 已添加书签：第' + bookmark.page + '页';
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
         } else {
-            alert(`书签已添加！第${this.currentPage}页`);
+            alert('书签已添加！第' + this.currentPage + '页');
         }
 
         this.showBookmarks(marks);
@@ -547,9 +471,8 @@ class BookReader {
     }
 
     changeFontSize(delta) {
-        const minSize = this.isMobile ? 14 : 12;
-        const maxSize = this.isMobile ? 48 : 36;
-
+        var minSize = this.isMobile ? 14 : 12;
+        var maxSize = this.isMobile ? 48 : 36;
         this.settings.fontSize += delta;
         if (this.settings.fontSize < minSize) this.settings.fontSize = minSize;
         if (this.settings.fontSize > maxSize) this.settings.fontSize = maxSize;
@@ -615,21 +538,17 @@ class BookReader {
     }
 
     firstPage() {
-        this.currentPage = 1;
-        if (this.fileType === 'pdf') {
-            this.renderPDFPage(this.currentPage);
-        } else {
+        if (this.fileType === 'txt' && this.totalPages > 1) {
+            this.currentPage = 1;
             this.renderTXTPage();
+            window.scrollTo(0, 0);
         }
-        window.scrollTo(0, 0);
     }
 
     previousPage() {
         if (this.currentPage > 1) {
             this.currentPage--;
-            if (this.fileType === 'pdf') {
-                this.renderPDFPage(this.currentPage);
-            } else {
+            if (this.fileType === 'txt') {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
@@ -641,9 +560,7 @@ class BookReader {
     nextPage() {
         if (this.currentPage < this.totalPages) {
             this.currentPage++;
-            if (this.fileType === 'pdf') {
-                this.renderPDFPage(this.currentPage);
-            } else {
+            if (this.fileType === 'txt') {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
@@ -653,32 +570,30 @@ class BookReader {
     }
 
     lastPage() {
-        this.currentPage = this.totalPages;
-        if (this.fileType === 'pdf') {
-            this.renderPDFPage(this.currentPage);
-        } else {
+        if (this.fileType === 'txt') {
+            this.currentPage = this.totalPages;
             this.renderTXTPage();
+            window.scrollTo(0, 0);
         }
-        window.scrollTo(0, 0);
     }
 
     jumpToPage() {
-        const page = parseInt(document.getElementById('pageInput').value);
+        var pageInput = document.getElementById('pageInput');
+        if (!pageInput) return;
+        var page = parseInt(pageInput.value);
         if (page >= 1 && page <= this.totalPages) {
             this.currentPage = page;
-            if (this.fileType === 'pdf') {
-                this.renderPDFPage(this.currentPage);
-            } else {
+            if (this.fileType === 'txt') {
                 this.renderTXTPage();
             }
             window.scrollTo(0, 0);
         } else {
-            alert(`页码必须在1-${this.totalPages}之间`);
+            alert('页码必须在1-' + this.totalPages + '之间');
         }
     }
 
     toggleFullscreen() {
-        const elem = this.container;
+        var elem = this.container;
         if (!document.fullscreenElement) {
             elem.requestFullscreen();
         } else {
@@ -687,7 +602,6 @@ class BookReader {
     }
 }
 
-// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function () {
     if (typeof window.bookReader === 'undefined') {
         window.bookReader = null;

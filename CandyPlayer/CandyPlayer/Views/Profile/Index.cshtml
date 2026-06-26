@@ -1,14 +1,14 @@
-﻿@model CandyPlayer.Models.ViewModel.UserProfileViewModel
+@model CandyPlayer.Models.ViewModel.UserProfileViewModel
 
 @{
     ViewData["Title"] = "个人中心";
 }
 
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0"><i class="fas fa-user-circle"></i> 个人信息</h5>
+<div class="row g-3">
+    <div class="col-12 col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-user-circle me-2" style="color:var(--primary-light);"></i>个人信息</h5>
             </div>
             <div class="card-body text-center">
                 <i class="fas fa-user-circle fa-5x text-primary mb-3"></i>
@@ -42,9 +42,9 @@
     </div>
 
     <div class="col-md-8 mb-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="fas fa-history"></i> 最近播放</h5>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-history me-2" style="color:var(--accent2);"></i>最近播放</h5>
             </div>
             <div class="card-body">
                 <div class="list-group">
@@ -90,11 +90,11 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-heart"></i> 我的收藏</h5>
+<div class="row g-3">
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-heart me-2" style="color:var(--accent);"></i>我的收藏</h5>
             </div>
             <div class="card-body">
                 <div class="list-group">
@@ -141,10 +141,10 @@
         </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-warning text-white">
-                <h5 class="mb-0"><i class="fas fa-list"></i> 我的歌单</h5>
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-list me-2" style="color:#fbbf24;"></i>我的歌单</h5>
             </div>
             <div class="card-body">
                 <div class="list-group">
@@ -183,16 +183,21 @@
         function removeFavorite(fileId, event) {
             event.preventDefault();
             event.stopPropagation();
-
-            if (confirm('确定要取消收藏吗？')) {
-                $.post('@Url.Action("Remove", "Favorite")', { fileId: fileId }, function(result) {
-                    if (result.success) {
-                        location.reload();
-                    } else {
-                        alert('操作失败：' + result.message);
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.post('@Url.Action("Remove", "Favorite")', { fileId: fileId }, function(result) {
+                if (result.success) {
+                    var card = event.target.closest('.list-group-item');
+                    if (card) {
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateX(20px)';
+                        setTimeout(function() { card.remove(); }, 300);
                     }
-                });
-            }
+                    if (typeof showToast === 'function') showToast('已取消收藏', 'success');
+                } else {
+                    if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
+                }
+            });
         }
 
         function createPlaylist() {
@@ -207,14 +212,14 @@
                     },
                     success: function(result) {
                         if (result.success) {
-                            alert('歌单创建成功');
-                            location.reload();
+                            if (typeof showToast === 'function') showToast('歌单创建成功', 'success');
+                            setTimeout(function() { location.reload(); }, 800);
                         } else {
-                            alert('创建失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '创建失败', 'error');
                         }
                     },
                     error: function() {
-                        alert('创建失败，请稍后重试');
+                        if (typeof showToast === 'function') showToast('创建失败', 'error');
                     }
                 });
             }

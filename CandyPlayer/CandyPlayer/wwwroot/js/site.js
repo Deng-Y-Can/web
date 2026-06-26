@@ -1,4 +1,4 @@
-﻿// CandyPlayer 全局JavaScript
+// CandyPlayer 全局JavaScript
 $(document).ready(function () {
     // 侧边栏切换
     $("#menu-toggle").click(function (e) {
@@ -291,52 +291,53 @@ function addToPlaylistById(playlistId, fileId, note) {
  * @param {string} type - 消息类型 (success/error/info/warning)
  */
 function showToast(message, type) {
-    // 检查是否有现成的toast容器
-    var toastContainer = $('#toast-container');
-    if (toastContainer.length === 0) {
-        toastContainer = $('<div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>');
-        $('body').append(toastContainer);
+    var toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:360px;';
+        document.body.appendChild(toastContainer);
     }
 
-    var bgClass = '';
-    var iconClass = '';
-    switch (type) {
-        case 'success':
-            bgClass = 'bg-success';
-            iconClass = 'fa-check-circle';
-            break;
-        case 'error':
-            bgClass = 'bg-danger';
-            iconClass = 'fa-exclamation-circle';
-            break;
-        case 'warning':
-            bgClass = 'bg-warning';
-            iconClass = 'fa-exclamation-triangle';
-            break;
-        default:
-            bgClass = 'bg-info';
-            iconClass = 'fa-info-circle';
-    }
+    var colors = {
+        success: { bg: 'rgba(16,185,129,0.15)', border: 'rgba(16,185,129,0.3)', icon: 'fa-check-circle', iconColor: '#34d399' },
+        error: { bg: 'rgba(239,68,68,0.15)', border: 'rgba(239,68,68,0.3)', icon: 'fa-exclamation-circle', iconColor: '#f87171' },
+        warning: { bg: 'rgba(251,191,36,0.15)', border: 'rgba(251,191,36,0.3)', icon: 'fa-exclamation-triangle', iconColor: '#fbbf24' },
+        info: { bg: 'rgba(99,102,241,0.15)', border: 'rgba(99,102,241,0.3)', icon: 'fa-info-circle', iconColor: '#818cf8' }
+    };
 
+    var c = colors[type] || colors.info;
     var toastId = 'toast-' + Date.now();
-    var toastHtml = '<div id="' + toastId + '" class="toast ' + bgClass + ' text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">' +
-        '<div class="toast-header ' + bgClass + ' text-white">' +
-        '<i class="fas ' + iconClass + ' me-2"></i>' +
-        '<strong class="me-auto">提示</strong>' +
-        '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>' +
-        '</div>' +
-        '<div class="toast-body">' + message + '</div>' +
-        '</div>';
 
-    toastContainer.append(toastHtml);
-    var toastElement = document.getElementById(toastId);
-    var toast = new bootstrap.Toast(toastElement, { autohide: true, delay: 3000 });
-    toast.show();
+    var toast = document.createElement('div');
+    toast.id = toastId;
+    toast.style.cssText = 'background:' + c.bg + ';backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid ' + c.border + ';border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;color:#e2e8f0;font-size:0.85rem;box-shadow:0 10px 40px rgba(0,0,0,0.4);animation:fadeInUp 0.3s ease;cursor:pointer;transition:all 0.3s ease;';
 
-    // 自动移除DOM元素
-    toastElement.addEventListener('hidden.bs.toast', function () {
-        $(this).remove();
+    toast.innerHTML = '<i class="fas ' + c.icon + '" style="color:' + c.iconColor + ';font-size:1rem;"></i>' +
+        '<span style="flex:1;">' + message + '</span>' +
+        '<i class="fas fa-times" style="color:#64748b;font-size:0.75rem;cursor:pointer;"></i>';
+
+    toastContainer.appendChild(toast);
+
+    toast.querySelector('.fa-times').addEventListener('click', function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100px)';
+        setTimeout(function() { toast.remove(); }, 300);
     });
+
+    toast.addEventListener('click', function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100px)';
+        setTimeout(function() { toast.remove(); }, 300);
+    });
+
+    setTimeout(function() {
+        if (toast.parentNode) {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100px)';
+            setTimeout(function() { toast.remove(); }, 300);
+        }
+    }, 3000);
 }
 
 /**

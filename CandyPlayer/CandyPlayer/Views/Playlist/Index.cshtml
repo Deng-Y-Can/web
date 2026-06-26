@@ -1,4 +1,4 @@
-﻿@model List<CandyPlayer.Models.Playlist>
+@model List<CandyPlayer.Models.Playlist>
 
 @{
     ViewData["Title"] = ViewBag.Title ?? "我的列表";
@@ -6,89 +6,265 @@
     var typeIcon = ViewBag.TypeIcon as string ?? "fa-list";
     var typeValue = type == "Book" ? 0 : (type == "Music" ? 1 : 2);
     var typeName = type == "Book" ? "阅读列表" : (type == "Music" ? "播放列表" : "观看列表");
+    var totalCount = Model.Sum(p => p.PlaylistItems.Count);
 }
 
-<div class="row mb-4">
-    <div class="col">
-        <h2><i class="fas @typeIcon"></i> @ViewBag.Title</h2>
-        <p class="text-muted">管理您的@(type == "Book" ? "阅读" : (type == "Music" ? "播放" : "观看"))列表</p>
-    </div>
-    <div class="col text-end">
-        <button class="btn btn-primary" onclick="showCreateModal()">
-            <i class="fas fa-plus"></i> 创建新列表
-        </button>
-    </div>
-</div>
+<style>
+    .playlist-card {
+        position: relative;
+        overflow: hidden;
+    }
 
-<div class="row">
-    @foreach (var playlist in Model)
+    .playlist-card .card-cover {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .playlist-card .card-cover::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(244,114,182,0.05));
+    }
+
+    .playlist-card .cover-icon {
+        font-size: 2.5rem;
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    .playlist-card .item-count {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 500;
+        z-index: 2;
+    }
+
+    .playlist-card .card-info {
+        padding: 16px;
+    }
+
+    .playlist-card .card-info h5 {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .playlist-card .card-info .meta {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+    }
+
+    .playlist-card .card-info .preview-list {
+        margin-bottom: 12px;
+    }
+
+    .playlist-card .card-info .preview-item {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        padding: 3px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .playlist-card .card-info .preview-item i {
+        font-size: 0.6rem;
+        opacity: 0.5;
+    }
+
+    .playlist-card .card-actions {
+        display: flex;
+        gap: 6px;
+    }
+
+    .playlist-card .card-actions .btn {
+        flex: 1;
+        font-size: 0.8rem;
+    }
+
+    .playlist-card .dropdown-menu {
+        min-width: 140px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .empty-state .empty-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: rgba(99,102,241,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2.5rem;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    .empty-state h5 {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="fade-in-up">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 style="font-size:1.5rem;font-weight:700;">
+                <i class="fas @typeIcon me-2" style="color:var(--primary-light);"></i>@ViewBag.Title
+            </h2>
+            <p class="text-muted small">共 @(Model.Count) 个列表，包含 @totalCount 个项目</p>
+        </div>
+        <div class="col text-end">
+            <button class="btn btn-sm btn-primary" onclick="showCreateModal()">
+                <i class="fas fa-plus me-1"></i>创建新列表
+            </button>
+        </div>
+    </div>
+
+    @if (Model.Any())
     {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <h5 class="card-title">
-                            <i class="fas @typeIcon text-primary me-2"></i>
-                            @playlist.PlaylistName
-                        </h5>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="#" onclick="editPlaylist(@playlist.PlaylistId, '@playlist.PlaylistName', '@(playlist.Description?.Replace("'", "\\'") ?? "")')">
-                                        <i class="fas fa-edit"></i> 编辑
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="#" onclick="deletePlaylist(@playlist.PlaylistId)">
-                                        <i class="fas fa-trash"></i> 删除
-                                    </a>
-                                </li>
-                            </ul>
+        <div class="row g-3">
+            @foreach (var playlist in Model)
+            {
+                var previewItems = playlist.PlaylistItems
+                    .Where(pi => pi.MediaFile != null)
+                    .OrderBy(i => i.SortOrder)
+                    .Take(3)
+                    .ToList();
+
+                <div class="col-6 col-md-4 col-lg-4 mb-3">
+                    <div class="card playlist-card h-100">
+                        <div class="card-cover">
+                            <i class="fas @typeIcon cover-icon" style="color:var(--primary-light);"></i>
+                            <span class="item-count">
+                                <i class="fas fa-list me-1"></i>@playlist.PlaylistItems.Count 项
+                            </span>
+                        </div>
+                        <div class="card-info">
+                            <h5>
+                                <i class="fas @typeIcon" style="color:var(--primary-light);font-size:0.85rem;"></i>
+                                <span class="text-truncate">@playlist.PlaylistName</span>
+                            </h5>
+                            @if (!string.IsNullOrEmpty(playlist.Description))
+                            {
+                                <p class="text-muted small mb-1" style="font-size:0.75rem;">@playlist.Description</p>
+                            }
+                            <div class="meta">
+                                <i class="fas fa-calendar me-1"></i>@playlist.CreatedAt.ToString("yyyy-MM-dd")
+                                @if (playlist.UpdatedAt.HasValue)
+                                {
+                                    <span class="ms-2"><i class="fas fa-sync me-1"></i>@playlist.UpdatedAt.Value.ToString("MM-dd")</span>
+                                }
+                            </div>
+
+                            @if (previewItems.Any())
+                            {
+                                <div class="preview-list">
+                                    @foreach (var item in previewItems)
+                                    {
+                                        <div class="preview-item">
+                                            <i class="fas fa-music"></i>
+                                            @item.MediaFile.FileName
+                                        </div>
+                                    }
+                                    @if (playlist.PlaylistItems.Count > 3)
+                                    {
+                                        <div class="preview-item" style="opacity:0.5;">
+                                            还有 @(playlist.PlaylistItems.Count - 3) 项...
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+                            <div class="card-actions">
+                                <a href="@Url.Action("Details", new { id = playlist.PlaylistId })" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye me-1"></i>查看
+                                </a>
+                                @if (playlist.PlaylistItems.Any())
+                                {
+                                    <button class="btn btn-sm btn-success" onclick="playAll(@playlist.PlaylistId)">
+                                        <i class="fas fa-play me-1"></i>播放
+                                    </button>
+                                }
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="editPlaylist(@playlist.PlaylistId, '@playlist.PlaylistName', '@(playlist.Description?.Replace("'", "\\'") ?? "")')">
+                                                <i class="fas fa-edit me-2"></i>编辑
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" href="#" onclick="deletePlaylist(@playlist.PlaylistId)">
+                                                <i class="fas fa-trash me-2"></i>删除
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    @if (!string.IsNullOrEmpty(playlist.Description))
-                    {
-                        <p class="card-text text-muted small mt-2">@playlist.Description</p>
-                    }
-                    <p class="card-text text-muted small">
-                        <i class="fas fa-calendar"></i> 创建: @playlist.CreatedAt.ToString("yyyy-MM-dd")<br />
-                        <i class="fas fa-list"></i> 项目数: @playlist.PlaylistItems.Count
-                    </p>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <div class="btn-group w-100">
-                        <a href="@Url.Action("Details", new { id = playlist.PlaylistId })" class="btn btn-sm btn-primary">
-                            <i class="fas fa-eye"></i> 查看详情
-                        </a>
-                        <button class="btn btn-sm btn-success" onclick="playAll(@playlist.PlaylistId)">
-                            <i class="fas fa-play"></i> 播放全部
-                        </button>
-                    </div>
-                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas @typeIcon" style="color:var(--primary-light);"></i>
             </div>
+            <h5>暂无@(typeName)</h5>
+            <p>创建您的第一个@(typeName)来整理内容</p>
+            <button class="btn btn-primary" onclick="showCreateModal()">
+                <i class="fas fa-plus me-1"></i>创建第一个列表
+            </button>
         </div>
     }
 </div>
-
-@if (!Model.Any())
-{
-    <div class="text-center py-5">
-        <i class="fas @typeIcon fa-4x text-muted mb-3"></i>
-        <p class="text-muted">暂无@typeName</p>
-        <button class="btn btn-primary" onclick="showCreateModal()">
-            <i class="fas fa-plus"></i> 创建第一个列表
-        </button>
-    </div>
-}
 
 <!-- 创建/编辑模态框 -->
 <div class="modal fade" id="playlistModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
                 <h5 class="modal-title" id="modalTitle">创建新列表</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -141,7 +317,7 @@
             var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
             if (!name) {
-                alert('请输入列表名称');
+                if (typeof showToast === 'function') showToast('请输入列表名称', 'warning');
                 return;
             }
 
@@ -155,13 +331,16 @@
                 headers: { 'RequestVerificationToken': token },
                 success: function(result) {
                     if (result.success) {
-                        location.reload();
+                        if (typeof showToast === 'function') showToast(id == '0' ? '列表创建成功' : '列表更新成功', 'success');
+                        setTimeout(function() { location.reload(); }, 800);
                     } else {
-                        alert('操作失败：' + result.message);
+                        if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
+                        else alert(result.message || '操作失败');
                     }
                 },
                 error: function(xhr) {
-                    alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    if (typeof showToast === 'function') showToast('操作失败', 'error');
+                    else alert('操作失败');
                 }
             });
         }
@@ -171,12 +350,23 @@
                 var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
                 $.post('/Playlist/Delete', { playlistId: id }, function(result) {
                     if (result.success) {
-                        location.reload();
+                        if (typeof showToast === 'function') showToast('列表已删除', 'success');
+                        var card = document.querySelector('[data-playlist-id="' + id + '"]');
+                        if (card) {
+                            card.style.transition = 'all 0.4s ease';
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.8)';
+                            setTimeout(function() { location.reload(); }, 400);
+                        } else {
+                            setTimeout(function() { location.reload(); }, 800);
+                        }
                     } else {
-                        alert('删除失败：' + result.message);
+                        if (typeof showToast === 'function') showToast(result.message || '删除失败', 'error');
+                        else alert(result.message || '删除失败');
                     }
                 }).fail(function() {
-                    alert('删除失败，请稍后重试');
+                    if (typeof showToast === 'function') showToast('删除失败', 'error');
+                    else alert('删除失败');
                 });
             }
         }

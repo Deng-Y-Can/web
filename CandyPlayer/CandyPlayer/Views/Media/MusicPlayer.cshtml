@@ -1,58 +1,131 @@
-﻿@model CandyPlayer.Models.MediaFile
+@model CandyPlayer.Models.MediaFile
 
 @{
     ViewData["Title"] = "音乐播放器 - " + Model.FileName;
 }
 
-<div class="container mt-5">
+<style>
+    .music-player-card {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .player-icon {
+        font-size: 5rem;
+        background: linear-gradient(135deg, #818cf8, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    audio {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .mode-btn.active-mode {
+        background: rgba(99,102,241,0.2) !important;
+        color: var(--primary-light) !important;
+        border-color: rgba(99,102,241,0.3) !important;
+        font-weight: bold;
+    }
+
+    .mode-btn-group .btn {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+    }
+
+    .action-btn-group .btn {
+        flex: 1;
+        min-width: 0;
+    }
+
+    @@media (max-width: 576px) {
+        .player-icon {
+            font-size: 3.5rem;
+        }
+
+        .card-body {
+            padding: 1.25rem 1rem !important;
+        }
+
+        .mode-btn-group {
+            flex-wrap: wrap;
+        }
+
+        .mode-btn-group .btn {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .action-btn-group {
+            flex-wrap: wrap;
+        }
+
+        .action-btn-group .btn {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-bottom: 4px;
+        }
+    }
+</style>
+
+<div class="container mt-3 mt-md-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-header bg-dark text-white">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card music-player-card">
+                <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
+                        <h5 class="mb-0 text-truncate me-2" style="font-size:1rem;">
                             <i class="fas fa-music"></i> @Model.FileName
                         </h5>
-                        <a href="@Url.Action("Music", "Media")" class="btn btn-sm btn-outline-light">
-                            <i class="fas fa-arrow-left"></i> 返回列表
+                        <a href="@Url.Action("Music", "Media")" class="btn btn-sm btn-outline-light flex-shrink-0">
+                            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">返回列表</span>
                         </a>
                     </div>
                 </div>
-                <div class="card-body text-center p-5">
-                    <div class="mb-4">
-                        <i class="fas fa-music fa-5x text-primary"></i>
+                <div class="card-body text-center p-3 p-md-5">
+                    <div class="mb-3 mb-md-4">
+                        <i class="fas fa-music player-icon"></i>
                     </div>
-                    <h3 class="card-title mb-3">@Model.FileName</h3>
-                    <p class="text-muted mb-4">
-                        <i class="fas fa-file-alt"></i> 格式: @Model.FileExtension.ToUpper() |
-                        <i class="fas fa-hdd"></i> 大小: @(Model.FileSize / 1024 / 1024) MB
+                    <h3 class="card-title mb-3" style="font-size:1.2rem;">@Model.FileName</h3>
+                    <p class="text-muted mb-3 mb-md-4 small">
+                        <i class="fas fa-file-alt"></i> @Model.FileExtension.ToUpper() |
+                        <i class="fas fa-hdd"></i> @(Model.FileSize / 1024 / 1024) MB
                     </p>
 
-                    <div class="mb-4">
-                        <audio id="audioPlayer" controls style="width: 100%;" autoplay>
+                    <div class="mb-3 mb-md-4">
+                        <audio id="audioPlayer" controls autoplay>
                             <source src="@Url.Action("Stream", "Media", new { id = Model.FileId })" type="audio/mpeg">
                             您的浏览器不支持音频播放
                         </audio>
                     </div>
 
-                    <div class="btn-group mb-4">
-                        <button class="btn btn-outline-primary" onclick="setPlayMode('order')">
+                    <div class="btn-group mode-btn-group mb-3 mb-md-4 w-100">
+                        <button class="btn btn-outline-primary mode-btn active-mode" data-mode="order" onclick="setPlayMode('order')">
                             <i class="fas fa-list"></i> 顺序
                         </button>
-                        <button class="btn btn-outline-primary" onclick="setPlayMode('loop')">
+                        <button class="btn btn-outline-primary mode-btn" data-mode="loop" onclick="setPlayMode('loop')">
                             <i class="fas fa-redo-alt"></i> 循环
                         </button>
-                        <button class="btn btn-outline-primary" onclick="setPlayMode('single')">
+                        <button class="btn btn-outline-primary mode-btn" data-mode="single" onclick="setPlayMode('single')">
                             <i class="fas fa-repeat"></i> 单曲
                         </button>
-                        <button class="btn btn-outline-primary" onclick="setPlayMode('random')">
+                        <button class="btn btn-outline-primary mode-btn" data-mode="random" onclick="setPlayMode('random')">
                             <i class="fas fa-random"></i> 随机
                         </button>
                     </div>
 
                     <hr />
 
-                    <div class="btn-group w-100">
+                    <div class="btn-group action-btn-group w-100">
                         <a href="@Url.Action("Download", "Media", new { id = Model.FileId })" class="btn btn-success">
                             <i class="fas fa-download"></i> 下载
                         </a>
@@ -72,13 +145,22 @@
 @section Scripts {
     <script>
         var audioPlayer = document.getElementById('audioPlayer');
-        var currentPlayMode = 'order';
+        var currentPlayMode = localStorage.getItem('playMode') || 'order';
         var saveInterval;
 
         function setPlayMode(mode) {
             currentPlayMode = mode;
+            localStorage.setItem('playMode', mode);
+
+            document.querySelectorAll('.mode-btn').forEach(function(btn) {
+                btn.classList.remove('active-mode');
+            });
+            document.querySelector('.mode-btn[data-mode="' + mode + '"]').classList.add('active-mode');
+
             var modeName = mode === 'order' ? '顺序播放' : (mode === 'loop' ? '列表循环' : (mode === 'single' ? '单曲循环' : '随机播放'));
-            alert('播放模式已切换为：' + modeName);
+            if (typeof showToast === 'function') {
+                showToast('播放模式：' + modeName, 'info');
+            }
         }
 
         function addToFavorites(fileId) {
@@ -91,13 +173,23 @@
                 },
                 success: function(result) {
                     if (result.success) {
-                        alert('已添加到收藏');
+                        if (typeof showToast === 'function') showToast('已添加到收藏', 'success');
+                        else alert('已添加到收藏');
                     } else {
-                        alert('添加失败：' + result.message);
+                        if (typeof showToast === 'function') showToast(result.message || '添加失败', 'error');
+                        else alert('添加失败：' + result.message);
                     }
                 },
                 error: function() {
-                    alert('添加失败，请稍后重试');
+                    if (typeof showToast === 'function') showToast('添加失败', 'error');
+                    else alert('添加失败');
+                }
+            });
+        }
+                },
+                error: function() {
+                    if (typeof showToast === 'function') showToast('添加失败', 'error');
+                    else alert('添加失败，请稍后重试');
                 }
             });
         }
@@ -116,9 +208,9 @@
                     },
                     success: function(result) {
                         if (result.success) {
-                            alert('已添加到当前播放列表');
+                            if (typeof showToast === 'function') showToast('已添加到当前播放列表', 'success');
                         } else {
-                            alert('添加失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '添加失败', 'error');
                         }
                     }
                 });
@@ -141,14 +233,14 @@
                                 },
                                 success: function(addResult) {
                                     if (addResult.success) {
-                                        alert('已添加到歌单：' + playlistName);
+                                        if (typeof showToast === 'function') showToast('已添加到歌单：' + playlistName, 'success');
                                     } else {
-                                        alert('添加失败：' + addResult.message);
+                                        if (typeof showToast === 'function') showToast(addResult.message || '添加失败', 'error');
                                     }
                                 }
                             });
                         } else {
-                            alert('创建歌单失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '创建歌单失败', 'error');
                         }
                     }
                 });
@@ -187,6 +279,7 @@
 
         audioPlayer.addEventListener('ended', function() {
             if (currentPlayMode === 'single') {
+                audioPlayer.currentTime = 0;
                 audioPlayer.play();
             } else if (currentPlayMode === 'loop') {
                 audioPlayer.currentTime = 0;
@@ -211,6 +304,35 @@
 
         audioPlayer.addEventListener('loadedmetadata', function() {
             setTimeout(checkResumePlayback, 500);
+            setPlayMode(currentPlayMode);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (audioPlayer.paused) audioPlayer.play();
+                    else audioPlayer.pause();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    audioPlayer.volume = Math.min(1, audioPlayer.volume + 0.1);
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    audioPlayer.volume = Math.max(0, audioPlayer.volume - 0.1);
+                    break;
+            }
         });
     </script>
 }

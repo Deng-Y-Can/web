@@ -11,18 +11,19 @@
 
 <style>
     .folder-tree {
-        background: #fff;
-        border-radius: 8px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px;
         padding: 16px 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .folder-tree-title {
         padding: 0 16px 12px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
         margin-bottom: 8px;
         font-weight: 600;
-        color: #333;
+        color: var(--text-primary);
+        font-size: 0.85rem;
     }
 
     .folder-list {
@@ -34,27 +35,29 @@
     .folder-item {
         padding: 8px 16px;
         cursor: pointer;
-        transition: background 0.2s;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--text-secondary);
     }
 
     .folder-item:hover {
-        background: #f5f7fa;
+        background: rgba(99,102,241,0.1);
+        color: #fff;
     }
 
     .folder-item.active {
-        background: #e8f0fe;
-        color: #1976d2;
+        background: rgba(99,102,241,0.15);
+        color: var(--primary-light);
     }
 
     .folder-item .folder-icon {
-        color: #f5a623;
+        color: #fbbf24;
     }
 
     .folder-item.active .folder-icon {
-        color: #1976d2;
+        color: var(--primary-light);
     }
 
     .folder-toggle {
@@ -81,24 +84,50 @@
 
     .breadcrumb-item {
         cursor: pointer;
-        color: #666;
+        color: var(--text-secondary);
     }
 
     .breadcrumb-item:hover {
-        color: #1976d2;
+        color: var(--primary-light);
         text-decoration: underline;
     }
 
     .breadcrumb-item.active {
-        color: #333;
+        color: var(--text-primary);
         cursor: default;
         text-decoration: none;
     }
 
     .file-card .folder-path {
         font-size: 11px;
-        color: #999;
+        color: var(--text-secondary);
         margin-bottom: 4px;
+    }
+
+    .now-playing {
+        animation: pulse-glow 2s ease-in-out infinite;
+        border-color: rgba(99,102,241,0.3) !important;
+    }
+
+    @@keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 5px rgba(99,102,241,0.2); }
+        50% { box-shadow: 0 0 20px rgba(99,102,241,0.4); }
+    }
+
+    .mode-btn.active-mode {
+        background: rgba(99,102,241,0.2) !important;
+        color: var(--primary-light) !important;
+        font-weight: bold;
+        border-color: rgba(99,102,241,0.3) !important;
+    }
+
+    .file-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .file-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 20px rgba(99,102,241,0.1);
     }
 
     @@media (max-width: 991px) {
@@ -106,9 +135,20 @@
             display: none;
         }
     }
+
+    @@media (max-width: 576px) {
+        .playback-controls .btn {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .now-playing-title {
+            font-size: 0.85rem;
+        }
+    }
 </style>
 
-<div class="row">
+<div class="row g-3">
     <div class="col-lg-3 col-md-4 folder-sidebar">
         <div class="folder-tree">
             <div class="folder-tree-title">
@@ -126,24 +166,24 @@
     <div class="col-lg-9 col-md-8">
         <div class="row mb-4">
             <div class="col">
-                <h2><i class="fas fa-music"></i> 音乐库</h2>
+                <h2 style="font-size:1.5rem;"><i class="fas fa-music"></i> 音乐库</h2>
                 <nav aria-label="breadcrumb" class="mt-2">
-                    <ol class="breadcrumb mb-0" id="breadcrumb">
+                    <ol class="breadcrumb mb-0 small" id="breadcrumb">
                     </ol>
                 </nav>
             </div>
             @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
             {
                 <div class="col text-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                        <i class="fas fa-upload"></i> 上传音乐
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> <span class="d-none d-sm-inline">上传音乐</span>
                     </button>
                 </div>
             }
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-12 col-md-6">
                 <div class="input-group">
                     <input type="text" id="searchInput" class="form-control" placeholder="搜索音乐..." value="@searchKeyword" />
                     <button class="btn btn-outline-secondary" type="button" id="searchBtn">
@@ -153,37 +193,41 @@
             </div>
         </div>
 
-        <!-- 当前播放器 -->
-        <div class="card mb-4 bg-dark text-white">
+        <!-- 播放器区域 -->
+        <div class="card mb-4" style="background:rgba(99,102,241,0.08)!important;border-color:rgba(99,102,241,0.2)!important;">
             <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <div id="currentSong" class="mb-2">
-                            <i class="fas fa-music me-2"></i>
-                            <span id="currentSongTitle">未选择歌曲</span>
-                        </div>
-                        <audio id="audioPlayer" controls style="width: 100%;" class="bg-dark">
-                            <source src="" type="audio/mpeg">
-                            您的浏览器不支持音频播放
-                        </audio>
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-music me-2 now-playing" id="playingIcon" style="display:none;"></i>
+                    <span class="now-playing-title text-truncate" id="currentSongTitle">未选择歌曲</span>
+                </div>
+                <audio id="audioPlayer" controls style="width: 100%;" class="bg-dark mb-3">
+                    <source src="" type="audio/mpeg">
+                    您的浏览器不支持音频播放
+                </audio>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group playback-controls">
+                        <button class="btn btn-outline-light btn-sm" id="prevBtn" onclick="playPrev()" title="上一首">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" id="nextBtn" onclick="playNext()" title="下一首">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
                     </div>
-                    <div class="col-md-4">
-                        <div class="btn-group">
-                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('order')">顺序</button>
-                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('loop')">循环</button>
-                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('single')">单曲</button>
-                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('random')">随机</button>
-                        </div>
+                    <div class="btn-group playback-controls flex-wrap">
+                        <button class="btn btn-outline-light btn-sm mode-btn active-mode" data-mode="order" onclick="setPlayMode('order')">顺序</button>
+                        <button class="btn btn-outline-light btn-sm mode-btn" data-mode="loop" onclick="setPlayMode('loop')">循环</button>
+                        <button class="btn btn-outline-light btn-sm mode-btn" data-mode="single" onclick="setPlayMode('single')">单曲</button>
+                        <button class="btn btn-outline-light btn-sm mode-btn" data-mode="random" onclick="setPlayMode('random')">随机</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row g-3">
             @foreach (var music in Model)
             {
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm file-card">
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card h-100 file-card" id="card-@music.FileId">
                         <div class="card-body text-center">
                             <i class="fas fa-music text-primary fa-4x mb-3"></i>
                             <h6 class="card-title text-truncate" title="@music.FileName">@music.FileName</h6>
@@ -258,8 +302,8 @@
 <div class="modal fade" id="addToListModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title">添加到播放列表</h5>
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                <h5 class="modal-title"><i class="fas fa-plus me-2" style="color:var(--primary-light);"></i>添加到播放列表</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -269,8 +313,12 @@
                         <option value="">-- 请选择 --</option>
                     </select>
                 </div>
-                <div class="text-center">或</div>
-                <div class="mb-3 mt-2">
+                <div class="text-center my-3" style="color:var(--text-secondary);font-size:0.85rem;">
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                    <span class="mx-2">或</span>
+                    <span style="border-top:1px solid rgba(255,255,255,0.08);display:inline-block;width:40px;vertical-align:middle;"></span>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">创建新列表</label>
                     <input type="text" id="newPlaylistName" class="form-control" placeholder="输入新列表名称" />
                 </div>
@@ -283,7 +331,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">确定添加</button>
+                <button type="button" class="btn btn-primary" onclick="addToSelectedList()">
+                    <i class="fas fa-check me-1"></i>确定添加
+                </button>
             </div>
         </div>
     </div>
@@ -293,7 +343,7 @@
 <div class="modal fade" id="uploadModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.08);">
                 <h5 class="modal-title"><i class="fas fa-upload"></i> 上传音乐</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -337,10 +387,18 @@
 @section Scripts {
     <script>
         var audioPlayer = document.getElementById('audioPlayer');
-        var currentPlayMode = 'order';
+        var currentPlayMode = localStorage.getItem('playMode') || 'order';
         var saveInterval;
         var currentFolder = '@currentFolder';
         var currentSearch = '@searchKeyword';
+
+        var playlist = [];
+        var currentIndex = -1;
+
+        @foreach (var music in Model)
+        {
+            <text>playlist.push({ fileId: @music.FileId, fileName: '@music.FileName.Replace("'", "\\'")' });</text>
+        }
 
         function navigateToFolder(folderPath) {
             var url = '/Media/Music?folder=' + encodeURIComponent(folderPath);
@@ -431,7 +489,71 @@
             container.innerHTML = html;
         }
 
-        // 页面加载时检查所有收藏状态
+        function playSong(fileId, fileName) {
+            var idx = playlist.findIndex(function(s) { return s.fileId === fileId; });
+            if (idx !== -1) {
+                currentIndex = idx;
+            }
+
+            document.getElementById('currentSongTitle').innerText = fileName;
+            document.getElementById('playingIcon').style.display = 'inline';
+            audioPlayer.src = '/Media/Stream/' + fileId;
+            audioPlayer.play();
+
+            updateCardHighlight(fileId);
+        }
+
+        function playPrev() {
+            if (playlist.length === 0) return;
+
+            if (currentPlayMode === 'random') {
+                currentIndex = Math.floor(Math.random() * playlist.length);
+            } else {
+                currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+            }
+
+            var song = playlist[currentIndex];
+            playSong(song.fileId, song.fileName);
+        }
+
+        function playNext() {
+            if (playlist.length === 0) return;
+
+            if (currentPlayMode === 'random') {
+                currentIndex = Math.floor(Math.random() * playlist.length);
+            } else {
+                currentIndex = (currentIndex + 1) % playlist.length;
+            }
+
+            var song = playlist[currentIndex];
+            playSong(song.fileId, song.fileName);
+        }
+
+        function setPlayMode(mode) {
+            currentPlayMode = mode;
+            localStorage.setItem('playMode', mode);
+
+            document.querySelectorAll('.mode-btn').forEach(function(btn) {
+                btn.classList.remove('active-mode');
+            });
+            document.querySelector('.mode-btn[data-mode="' + mode + '"]').classList.add('active-mode');
+
+            var modeName = mode === 'order' ? '顺序播放' : (mode === 'loop' ? '列表循环' : (mode === 'single' ? '单曲循环' : '随机播放'));
+            if (typeof showToast === 'function') {
+                showToast('播放模式：' + modeName, 'info');
+            }
+        }
+
+        function updateCardHighlight(fileId) {
+            document.querySelectorAll('.file-card').forEach(function(card) {
+                card.classList.remove('border-primary', 'now-playing');
+            });
+            var activeCard = document.getElementById('card-' + fileId);
+            if (activeCard) {
+                activeCard.classList.add('border-primary', 'now-playing');
+            }
+        }
+
         $(document).ready(function() {
             $.get('/Media/GetFolderTree', { type: 1 }, function(data) {
                 renderFolderTree(data || [], 'folderTree');
@@ -443,6 +565,8 @@
                 var fileId = $(this).data('fileid');
                 checkFavoriteStatus(fileId, $(this));
             });
+
+            setPlayMode(currentPlayMode);
         });
 
         function checkFavoriteStatus(fileId, btn) {
@@ -481,13 +605,13 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, false);
-                            alert('已取消收藏');
+                            if (typeof showToast === 'function') showToast('已取消收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
@@ -501,37 +625,25 @@
                     success: function(result) {
                         if (result.success) {
                             updateFavoriteButton($btn, true);
-                            alert('已添加到收藏');
+                            if (typeof showToast === 'function') showToast('已添加到收藏', 'success');
                         } else {
-                            alert('操作失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '操作失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             }
-        }
-
-        function playSong(fileId, fileName) {
-            document.getElementById('currentSongTitle').innerText = fileName;
-            audioPlayer.src = '/Media/Stream/' + fileId;
-            audioPlayer.play();
-        }
-
-        function setPlayMode(mode) {
-            currentPlayMode = mode;
-            var modeName = mode === 'order' ? '顺序播放' : (mode === 'loop' ? '列表循环' : (mode === 'single' ? '单曲循环' : '随机播放'));
-            alert('播放模式已切换为：' + modeName);
         }
 
         function deleteFile(fileId) {
             if (confirm('确定要删除这个音乐文件吗？')) {
                 $.post('/Media/Delete', { id: fileId }, function(result) {
                     if (result.success) location.reload();
-                    else alert('删除失败：' + result.message);
+                    else if (typeof showToast === 'function') showToast('删除失败：' + result.message, 'error');
                 }).fail(function(xhr) {
-                    alert('删除失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                    if (typeof showToast === 'function') showToast('删除失败', 'error');
                 });
             }
         }
@@ -572,14 +684,14 @@
                     headers: { 'RequestVerificationToken': token },
                     success: function(result) {
                         if (result.success) {
-                            alert('添加成功');
+                            if (typeof showToast === 'function') showToast('添加成功', 'success');
                             bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                         } else {
-                            alert('添加失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '添加失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('添加失败', 'error');
                     }
                 });
             } else if (newPlaylistName) {
@@ -597,30 +709,29 @@
                                 headers: { 'RequestVerificationToken': token },
                                 success: function(addResult) {
                                     if (addResult.success) {
-                                        alert('已添加到新列表：' + newPlaylistName);
+                                        if (typeof showToast === 'function') showToast('已添加到新列表：' + newPlaylistName, 'success');
                                         bootstrap.Modal.getInstance(document.getElementById('addToListModal')).hide();
                                     } else {
-                                        alert('添加失败：' + addResult.message);
+                                        if (typeof showToast === 'function') showToast(addResult.message || '添加失败', 'error');
                                     }
                                 },
                                 error: function(xhr) {
-                                    alert('添加失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                                    if (typeof showToast === 'function') showToast('添加失败', 'error');
                                 }
                             });
                         } else {
-                            alert('创建列表失败：' + result.message);
+                            if (typeof showToast === 'function') showToast(result.message || '创建列表失败', 'error');
                         }
                     },
                     error: function(xhr) {
-                        alert('操作失败：' + (xhr.responseJSON?.message || '服务器错误'));
+                        if (typeof showToast === 'function') showToast('操作失败', 'error');
                     }
                 });
             } else {
-                alert('请选择已有列表或输入新列表名称');
+                if (typeof showToast === 'function') showToast('请选择已有列表或输入新列表名称', 'warning');
             }
         }
 
-        // 文件选择显示
         $('#fileInput').on('change', function() {
             var files = $(this)[0].files;
             var fileList = $('#selectedFiles');
@@ -641,11 +752,10 @@
             }
         });
 
-        // 上传功能
         $('#uploadBtn').on('click', function() {
             var files = $('#fileInput')[0].files;
             if (files.length === 0) {
-                alert('请选择文件');
+                if (typeof showToast === 'function') showToast('请选择文件', 'warning');
                 return;
             }
 
@@ -706,12 +816,29 @@
         });
 
         audioPlayer.addEventListener('ended', function() {
+            document.getElementById('playingIcon').style.display = 'none';
+
             if (currentPlayMode === 'single') {
-                audioPlayer.play();
-            } else if (currentPlayMode === 'loop') {
                 audioPlayer.currentTime = 0;
                 audioPlayer.play();
+                document.getElementById('playingIcon').style.display = 'inline';
+            } else if (currentPlayMode === 'loop') {
+                playNext();
+            } else if (currentPlayMode === 'random') {
+                playNext();
+            } else {
+                if (currentIndex < playlist.length - 1) {
+                    playNext();
+                }
             }
+        });
+
+        audioPlayer.addEventListener('play', function() {
+            document.getElementById('playingIcon').style.display = 'inline';
+        });
+
+        audioPlayer.addEventListener('pause', function() {
+            document.getElementById('playingIcon').style.display = 'none';
         });
 
         $('#searchBtn').click(function() {
@@ -725,6 +852,34 @@
 
         $('#searchInput').keypress(function(e) {
             if (e.which === 13) $('#searchBtn').click();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (audioPlayer.paused) audioPlayer.play();
+                    else audioPlayer.pause();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    audioPlayer.volume = Math.min(1, audioPlayer.volume + 0.1);
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    audioPlayer.volume = Math.max(0, audioPlayer.volume - 0.1);
+                    break;
+            }
         });
     </script>
 }
