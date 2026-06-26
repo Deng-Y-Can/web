@@ -1,136 +1,258 @@
-﻿@model List<CandyPlayer.Models.MediaFile>
+@model List<CandyPlayer.Models.MediaFile>
+@using CandyPlayer.Services
 
 @{
     ViewData["Title"] = "音乐库";
     var currentPage = ViewBag.CurrentPage as int? ?? 1;
     var totalPages = ViewBag.TotalPages as int? ?? 1;
     var searchKeyword = ViewBag.SearchKeyword as string ?? "";
+    var currentFolder = ViewBag.CurrentFolder as string ?? "";
 }
 
-<div class="row mb-4">
-    <div class="col">
-        <h2><i class="fas fa-music"></i> 音乐库</h2>
-        <p class="text-muted">欣赏您的音乐收藏</p>
-    </div>
-    @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
-    {
-        <div class="col text-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传音乐
-            </button>
-        </div>
+<style>
+    .folder-tree {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-</div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="搜索音乐..." value="@searchKeyword" />
-            <button class="btn btn-outline-secondary" type="button" id="searchBtn">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-</div>
+    .folder-tree-title {
+        padding: 0 16px 12px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
 
-<!-- 当前播放器 -->
-<div class="card mb-4 bg-dark text-white">
-    <div class="card-body">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <div id="currentSong" class="mb-2">
-                    <i class="fas fa-music me-2"></i>
-                    <span id="currentSongTitle">未选择歌曲</span>
-                </div>
-                <audio id="audioPlayer" controls style="width: 100%;" class="bg-dark">
-                    <source src="" type="audio/mpeg">
-                    您的浏览器不支持音频播放
-                </audio>
-            </div>
-            <div class="col-md-4">
-                <div class="btn-group">
-                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('order')">顺序</button>
-                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('loop')">循环</button>
-                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('single')">单曲</button>
-                    <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('random')">随机</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    .folder-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .folder-item {
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .folder-item:hover {
+        background: #f5f7fa;
+    }
+
+    .folder-item.active {
+        background: #e8f0fe;
+        color: #1976d2;
+    }
+
+    .folder-item .folder-icon {
+        color: #f5a623;
+    }
+
+    .folder-item.active .folder-icon {
+        color: #1976d2;
+    }
+
+    .folder-toggle {
+        width: 16px;
+        display: inline-flex;
+        justify-content: center;
+        transition: transform 0.2s;
+    }
+
+    .folder-toggle.expanded {
+        transform: rotate(90deg);
+    }
+
+    .sub-folders {
+        list-style: none;
+        padding-left: 24px;
+        margin: 0;
+        display: none;
+    }
+
+    .sub-folders.expanded {
+        display: block;
+    }
+
+    .breadcrumb-item {
+        cursor: pointer;
+        color: #666;
+    }
+
+    .breadcrumb-item:hover {
+        color: #1976d2;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #333;
+        cursor: default;
+        text-decoration: none;
+    }
+
+    .file-card .folder-path {
+        font-size: 11px;
+        color: #999;
+        margin-bottom: 4px;
+    }
+
+    @@media (max-width: 991px) {
+        .folder-sidebar {
+            display: none;
+        }
+    }
+</style>
 
 <div class="row">
-    @foreach (var music in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-music text-primary fa-4x mb-3"></i>
-                    <h6 class="card-title text-truncate" title="@music.FileName">@music.FileName</h6>
-                    <p class="card-text small text-muted">
-                        格式: @music.FileExtension.ToUpper()<br />
-                        大小: @((music.FileSize / 1024 / 1024).ToString("F2")) MB<br />
-                        播放: @music.PlayCount 次
-                    </p>
+    <div class="col-lg-3 col-md-4 folder-sidebar">
+        <div class="folder-tree">
+            <div class="folder-tree-title">
+                <i class="fas fa-folder-tree"></i> 文件夹
+            </div>
+            <ul class="folder-list" id="folderTree">
+                <li class="folder-item disabled">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>加载中...</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8">
+        <div class="row mb-4">
+            <div class="col">
+                <h2><i class="fas fa-music"></i> 音乐库</h2>
+                <nav aria-label="breadcrumb" class="mt-2">
+                    <ol class="breadcrumb mb-0" id="breadcrumb">
+                    </ol>
+                </nav>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+            {
+                <div class="col text-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传音乐
+                    </button>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <div class="d-grid gap-2">
-                        <div class="btn-group w-100" role="group">
-                            <button class="btn btn-sm btn-primary" onclick="playSong(@music.FileId, '@music.FileName.Replace("'", "\\'")')">
-                                <i class="fas fa-play"></i> 播放
-                            </button>
-                            <a href="@Url.Action("Download", "Media", new { id = music.FileId })" class="btn btn-sm btn-success">
-                                <i class="fas fa-download"></i> 下载
-                            </a>
+            }
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="搜索音乐..." value="@searchKeyword" />
+                    <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 当前播放器 -->
+        <div class="card mb-4 bg-dark text-white">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div id="currentSong" class="mb-2">
+                            <i class="fas fa-music me-2"></i>
+                            <span id="currentSongTitle">未选择歌曲</span>
                         </div>
-                        <div class="btn-group w-100" role="group">
-                            <button class="btn btn-sm btn-info favorite-btn" data-fileid="@music.FileId" onclick="toggleFavorite(@music.FileId, this)">
-                                <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
-                            </button>
-                            <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@music.FileId, 1)">
-                                <i class="fas fa-plus"></i> 加入播放列表
-                            </button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <button class="btn btn-sm btn-danger" onclick="deleteFile(@music.FileId)">
-                                    <i class="fas fa-trash"></i> 删除
-                                </button>
-                            }
+                        <audio id="audioPlayer" controls style="width: 100%;" class="bg-dark">
+                            <source src="" type="audio/mpeg">
+                            您的浏览器不支持音频播放
+                        </audio>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('order')">顺序</button>
+                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('loop')">循环</button>
+                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('single')">单曲</button>
+                            <button class="btn btn-outline-light btn-sm" onclick="setPlayMode('random')">随机</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    }
-</div>
 
-@if (!Model.Any())
-{
-    <div class="text-center py-5">
-        <i class="fas fa-music fa-4x text-muted mb-3"></i>
-        <p class="text-muted">暂无音乐文件</p>
-        @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+        <div class="row">
+            @foreach (var music in Model)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm file-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-music text-primary fa-4x mb-3"></i>
+                            <h6 class="card-title text-truncate" title="@music.FileName">@music.FileName</h6>
+                            <p class="card-text small text-muted">
+                                格式: @music.FileExtension.ToUpper()<br />
+                                大小: @((music.FileSize / 1024 / 1024).ToString("F2")) MB<br />
+                                播放: @music.PlayCount 次
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-grid gap-2">
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-primary" onclick="playSong(@music.FileId, '@music.FileName.Replace("'", "\\'")')">
+                                        <i class="fas fa-play"></i> 播放
+                                    </button>
+                                    <a href="@Url.Action("Download", "Media", new { id = music.FileId })" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> 下载
+                                    </a>
+                                </div>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-info favorite-btn" data-fileid="@music.FileId" onclick="toggleFavorite(@music.FileId, this)">
+                                        <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@music.FileId, 1)">
+                                        <i class="fas fa-plus"></i> 加入播放列表
+                                    </button>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button class="btn btn-sm btn-danger" onclick="deleteFile(@music.FileId)">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
         {
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传第一首音乐
-            </button>
+            <div class="text-center py-5">
+                <i class="fas fa-music fa-4x text-muted mb-3"></i>
+                <p class="text-muted">暂无音乐文件</p>
+                @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+                {
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传第一首音乐
+                    </button>
+                }
+            </div>
+        }
+
+        @if (totalPages > 1)
+        {
+            <nav>
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= totalPages && i <= 10; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Music", new { page = i, search = searchKeyword, folder = currentFolder })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         }
     </div>
-}
-
-@if (totalPages > 1)
-{
-    <nav>
-        <ul class="pagination justify-content-center">
-            @for (int i = 1; i <= totalPages && i <= 10; i++)
-            {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Music", new { page = i, search = searchKeyword })">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-}
+</div>
 
 <!-- 添加到列表模态框 -->
 <div class="modal fade" id="addToListModal" tabindex="-1">
@@ -217,9 +339,106 @@
         var audioPlayer = document.getElementById('audioPlayer');
         var currentPlayMode = 'order';
         var saveInterval;
+        var currentFolder = '@currentFolder';
+        var currentSearch = '@searchKeyword';
+
+        function navigateToFolder(folderPath) {
+            var url = '/Media/Music?folder=' + encodeURIComponent(folderPath);
+            if (currentSearch) {
+                url += '&search=' + encodeURIComponent(currentSearch);
+            }
+            window.location.href = url;
+        }
+
+        function toggleFolder(element) {
+            var subFolders = element.closest('.folder-item').nextElementSibling;
+            if (subFolders && subFolders.classList.contains('sub-folders')) {
+                subFolders.classList.toggle('expanded');
+                element.classList.toggle('expanded');
+            }
+        }
+
+        function renderFolderTree(treeData, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            var html = '';
+
+            html += '<li class="folder-item ' + (currentFolder === '' ? 'active' : '') + '" onclick="navigateToFolder(\'\')">';
+            html += '    <span class="folder-toggle" style="visibility: hidden;">▶</span>';
+            html += '    <i class="fas fa-home folder-icon"></i>';
+            html += '    <span>全部文件</span>';
+            html += '</li>';
+
+            function renderNodes(nodes) {
+                var result = '';
+                for (var i = 0; i < nodes.length; i++) {
+                    var node = nodes[i];
+                    var isActive = currentFolder === node.relativePath;
+                    var isParentActive = currentFolder !== '' && currentFolder.startsWith(node.relativePath + '/');
+                    var hasChildren = node.children && node.children.length > 0;
+
+                    result += '<li>';
+                    result += '    <div class="folder-item ' + (isActive ? 'active' : '') + '" onclick="navigateToFolder(\'' + node.relativePath.replace(/'/g, "\\'") + '\')">';
+                    result += '        <span class="folder-toggle ' + ((isParentActive || isActive) ? 'expanded' : '') + '" onclick="event.stopPropagation(); toggleFolder(this)">';
+                    if (hasChildren) {
+                        result += '            <span>▶</span>';
+                    }
+                    result += '        </span>';
+                    result += '        <i class="fas fa-folder folder-icon"></i>';
+                    result += '        <span>' + node.name + '</span>';
+                    result += '    </div>';
+                    if (hasChildren) {
+                        result += '    <ul class="sub-folders ' + ((isParentActive || isActive) ? 'expanded' : '') + '">';
+                        result += renderNodes(node.children);
+                        result += '    </ul>';
+                    }
+                    result += '</li>';
+                }
+                return result;
+            }
+
+            html += renderNodes(treeData);
+            container.innerHTML = html;
+        }
+
+        function renderBreadcrumb(currentFolder, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            var html = '';
+
+            html += '<li class="breadcrumb-item ' + (currentFolder === '' ? 'active' : '') + '" onclick="navigateToFolder(\'\')">';
+            html += '    <a href="javascript:void(0)" style="text-decoration: none;">全部文件</a>';
+            html += '</li>';
+
+            if (currentFolder && currentFolder !== '') {
+                var pathParts = currentFolder.split('/').filter(function(p) { return p !== ''; });
+                var cumulativePath = '';
+                for (var i = 0; i < pathParts.length; i++) {
+                    cumulativePath += (cumulativePath === '' ? '' : '/') + pathParts[i];
+                    var isLast = i === pathParts.length - 1;
+                    html += '<li class="breadcrumb-item ' + (isLast ? 'active' : '') + '">';
+                    if (isLast) {
+                        html += pathParts[i];
+                    } else {
+                        html += '<a href="javascript:void(0)" onclick="navigateToFolder(\'' + cumulativePath.replace(/'/g, "\\'") + '\')" style="text-decoration: none;">' + pathParts[i] + '</a>';
+                    }
+                    html += '</li>';
+                }
+            }
+
+            container.innerHTML = html;
+        }
 
         // 页面加载时检查所有收藏状态
         $(document).ready(function() {
+            $.get('/Media/GetFolderTree', { type: 1 }, function(data) {
+                renderFolderTree(data || [], 'folderTree');
+            });
+
+            renderBreadcrumb(currentFolder, 'breadcrumb');
+
             $('.favorite-btn').each(function() {
                 var fileId = $(this).data('fileid');
                 checkFavoriteStatus(fileId, $(this));
@@ -497,7 +716,11 @@
 
         $('#searchBtn').click(function() {
             var keyword = $('#searchInput').val();
-            location.href = '/Media/Music?search=' + encodeURIComponent(keyword);
+            var url = '/Media/Music?search=' + encodeURIComponent(keyword);
+            if (currentFolder) {
+                url += '&folder=' + encodeURIComponent(currentFolder);
+            }
+            location.href = url;
         });
 
         $('#searchInput').keypress(function(e) {

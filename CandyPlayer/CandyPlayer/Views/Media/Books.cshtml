@@ -1,110 +1,231 @@
-﻿@model List<CandyPlayer.Models.MediaFile>
+@model List<CandyPlayer.Models.MediaFile>
 
 @{
     ViewData["Title"] = "我的书籍";
     var currentPage = ViewBag.CurrentPage as int? ?? 1;
     var totalPages = ViewBag.TotalPages as int? ?? 1;
     var searchKeyword = ViewBag.SearchKeyword as string ?? "";
+    var currentFolder = ViewBag.CurrentFolder as string ?? "";
 }
 
-<div class="row mb-4">
-    <div class="col">
-        <h2><i class="fas fa-book"></i> 我的书籍</h2>
-        <p class="text-muted">管理您的电子书库</p>
-    </div>
-    @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
-    {
-        <div class="col text-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传书籍
-            </button>
-        </div>
+<style>
+    .folder-tree {
+        background: #fff;
+        border-radius: 8px;
+        padding: 16px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-</div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="搜索书籍..." value="@searchKeyword" />
-            <button class="btn btn-outline-secondary" type="button" id="searchBtn">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-</div>
+    .folder-tree-title {
+        padding: 0 16px 12px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .folder-list, .sub-folders {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .folder-item {
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .folder-item:hover {
+        background: #f5f7fa;
+    }
+
+    .folder-item.active {
+        background: #e8f0fe;
+        color: #1976d2;
+    }
+
+    .folder-item .folder-icon {
+        color: #f5a623;
+    }
+
+    .folder-item.active .folder-icon {
+        color: #1976d2;
+    }
+
+    .folder-toggle {
+        width: 16px;
+        display: inline-flex;
+        justify-content: center;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        font-size: 10px;
+        color: #999;
+    }
+
+    .folder-toggle.expanded {
+        transform: rotate(90deg);
+    }
+
+    .sub-folders {
+        padding-left: 24px;
+        display: none;
+    }
+
+    .sub-folders.expanded {
+        display: block;
+    }
+
+    .breadcrumb-item.folder-breadcrumb {
+        cursor: pointer;
+        color: #666;
+    }
+
+    .breadcrumb-item.folder-breadcrumb:hover {
+        color: #1976d2;
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.folder-breadcrumb.active {
+        color: #333;
+        cursor: default;
+        text-decoration: none;
+    }
+
+    .folder-loading {
+        padding: 16px;
+        text-align: center;
+        color: #999;
+    }
+
+    @@media (max-width: 991px) {
+        .folder-sidebar {
+            display: none;
+        }
+    }
+</style>
 
 <div class="row">
-    @foreach (var book in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas @(book.FileExtension.ToLower() == "pdf" ? "fa-file-pdf text-danger" : "fa-file-alt text-primary") fa-4x mb-3"></i>
-                    <h6 class="card-title text-truncate" title="@book.FileName">@book.FileName</h6>
-                    <p class="card-text small text-muted">
-                        格式: @book.FileExtension.ToUpper()<br />
-                        大小: @((book.FileSize / 1024).ToString("F2")) KB<br />
-                        添加: @book.AddedTime.ToString("yyyy-MM-dd")
-                    </p>
+    <div class="col-lg-3 col-md-4 folder-sidebar">
+        <div class="folder-tree">
+            <div class="folder-tree-title">
+                <i class="fas fa-folder-tree"></i> 文件夹
+            </div>
+            <ul class="folder-list" id="folderTree">
+                <li class="folder-loading">
+                    <i class="fas fa-spinner fa-spin"></i> 加载中...
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-9 col-md-8">
+        <div class="row mb-4">
+            <div class="col">
+                <h2><i class="fas fa-book"></i> 我的书籍</h2>
+                <nav aria-label="breadcrumb" class="mt-2">
+                    <ol class="breadcrumb mb-0" id="breadcrumb">
+                    </ol>
+                </nav>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+            {
+                <div class="col text-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传书籍
+                    </button>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <div class="d-grid gap-2">
-                        <div class="btn-group w-100" role="group">
-                            <a href="@Url.Action("Play", "Media", new { id = book.FileId })" class="btn btn-sm btn-primary">
-                                <i class="fas fa-book-open"></i> 阅读
-                            </a>
-                            <a href="@Url.Action("Download", "Media", new { id = book.FileId })" class="btn btn-sm btn-success">
-                                <i class="fas fa-download"></i> 下载
-                            </a>
-                        </div>
-                        <div class="btn-group w-100" role="group">
-                            <button class="btn btn-sm btn-info favorite-btn" data-fileid="@book.FileId" onclick="toggleFavorite(@book.FileId, this)">
-                                <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
-                            </button>
-                            <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@book.FileId, 0)">
-                                <i class="fas fa-plus"></i> 加入阅读列表
-                            </button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <button class="btn btn-sm btn-danger" onclick="deleteFile(@book.FileId)">
-                                    <i class="fas fa-trash"></i> 删除
-                                </button>
-                            }
-                        </div>
-                    </div>
+            }
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="搜索书籍..." value="@searchKeyword" />
+                    <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
-    }
-</div>
 
-@if (!Model.Any())
-{
-    <div class="text-center py-5">
-        <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
-        <p class="text-muted">暂无书籍文件</p>
-        @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+        <div class="row">
+            @foreach (var book in Model)
+            {
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100 shadow-sm file-card">
+                        <div class="card-body text-center">
+                            <i class="fas @(book.FileExtension.ToLower() == "pdf" ? "fa-file-pdf text-danger" : "fa-file-alt text-primary") fa-4x mb-3"></i>
+                            <h6 class="card-title text-truncate" title="@book.FileName">@book.FileName</h6>
+                            <p class="card-text small text-muted">
+                                格式: @book.FileExtension.ToUpper()<br />
+                                大小: @((book.FileSize / 1024).ToString("F2")) KB<br />
+                                添加: @book.AddedTime.ToString("yyyy-MM-dd")
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-grid gap-2">
+                                <div class="btn-group w-100" role="group">
+                                    <a href="@Url.Action("Play", "Media", new { id = book.FileId })" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-book-open"></i> 阅读
+                                    </a>
+                                    <a href="@Url.Action("Download", "Media", new { id = book.FileId })" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> 下载
+                                    </a>
+                                </div>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-info favorite-btn" data-fileid="@book.FileId" onclick="toggleFavorite(@book.FileId, this)">
+                                        <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@book.FileId, 0)">
+                                        <i class="fas fa-plus"></i> 加入列表
+                                    </button>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button class="btn btn-sm btn-danger" onclick="deleteFile(@book.FileId)">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
         {
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传第一本书籍
-            </button>
+            <div class="text-center py-5">
+                <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+                <p class="text-muted">暂无书籍文件</p>
+                @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+                {
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传第一本书籍
+                    </button>
+                }
+            </div>
+        }
+
+        @if (totalPages > 1)
+        {
+            <nav>
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= totalPages && i <= 10; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Books", new { page = i, search = searchKeyword, folder = currentFolder })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         }
     </div>
-}
-
-@if (totalPages > 1)
-{
-    <nav>
-        <ul class="pagination justify-content-center">
-            @for (int i = 1; i <= totalPages && i <= 10; i++)
-            {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Books", new { page = i, search = searchKeyword })">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-}
+</div>
 
 <!-- 添加到列表模态框 -->
 <div class="modal fade" id="addToListModal" tabindex="-1">
@@ -188,8 +309,108 @@
 
 @section Scripts {
     <script>
-        // 页面加载时检查所有收藏状态
+        var currentFolder = '@currentFolder';
+        var currentSearch = '@searchKeyword';
+        var mediaType = 0;
+
+        function navigateToFolder(folderPath) {
+            var url = '/Media/Books?folder=' + encodeURIComponent(folderPath);
+            if (currentSearch) {
+                url += '&search=' + encodeURIComponent(currentSearch);
+            }
+            window.location.href = url;
+        }
+
+        function toggleFolder(element) {
+            var subFolders = element.closest('li').querySelector('.sub-folders');
+            if (subFolders) {
+                subFolders.classList.toggle('expanded');
+                element.classList.toggle('expanded');
+            }
+        }
+
+        function renderFolderTree(treeData, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            var html = '<li class="folder-item ' + (currentFolder === '' ? 'active' : '') + '" onclick="navigateToFolder(\'\')">' +
+                       '<span class="folder-toggle" style="visibility:hidden;">▶</span>' +
+                       '<i class="fas fa-home folder-icon"></i>' +
+                       '<span>全部文件</span>' +
+                       '</li>';
+
+            function renderNodes(nodes, depth) {
+                var result = '';
+                for (var i = 0; i < nodes.length; i++) {
+                    var node = nodes[i];
+                    var hasChildren = node.children && node.children.length > 0;
+                    var isActive = currentFolder === node.relativePath;
+                    var isParentActive = currentFolder && currentFolder.startsWith(node.relativePath + '/');
+                    var shouldExpand = isParentActive || isActive;
+
+                    result += '<li>';
+                    result += '<div class="folder-item ' + (isActive ? 'active' : '') + '" onclick="navigateToFolder(\'' + node.relativePath + '\')">';
+                    result += '<span class="folder-toggle ' + (shouldExpand ? 'expanded' : '') + '" onclick="event.stopPropagation(); toggleFolder(this)">';
+                    if (hasChildren) {
+                        result += '▶';
+                    }
+                    result += '</span>';
+                    result += '<i class="fas fa-folder folder-icon"></i>';
+                    result += '<span>' + node.name + '</span>';
+                    result += '</div>';
+
+                    if (hasChildren) {
+                        result += '<ul class="sub-folders ' + (shouldExpand ? 'expanded' : '') + '">';
+                        result += renderNodes(node.children, depth + 1);
+                        result += '</ul>';
+                    }
+                    result += '</li>';
+                }
+                return result;
+            }
+
+            html += renderNodes(treeData, 0);
+            container.innerHTML = html;
+        }
+
+        function renderBreadcrumb(currentFolder, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            var html = '<li class="breadcrumb-item folder-breadcrumb ' + (currentFolder === '' ? 'active' : '') + '">';
+            if (currentFolder === '') {
+                html += '全部文件';
+            } else {
+                html += '<a href="javascript:void(0)" style="text-decoration:none;" onclick="navigateToFolder(\'\')">全部文件</a>';
+            }
+            html += '</li>';
+
+            if (currentFolder) {
+                var parts = currentFolder.split('/').filter(Boolean);
+                var cumulative = '';
+                for (var i = 0; i < parts.length; i++) {
+                    cumulative += (cumulative === '' ? '' : '/') + parts[i];
+                    var isLast = i === parts.length - 1;
+                    html += '<li class="breadcrumb-item folder-breadcrumb ' + (isLast ? 'active' : '') + '">';
+                    if (isLast) {
+                        html += parts[i];
+                    } else {
+                        html += '<a href="javascript:void(0)" style="text-decoration:none;" onclick="navigateToFolder(\'' + cumulative + '\')">' + parts[i] + '</a>';
+                    }
+                    html += '</li>';
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
         $(document).ready(function() {
+            $.get('/Media/GetFolderTree', { type: mediaType }, function(data) {
+                renderFolderTree(data || [], 'folderTree');
+            });
+
+            renderBreadcrumb(currentFolder, 'breadcrumb');
+
             $('.favorite-btn').each(function() {
                 var fileId = $(this).data('fileid');
                 checkFavoriteStatus(fileId, $(this));
@@ -222,7 +443,6 @@
             var isFavorited = $btn.data('favorited');
 
             if (isFavorited) {
-                // 取消收藏
                 $.ajax({
                     url: '/Favorite/Remove',
                     type: 'POST',
@@ -243,7 +463,6 @@
                     }
                 });
             } else {
-                // 添加收藏
                 $.ajax({
                     url: '/Favorite/Add',
                     type: 'POST',
@@ -446,7 +665,11 @@
 
         $('#searchBtn').click(function() {
             var keyword = $('#searchInput').val();
-            location.href = '/Media/Books?search=' + encodeURIComponent(keyword);
+            var url = '/Media/Books?search=' + encodeURIComponent(keyword);
+            if (currentFolder) {
+                url += '&folder=' + encodeURIComponent(currentFolder);
+            }
+            location.href = url;
         });
 
         $('#searchInput').keypress(function(e) {

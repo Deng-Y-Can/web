@@ -1,110 +1,202 @@
-﻿@model List<CandyPlayer.Models.MediaFile>
+@model List<CandyPlayer.Models.MediaFile>
+@using CandyPlayer.Services
 
 @{
     ViewData["Title"] = "视频库";
     var currentPage = ViewBag.CurrentPage as int? ?? 1;
     var totalPages = ViewBag.TotalPages as int? ?? 1;
     var searchKeyword = ViewBag.SearchKeyword as string ?? "";
+    var currentFolder = ViewBag.CurrentFolder as string ?? "";
 }
 
-<div class="row mb-4">
-    <div class="col">
-        <h2><i class="fas fa-video"></i> 视频库</h2>
-        <p class="text-muted">观看您的视频收藏</p>
-    </div>
-    @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
-    {
-        <div class="col text-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传视频
-            </button>
-        </div>
+<style>
+    .folder-tree {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        height: fit-content;
     }
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="搜索视频..." value="@searchKeyword" />
-            <button class="btn btn-outline-secondary" type="button" id="searchBtn">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-</div>
+    .folder-tree h5 {
+        margin-bottom: 15px;
+        color: #495057;
+        border-bottom: 2px solid #0d6efd;
+        padding-bottom: 8px;
+    }
+    .folder-tree ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+    .folder-tree ul ul {
+        padding-left: 20px;
+        display: none;
+    }
+    .folder-tree ul ul.expanded {
+        display: block;
+    }
+    .folder-tree li {
+        margin: 4px 0;
+    }
+    .folder-tree .folder-item {
+        display: flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-decoration: none;
+        color: #212529;
+    }
+    .folder-tree .folder-item:hover {
+        background-color: #e9ecef;
+    }
+    .folder-tree .folder-item.active {
+        background-color: #0d6efd;
+        color: white;
+    }
+    .folder-tree .folder-toggle {
+        width: 20px;
+        text-align: center;
+        margin-right: 5px;
+        color: #6c757d;
+        flex-shrink: 0;
+    }
+    .folder-tree .folder-item.active .folder-toggle {
+        color: white;
+    }
+    .folder-tree .folder-icon {
+        margin-right: 8px;
+        color: #ffc107;
+    }
+    .folder-tree .folder-item.active .folder-icon {
+        color: #ffc107;
+    }
+    .breadcrumb {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">";
+    }
+</style>
 
 <div class="row">
-    @foreach (var video in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <i class="fas fa-video text-danger fa-4x mb-3"></i>
-                    <h6 class="card-title text-truncate" title="@video.FileName">@video.FileName</h6>
-                    <p class="card-text small text-muted">
-                        格式: @video.FileExtension.ToUpper()<br />
-                        大小: @((video.FileSize / 1024 / 1024).ToString("F2")) MB<br />
-                        播放: @video.PlayCount 次
-                    </p>
+    <div class="col-lg-3">
+        <div class="folder-tree">
+            <h5><i class="fas fa-folder-tree"></i> 文件夹</h5>
+            <ul id="folderTree">
+                <li><span class="text-muted"><i class="fas fa-spinner fa-spin"></i> 加载中...</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="row mb-4">
+            <div class="col">
+                <h2><i class="fas fa-video"></i> 视频库</h2>
+                <p class="text-muted">观看您的视频收藏</p>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+            {
+                <div class="col text-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传视频
+                    </button>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <div class="d-grid gap-2">
-                        <div class="btn-group w-100" role="group">
-                            <a href="@Url.Action("Play", "Media", new { id = video.FileId })" class="btn btn-sm btn-primary">
-                                <i class="fas fa-play"></i> 播放
-                            </a>
-                            <a href="@Url.Action("Download", "Media", new { id = video.FileId })" class="btn btn-sm btn-success">
-                                <i class="fas fa-download"></i> 下载
-                            </a>
-                        </div>
-                        <div class="btn-group w-100" role="group">
-                            <button class="btn btn-sm btn-info favorite-btn" data-fileid="@video.FileId" onclick="toggleFavorite(@video.FileId, this)">
-                                <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
-                            </button>
-                            <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@video.FileId, 2)">
-                                <i class="fas fa-plus"></i> 加入观看列表
-                            </button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <button class="btn btn-sm btn-danger" onclick="deleteFile(@video.FileId)">
-                                    <i class="fas fa-trash"></i> 删除
-                                </button>
-                            }
-                        </div>
-                    </div>
+            }
+        </div>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" id="breadcrumb"></ol>
+        </nav>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="搜索视频..." value="@searchKeyword" />
+                    <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
-    }
-</div>
 
-@if (!Model.Any())
-{
-    <div class="text-center py-5">
-        <i class="fas fa-video fa-4x text-muted mb-3"></i>
-        <p class="text-muted">暂无视频文件</p>
-        @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+        <div class="row">
+            @foreach (var video in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-video text-danger fa-4x mb-3"></i>
+                            <h6 class="card-title text-truncate" title="@video.FileName">@video.FileName</h6>
+                            <p class="card-text small text-muted">
+                                格式: @video.FileExtension.ToUpper()<br />
+                                大小: @((video.FileSize / 1024 / 1024).ToString("F2")) MB<br />
+                                播放: @video.PlayCount 次
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-grid gap-2">
+                                <div class="btn-group w-100" role="group">
+                                    <a href="@Url.Action("Play", "Media", new { id = video.FileId })" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-play"></i> 播放
+                                    </a>
+                                    <a href="@Url.Action("Download", "Media", new { id = video.FileId })" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> 下载
+                                    </a>
+                                </div>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-info favorite-btn" data-fileid="@video.FileId" onclick="toggleFavorite(@video.FileId, this)">
+                                        <i class="fas fa-heart"></i> <span class="favorite-text">收藏</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning" onclick="showAddToListModal(@video.FileId, 2)">
+                                        <i class="fas fa-plus"></i> 加入观看列表
+                                    </button>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button class="btn btn-sm btn-danger" onclick="deleteFile(@video.FileId)">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
         {
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
-                <i class="fas fa-upload"></i> 上传第一个视频
-            </button>
+            <div class="text-center py-5">
+                <i class="fas fa-video fa-4x text-muted mb-3"></i>
+                <p class="text-muted">暂无视频文件</p>
+                @if (User.IsInRole("Admin") || User.IsInRole("AdvancedUser"))
+                {
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i> 上传第一个视频
+                    </button>
+                }
+            </div>
+        }
+
+        @if (totalPages > 1)
+        {
+            <nav>
+                <ul class="pagination justify-content-center">
+                    @for (int i = 1; i <= totalPages && i <= 10; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Videos", new { page = i, search = searchKeyword, folder = currentFolder })">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         }
     </div>
-}
-
-@if (totalPages > 1)
-{
-    <nav>
-        <ul class="pagination justify-content-center">
-            @for (int i = 1; i <= totalPages && i <= 10; i++)
-            {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Videos", new { page = i, search = searchKeyword })">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-}
+</div>
 
 <!-- 添加到列表模态框 -->
 <div class="modal fade" id="addToListModal" tabindex="-1">
@@ -188,13 +280,122 @@
 
 @section Scripts {
     <script>
-        // 页面加载时检查所有收藏状态
+        var currentFolder = '@currentFolder';
+        var currentSearch = '@searchKeyword';
+
         $(document).ready(function() {
             $('.favorite-btn').each(function() {
                 var fileId = $(this).data('fileid');
                 checkFavoriteStatus(fileId, $(this));
             });
+
+            $.get('/Media/GetFolderTree', { type: 2 }, function(data) {
+                renderFolderTree(data || [], 'folderTree');
+            });
+
+            renderBreadcrumb(currentFolder, 'breadcrumb');
         });
+
+        function navigateToFolder(folderPath) {
+            var url = '/Media/Videos?folder=' + encodeURIComponent(folderPath);
+            var searchKeyword = $('#searchInput').val();
+            if (searchKeyword) {
+                url += '&search=' + encodeURIComponent(searchKeyword);
+            }
+            location.href = url;
+        }
+
+        function toggleFolder(element) {
+            var $toggle = $(element);
+            var $ul = $toggle.closest('li').children('ul');
+            var $icon = $toggle.find('i');
+
+            if ($ul.hasClass('expanded')) {
+                $ul.removeClass('expanded');
+                $icon.removeClass('fa-chevron-down').addClass('fa-chevron-right');
+            } else {
+                $ul.addClass('expanded');
+                $icon.removeClass('fa-chevron-right').addClass('fa-chevron-down');
+            }
+        }
+
+        function renderFolderTree(treeData, containerId) {
+            var $container = $('#' + containerId);
+            $container.empty();
+
+            var rootHtml = '<li>' +
+                '<div class="folder-item ' + (currentFolder === '' ? 'active' : '') + '" onclick="navigateToFolder(\'\')">' +
+                '<span class="folder-toggle"><i class="fas fa-folder-open"></i></span>' +
+                '<i class="fas fa-folder folder-icon"></i>' +
+                '<span>全部文件</span>' +
+                '</div>' +
+                '</li>';
+            $container.append(rootHtml);
+
+            function renderNodes(nodes, $parent) {
+                for (var i = 0; i < nodes.length; i++) {
+                    var node = nodes[i];
+                    var isActive = currentFolder && currentFolder.toLowerCase() === node.relativePath.toLowerCase();
+                    var isExpanded = currentFolder && (
+                        currentFolder.toLowerCase().startsWith(node.relativePath.toLowerCase() + '\\') ||
+                        currentFolder.toLowerCase().startsWith(node.relativePath.toLowerCase() + '/') ||
+                        currentFolder.toLowerCase() === node.relativePath.toLowerCase()
+                    );
+                    var hasChildren = node.children && node.children.length > 0;
+
+                    var liHtml = '<li>';
+                    liHtml += '<div class="folder-item ' + (isActive ? 'active' : '') + '" onclick="navigateToFolder(\'' + node.relativePath.replace(/'/g, "\\'") + '\')">';
+                    if (hasChildren) {
+                        liHtml += '<span class="folder-toggle" onclick="event.stopPropagation(); toggleFolder(this);">';
+                        liHtml += '<i class="fas fa-chevron-' + (isExpanded ? 'down' : 'right') + '"></i>';
+                        liHtml += '</span>';
+                    } else {
+                        liHtml += '<span class="folder-toggle"></span>';
+                    }
+                    liHtml += '<i class="fas fa-folder folder-icon"></i>';
+                    liHtml += '<span>' + node.name + '</span>';
+                    liHtml += '</div>';
+
+                    if (hasChildren) {
+                        liHtml += '<ul class="' + (isExpanded ? 'expanded' : '') + '">';
+                        liHtml += '</ul>';
+                    }
+                    liHtml += '</li>';
+
+                    var $li = $(liHtml);
+                    $parent.append($li);
+
+                    if (hasChildren) {
+                        var $childUl = $li.children('ul');
+                        renderNodes(node.children, $childUl);
+                    }
+                }
+            }
+
+            renderNodes(treeData, $container);
+        }
+
+        function renderBreadcrumb(currentFolder, containerId) {
+            var $container = $('#' + containerId);
+            $container.empty();
+
+            var rootHtml = '<li class="breadcrumb-item"><a href="#" onclick="navigateToFolder(\'\'); return false;"><i class="fas fa-home"></i> 全部文件</a></li>';
+            $container.append(rootHtml);
+
+            if (currentFolder) {
+                var pathParts = currentFolder.split(/[\\/]/).filter(function(part) { return part.length > 0; });
+                var accumulatedPath = '';
+                for (var i = 0; i < pathParts.length; i++) {
+                    accumulatedPath = accumulatedPath ? accumulatedPath + '/' + pathParts[i] : pathParts[i];
+                    var isLast = i === pathParts.length - 1;
+                    if (isLast) {
+                        $container.append('<li class="breadcrumb-item active" aria-current="page">' + pathParts[i] + '</li>');
+                    } else {
+                        $container.append('<li class="breadcrumb-item"><a href="#" onclick="navigateToFolder(\'' + accumulatedPath.replace(/'/g, "\\'") + '\'); return false;">' + pathParts[i] + '</a></li>');
+                    }
+                }
+            }
+        }
 
         function checkFavoriteStatus(fileId, btn) {
             $.get('/Favorite/Check', { fileId: fileId }, function(result) {
@@ -449,7 +650,11 @@
 
         $('#searchBtn').click(function() {
             var keyword = $('#searchInput').val();
-            location.href = '/Media/Videos?search=' + encodeURIComponent(keyword);
+            var url = '/Media/Videos?search=' + encodeURIComponent(keyword);
+            if (currentFolder) {
+                url += '&folder=' + encodeURIComponent(currentFolder);
+            }
+            location.href = url;
         });
 
         $('#searchInput').keypress(function(e) {

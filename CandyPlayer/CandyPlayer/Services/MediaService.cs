@@ -1,4 +1,4 @@
-﻿using CandyPlayer.Data;
+using CandyPlayer.Data;
 using CandyPlayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -131,5 +131,184 @@ namespace CandyPlayer.Services
                 _ => false
             };
         }
+
+        public async Task<List<FolderNode>> GetFolderTreeAsync(MediaType mediaType)
+        {
+            var basePath = mediaType switch
+            {
+                MediaType.Book => GetBooksPath(),
+                MediaType.Music => GetMusicPath(),
+                MediaType.Video => GetVideosPath(),
+                _ => GetMediaPath()
+            };
+
+            var files = await _context.MediaFiles
+                .Where(m => m.MediaType == mediaType)
+                .Select(m => new { m.FilePath, m.FileName })
+                .ToListAsync();
+
+            var rootFolders = new Dictionary<string, FolderNode>();
+
+            foreach (var file in files)
+            {
+                try
+                {
+                    var relativePath = GetRelativePath(basePath, file.FilePath);
+                    if (string.IsNullOrEmpty(relativePath))
+                    {
+                        continue;
+                    }
+
+                    var parts = relativePath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length <= 1)
+                    {
+                        continue;
+                    }
+
+                    var currentPath = string.Empty;
+                    FolderNode? currentParent = null;
+                    var currentDict = rootFolders;
+
+                    for (int i = 0; i < parts.Length - 1; i++)
+                    {
+                        var folderName = parts[i];
+                        currentPath = Path.Combine(currentPath, folderName);
+
+                        if (!currentDict.ContainsKey(folderName))
+                        {
+                            var node = new FolderNode
+                            {
+                                Name = folderName,
+                                RelativePath = currentPath.Replace('\\', '/'),
+                                Children = new List<FolderNode>()
+                            };
+
+                            if (currentParent != null)
+                            {
+                                currentParent.Children.Add(node);
+                            }
+                            else
+                            {
+                                rootFolders[folderName] = node;
+                            }
+
+                            currentDict[folderName] = node;
+                        }
+
+                        currentParent = currentDict[folderName];
+                        currentDict = currentParent.Children.ToDictionary(c => c.Name);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, $"处理文件路径失败: {file.FilePath}");
+                }
+            }
+
+            var result = rootFolders.Values
+                .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            SortFolderTree(result);
+
+            return result;
+        }
+
+        public async Task<List<MediaFile>> GetFilesByFolderAsync(MediaType mediaType, string? folderPath, int page, int pageSize, string? searchKeyword = null)
+        {
+            var basePath = mediaType switch
+            {
+                MediaType.Book => GetBooksPath(),
+                MediaType.Music => GetMusicPath(),
+                MediaType.Video => GetVideosPath(),
+                _ => GetMediaPath()
+            };
+
+            var query = _context.MediaFiles.Where(m => m.MediaType == mediaType);
+
+            if (!string.IsNullOrWhiteSpace(folderPath))
+            {
+                var targetFolderPath = Path.Combine(basePath, folderPath.Replace('/', Path.DirectorySeparatorChar));
+                query = query.Where(m => m.FilePath.StartsWith(targetFolderPath));
+                query = query.Where(m => m.FilePath.Substring(targetFolderPath.Length).TrimStart(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar) == false);
+            }
+            else
+            {
+                query = query.Where(m => m.FilePath.StartsWith(basePath));
+                query = query.Where(m => m.FilePath.Substring(basePath.Length).TrimStart(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar) == false);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchKeyword))
+            {
+                query = query.Where(m => m.FileName.Contains(searchKeyword));
+            }
+
+            return await query
+                .OrderByDescending(m => m.AddedTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetFilesCountByFolderAsync(MediaType mediaType, string? folderPath, string? searchKeyword = null)
+        {
+            var basePath = mediaType switch
+            {
+                MediaType.Book => GetBooksPath(),
+                MediaType.Music => GetMusicPath(),
+                MediaType.Video => GetVideosPath(),
+                _ => GetMediaPath()
+            };
+
+            var query = _context.MediaFiles.Where(m => m.MediaType == mediaType);
+
+            if (!string.IsNullOrWhiteSpace(folderPath))
+            {
+                var targetFolderPath = Path.Combine(basePath, folderPath.Replace('/', Path.DirectorySeparatorChar));
+                query = query.Where(m => m.FilePath.StartsWith(targetFolderPath));
+                query = query.Where(m => m.FilePath.Substring(targetFolderPath.Length).TrimStart(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar) == false);
+            }
+            else
+            {
+                query = query.Where(m => m.FilePath.StartsWith(basePath));
+                query = query.Where(m => m.FilePath.Substring(basePath.Length).TrimStart(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar) == false);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchKeyword))
+            {
+                query = query.Where(m => m.FileName.Contains(searchKeyword));
+            }
+
+            return await query.CountAsync();
+        }
+
+        private string GetRelativePath(string basePath, string fullPath)
+        {
+            var baseUri = new Uri(basePath.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar);
+            var fullUri = new Uri(fullPath);
+            var relativeUri = baseUri.MakeRelativeUri(fullUri);
+            return Uri.UnescapeDataString(relativeUri.ToString()).Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        private void SortFolderTree(List<FolderNode> folders)
+        {
+            foreach (var folder in folders)
+            {
+                if (folder.Children != null && folder.Children.Count > 0)
+                {
+                    folder.Children = folder.Children
+                        .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                    SortFolderTree(folder.Children);
+                }
+            }
+        }
+    }
+
+    public class FolderNode
+    {
+        public string Name { get; set; } = string.Empty;
+        public string RelativePath { get; set; } = string.Empty;
+        public List<FolderNode> Children { get; set; } = new List<FolderNode>();
     }
 }

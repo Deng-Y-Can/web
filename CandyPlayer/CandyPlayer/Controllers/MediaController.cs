@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using CandyPlayer.Services;
@@ -32,18 +32,21 @@ namespace CandyPlayer.Controllers
 
         // GET: /Media/Books
         [HttpGet]
-        public async Task<IActionResult> Books(int page = 1, string search = "")
+        public async Task<IActionResult> Books(int page = 1, string search = "", string folder = "")
         {
             try
             {
                 var pageSize = 20;
-                var files = await _mediaService.GetFilesByTypeAsync(MediaType.Book, page, pageSize, search);
-                var totalCount = await _mediaService.GetFilesCountByTypeAsync(MediaType.Book, search);
+                var files = await _mediaService.GetFilesByFolderAsync(MediaType.Book, folder, page, pageSize, search);
+                var totalCount = await _mediaService.GetFilesCountByFolderAsync(MediaType.Book, folder, search);
+                var folderTree = await _mediaService.GetFolderTreeAsync(MediaType.Book);
 
                 ViewBag.CurrentPage = page;
                 ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
                 ViewBag.SearchKeyword = search;
                 ViewBag.MediaType = "Books";
+                ViewBag.CurrentFolder = folder;
+                ViewBag.FolderTree = folderTree;
 
                 return View(files);
             }
@@ -55,20 +58,40 @@ namespace CandyPlayer.Controllers
             }
         }
 
+        // GET: /Media/GetFolderTree
+        [HttpGet]
+        public async Task<IActionResult> GetFolderTree(int type)
+        {
+            try
+            {
+                var mediaType = (MediaType)type;
+                var tree = await _mediaService.GetFolderTreeAsync(mediaType);
+                return Json(tree);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "获取文件夹树失败");
+                return Json(new List<object>());
+            }
+        }
+
         // GET: /Media/Music
         [HttpGet]
-        public async Task<IActionResult> Music(int page = 1, string search = "")
+        public async Task<IActionResult> Music(int page = 1, string search = "", string folder = "")
         {
             try
             {
                 var pageSize = 20;
-                var files = await _mediaService.GetFilesByTypeAsync(MediaType.Music, page, pageSize, search);
-                var totalCount = await _mediaService.GetFilesCountByTypeAsync(MediaType.Music, search);
+                var files = await _mediaService.GetFilesByFolderAsync(MediaType.Music, folder, page, pageSize, search);
+                var totalCount = await _mediaService.GetFilesCountByFolderAsync(MediaType.Music, folder, search);
+                var folderTree = await _mediaService.GetFolderTreeAsync(MediaType.Music);
 
                 ViewBag.CurrentPage = page;
                 ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
                 ViewBag.SearchKeyword = search;
                 ViewBag.MediaType = "Music";
+                ViewBag.CurrentFolder = folder;
+                ViewBag.FolderTree = folderTree;
 
                 return View(files);
             }
@@ -82,18 +105,21 @@ namespace CandyPlayer.Controllers
 
         // GET: /Media/Videos
         [HttpGet]
-        public async Task<IActionResult> Videos(int page = 1, string search = "")
+        public async Task<IActionResult> Videos(int page = 1, string search = "", string folder = "")
         {
             try
             {
                 var pageSize = 20;
-                var files = await _mediaService.GetFilesByTypeAsync(MediaType.Video, page, pageSize, search);
-                var totalCount = await _mediaService.GetFilesCountByTypeAsync(MediaType.Video, search);
+                var files = await _mediaService.GetFilesByFolderAsync(MediaType.Video, folder, page, pageSize, search);
+                var totalCount = await _mediaService.GetFilesCountByFolderAsync(MediaType.Video, folder, search);
+                var folderTree = await _mediaService.GetFolderTreeAsync(MediaType.Video);
 
                 ViewBag.CurrentPage = page;
                 ViewBag.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
                 ViewBag.SearchKeyword = search;
                 ViewBag.MediaType = "Videos";
+                ViewBag.CurrentFolder = folder;
+                ViewBag.FolderTree = folderTree;
 
                 return View(files);
             }
@@ -487,6 +513,10 @@ namespace CandyPlayer.Controllers
                     case MediaType.Video:
                         return View("VideoPlayer", file);
                     case MediaType.Book:
+                        if (file.FileExtension.ToLower() == "pdf")
+                        {
+                            return RedirectToAction("PdfViewer", new { id = file.FileId, name = file.FileName });
+                        }
                         return View("BookReader", file);
                     default:
                         return NotFound();
@@ -498,6 +528,15 @@ namespace CandyPlayer.Controllers
                 TempData["ErrorMessage"] = "播放文件失败";
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        // GET: /Media/PdfViewer/{id}
+        [HttpGet]
+        public IActionResult PdfViewer(int id, string name)
+        {
+            ViewData["FileId"] = id;
+            ViewData["FileName"] = name;
+            return View();
         }
 
         // GET: /Media/Stream/{id}
@@ -516,27 +555,47 @@ namespace CandyPlayer.Controllers
                 var fileStream = System.IO.File.OpenRead(file.FilePath);
                 var contentType = _mediaService.GetContentType(file.FileExtension);
 
-                // 处理Range请求（支持视频拖动）
+                var isPdf = file.FileExtension.ToLower() == "pdf";
+                var disposition = isPdf ? "inline" : "inline";
+
+                Response.Headers.Append("Content-Disposition", $"{disposition}; filename=\"{Uri.EscapeDataString(file.FileName)}\"");
+                Response.Headers.Append("Accept-Ranges", "bytes");
+
+                if (isPdf)
+                {
+                    Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                }
+
                 if (Request.Headers.ContainsKey("Range"))
                 {
                     var range = Request.Headers["Range"].ToString();
                     var rangeValue = range.Replace("bytes=", "").Split('-');
-                    var start = long.Parse(rangeValue[0]);
-                    var end = rangeValue.Length > 1 && !string.IsNullOrEmpty(rangeValue[1])
-                        ? long.Parse(rangeValue[1])
-                        : fileInfo.Length - 1;
+                    long start, end;
 
-                    var contentLength = end - start + 1;
-                    fileStream.Seek(start, SeekOrigin.Begin);
+                    if (long.TryParse(rangeValue[0], out start))
+                    {
+                        end = rangeValue.Length > 1 && !string.IsNullOrEmpty(rangeValue[1])
+                            ? long.Parse(rangeValue[1])
+                            : fileInfo.Length - 1;
 
-                    Response.Headers.Add("Content-Range", $"bytes {start}-{end}/{fileInfo.Length}");
-                    Response.Headers.Add("Accept-Ranges", "bytes");
-                    Response.StatusCode = 206;
+                        if (start >= fileInfo.Length)
+                        {
+                            Response.StatusCode = 416;
+                            return Content("Range Not Satisfiable");
+                        }
 
-                    return File(fileStream, contentType, file.FileName, true);
+                        end = Math.Min(end, fileInfo.Length - 1);
+                        var contentLength = end - start + 1;
+                        fileStream.Seek(start, SeekOrigin.Begin);
+
+                        Response.Headers["Content-Range"] = $"bytes {start}-{end}/{fileInfo.Length}";
+                        Response.StatusCode = 206;
+
+                        return File(fileStream, contentType);
+                    }
                 }
 
-                return File(fileStream, contentType, file.FileName, true);
+                return File(fileStream, contentType);
             }
             catch (Exception ex)
             {
